@@ -1,45 +1,41 @@
 package View;
 
+import Controller.MainController;
+import Model.Direction;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.StackPane;
 
 public class MainScene extends Scene {
 
-	public final static int SCENEWIDTH = 600;
-	public final static int SCENEHEIGHT = 600;
+	public final static int SCENEWIDTH = 700;
+	public final static int SCENEHEIGHT = 700;
 	
-	public MainScene() {
+	private MainController controller;
+	
+	private PlayerView playerView;
+	
+//	private StackPane root;
+	private Pane root;
+	
+	public MainScene(MainController controller) {
 		super(new Pane());
+		
+		this.controller = controller;
+		
 		setUpRoot();
-		setOnKeyTyped(e -> handleInput(e));
+		setOnKeyPressed(e -> handleInput(e));
 	}
 	
 	private void setUpRoot() {
-		Pane root = new Pane();
+//		root = new StackPane();
+		root = new Pane();
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
-		
-		// TODO remove
-		BorderPane pane = new BorderPane();
-		Image img = new Image("Images/AngryPear.png");
-		ImageView imgView = new ImageView(img);
-		imgView.setFitWidth(64);
-		imgView.setFitHeight(64);
-		pane.setCenter(imgView);
-		pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
-		
-		root.getChildren().add(pane);
-		//
+		createPlayerView();
 		
 		setRoot(root);
 	}
@@ -48,19 +44,30 @@ public class MainScene extends Scene {
 		setRoot(root);
 	}
 	
+	public void movePlayerView(int x, int y) {
+		playerView.move(x, y);
+	}
+	
 	private void handleInput(KeyEvent e) {
 		if(e.getCode().equals(KeyCode.UP)) {
-			
+			controller.movePlayer(Direction.NORTH);
 		}
 		if(e.getCode().equals(KeyCode.DOWN)) {
-			
+			controller.movePlayer(Direction.SOUTH);
 		}
 		if(e.getCode().equals(KeyCode.RIGHT)) {
-			
+			controller.movePlayer(Direction.EAST);
 		}
 		if(e.getCode().equals(KeyCode.LEFT)) {
-			
+			controller.movePlayer(Direction.WEST);
 		}
+	}
+	
+	private void createPlayerView()
+	{
+		playerView = new PlayerView(controller);
+		root.getChildren().add(playerView);
+//		root.setAlignment(Pos.CENTER);
 	}
 
 }
