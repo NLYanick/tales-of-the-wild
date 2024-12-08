@@ -16,8 +16,11 @@ public class Main extends Application {
 		
 		BorderPane pane = new BorderPane();
 		Image img = new Image("Images/AngryPear.png");
+		Image imgTwo = new Image("Images/New Piskel.gif");
 		ImageView imgView = new ImageView(img);
+		ImageView imgViewTwo = new ImageView(imgTwo);
 		pane.setCenter(imgView);
+		pane.setBottom(imgViewTwo);
 		Scene scene = new Scene(pane);
 		
 		stage.setTitle("RPG-Project");
