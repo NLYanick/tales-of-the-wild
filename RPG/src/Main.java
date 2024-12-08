@@ -1,3 +1,4 @@
+import View.MainScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,18 +15,16 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		BorderPane pane = new BorderPane();
-		Image img = new Image("Images/AngryPear.png");
-		Image imgTwo = new Image("Images/New Piskel.gif");
-		ImageView imgView = new ImageView(img);
-		ImageView imgViewTwo = new ImageView(imgTwo);
-		pane.setCenter(imgView);
-		pane.setBottom(imgViewTwo);
-		Scene scene = new Scene(pane);
+		MainScene scene = new MainScene();
 		
 		stage.setTitle("RPG-Project");
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	@Override
+	public void stop() {
+		
 	}
 
 }
