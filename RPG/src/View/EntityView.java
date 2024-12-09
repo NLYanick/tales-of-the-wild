@@ -10,9 +10,12 @@ public abstract class EntityView extends BorderPane {
 	protected ImageView imageView;
 	
 	protected int imageSize;
+	protected String imageURL;
 	
-	public EntityView(String imgPath) {
-		image = new Image(imgPath);
+	public EntityView(String imageURL) {
+		this.imageURL = imageURL;
+		
+		image = new Image(imageURL);
 		imageView = new ImageView(image);
 		
 		setCenter(imageView);
@@ -23,6 +26,18 @@ public abstract class EntityView extends BorderPane {
 	public void move(int x, int y) {
 		setLayoutX(x);
 		setLayoutY(y);
+	}
+	
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+	
+	public void refreshImage() {
+		image = new Image(imageURL);
+		imageView.setImage(image);
+		
+		setCenter(null);
+		setCenter(imageView);
 	}
 	
 }

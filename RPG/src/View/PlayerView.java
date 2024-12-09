@@ -4,9 +4,9 @@ public class PlayerView extends EntityView {
 	
 	private final static int IMAGESIZE = 96;
 	
-	public PlayerView(String imgPath)
+	public PlayerView(String imgURL)
 	{
-		super(imgPath);
+		super(imgURL);
 		setMaxSize(IMAGESIZE, IMAGESIZE);
 	}
 	

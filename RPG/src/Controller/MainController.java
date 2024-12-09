@@ -14,7 +14,7 @@ public class MainController {
 	
 	public MainController() {
 		
-		player = new Player("Images/Fox.png");
+		player = new Player("Images/FoxStandingStill.gif");
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		scene = new MainScene(this);
@@ -36,5 +36,8 @@ public class MainController {
 	public void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
+		
+		player.setImageURL("Images/Fox.png");
+		scene.changePlayerImage();
 	}
 }

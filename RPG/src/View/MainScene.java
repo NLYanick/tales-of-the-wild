@@ -38,6 +38,11 @@ public class MainScene extends Scene {
 		
 		setRoot(root);
 	}
+	
+	public void changePlayerImage() {
+		playerView.setImageURL(controller.getPlayerURL());
+		playerView.refreshImage();
+	}
 
 	public void setAsRoot(Pane root) {
 		setRoot(root);
@@ -74,11 +79,6 @@ public class MainScene extends Scene {
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
 		root.setCenter(playerView);
-		centerPlayerView();
 	}
 	
-	private void centerPlayerView() {
-		
-	}
-
 }

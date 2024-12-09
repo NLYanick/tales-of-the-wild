@@ -26,4 +26,8 @@ public abstract class Entity {
 		return imageURL;
 	}
 	
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+	
 }
