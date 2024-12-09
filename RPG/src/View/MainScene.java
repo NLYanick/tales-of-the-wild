@@ -25,7 +25,8 @@ public class MainScene extends Scene {
 		this.controller = controller;
 		
 		setUpRoot();
-		setOnKeyPressed(e -> handleInput(e));
+		setOnKeyPressed(e -> handleInputKeyPressed(e));
+		setOnKeyReleased(e -> controller.setPlayerStandingStillAnimation());
 	}
 	
 	private void setUpRoot() {
@@ -52,7 +53,7 @@ public class MainScene extends Scene {
 		background.move(x, y);
 	}
 	
-	private void handleInput(KeyEvent e) {
+	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 			case UP:
 				controller.moveBackground(Direction.SOUTH);

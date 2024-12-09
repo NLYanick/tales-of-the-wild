@@ -40,4 +40,9 @@ public class MainController {
 		player.setImageURL("Images/Fox.png");
 		scene.changePlayerImage();
 	}
+	
+	public void setPlayerStandingStillAnimation() {
+		player.setImageURL("Images/FoxStandingStill.gif");
+		scene.changePlayerImage();
+	}
 }
