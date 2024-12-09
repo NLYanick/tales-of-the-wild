@@ -2,12 +2,10 @@ package View;
 
 import Controller.MainController;
 import Model.Direction;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 public class MainScene extends Scene {
 
@@ -17,9 +15,9 @@ public class MainScene extends Scene {
 	private MainController controller;
 	
 	private PlayerView playerView;
+	private Background background;
 	
-//	private StackPane root;
-	private Pane root;
+	private BorderPane root;
 	
 	public MainScene(MainController controller) {
 		super(new Pane());
@@ -31,43 +29,56 @@ public class MainScene extends Scene {
 	}
 	
 	private void setUpRoot() {
-//		root = new StackPane();
-		root = new Pane();
+		root = new BorderPane();
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
+		
+		createBackground();
 		createPlayerView();
 		
 		setRoot(root);
 	}
-	
+
 	public void setAsRoot(Pane root) {
 		setRoot(root);
 	}
 	
-	public void movePlayerView(int x, int y) {
-		playerView.move(x, y);
+	public void moveBackground(int x, int y) {
+		background.move(x, y);
 	}
 	
 	private void handleInput(KeyEvent e) {
-		if(e.getCode().equals(KeyCode.UP)) {
-			controller.movePlayer(Direction.NORTH);
+		switch(e.getCode()) {
+			case UP:
+				controller.moveBackground(Direction.SOUTH);
+				break;
+			case DOWN:
+				controller.moveBackground(Direction.NORTH);
+				break;
+			case RIGHT:
+				controller.moveBackground(Direction.WEST);
+				break;
+			case LEFT:
+				controller.moveBackground(Direction.EAST);
+				break;
+			default: return;
 		}
-		if(e.getCode().equals(KeyCode.DOWN)) {
-			controller.movePlayer(Direction.SOUTH);
-		}
-		if(e.getCode().equals(KeyCode.RIGHT)) {
-			controller.movePlayer(Direction.EAST);
-		}
-		if(e.getCode().equals(KeyCode.LEFT)) {
-			controller.movePlayer(Direction.WEST);
-		}
+	}
+	
+	private void createBackground() {
+		background = new Background();
+		root.getChildren().add(background);
 	}
 	
 	private void createPlayerView()
 	{
-		playerView = new PlayerView(controller);
-		root.getChildren().add(playerView);
-//		root.setAlignment(Pos.CENTER);
+		playerView = new PlayerView(controller.getPlayerURL());
+		root.setCenter(playerView);
+		centerPlayerView();
+	}
+	
+	private void centerPlayerView() {
+		
 	}
 
 }

@@ -1,37 +1,13 @@
 package View;
 
-import Controller.MainController;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-
-public class PlayerView extends Pane {
-
-	private MainController controller;
+public class PlayerView extends EntityView {
 	
-	private ImageView imgView;
-	private Image img;
+	private final static int IMAGESIZE = 96;
 	
-	public PlayerView(MainController controller)
+	public PlayerView(String imgPath)
 	{
-		this.controller = controller;
-		
-		setUpImage();
-		setMaxSize(96, 96);
+		super(imgPath);
+		setMaxSize(IMAGESIZE, IMAGESIZE);
 	}
 	
-	private void setUpImage()
-	{
-		img = new Image("Images/Fox.png");
-		imgView = new ImageView(img);
-		imgView.setLayoutX(-16);
-		imgView.setLayoutY(-5);
-		
-		getChildren().add(imgView);
-	}
-	
-	public void move(int x, int y) {
-		setLayoutX(x);
-		setLayoutY(y);
-	}
 }

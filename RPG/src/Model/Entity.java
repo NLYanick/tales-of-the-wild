@@ -2,7 +2,12 @@ package Model;
 
 public abstract class Entity {
 
-	int x, y;
+	protected int x, y;
+	protected String imageURL;
+	
+	public Entity(String imageURL) {
+		this.imageURL = imageURL;
+	}
 	
 	public void move(Direction dir) {
 		x += dir.getX();
@@ -15,6 +20,10 @@ public abstract class Entity {
 	
 	public int getY() {
 		return y;
+	}
+	
+	public String getURL() {
+		return imageURL;
 	}
 	
 }

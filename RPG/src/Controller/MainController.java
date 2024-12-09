@@ -1,21 +1,24 @@
 package Controller;
 
+import Model.BackgroundLocation;
 import Model.Direction;
 import Model.Player;
 import View.MainScene;
-import View.PlayerView;
 
 public class MainController {
 
+	private BackgroundLocation backgroundLocation;
 	private Player player;
-	private PlayerView playerView;
 	
 	private MainScene scene;
 	
 	public MainController() {
+		
+		player = new Player("Images/Fox.png");
+		backgroundLocation = new BackgroundLocation(0, 0);
+		
 		scene = new MainScene(this);
 		
-		player = new Player();
 	}
 
 	public MainScene getMainScene() {
@@ -26,16 +29,12 @@ public class MainController {
 		return player;
 	}
 	
-	public void movePlayer(Direction dir) {
-		
-		player.move(dir);
-		if(player.getX() < 0) {
-			player.move(Direction.EAST);
-		}
-		if(player.getY() < 0) {
-			player.move(Direction.SOUTH);
-		}
-		scene.movePlayerView(player.getX(), player.getY());
-		System.out.println(player.getX() + " | " +  player.getY());
+	public String getPlayerURL() {
+		return player.getURL();
+	}
+	
+	public void moveBackground(Direction dir) {
+		backgroundLocation.move(dir);
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
 	}
 }
