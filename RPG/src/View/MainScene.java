@@ -26,7 +26,7 @@ public class MainScene extends Scene {
 		
 		setUpRoot();
 		setOnKeyPressed(e -> handleInputKeyPressed(e));
-		setOnKeyReleased(e -> controller.setPlayerStandingStillAnimation());
+		setOnKeyReleased(e -> handleInputKeyReleased(e));
 	}
 	
 	private void setUpRoot() {
@@ -69,6 +69,24 @@ public class MainScene extends Scene {
 				break;
 			default: return;
 		}
+	}
+	
+	private void handleInputKeyReleased(KeyEvent e) {
+//		switch(e.getCode()) {
+//			case UP:
+//				controller.setPlayerStandingStillAnimation(Direction.SOUTH);
+//				break;
+//			case DOWN:
+//				controller.setPlayerStandingStillAnimation(Direction.NORTH);
+//				break;
+//			case RIGHT:
+//				controller.setPlayerStandingStillAnimation(Direction.WEST);
+//				break;
+//			case LEFT:
+//				controller.setPlayerStandingStillAnimation(Direction.EAST);
+//				break;
+//			default: return;
+//		}
 	}
 	
 	private void createBackground() {

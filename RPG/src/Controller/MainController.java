@@ -37,12 +37,48 @@ public class MainController {
 		backgroundLocation.move(dir);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
 		
-		player.setImageURL("Images/Fox.png");
+		setPlayerImage(dir);
+		
+	}
+	
+	public void setPlayerStandingStillAnimation(Direction dir) {
+		switch(dir) {
+		case NORTH:
+			player.setImageURL("Images/FoxStandingStill.gif");
+			break;
+		case EAST:
+			player.setImageURL("Images/FoxLeft.png");
+			break;
+		case SOUTH:
+			player.setImageURL("Images/FoxBackStandingStill.gif");
+			break;
+		case WEST:
+			player.setImageURL("Images/FoxRight.png");
+			break;
+		default:
+			break;
+		}
+		
 		scene.changePlayerImage();
 	}
 	
-	public void setPlayerStandingStillAnimation() {
-		player.setImageURL("Images/FoxStandingStill.gif");
+	public void setPlayerImage(Direction dir) {
+		switch(dir) {
+		case NORTH:
+			player.setImageURL("Images/Fox.png");
+			break;
+		case EAST:
+			player.setImageURL("Images/FoxLeft.png");
+			break;
+		case SOUTH:
+			player.setImageURL("Images/FoxBack.png");
+			break;
+		case WEST:
+			player.setImageURL("Images/FoxRight.png");
+			break;
+		default:
+			break;
+		}
 		scene.changePlayerImage();
 	}
 }
