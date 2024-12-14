@@ -12,7 +12,7 @@ public class MainController {
 	
 	private MainScene scene;
 	
-	private int imageCounter = 1;
+	private boolean imageIsRunning = true;
 	
 	public MainController() {
 		
@@ -39,6 +39,7 @@ public class MainController {
 		backgroundLocation.move(dir);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
 		
+//		imageIsRunning = true;
 		setPlayerImage(dir);
 		
 	}
@@ -61,12 +62,12 @@ public class MainController {
 			break;
 		}
 		
-		imageCounter = 1;
+		imageIsRunning = true;
 		scene.changePlayerImage();
 	}
 	
 	public void setPlayerImage(Direction dir) {
-		if(imageCounter == 1) {
+		if(imageIsRunning) {
 			switch(dir) {
 			case NORTH:
 				player.setImageURL("Images/FoxRunning.gif");
@@ -85,6 +86,6 @@ public class MainController {
 			}
 			scene.changePlayerImage();
 		} 
-		imageCounter = 0;
+		imageIsRunning = false;
 	}
 }
