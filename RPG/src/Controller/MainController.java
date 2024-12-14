@@ -12,6 +12,8 @@ public class MainController {
 	
 	private MainScene scene;
 	
+	private int imageCounter = 1;
+	
 	public MainController() {
 		
 		player = new Player("Images/FoxStandingStill.gif");
@@ -59,26 +61,30 @@ public class MainController {
 			break;
 		}
 		
+		imageCounter = 1;
 		scene.changePlayerImage();
 	}
 	
 	public void setPlayerImage(Direction dir) {
-		switch(dir) {
-		case NORTH:
-			player.setImageURL("Images/Fox.png");
-			break;
-		case EAST:
-			player.setImageURL("Images/FoxLeft.png");
-			break;
-		case SOUTH:
-			player.setImageURL("Images/FoxBack.png");
-			break;
-		case WEST:
-			player.setImageURL("Images/FoxRight.png");
-			break;
-		default:
-			break;
-		}
-		scene.changePlayerImage();
+		if(imageCounter == 1) {
+			switch(dir) {
+			case NORTH:
+				player.setImageURL("Images/FoxRunning.gif");
+				break;
+			case EAST:
+				player.setImageURL("Images/FoxLeftRunning.gif");
+				break;
+			case SOUTH:
+				player.setImageURL("Images/FoxBackRunning.gif");
+				break;
+			case WEST:
+				player.setImageURL("Images/FoxRightRunning.gif");
+				break;
+			default:
+				break;
+			}
+			scene.changePlayerImage();
+		} 
+		imageCounter = 0;
 	}
 }
