@@ -72,21 +72,21 @@ public class MainScene extends Scene {
 	}
 	
 	private void handleInputKeyReleased(KeyEvent e) {
-//		switch(e.getCode()) {
-//			case UP:
-//				controller.setPlayerStandingStillAnimation(Direction.SOUTH);
-//				break;
-//			case DOWN:
-//				controller.setPlayerStandingStillAnimation(Direction.NORTH);
-//				break;
-//			case RIGHT:
-//				controller.setPlayerStandingStillAnimation(Direction.WEST);
-//				break;
-//			case LEFT:
-//				controller.setPlayerStandingStillAnimation(Direction.EAST);
-//				break;
-//			default: return;
-//		}
+		switch(e.getCode()) {
+			case UP:
+				controller.setPlayerStandingStillAnimation(Direction.SOUTH);
+				break;
+			case DOWN:
+				controller.setPlayerStandingStillAnimation(Direction.NORTH);
+				break;
+			case RIGHT:
+				controller.setPlayerStandingStillAnimation(Direction.WEST);
+				break;
+			case LEFT:
+				controller.setPlayerStandingStillAnimation(Direction.EAST);
+				break;
+			default: return;
+		}
 	}
 	
 	private void createBackground() {

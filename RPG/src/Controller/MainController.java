@@ -47,13 +47,13 @@ public class MainController {
 			player.setImageURL("Images/FoxStandingStill.gif");
 			break;
 		case EAST:
-			player.setImageURL("Images/FoxLeft.png");
+			player.setImageURL("Images/FoxLeftStandingStill.gif");
 			break;
 		case SOUTH:
 			player.setImageURL("Images/FoxBackStandingStill.gif");
 			break;
 		case WEST:
-			player.setImageURL("Images/FoxRight.png");
+			player.setImageURL("Images/FoxRightStandingStill.gif");
 			break;
 		default:
 			break;
