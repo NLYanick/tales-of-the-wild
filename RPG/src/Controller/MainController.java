@@ -109,14 +109,34 @@ public class MainController {
 	
 	private void addKeyPressedListener() {
 		 keyPressed.addListener(((observableValue, isPressed, t1) -> {
-	            if(!isPressed){
-	            	setPlayerImage(movingDirection);
-	            	timer.start();
-	            } else {	                
-	            	setPlayerStandingStillAnimation(movingDirection);
-	            	timer.stop();
-	            }
-	        }));
+			 if(!isPressed){
+            	timer.start();
+			 } else {	                
+            	setPlayerStandingStillAnimation(movingDirection);
+        		timer.stop();
+			 }
+		 }));
+		 
+		 upPressed.addListener(((observableValue, isPressed, t1) -> {
+			 if(!isPressed){
+				 setPlayerImage(Direction.SOUTH);
+			 } 
+		 }));
+		 downPressed.addListener(((observableValue, isPressed, t1) -> {
+			 if(!isPressed){
+				 setPlayerImage(Direction.NORTH);
+			 } 
+		 }));
+		 rightPressed.addListener(((observableValue, isPressed, t1) -> {
+			 if(!isPressed){
+				 setPlayerImage(Direction.WEST);
+			 } 
+		 }));
+		 leftPressed.addListener(((observableValue, isPressed, t1) -> {
+			 if(!isPressed){
+				 setPlayerImage(Direction.EAST);
+			 } 
+		 }));
 	}
 	
 	public BooleanProperty getUpPressed() {
