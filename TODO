@@ -1,3 +1,7 @@
 Background maken
 Lopen fixen
 Schuin lopen
+
+Code Smells:
+x & y --> Location
+switch statements naar Strategie pattern

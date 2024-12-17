@@ -25,8 +25,7 @@ public class MainScene extends Scene {
 		this.controller = controller;
 		
 		setUpRoot();
-		setOnKeyPressed(e -> handleInputKeyPressed(e));
-		setOnKeyReleased(e -> handleInputKeyReleased(e));
+		setUpListeners();
 	}
 	
 	private void setUpRoot() {
@@ -40,53 +39,9 @@ public class MainScene extends Scene {
 		setRoot(root);
 	}
 	
-	public void changePlayerImage() {
-		playerView.setImageURL(controller.getPlayerURL());
-		playerView.refreshImage();
-	}
-
-	public void setAsRoot(Pane root) {
-		setRoot(root);
-	}
-	
-	public void moveBackground(int x, int y) {
-		background.move(x, y);
-	}
-	
-	private void handleInputKeyPressed(KeyEvent e) {
-		switch(e.getCode()) {
-			case UP:
-				controller.moveBackground(Direction.SOUTH);
-				break;
-			case DOWN:
-				controller.moveBackground(Direction.NORTH);
-				break;
-			case RIGHT:
-				controller.moveBackground(Direction.WEST);
-				break;
-			case LEFT:
-				controller.moveBackground(Direction.EAST);
-				break;
-			default: return;
-		}
-	}
-	
-	private void handleInputKeyReleased(KeyEvent e) {
-		switch(e.getCode()) {
-			case UP:
-				controller.setPlayerStandingStillAnimation(Direction.SOUTH);
-				break;
-			case DOWN:
-				controller.setPlayerStandingStillAnimation(Direction.NORTH);
-				break;
-			case RIGHT:
-				controller.setPlayerStandingStillAnimation(Direction.WEST);
-				break;
-			case LEFT:
-				controller.setPlayerStandingStillAnimation(Direction.EAST);
-				break;
-			default: return;
-		}
+	private void setUpListeners() {
+		setOnKeyPressed(e -> handleInputKeyPressed(e));
+		setOnKeyReleased(e -> handleInputKeyReleased(e));
 	}
 	
 	private void createBackground() {
@@ -100,4 +55,56 @@ public class MainScene extends Scene {
 		root.setCenter(playerView);
 	}
 	
+	public void setAsRoot(Pane root) {
+		setRoot(root);
+	}
+	
+	public void changePlayerImage() {
+		playerView.setImageURL(controller.getPlayerURL());
+		playerView.refreshImage();
+	}
+
+	public void moveBackground(int x, int y) {
+		background.move(x, y);
+	}
+	
+	private void handleInputKeyPressed(KeyEvent e) {
+		switch(e.getCode()) {
+			case UP:
+				controller.setMovingDirection(Direction.SOUTH);
+				controller.getUpPressed().set(true);
+				break;
+			case DOWN:
+				controller.setMovingDirection(Direction.NORTH);
+				controller.getDownPressed().set(true);
+				break;
+			case RIGHT:
+				controller.setMovingDirection(Direction.WEST);
+				controller.getRightPressed().set(true);
+				break;
+			case LEFT:
+				controller.setMovingDirection(Direction.EAST);
+				controller.getLeftPressed().set(true);
+				break;
+			default: return;
+		}
+	}
+	
+	private void handleInputKeyReleased(KeyEvent e) {
+		switch(e.getCode()) {
+			case UP:
+				controller.getUpPressed().set(false);
+				break;
+			case DOWN:
+				controller.getDownPressed().set(false);
+				break;
+			case RIGHT:
+				controller.getRightPressed().set(false);
+				break;
+			case LEFT:
+				controller.getLeftPressed().set(false);
+				break;
+			default: return;
+		}
+	}
 }

@@ -4,6 +4,10 @@ import Model.BackgroundLocation;
 import Model.Direction;
 import Model.Player;
 import View.MainScene;
+import javafx.animation.AnimationTimer;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class MainController {
 
@@ -12,7 +16,13 @@ public class MainController {
 	
 	private MainScene scene;
 	
-	private boolean imageIsRunning = true;
+	private Direction movingDirection = Direction.SOUTH;
+	
+	private BooleanProperty upPressed = new SimpleBooleanProperty();
+	private BooleanProperty leftPressed = new SimpleBooleanProperty();
+    private BooleanProperty downPressed = new SimpleBooleanProperty();
+    private BooleanProperty rightPressed = new SimpleBooleanProperty();
+    private BooleanBinding keyPressed = upPressed.or(leftPressed).or(downPressed).or(rightPressed);
 	
 	public MainController() {
 		
@@ -20,28 +30,19 @@ public class MainController {
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		scene = new MainScene(this);
+		addKeyPressedListener();
 		
-	}
-
-	public MainScene getMainScene() {
-		return scene;
-	}
-	
-	public Player getPlayer() {
-		return player;
-	}
-	
-	public String getPlayerURL() {
-		return player.getURL();
 	}
 	
 	public void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
 		
-//		imageIsRunning = true;
-		setPlayerImage(dir);
-		
+		player.move(dir);
+	}
+	
+	public void setMovingDirection(Direction dir) {
+		movingDirection = dir;
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
@@ -62,30 +63,90 @@ public class MainController {
 			break;
 		}
 		
-		imageIsRunning = true;
 		scene.changePlayerImage();
 	}
 	
 	public void setPlayerImage(Direction dir) {
-		if(imageIsRunning) {
-			switch(dir) {
-			case NORTH:
-				player.setImageURL("Images/FoxRunning.gif");
-				break;
-			case EAST:
-				player.setImageURL("Images/FoxLeftRunning.gif");
-				break;
-			case SOUTH:
-				player.setImageURL("Images/FoxBackRunning.gif");
-				break;
-			case WEST:
-				player.setImageURL("Images/FoxRightRunning.gif");
-				break;
-			default:
-				break;
-			}
-			scene.changePlayerImage();
-		} 
-		imageIsRunning = false;
+		switch(dir) {
+		case NORTH:
+			player.setImageURL("Images/FoxRunning.gif");
+			break;
+		case EAST:
+			player.setImageURL("Images/FoxLeftRunning.gif");
+			break;
+		case SOUTH:
+			player.setImageURL("Images/FoxBackRunning.gif");
+			break;
+		case WEST:
+			player.setImageURL("Images/FoxRightRunning.gif");
+			break;
+		default:
+			break;
+		}
+		scene.changePlayerImage();
 	}
+	
+	// -------------------------- Listeners --------------------------- //
+	
+	AnimationTimer timer = new AnimationTimer() {
+		@Override
+		public void handle(long timestamp) {
+			
+			if(upPressed.get()) {
+				moveBackground(Direction.SOUTH);
+			}
+			if(downPressed.get()){
+				moveBackground(Direction.NORTH);
+			}
+			if(leftPressed.get()){
+				moveBackground(Direction.EAST);
+			}
+			if(rightPressed.get()){
+				moveBackground(Direction.WEST);
+			}
+		}
+	};
+	
+	private void addKeyPressedListener() {
+		 keyPressed.addListener(((observableValue, isPressed, t1) -> {
+	            if(!isPressed){
+	            	setPlayerImage(movingDirection);
+	            	timer.start();
+	            } else {	                
+	            	setPlayerStandingStillAnimation(movingDirection);
+	            	timer.stop();
+	            }
+	        }));
+	}
+	
+	public BooleanProperty getUpPressed() {
+		return upPressed;
+	}
+	
+	public BooleanProperty getLeftPressed() {
+		return leftPressed;
+	}
+	
+	public BooleanProperty getDownPressed() {
+		return downPressed;
+	}
+	
+	public BooleanProperty getRightPressed() {
+		return rightPressed;
+	}
+	
+	// --------------------
+	
+	public MainScene getMainScene() {
+		return scene;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public String getPlayerURL() {
+		return player.getURL();
+	}
+	
 }
