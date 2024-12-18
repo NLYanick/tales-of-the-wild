@@ -2,32 +2,32 @@ package Model;
 
 public class BackgroundLocation {
 
-	private int x, y;
+	private Location location;
 	
 	public BackgroundLocation(int x, int y) {
-		setX(x);
-		setY(y);
+		location.setX(x);
+		location.setY(y);
 	}
 	
 	public void move(Direction dir) {
-		x += dir.getX();
-		y += dir.getY();
+		location.setX(getX() + dir.getX()); 
+		location.setY(getY() + dir.getY()); 
 	}
 
 	public int getX() {
-		return x;
+		return location.getX();
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		location.setX(x);
 	}
 
 	public int getY() {
-		return y;
+		return location.getY();
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		location.setY(y);
 	}
 	
 }
