@@ -6,8 +6,7 @@ public enum Direction {
 	private Location location;
 	
 	private Direction(int x, int y) {
-		location.setX(x);
-		location.setY(y);
+		location = new Location(x, y);
 	}
 	
 	public int getX() {

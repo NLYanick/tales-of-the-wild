@@ -5,8 +5,7 @@ public class BackgroundLocation {
 	private Location location;
 	
 	public BackgroundLocation(int x, int y) {
-		location.setX(x);
-		location.setY(y);
+		location = new Location(x, y);
 	}
 	
 	public void move(Direction dir) {

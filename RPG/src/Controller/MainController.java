@@ -26,7 +26,7 @@ public class MainController {
 	
 	public MainController() {
 		
-		player = new Player("Images/FoxStandingStill.gif");
+		player = new Player("Images/Fox/FoxStandingStill.gif");
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		scene = new MainScene(this);
@@ -48,16 +48,16 @@ public class MainController {
 	public void setPlayerStandingStillAnimation(Direction dir) {
 		switch(dir) {
 		case NORTH:
-			player.setImageURL("Images/FoxStandingStill.gif");
+			player.setImageURL("Images/Fox/FoxStandingStill.gif");
 			break;
 		case EAST:
-			player.setImageURL("Images/FoxLeftStandingStill.gif");
+			player.setImageURL("Images/Fox/FoxLeftStandingStill.gif");
 			break;
 		case SOUTH:
-			player.setImageURL("Images/FoxBackStandingStill.gif");
+			player.setImageURL("Images/Fox/FoxBackStandingStill.gif");
 			break;
 		case WEST:
-			player.setImageURL("Images/FoxRightStandingStill.gif");
+			player.setImageURL("Images/Fox/FoxRightStandingStill.gif");
 			break;
 		default:
 			break;
@@ -68,16 +68,16 @@ public class MainController {
 	public void setPlayerImage(Direction dir) {
 		switch(dir) {
 		case NORTH:
-			player.setImageURL("Images/FoxRunning.gif");
+			player.setImageURL("Images/Fox/FoxRunning.gif");
 			break;
 		case EAST:
-			player.setImageURL("Images/FoxLeftRunning.gif");
+			player.setImageURL("Images/Fox/FoxLeftRunning.gif");
 			break;
 		case SOUTH:
-			player.setImageURL("Images/FoxBackRunning.gif");
+			player.setImageURL("Images/Fox/FoxBackRunning.gif");
 			break;
 		case WEST:
-			player.setImageURL("Images/FoxRightRunning.gif");
+			player.setImageURL("Images/Fox/FoxRightRunning.gif");
 			break;
 		default:
 			break;
@@ -93,26 +93,26 @@ public class MainController {
 			
 			if(leftPressed.get()){
 				moveBackground(Direction.EAST);
-				if(!player.getURL().equals("Images/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
+				if(!player.getURL().equals("Images/Fox/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					setPlayerImage(Direction.EAST);
 				}
 			}
 			if(rightPressed.get()){
 				moveBackground(Direction.WEST);
-				if(!player.getURL().equals("Images/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
+				if(!player.getURL().equals("Images/Fox/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					setPlayerImage(Direction.WEST);
 				}
 			}
 			if(upPressed.get()) {
 				moveBackground(Direction.SOUTH);
-				if(!player.getURL().equals("Images/FoxBackRunning.gif")) {
+				if(!player.getURL().equals("Images/Fox/FoxBackRunning.gif")) {
 					setPlayerImage(Direction.SOUTH);
 				}
 
 			}
 			if(downPressed.get()){
 				moveBackground(Direction.NORTH);
-				if(!player.getURL().equals("Images/FoxRunning.gif")) {
+				if(!player.getURL().equals("Images/Fox/FoxRunning.gif")) {
 					setPlayerImage(Direction.NORTH);
 				}
 			}

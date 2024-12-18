@@ -7,6 +7,7 @@ public abstract class Entity {
 	
 	public Entity(String imageURL) {
 		this.imageURL = imageURL;
+		location = new Location();
 	}
 	
 	public void move(Direction dir) {
