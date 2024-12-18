@@ -1,5 +1,7 @@
 package Controller;
 
+import java.io.File;
+
 import Model.BackgroundLocation;
 import Model.Direction;
 import Model.Player;
@@ -15,6 +17,7 @@ public class MainController {
 	private Player player;
 	
 	private MainScene scene;
+	private FileIO fileIO;
 	
 	private Direction movingDirection = Direction.SOUTH;
 	
@@ -30,6 +33,9 @@ public class MainController {
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		scene = new MainScene(this);
+		fileIO = new FileIO();
+		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
+		
 		addKeyPressedListener();
 		
 	}
