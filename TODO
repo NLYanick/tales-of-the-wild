@@ -3,5 +3,4 @@ Sommige water backgrounds fixen
 (Database toevoegen)
 
 Code Smells:
-x & y --> Location
 switch statements naar Strategie pattern
