@@ -33,7 +33,7 @@ public class MainScene extends Scene {
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
-		createBackground();
+		addBackground();
 		createPlayerView();
 		
 		setRoot(root);
@@ -44,8 +44,8 @@ public class MainScene extends Scene {
 		setOnKeyReleased(e -> handleInputKeyReleased(e));
 	}
 	
-	private void createBackground() {
-		background = new Background();
+	private void addBackground() {
+		background = controller.getBackground();
 		root.getChildren().add(background);
 	}
 	
