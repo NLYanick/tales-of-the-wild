@@ -1,12 +1,7 @@
 Background maken
-Lopen fixen
-Schuin lopen
+Lopenplaatjes fixen
+(Database toevoegen)
 
 Code Smells:
 x & y --> Location
 switch statements naar Strategie pattern
-
-
-Niet werkend:
-^ + > en dan <
-< + v en dan ^

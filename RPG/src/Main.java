@@ -1,6 +1,8 @@
 import Controller.MainController;
 import View.MainScene;
 import javafx.application.Application;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class Main extends Application {
