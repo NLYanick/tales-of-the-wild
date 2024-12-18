@@ -91,28 +91,29 @@ public class MainController {
 		@Override
 		public void handle(long timestamp) {
 			
-			if(upPressed.get()) {
-				moveBackground(Direction.SOUTH);
-				if(!player.getURL().equals("Images/FoxBackRunning.gif")) {
-					setPlayerImage(Direction.SOUTH);
-				}
-			}
-			if(downPressed.get()){
-				moveBackground(Direction.NORTH);
-				if(!player.getURL().equals("Images/FoxRunning.gif")) {
-					setPlayerImage(Direction.NORTH);
-				}
-			}
 			if(leftPressed.get()){
 				moveBackground(Direction.EAST);
-				if(!player.getURL().equals("Images/FoxLeftRunning.gif")) {
+				if(!player.getURL().equals("Images/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					setPlayerImage(Direction.EAST);
 				}
 			}
 			if(rightPressed.get()){
 				moveBackground(Direction.WEST);
-				if(!player.getURL().equals("Images/FoxRightRunning.gif")) {
+				if(!player.getURL().equals("Images/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					setPlayerImage(Direction.WEST);
+				}
+			}
+			if(upPressed.get()) {
+				moveBackground(Direction.SOUTH);
+				if(!player.getURL().equals("Images/FoxBackRunning.gif")) {
+					setPlayerImage(Direction.SOUTH);
+				}
+
+			}
+			if(downPressed.get()){
+				moveBackground(Direction.NORTH);
+				if(!player.getURL().equals("Images/FoxRunning.gif")) {
+					setPlayerImage(Direction.NORTH);
 				}
 			}
 		}

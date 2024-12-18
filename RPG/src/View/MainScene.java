@@ -93,15 +93,19 @@ public class MainScene extends Scene {
 	private void handleInputKeyReleased(KeyEvent e) {
 		switch(e.getCode()) {
 			case UP:
+				controller.setMovingDirection(Direction.SOUTH);
 				controller.getUpPressed().set(false);
 				break;
 			case DOWN:
+				controller.setMovingDirection(Direction.NORTH);
 				controller.getDownPressed().set(false);
 				break;
 			case RIGHT:
+				controller.setMovingDirection(Direction.WEST);
 				controller.getRightPressed().set(false);
 				break;
 			case LEFT:
+				controller.setMovingDirection(Direction.EAST);
 				controller.getLeftPressed().set(false);
 				break;
 			default: return;
