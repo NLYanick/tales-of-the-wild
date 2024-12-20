@@ -2,6 +2,7 @@ package View;
 
 import Controller.MainController;
 import Model.Direction;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +21,8 @@ public class MainScene extends Scene {
 	
 	private BorderPane root;
 	
+	private boolean gameHasLoaded = false;
+	
 	public MainScene(MainController controller) {
 		super(new Pane());
 		
@@ -34,13 +37,14 @@ public class MainScene extends Scene {
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
 		setUpStartUpView();
+		setOnKeyPressed(e -> handleInputKeyPressed(e));
 		
 		setRoot(root);
 	}
 	
 	private void setUpListeners() {
-		setOnKeyPressed(e -> handleInputKeyPressed(e));
-		setOnKeyReleased(e -> handleInputKeyReleased(e));
+		setOnKeyPressed(e -> handleMovementPressed(e));
+		setOnKeyReleased(e -> handleMovementReleased(e));
 	}
 	
 	private void setUpStartUpView() {
@@ -60,10 +64,17 @@ public class MainScene extends Scene {
 	}
 	
 	public void loadBackground() {
+		
+		gameHasLoaded = true;
+		
 		setUpListeners();
+		
 		root.setCenter(null);
+		
 		addBackground();
 		createPlayerView();
+		
+		setCursor(Cursor.NONE);
 	}
 	
 	public void setAsRoot(Pane root) {
@@ -81,6 +92,21 @@ public class MainScene extends Scene {
 	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
+		case F11:
+			controller.setFullScreen();
+			if(gameHasLoaded) {
+				setCursor(Cursor.NONE);
+			}
+			break;
+		default: 
+			if(gameHasLoaded) {
+				handleMovementPressed(e);
+			}
+		}
+	}
+	
+	private void handleMovementPressed(KeyEvent e) {
+		switch(e.getCode()) {
 			case UP:
 				controller.setMovingDirection(Direction.SOUTH);
 				controller.getUpPressed().set(true);
@@ -97,11 +123,11 @@ public class MainScene extends Scene {
 				controller.setMovingDirection(Direction.EAST);
 				controller.getLeftPressed().set(true);
 				break;
-			default: return;
+			default: System.out.println("Input not valid");
 		}
 	}
 	
-	private void handleInputKeyReleased(KeyEvent e) {
+	private void handleMovementReleased(KeyEvent e) {
 		switch(e.getCode()) {
 			case UP:
 				controller.setMovingDirection(Direction.SOUTH);
@@ -119,7 +145,7 @@ public class MainScene extends Scene {
 				controller.setMovingDirection(Direction.EAST);
 				controller.getLeftPressed().set(false);
 				break;
-			default: return;
+			default: System.out.println("Input not valid");
 		}
 	}
 }

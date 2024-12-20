@@ -1,7 +1,5 @@
 package Controller;
 
-import java.io.File;
-
 import Model.BackgroundLocation;
 import Model.Direction;
 import Model.Player;
@@ -17,6 +15,7 @@ public class MainController {
 	private BackgroundLocation backgroundLocation;
 	private Player player;
 	
+	private Main main;
 	private MainScene scene;
 	private FileIO fileIO;
 	
@@ -28,13 +27,15 @@ public class MainController {
     private BooleanProperty rightPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = upPressed.or(leftPressed).or(downPressed).or(rightPressed);
 	
-	public MainController() {
+	public MainController(Main main) {
 		
 		player = new Player("Images/Fox/FoxStandingStill.gif");
 		backgroundLocation = new BackgroundLocation(0, 0);
 
 		fileIO = new FileIO();
 		scene = new MainScene(this);
+		
+		this.main = main;
 		
 		addKeyPressedListener();
 		
@@ -89,6 +90,10 @@ public class MainController {
 			break;
 		}
 		scene.changePlayerImage();
+	}
+	
+	public void setFullScreen() {
+		main.setFullScreen();
 	}
 	
 	public Background getBackground() {

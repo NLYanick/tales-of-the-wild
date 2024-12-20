@@ -3,8 +3,8 @@ package View;
 import java.io.File;
 
 import Controller.FileIO;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -82,6 +82,7 @@ public class StartUpView extends BorderPane {
 	}
 	
 	private void loadBackground() {
+		scene.setCursor(Cursor.WAIT);
 		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
 		scene.loadBackground();
 	}
