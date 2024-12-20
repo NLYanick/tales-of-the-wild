@@ -25,7 +25,6 @@ public class StartUpView extends BorderPane {
 	private void setUpStarterView() {
 		
 		setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
-		setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
 		
 		setMinSize(200, 200);
 		

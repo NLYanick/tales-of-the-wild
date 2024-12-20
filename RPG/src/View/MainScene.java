@@ -26,7 +26,6 @@ public class MainScene extends Scene {
 		this.controller = controller;
 		
 		setUpRoot();
-		setUpListeners();
 	}
 	
 	private void setUpRoot() {
@@ -35,8 +34,6 @@ public class MainScene extends Scene {
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
 		setUpStartUpView();
-//		addBackground();
-//		createPlayerView();
 		
 		setRoot(root);
 	}
@@ -63,6 +60,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void loadBackground() {
+		setUpListeners();
 		root.getChildren().remove(startUpView);
 		addBackground();
 		createPlayerView();
