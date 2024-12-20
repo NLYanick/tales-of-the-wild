@@ -5,6 +5,7 @@ import java.io.File;
 import Model.BackgroundLocation;
 import Model.Direction;
 import Model.Player;
+import View.Background;
 import View.MainScene;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.BooleanBinding;
@@ -31,10 +32,10 @@ public class MainController {
 		
 		player = new Player("Images/Fox/FoxStandingStill.gif");
 		backgroundLocation = new BackgroundLocation(0, 0);
-		
-		scene = new MainScene(this);
+
 		fileIO = new FileIO();
 		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
+		scene = new MainScene(this);
 		
 		addKeyPressedListener();
 		
@@ -89,6 +90,10 @@ public class MainController {
 			break;
 		}
 		scene.changePlayerImage();
+	}
+	
+	public Background getBackground() {
+		return fileIO.getBackground();
 	}
 	
 	// -------------------------- Listeners --------------------------- //

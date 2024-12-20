@@ -14,9 +14,13 @@ public class FileIO {
 	public final static String BACKGROUNDFILEPATH = "./Resource/textfiles/background.txt";
 	
 	private FileChooser filechooser;
+	private Background background;
+	
+	private int layer = 0;
 	
 	public FileIO() {
 		setUpFileChooser();
+		background = new Background();
 	}
 	
 	private void setUpFileChooser() {
@@ -34,6 +38,7 @@ public class FileIO {
 				for (int i = 0; i < line.length; i++) {
 					loadBackground(line, i);
 				}
+				layer++;
 				String readLine = br.readLine();
 				if(readLine == null) {
 					break;
@@ -49,10 +54,33 @@ public class FileIO {
 	}
 	
 	private void loadBackground(String[] line, int i) {
+		int xLocation = i - line.length/2;
 		switch(line[i]) {
 		case "0":
+			background.placeBackground(xLocation, layer, "Images/Background/Grass.png");
+			break;
+		case "1":
+			background.placeBackground(xLocation, layer, "Images/Background/Water.png");
+			break;
+		case "2":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridge.png");
+			break;
+		case "3":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailing.png");
+			break;
+		case "3b":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png");
+			break;
+		case "3t":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png", Direction.SOUTH);
+			break;
+		case "4":
 			break;
 		}
+	}
+
+	public Background getBackground() {
+		return background;
 	}
 	
 	
