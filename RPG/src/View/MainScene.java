@@ -45,7 +45,7 @@ public class MainScene extends Scene {
 	
 	private void setUpStartUpView() {
 		startUpView = new StartUpView(controller.getFileIO(), this);
-		root.getChildren().add(startUpView);
+		root.setCenter(startUpView);
 	}
 	
 	private void addBackground() {
@@ -61,7 +61,7 @@ public class MainScene extends Scene {
 	
 	public void loadBackground() {
 		setUpListeners();
-		root.getChildren().remove(startUpView);
+		root.setCenter(null);
 		addBackground();
 		createPlayerView();
 	}

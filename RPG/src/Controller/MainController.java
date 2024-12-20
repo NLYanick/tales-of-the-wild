@@ -34,7 +34,6 @@ public class MainController {
 		backgroundLocation = new BackgroundLocation(0, 0);
 
 		fileIO = new FileIO();
-		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
 		scene = new MainScene(this);
 		
 		addKeyPressedListener();
