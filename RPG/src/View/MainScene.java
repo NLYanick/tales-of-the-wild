@@ -16,6 +16,7 @@ public class MainScene extends Scene {
 	
 	private PlayerView playerView;
 	private Background background;
+	private StartUpView startUpView;
 	
 	private BorderPane root;
 	
@@ -33,8 +34,9 @@ public class MainScene extends Scene {
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
-		addBackground();
-		createPlayerView();
+		setUpStartUpView();
+//		addBackground();
+//		createPlayerView();
 		
 		setRoot(root);
 	}
@@ -42,6 +44,11 @@ public class MainScene extends Scene {
 	private void setUpListeners() {
 		setOnKeyPressed(e -> handleInputKeyPressed(e));
 		setOnKeyReleased(e -> handleInputKeyReleased(e));
+	}
+	
+	private void setUpStartUpView() {
+		startUpView = new StartUpView(controller.getFileIO(), this);
+		root.getChildren().add(startUpView);
 	}
 	
 	private void addBackground() {
@@ -53,6 +60,12 @@ public class MainScene extends Scene {
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
 		root.setCenter(playerView);
+	}
+	
+	public void loadBackground() {
+		root.getChildren().remove(startUpView);
+		addBackground();
+		createPlayerView();
 	}
 	
 	public void setAsRoot(Pane root) {

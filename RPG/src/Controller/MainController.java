@@ -96,6 +96,10 @@ public class MainController {
 		return fileIO.getBackground();
 	}
 	
+	public FileIO getFileIO() {
+		return fileIO;
+	}
+	
 	// -------------------------- Listeners --------------------------- //
 	
 	private AnimationTimer timer = new AnimationTimer() {
