@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import Model.Direction;
 import View.Background;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -64,8 +65,16 @@ public class FileIO {
 			background.placeBackground(xLocation, layer, "Images/Background/Water.png");
 			break;
 		case "2":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridge.png");
 			break;
 		case "3":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailing.png");
+			break;
+		case "3b":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png");
+			break;
+		case "3t":
+			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png", Direction.SOUTH);
 			break;
 		case "4":
 			break;
