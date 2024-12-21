@@ -15,7 +15,7 @@ public class MainController {
 	private BackgroundLocation backgroundLocation;
 	private Player player;
 	
-	private Main main;
+	private ApplicationController appController;
 	private MainScene scene;
 	private FileIO fileIO;
 	
@@ -27,15 +27,15 @@ public class MainController {
     private BooleanProperty rightPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = upPressed.or(leftPressed).or(downPressed).or(rightPressed);
 	
-	public MainController(Main main) {
+	public MainController(ApplicationController appController, FileIO fileIO) {
 		
 		player = new Player("Images/Fox/FoxStandingStill.gif");
 		backgroundLocation = new BackgroundLocation(0, 0);
 
-		fileIO = new FileIO();
+		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		this.main = main;
+		this.appController = appController;
 		
 		addKeyPressedListener();
 		
@@ -93,7 +93,7 @@ public class MainController {
 	}
 	
 	public void setFullScreen() {
-		main.setFullScreen();
+		appController.setFullScreen();
 	}
 	
 	public Background getBackground() {

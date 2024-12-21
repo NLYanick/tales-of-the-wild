@@ -48,7 +48,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void setUpStartUpView() {
-		startUpView = new StartUpView(controller.getFileIO(), this);
+		startUpView = new StartUpView(this);
 		root.setCenter(startUpView);
 	}
 	

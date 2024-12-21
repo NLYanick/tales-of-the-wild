@@ -1,10 +1,6 @@
 package View;
 
-import java.io.File;
-
-import Controller.FileIO;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -18,13 +14,11 @@ import javafx.scene.text.Font;
 
 public class StartUpView extends BorderPane {
 	
-	private FileIO fileIO;
 	private MainScene scene;
 	
 	private VBox layout;
 	
-	public StartUpView(FileIO fileIO, MainScene scene) {
-		this.fileIO = fileIO;
+	public StartUpView(MainScene scene) {
 		this.scene = scene;
 		
 		setUpStarterView();
@@ -76,14 +70,8 @@ public class StartUpView extends BorderPane {
 		Button button = new Button("Continue");
 		button.setPrefSize(buttonWidth, buttonHeight);
 		
-		button.setOnAction(e -> loadBackground());
+		button.setOnAction(e -> scene.loadBackground());
 		
 		layout.getChildren().add(button);
-	}
-	
-	private void loadBackground() {
-		scene.setCursor(Cursor.WAIT);
-		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
-		scene.loadBackground();
 	}
 }
