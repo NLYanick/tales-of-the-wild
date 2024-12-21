@@ -2,6 +2,7 @@ package Controller;
 
 import View.MainScene;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -22,9 +23,13 @@ public class Main extends Application {
 		MainScene scene = controller.getMainScene();
 		
 		stage.setTitle("RPG-Project");
+		stage.getIcons().add(new Image("Images/Background/Grass.png"));
+		
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
-		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Alt + F"));
+		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Esc"));
+//		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Alt + F"));
+		
 		stage.setScene(scene);
 		stage.show();
 	}
