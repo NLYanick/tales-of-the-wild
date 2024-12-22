@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -41,6 +42,7 @@ public class StartUpView extends BorderPane {
 		
 		setUpLayout();
 		setUpTopText();
+		setUpImage();
 		setUpButton();
 		
 		setCenter(layout);
@@ -49,7 +51,7 @@ public class StartUpView extends BorderPane {
 	
 	private void setUpLayout() {
 		
-		int spacing = 200;
+		int spacing = 50;
 		
 		layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
@@ -94,5 +96,12 @@ public class StartUpView extends BorderPane {
 		button.setOnAction(e -> scene.loadBackground());
 		
 		layout.getChildren().add(button);
+	}
+	
+	private void setUpImage() {
+		Image foxImage = new Image("Images/Fox/FoxStandingStill.gif");
+        ImageView foxImageView = new ImageView(foxImage);
+        
+        layout.getChildren().add(foxImageView);
 	}
 }
