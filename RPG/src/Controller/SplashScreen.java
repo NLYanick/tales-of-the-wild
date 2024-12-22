@@ -25,8 +25,11 @@ public class SplashScreen extends Preloader {
         parent.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
         
         Image loadingImage = new Image("Images/Loading.gif");
-        parent.setCenter(new ImageView(loadingImage));
+        ImageView imageView = new ImageView(loadingImage);
+        imageView.setFitHeight(loadingImage.getHeight() * 2);
+        imageView.setFitWidth(loadingImage.getWidth() * 2);
         
+        parent.setCenter(imageView);
     }
 
     @Override

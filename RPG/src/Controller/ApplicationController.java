@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class ApplicationController extends Application {
 
+	public final static String APPLICATIONNAME = "Tales of the Wild";
+	
 	private Stage stage;
 	
 	private FileIO fileIO;
@@ -33,7 +35,7 @@ public class ApplicationController extends Application {
 		controller = new MainController(this, fileIO);
 		scene = controller.getMainScene();
 		
-		stage.setTitle("RPG-Project");
+		stage.setTitle(APPLICATIONNAME);
 		stage.getIcons().add(new Image("Images/Background/Grass.png"));
 		
 		stage.setFullScreen(true);

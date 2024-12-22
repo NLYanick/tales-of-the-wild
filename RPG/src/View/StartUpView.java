@@ -1,16 +1,25 @@
 package View;
 
+import Controller.ApplicationController;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class StartUpView extends BorderPane {
 	
@@ -49,11 +58,15 @@ public class StartUpView extends BorderPane {
 	
 	private void setUpTopText() {
 		
-		int fontSize = 50;
+		int fontSize = 60;
 		
-		Label welcomeText = new Label("Welcome!");
-		welcomeText.setFont(Font.font(fontSize));
+		Label welcomeText = new Label(ApplicationController.APPLICATIONNAME);
+		welcomeText.setFont(Font.font("Times New Roman", FontWeight.BOLD, fontSize));
 		welcomeText.setTextFill(Color.WHITE);
+		
+		welcomeText.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(10))));
+		welcomeText.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
+		welcomeText.setPadding(new Insets(50));
 		
 		HBox topPane = new HBox();
 		topPane.getChildren().add(welcomeText);
@@ -64,11 +77,19 @@ public class StartUpView extends BorderPane {
 	
 	private void setUpButton() {
 		
-		int buttonWidth = 120;
+		int buttonWidth = 200;
 		int buttonHeight= buttonWidth / 2;
+		
+		int fontSize = 30;
 		
 		Button button = new Button("Continue");
 		button.setPrefSize(buttonWidth, buttonHeight);
+		
+		button.setFont(Font.font("Times New Roman", fontSize));
+		button.setTextFill(Color.WHITE);
+		button.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
+		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
+		button.setCursor(Cursor.HAND);
 		
 		button.setOnAction(e -> scene.loadBackground());
 		
