@@ -43,7 +43,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void setUpListeners() {
-		setOnKeyPressed(e -> handleMovementPressed(e));
+		setOnKeyPressed(e -> handleInputKeyPressed(e));
 		setOnKeyReleased(e -> handleMovementReleased(e));
 	}
 	
