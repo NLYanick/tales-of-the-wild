@@ -6,30 +6,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import Model.BackgroundImages;
 import Model.Direction;
 import View.Background;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileIO {
 
 	public final static String BACKGROUNDFILEPATH = "./Resource/textfiles/background.txt";
 	
-	private FileChooser filechooser;
 	private Background background;
+	private BackgroundImages backgroundImages;
 	
 	private int layer = 0;
 	
-	public FileIO() {
-		setUpFileChooser();
+	public FileIO() {;
 		background = new Background();
-	}
-	
-	private void setUpFileChooser() {
-		filechooser = new FileChooser();
-		filechooser.initialDirectoryProperty().set(new File("./Resource"));
-		filechooser.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
-		filechooser.getExtensionFilters().add(new ExtensionFilter("Everything", "*"));
+		backgroundImages = new BackgroundImages();
 	}
 	
 	public void readText(File file) {
@@ -57,27 +49,12 @@ public class FileIO {
 	
 	private void loadBackground(String[] line, int i) {
 		int xLocation = i - line.length/2;
-		switch(line[i]) {
-		case "0":
-			background.placeBackground(xLocation, layer, "Images/Background/Grass.png");
-			break;
-		case "1":
-			background.placeBackground(xLocation, layer, "Images/Background/Water.png");
-			break;
-		case "2":
-			background.placeBackground(xLocation, layer, "Images/Background/StoneBridge.png");
-			break;
-		case "3":
-			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailing.png");
-			break;
-		case "3b":
-			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png");
-			break;
-		case "3t":
-			background.placeBackground(xLocation, layer, "Images/Background/StoneBridgeRailingSide.png", Direction.SOUTH);
-			break;
-		case "4":
-			break;
+		String[] imageUrl = backgroundImages.getImageUrl(line[i]).split(" ");
+		if(imageUrl.length > 1) {
+			Direction direction = Direction.valueOf(imageUrl[1]);
+			background.placeBackground(xLocation, layer, imageUrl[0], direction);
+		} else {
+			background.placeBackground(xLocation, layer, imageUrl[0]);
 		}
 	}
 
