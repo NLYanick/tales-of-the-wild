@@ -36,7 +36,7 @@ public class StartUpView extends BorderPane {
 
 	private void setUpStarterView() {
 		
-		setBackground(new Background(new BackgroundImage(new Image("Images/Background/Grass.png"), null, null, null, null)));
+		setBackground(new Background(new BackgroundImage(new Image("Images/Background/Grass/Grass.png"), null, null, null, null)));
 		
 		setMinSize(MainScene.SCENEWIDTH, MainScene.SCENEHEIGHT);
 		

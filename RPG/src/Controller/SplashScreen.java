@@ -21,7 +21,7 @@ public class SplashScreen extends Preloader {
     @Override
     public void init() throws Exception {
 
-        Image image = new Image("Images/Background/Grass.png");
+        Image image = new Image("Images/Background/Grass/Grass.png");
         parent.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
         
         Image loadingImage = new Image("Images/Loading.gif");

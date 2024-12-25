@@ -36,12 +36,11 @@ public class ApplicationController extends Application {
 		scene = controller.getMainScene();
 		
 		stage.setTitle(APPLICATIONNAME);
-		stage.getIcons().add(new Image("Images/Background/Grass.png"));
+		stage.getIcons().add(new Image("Images/Background/Grass/Grass.png"));
 		
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
 		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Esc"));
-//		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Alt + F"));
 		stage.centerOnScreen();
 		
 		stage.setScene(scene);
