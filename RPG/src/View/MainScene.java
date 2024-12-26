@@ -70,8 +70,8 @@ public class MainScene extends Scene {
 		root.setCenter(null);
 		
 		addBackground();
-		createPlayerView();
 		controller.setUpNPCs();
+		createPlayerView();
 		
 		setCursor(Cursor.NONE);
 	}
