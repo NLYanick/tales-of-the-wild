@@ -58,7 +58,7 @@ public class MainController {
 		npcs.add(tempNPC);
 		
 		for(NPC npc : npcs) {
-			NPCView NPCView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
+			NPCView NPCView = new NPCView(npc.getURL(), npc.getX(), npc.getY());
 			scene.addNPCView(NPCView);
 			npcsWithViews.put(npc, NPCView);
 		}
@@ -125,7 +125,7 @@ public class MainController {
 		for(NPC npc : npcs) {
 			npc.moveWithBackground(dir);
 			NPCView npcView = npcsWithViews.get(npc);
-			npcView.move((int) npcView.getLayoutX() + dir.getX(), (int) npcView.getLayoutY() + dir.getY());
+			npcView.move(npc.getX(), npc.getY());
 		}
 	}
 	

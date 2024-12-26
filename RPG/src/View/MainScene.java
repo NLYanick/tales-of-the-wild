@@ -71,8 +71,13 @@ public class MainScene extends Scene {
 		
 		addBackground();
 		createPlayerView();
+		controller.setUpNPCs();
 		
 		setCursor(Cursor.NONE);
+	}
+	
+	public void addNPCView(NPCView nPCView) {
+		root.getChildren().add(nPCView);
 	}
 	
 	public void setAsRoot(Pane root) {

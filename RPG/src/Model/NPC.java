@@ -12,6 +12,7 @@ public class NPC extends Entity {
 	public NPC(String imageURL, Location startLocation, Direction walkDirection) {
 		super(imageURL);
 		
+//		location = startLocation;
 		this.startLocation = startLocation;
 		endLocation = startLocation;
 		this.walkDirection = walkDirection;
