@@ -48,13 +48,16 @@ public class FileIO {
 	}
 	
 	private void loadBackground(String[] line, int i) {
-		int xLocation = i - line.length/2;
-		String[] imageUrl = backgroundImages.getImageUrl(line[i]).split(" ");
-		if(imageUrl.length > 1) {
-			Direction direction = Direction.valueOf(imageUrl[1]);
-			background.placeBackground(xLocation, layer, imageUrl[0], direction);
-		} else {
-			background.placeBackground(xLocation, layer, imageUrl[0]);
+		if(!line[i].equals("-1")) {
+			System.out.println(line[i]);
+			int xLocation = i - line.length/2;
+			String[] imageUrl = backgroundImages.getImageUrl(line[i]).split(" ");
+			if(imageUrl.length > 1) {
+				Direction direction = Direction.valueOf(imageUrl[1]);
+				background.placeBackground(xLocation, layer, imageUrl[0], direction);
+			} else {
+				background.placeBackground(xLocation, layer, imageUrl[0]);
+			}
 		}
 	}
 

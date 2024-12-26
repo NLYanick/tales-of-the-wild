@@ -6,21 +6,27 @@ import javafx.scene.layout.BorderPane;
 
 public abstract class EntityView extends BorderPane {
 	
+	protected final static int IMAGESIZE = 96;
+	
 	protected Image image;
 	protected ImageView imageView;
 	
-	protected int imageSize;
 	protected String imageURL;
 	
 	public EntityView(String imageURL) {
 		this.imageURL = imageURL;
 		
+		setUpImage();
+	}
+	
+	private void setUpImage() {
 		image = new Image(imageURL);
 		imageView = new ImageView(image);
 		
-		setCenter(imageView);
+		imageView.setFitWidth(IMAGESIZE);
+		imageView.setFitHeight(IMAGESIZE);
 		
-		imageSize = (int) image.getWidth();
+		setCenter(imageView);
 	}
 
 	public void move(int x, int y) {
