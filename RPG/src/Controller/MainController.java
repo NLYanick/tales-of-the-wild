@@ -1,10 +1,16 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import Model.BackgroundLocation;
 import Model.Direction;
+import Model.Location;
+import Model.NPC;
 import Model.Player;
 import View.Background;
 import View.MainScene;
+import View.NPCView;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -18,6 +24,9 @@ public class MainController {
 	private ApplicationController appController;
 	private MainScene scene;
 	private FileIO fileIO;
+	
+	private ArrayList<NPC> npcs;
+	private HashMap<NPC, NPCView> npcsWithViews;
 	
 	private Direction movingDirection = Direction.SOUTH;
 	
@@ -41,9 +50,25 @@ public class MainController {
 		
 	}
 	
+	public void setUpNPCs() {
+		npcs = new ArrayList<NPC>();
+		npcsWithViews = new HashMap<NPC, NPCView>();
+		
+		NPC tempNPC = new NPC("Images/TempCharacter.png", new Location(50, 50), Direction.WEST);
+		npcs.add(tempNPC);
+		
+		for(NPC npc : npcs) {
+			NPCView NPCView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
+			scene.addNPCView(NPCView);
+			npcsWithViews.put(npc, NPCView);
+		}
+		
+	}
+	
 	public void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
+		moveNPCs(dir);
 		
 		player.move(dir);
 	}
@@ -96,12 +121,12 @@ public class MainController {
 		appController.setFullScreen();
 	}
 	
-	public Background getBackground() {
-		return fileIO.getBackground();
-	}
-	
-	public FileIO getFileIO() {
-		return fileIO;
+	private void moveNPCs(Direction dir) {
+		for(NPC npc : npcs) {
+			npc.moveWithBackground(dir);
+			NPCView npcView = npcsWithViews.get(npc);
+			npcView.move((int) npcView.getLayoutX() + dir.getX(), (int) npcView.getLayoutY() + dir.getY());
+		}
 	}
 	
 	// -------------------------- Listeners --------------------------- //
@@ -198,6 +223,14 @@ public class MainController {
 	
 	public String getPlayerURL() {
 		return player.getURL();
+	}
+	
+	public Background getBackground() {
+		return fileIO.getBackground();
+	}
+	
+	public FileIO getFileIO() {
+		return fileIO;
 	}
 	
 }
