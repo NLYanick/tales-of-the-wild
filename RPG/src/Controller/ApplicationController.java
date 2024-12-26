@@ -50,7 +50,7 @@ public class ApplicationController extends Application {
 	
 	@Override
 	public void stop() {
-		
+		controller.stopNPCThreads();
 	}
 	
 	public void setFullScreen() {

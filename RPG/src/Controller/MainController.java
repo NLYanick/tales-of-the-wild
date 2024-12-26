@@ -54,13 +54,14 @@ public class MainController {
 		npcs = new ArrayList<NPC>();
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		
-		NPC tempNPC = new NPC("Images/TempCharacter.png", new Location(50, 50), Direction.WEST);
+		NPC tempNPC = new NPC("Images/TempCharacter.png", new Location(50, 50), Direction.WEST, this);
 		npcs.add(tempNPC);
 		
 		for(NPC npc : npcs) {
-			NPCView NPCView = new NPCView(npc.getURL(), npc.getX(), npc.getY());
+			NPCView NPCView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
 			scene.addNPCView(NPCView);
 			npcsWithViews.put(npc, NPCView);
+			npc.setUpThread(npc.getWalkDirection());
 		}
 		
 	}
@@ -117,8 +118,10 @@ public class MainController {
 		scene.changePlayerImage();
 	}
 	
-	public void setFullScreen() {
-		appController.setFullScreen();
+	public void stopNPCThreads() {
+		for(NPC npc : npcs) {
+			npc.setThreadRunning(false);
+		}
 	}
 	
 	private void moveNPCs(Direction dir) {
@@ -127,6 +130,14 @@ public class MainController {
 			NPCView npcView = npcsWithViews.get(npc);
 			npcView.move(npc.getX(), npc.getY());
 		}
+	}
+	
+	public void setFullScreen() {
+		appController.setFullScreen();
+	}
+	
+	public void setNPCViewLocation(NPC npc) {
+		npcsWithViews.get(npc).move(npc.getX(), npc.getY());
 	}
 	
 	// -------------------------- Listeners --------------------------- //
