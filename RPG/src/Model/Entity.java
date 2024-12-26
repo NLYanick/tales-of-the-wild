@@ -15,6 +15,10 @@ public abstract class Entity {
 		location.setY(getY() + dir.getY()); 
 	}
 	
+	public abstract void setRunningImage(Direction dir);
+	
+	public abstract void setStandingStillAnimation(Direction dir);
+	
 	public int getX() {
 		return location.getX();
 	}

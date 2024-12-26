@@ -4,7 +4,7 @@ import Controller.MainController;
 
 public class NPC extends Entity {
 
-	private final static int DISTANCE = 60;
+	private final static int DISTANCE = 120;
 	
 	private MainController controller;
 	
@@ -12,12 +12,15 @@ public class NPC extends Entity {
 	private Location endLocation;
 	
 	private Direction walkDirection;
+	private String name;
 	private boolean running;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller) {
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, String name) {
 		super(imageURL);
 		
 		this.controller = controller;
+		
+		this.name = name;
 		
 		location.setX(startLocation.getX());
 		location.setY(startLocation.getY());
@@ -69,6 +72,52 @@ public class NPC extends Entity {
 		move(direction);
 	}
 	
+	@Override
+	public void setRunningImage(Direction dir) {
+		String url;
+		switch(dir) {
+		case NORTH:
+			url = "Images/NPCs/"+ name +"BackRunning.gif";
+			break;
+		case EAST:
+			url = "Images/NPCs/"+ name +"RightRunning.gif";
+			break;
+		case SOUTH:
+			url = "Images/NPCs/"+ name +"Running.gif";
+			break;
+		case WEST:
+			url = "Images/NPCs/"+ name +"LeftRunning.gif";
+			break;
+		default:
+			return;
+		}
+		imageURL = url;
+		controller.switchNPCImage(this, url);
+	}
+
+	@Override
+	public void setStandingStillAnimation(Direction dir) {
+		String url;
+		switch(dir) {
+		case NORTH:
+			url = "Images/NPCs/"+ name +"BackStandingStill.gif";
+			break;
+		case EAST:
+			url = "Images/NPCs/"+ name +"RightStandingStill.gif";
+			break;
+		case SOUTH:
+			url = "Images/NPCs/"+ name +"StandingStill.gif";
+			break;
+		case WEST:
+			url = "Images/NPCs/"+ name +"LeftStandingStill.gif";
+			break;
+		default: 
+			return;
+		}
+		imageURL = url;
+		controller.switchNPCImage(this, url);
+	}
+	
 	private void switchStartAndEndLocations() {
 		int tempX = startLocation.getX();
 		int tempY = startLocation.getY();
@@ -78,6 +127,8 @@ public class NPC extends Entity {
 		
 		endLocation.setX(tempX);
 		endLocation.setY(tempY);
+		
+		setRunningImage(walkDirection);
 	}
 
 	private void moveInLine() {
@@ -97,6 +148,7 @@ public class NPC extends Entity {
 			while(running) {
 				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 					try {
+						setStandingStillAnimation(walkDirection);
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();

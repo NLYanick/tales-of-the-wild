@@ -5,4 +5,44 @@ public class Player extends Entity {
 	public Player(String imgURL) {
 		super(imgURL);
 	}
+	
+	@Override
+	public void setRunningImage(Direction dir) {
+		switch(dir) {
+		case NORTH:
+			setImageURL("Images/Fox/FoxRunning.gif");
+			break;
+		case EAST:
+			setImageURL("Images/Fox/FoxLeftRunning.gif");
+			break;
+		case SOUTH:
+			setImageURL("Images/Fox/FoxBackRunning.gif");
+			break;
+		case WEST:
+			setImageURL("Images/Fox/FoxRightRunning.gif");
+			break;
+		default:
+			break;
+		}
+	}
+	
+	@Override
+	public void setStandingStillAnimation(Direction dir) {
+		switch(dir) {
+		case NORTH:
+			setImageURL("Images/Fox/FoxStandingStill.gif");
+			break;
+		case EAST:
+			setImageURL("Images/Fox/FoxLeftStandingStill.gif");
+			break;
+		case SOUTH:
+			setImageURL("Images/Fox/FoxBackStandingStill.gif");
+			break;
+		case WEST:
+			setImageURL("Images/Fox/FoxRightStandingStill.gif");
+			break;
+		default:
+			break;
+		}
+	}
 }

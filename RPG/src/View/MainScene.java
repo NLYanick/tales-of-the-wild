@@ -88,6 +88,11 @@ public class MainScene extends Scene {
 		playerView.setImageURL(controller.getPlayerURL());
 		playerView.refreshImage();
 	}
+	
+	public void changeNPCImage(NPCView npcView, String url) {
+		npcView.setImageURL(url);
+		npcView.refreshImage();
+	}
 
 	public void moveBackground(int x, int y) {
 		background.move(x, y);

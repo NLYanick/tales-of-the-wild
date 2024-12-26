@@ -12,6 +12,7 @@ import View.Background;
 import View.MainScene;
 import View.NPCView;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -54,7 +55,7 @@ public class MainController {
 		npcs = new ArrayList<NPC>();
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		
-		NPC tempNPC = new NPC("Images/TempCharacter.png", new Location(50, 50), Direction.WEST, this);
+		NPC tempNPC = new NPC("Images/NPCs/TempCharacter.png", new Location(50, 50), Direction.WEST, this, "TempCharacter");
 		npcs.add(tempNPC);
 		
 		for(NPC npc : npcs) {
@@ -79,42 +80,12 @@ public class MainController {
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
-		switch(dir) {
-		case NORTH:
-			player.setImageURL("Images/Fox/FoxStandingStill.gif");
-			break;
-		case EAST:
-			player.setImageURL("Images/Fox/FoxLeftStandingStill.gif");
-			break;
-		case SOUTH:
-			player.setImageURL("Images/Fox/FoxBackStandingStill.gif");
-			break;
-		case WEST:
-			player.setImageURL("Images/Fox/FoxRightStandingStill.gif");
-			break;
-		default:
-			break;
-		}
+		player.setStandingStillAnimation(dir);
 		scene.changePlayerImage();
 	}
 	
 	public void setPlayerImage(Direction dir) {
-		switch(dir) {
-		case NORTH:
-			player.setImageURL("Images/Fox/FoxRunning.gif");
-			break;
-		case EAST:
-			player.setImageURL("Images/Fox/FoxLeftRunning.gif");
-			break;
-		case SOUTH:
-			player.setImageURL("Images/Fox/FoxBackRunning.gif");
-			break;
-		case WEST:
-			player.setImageURL("Images/Fox/FoxRightRunning.gif");
-			break;
-		default:
-			break;
-		}
+		player.setRunningImage(dir);
 		scene.changePlayerImage();
 	}
 	
@@ -138,6 +109,15 @@ public class MainController {
 	
 	public void setNPCViewLocation(NPC npc) {
 		npcsWithViews.get(npc).move(npc.getX(), npc.getY());
+	}
+	
+	public void switchNPCImage(NPC npc, String url) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				scene.changeNPCImage(npcsWithViews.get(npc), url);
+			}
+		});
 	}
 	
 	// -------------------------- Listeners --------------------------- //
