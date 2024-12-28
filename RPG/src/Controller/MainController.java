@@ -55,8 +55,10 @@ public class MainController {
 		npcs = new ArrayList<NPC>();
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		
-		NPC tempNPC = new NPC("Images/NPCs/TempCharacter.png", new Location(50, 50), Direction.WEST, this, "TempCharacter");
+		NPC tempNPC = new NPC("Images/NPCs/TempCharacter.png", new Location(500, 450), Direction.WEST, this, "TempCharacter");
 		npcs.add(tempNPC);
+		NPC tempNPCTwo = new NPC("Images/NPCs/TempCharacter.png", new Location(1450, 1700), Direction.WEST, this, "TempCharacter");
+		npcs.add(tempNPCTwo);
 		
 		for(NPC npc : npcs) {
 			NPCView NPCView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
@@ -90,8 +92,10 @@ public class MainController {
 	}
 	
 	public void stopNPCThreads() {
-		for(NPC npc : npcs) {
-			npc.setThreadRunning(false);
+		if(npcs != null && !(npcs.size() <= 0)) {			
+			for(NPC npc : npcs) {
+				npc.setThreadRunning(false);
+			}
 		}
 	}
 	

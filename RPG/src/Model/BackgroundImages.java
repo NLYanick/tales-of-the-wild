@@ -62,8 +62,9 @@ public class BackgroundImages {
 		images.put("37", GRASSPATH.concat("PathUpEndDown.png"));
 		images.put("38", GRASSPATH.concat("PathSideEndLeft.png"));
 		images.put("39", GRASSPATH.concat("PathSideEndRight.png"));
+		images.put("40", GRASSPATH.concat("OakTree.png"));
 		
-		images.put("40", PATH.concat("BlueTent.png"));
+		images.put("41", PATH.concat("BlueTent.png"));
 		
 	}
 	
