@@ -159,7 +159,7 @@ public class MainController {
 		screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
-		if((scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT)) {
+		if(!(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT)) {
 			difference[0] = screenXDiffernce;
 			difference[1] = screenYDiffernce;
 		} 
