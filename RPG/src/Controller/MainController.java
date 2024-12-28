@@ -153,11 +153,9 @@ public class MainController {
 	private int[] getBackgroundLocationDifference() {
 		int[] difference = new int[2];
 		
-		int screenXDiffernce = 0;
-		int screenYDiffernce = 0;
 		System.out.println(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT);
-		screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
-		screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
 		if(!(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT)) {
 			difference[0] = screenXDiffernce;

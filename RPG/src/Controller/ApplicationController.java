@@ -40,6 +40,7 @@ public class ApplicationController extends Application {
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
 		stage.centerOnScreen();
+		stage.setResizable(false);
 		
 		stage.setScene(scene);
 		stage.show();
