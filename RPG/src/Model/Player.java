@@ -45,4 +45,11 @@ public class Player extends Entity {
 			break;
 		}
 	}
+	
+	public void talkToNPC(NPC npc) {
+		if(npc != null) {
+			System.out.println("adsadsadasdergtrtf gsr");
+		}
+	}
+	
 }

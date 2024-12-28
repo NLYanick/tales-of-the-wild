@@ -39,16 +39,24 @@ public class MainController {
 	
 	public MainController(ApplicationController appController, FileIO fileIO) {
 		
-		player = new Player("Images/Fox/FoxStandingStill.gif");
-		backgroundLocation = new BackgroundLocation(0, 0);
 
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
+		
+		player = new Player("Images/Fox/FoxStandingStill.gif");
+		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		this.appController = appController;
 		
 		addKeyPressedListener();
 		
+	}
+	
+	public void setPlayerLocation() {
+		int playerX = (int) scene.getWidth() / 2;
+		int playerY = (int) scene.getHeight() / 2;
+		player.setX(playerX);
+		player.setY(playerY);
 	}
 	
 	public void setUpNPCs() {
@@ -74,7 +82,7 @@ public class MainController {
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
 		moveNPCs(dir);
 		
-		player.move(dir);
+		player.move(Direction.getOpposite(dir));
 	}
 	
 	public void setMovingDirection(Direction dir) {
@@ -107,8 +115,8 @@ public class MainController {
 		}
 	}
 	
-	public void setFullScreen() {
-		appController.setFullScreen();
+	public void setFullScreen(boolean isFullScreen) {
+		appController.setFullScreen(isFullScreen);
 	}
 	
 	public void setNPCViewLocation(NPC npc) {
@@ -122,6 +130,36 @@ public class MainController {
 				scene.changeNPCImage(npcsWithViews.get(npc), url);
 			}
 		});
+	}
+	
+	public void resetPlayerLocation() {
+		player.setX((int) scene.getWidth()/2);
+		player.setY((int) scene.getHeight()/2);
+	}
+	
+	public void playerInteract() {
+		System.out.println(player.getX() + " " + player.getY());
+		NPC nearbyNPC = getNearbyNPC();
+		if(nearbyNPC != null) {			
+			player.talkToNPC(nearbyNPC);
+		}
+	}
+	
+	private NPC getNearbyNPC() {
+		for(NPC npc : npcs) {
+			if(hasNPCInDirection(npc)) {
+				return npc;
+			}
+		}
+		return null;
+	}
+
+	private boolean hasNPCInDirection(NPC npc) {
+		if((npc.getX() <= (player.getX() + movingDirection.getX() * 2) && npc.getX() <= (player.getX() - movingDirection.getX() * 2)) 
+				|| (npc.getY() <= (player.getY() + movingDirection.getY() * 2) && npc.getY() <= (player.getY() - movingDirection.getY() * 2))) {
+			return true;
+		}
+		return false;
 	}
 	
 	// -------------------------- Listeners --------------------------- //

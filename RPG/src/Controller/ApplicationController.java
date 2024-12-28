@@ -5,7 +5,6 @@ import java.io.File;
 import View.MainScene;
 import javafx.application.Application;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class ApplicationController extends Application {
@@ -40,7 +39,6 @@ public class ApplicationController extends Application {
 		
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
-		stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("Esc"));
 		stage.centerOnScreen();
 		
 		stage.setScene(scene);
@@ -53,8 +51,12 @@ public class ApplicationController extends Application {
 		controller.stopNPCThreads();
 	}
 	
-	public void setFullScreen() {
-		stage.setFullScreen(true);
+	public void setFullScreen(boolean isFullScreen) {
+		stage.setFullScreen(isFullScreen);
+	}
+	
+	public boolean isFullScreen() {
+		return stage.isFullScreen();
 	}
 
     @Override
