@@ -132,9 +132,39 @@ public class MainController {
 		});
 	}
 	
-	public void resetPlayerLocation() {
+	public void resetPlayerAndBackgroundLocation() {
 		player.setX((int) scene.getWidth()/2);
 		player.setY((int) scene.getHeight()/2);
+		
+		System.out.println(backgroundLocation.getX() + " " + backgroundLocation.getY());
+		backgroundLocation.setX(getBackgroundLocationDifference()[0]);
+		backgroundLocation.setY(getBackgroundLocationDifference()[1]);
+		System.out.println(backgroundLocation.getX() + " " + backgroundLocation.getY());
+		
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
+		
+//		for(NPC npc : npcs) {
+//			npc.setX(getBackgroundLocationDifference()[0]);
+//			npc.setY(getBackgroundLocationDifference()[1]);
+//		}
+	}
+	
+	@SuppressWarnings("static-access")
+	private int[] getBackgroundLocationDifference() {
+		int[] difference = new int[2];
+		
+		int screenXDiffernce = 0;
+		int screenYDiffernce = 0;
+		System.out.println(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT);
+		screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
+		if((scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT)) {
+			difference[0] = screenXDiffernce;
+			difference[1] = screenYDiffernce;
+		} 
+		
+		return difference;
 	}
 	
 	public void playerInteract() {

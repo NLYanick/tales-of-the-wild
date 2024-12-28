@@ -96,7 +96,9 @@ public class MainScene extends Scene {
 	}
 
 	public void moveBackground(int x, int y) {
-		background.move(x, y);
+		if(background != null) {
+			background.move(x, y);
+		}
 	}
 	
 	private void handleInputKeyPressed(KeyEvent e) {
@@ -109,11 +111,11 @@ public class MainScene extends Scene {
 			break;
 		case ESCAPE: 
 			controller.setFullScreen(false);
-			controller.resetPlayerLocation();
+			controller.resetPlayerAndBackgroundLocation();
 			break;
 		case F11:
 			controller.setFullScreen(true);
-			controller.resetPlayerLocation();
+			controller.resetPlayerAndBackgroundLocation();
 			if(gameHasLoaded) {
 				setCursor(Cursor.NONE);
 			}
