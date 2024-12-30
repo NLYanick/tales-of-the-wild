@@ -100,11 +100,18 @@ public class MainController {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	private void moveNPCs(Direction dir) {
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		for(NPC npc : npcs) {
 			npc.moveWithBackground(dir);
 			NPCView npcView = npcsWithViews.get(npc);
-			npcView.move(npc.getX(), npc.getY());
+			if(appController.isFullScreen()) {
+				npcView.move(npc.getX() + screenXDiffernce, npc.getY() + screenYDiffernce);
+			} else {
+				npcView.move(npc.getX(), npc.getY());
+			}
 		}
 	}
 	
@@ -112,8 +119,14 @@ public class MainController {
 		appController.setFullScreen(isFullScreen);
 	}
 	
+	@SuppressWarnings("static-access")
 	public void setNPCViewLocation(NPC npc) {
-		npcsWithViews.get(npc).move(npc.getX(), npc.getY());
+		if(appController.isFullScreen()) {
+			npcsWithViews.get(npc).move(npc.getX() + (int) scene.getWidth()/2 - scene.SCENEWIDTH/2, 
+					npc.getY() + (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2);
+		} else {
+			npcsWithViews.get(npc).move(npc.getX(), npc.getY());
+		}
 	}
 	
 	public void switchNPCImage(NPC npc, String url) {
@@ -147,6 +160,7 @@ public class MainController {
 			} else {
 				npcView.move(npc.getX(), npc.getY());
 			}
+			System.out.println(npc.getX() + " " + npc.getY());
 		}
 	}
 	
