@@ -40,7 +40,6 @@ public class MainController {
 	@SuppressWarnings("static-access")
 	public MainController(ApplicationController appController, FileIO fileIO) {
 		
-
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
@@ -73,7 +72,7 @@ public class MainController {
 	
 	public void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 		moveNPCs(dir);
 		
 		player.move(Direction.getOpposite(dir));
@@ -126,20 +125,20 @@ public class MainController {
 		});
 	}
 	
+	public void resizeBackgroundAndNPCLocation() {
+		
+		boolean isFullScreen = appController.isFullScreen();
+		
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), isFullScreen);
+		resizeNPCLocation(isFullScreen);
+		
+	}
+	
 	@SuppressWarnings("static-access")
-	public void resetBackgroundAndNPCLocation() {
+	private void resizeNPCLocation(boolean isFullScreen) {
 		
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
-		boolean isFullScreen = appController.isFullScreen();
-		
-		if(isFullScreen) {
-			scene.moveBackground(backgroundLocation.getX() + screenXDiffernce,
-					backgroundLocation.getY() + screenYDiffernce);
-		} else {
-			scene.moveBackground(backgroundLocation.getX(), 
-					backgroundLocation.getY());
-		}
 		
 		for(NPC npc : npcs) {
 			NPCView npcView = npcsWithViews.get(npc);
@@ -149,7 +148,6 @@ public class MainController {
 				npcView.move(npc.getX(), npc.getY());
 			}
 		}
-		
 	}
 	
 	public void playerInteract() {

@@ -54,6 +54,10 @@ public class MainScene extends Scene {
 	
 	private void addBackground() {
 		background = controller.getBackground();
+
+		background.setLayoutX(getWidth()/2 - SCENEWIDTH/2);
+		background.setLayoutY(getHeight()/2 - SCENEHEIGHT/2);
+		
 		root.getChildren().add(background);
 	}
 	
@@ -94,9 +98,12 @@ public class MainScene extends Scene {
 		npcView.refreshImage();
 	}
 
-	public void moveBackground(int x, int y) {
+	public void moveBackground(int x, int y, boolean isFullScreen) {
 		if(background != null) {
-			background.move(x, y);
+			if(isFullScreen)
+				background.move((int) (x + getWidth()/2 - SCENEWIDTH/2), (int) (y + getHeight()/2 - SCENEHEIGHT/2));
+			else
+				background.move(x, y);
 		}
 	}
 	
@@ -109,12 +116,12 @@ public class MainScene extends Scene {
 			break;
 		case ESCAPE: 
 			controller.setFullScreen(false);
-			controller.resetBackgroundAndNPCLocation();
+			controller.resizeBackgroundAndNPCLocation();
 			setCursor(Cursor.DEFAULT);
 			break;
 		case F11:
 			controller.setFullScreen(true);
-			controller.resetBackgroundAndNPCLocation();
+			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
 				setCursor(Cursor.NONE);
 			}
