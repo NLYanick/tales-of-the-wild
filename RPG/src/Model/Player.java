@@ -2,8 +2,10 @@ package Model;
 
 public class Player extends Entity {
 
-	public Player(String imgURL) {
+	public Player(String imgURL, Location location) {
 		super(imgURL);
+		setX(location.getX());
+		setY(location.getY());
 	}
 	
 	@Override

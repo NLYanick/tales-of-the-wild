@@ -60,7 +60,6 @@ public class MainScene extends Scene {
 	private void createPlayerView()
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
-		controller.setPlayerLocation();
 		root.setCenter(playerView);
 	}
 	
@@ -105,17 +104,17 @@ public class MainScene extends Scene {
 		switch(e.getCode()) {
 		case E: 
 			if(gameHasLoaded) {
-				
 				controller.playerInteract();
 			}
 			break;
 		case ESCAPE: 
 			controller.setFullScreen(false);
-			controller.resetPlayerAndBackgroundLocation();
+			controller.resetBackgroundAndNPCLocation();
+			setCursor(Cursor.DEFAULT);
 			break;
 		case F11:
 			controller.setFullScreen(true);
-			controller.resetPlayerAndBackgroundLocation();
+			controller.resetBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
 				setCursor(Cursor.NONE);
 			}

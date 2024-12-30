@@ -37,26 +37,20 @@ public class MainController {
     private BooleanProperty rightPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = upPressed.or(leftPressed).or(downPressed).or(rightPressed);
 	
+	@SuppressWarnings("static-access")
 	public MainController(ApplicationController appController, FileIO fileIO) {
 		
 
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		player = new Player("Images/Fox/FoxStandingStill.gif");
+		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		this.appController = appController;
 		
 		addKeyPressedListener();
 		
-	}
-	
-	public void setPlayerLocation() {
-		int playerX = (int) scene.getWidth() / 2;
-		int playerY = (int) scene.getHeight() / 2;
-		player.setX(playerX);
-		player.setY(playerY);
 	}
 	
 	public void setUpNPCs() {
@@ -132,37 +126,30 @@ public class MainController {
 		});
 	}
 	
-	public void resetPlayerAndBackgroundLocation() {
-		player.setX((int) scene.getWidth()/2);
-		player.setY((int) scene.getHeight()/2);
-		
-		System.out.println(backgroundLocation.getX() + " " + backgroundLocation.getY());
-		backgroundLocation.setX(getBackgroundLocationDifference()[0]);
-		backgroundLocation.setY(getBackgroundLocationDifference()[1]);
-		System.out.println(backgroundLocation.getX() + " " + backgroundLocation.getY());
-		
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY());
-		
-//		for(NPC npc : npcs) {
-//			npc.setX(getBackgroundLocationDifference()[0]);
-//			npc.setY(getBackgroundLocationDifference()[1]);
-//		}
-	}
-	
 	@SuppressWarnings("static-access")
-	private int[] getBackgroundLocationDifference() {
-		int[] difference = new int[2];
+	public void resetBackgroundAndNPCLocation() {
 		
-		System.out.println(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT);
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		boolean isFullScreen = appController.isFullScreen();
 		
-		if(!(scene.getWidth() == scene.SCENEWIDTH && scene.getHeight() == scene.SCENEHEIGHT)) {
-			difference[0] = screenXDiffernce;
-			difference[1] = screenYDiffernce;
-		} 
+		if(isFullScreen) {
+			scene.moveBackground(backgroundLocation.getX() + screenXDiffernce,
+					backgroundLocation.getY() + screenYDiffernce);
+		} else {
+			scene.moveBackground(backgroundLocation.getX(), 
+					backgroundLocation.getY());
+		}
 		
-		return difference;
+		for(NPC npc : npcs) {
+			NPCView npcView = npcsWithViews.get(npc);
+			if(isFullScreen) {
+				npcView.move(npc.getX() + screenXDiffernce, npc.getY() + screenYDiffernce);
+			} else {
+				npcView.move(npc.getX(), npc.getY());
+			}
+		}
+		
 	}
 	
 	public void playerInteract() {

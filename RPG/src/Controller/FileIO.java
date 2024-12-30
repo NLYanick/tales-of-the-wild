@@ -27,10 +27,14 @@ public class FileIO {
 	public void readText(File file) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
+			int longestLine = 0;
 			String[] line = br.readLine().split(" ");
 			while(line != null){
 				for (int i = 0; i < line.length; i++) {
 					loadBackground(line, i);
+				}
+				if(longestLine < line.length) {
+					longestLine = line.length;
 				}
 				layer++;
 				String readLine = br.readLine();
@@ -40,6 +44,7 @@ public class FileIO {
 				line = readLine.split(" ");
 			}
 			br.close();
+			background.setSize(longestLine, layer);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

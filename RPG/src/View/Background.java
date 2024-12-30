@@ -37,6 +37,12 @@ public class Background extends Pane {
 		getChildren().add(imgView);
 	}
 	
+	public void setSize(int width, int height) {
+		int imgSize = 128;
+		setWidth(width * imgSize);
+		setHeight(height * imgSize);
+	}
+	
 	private ImageView makeImageView(int x, int y, String url) {
 		Image img = new Image(url);
 		ImageView imgView = new ImageView(img);

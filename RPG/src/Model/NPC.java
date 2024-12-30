@@ -149,7 +149,6 @@ public class NPC extends Entity {
 				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 					try {
 						setStandingStillAnimation(walkDirection);
-//						System.out.println(getX() + " " + getY());
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
