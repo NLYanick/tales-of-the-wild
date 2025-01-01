@@ -50,7 +50,7 @@ public class Player extends Entity {
 	
 	public void talkToNPC(NPC npc) {
 		if(npc != null) {
-			System.out.println("adsadsadasdergtrtf gsr");
+			System.out.println("Hey everbody, hey let's go");
 		}
 	}
 	

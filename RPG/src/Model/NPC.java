@@ -155,7 +155,7 @@ public class NPC extends Entity {
 					}
 				}
 				moveInLine();
-				controller.setNPCViewLocation(this);
+				controller.moveNPCViewWithScreen(this);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {

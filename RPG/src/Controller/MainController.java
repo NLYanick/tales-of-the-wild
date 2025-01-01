@@ -11,11 +11,8 @@ import Model.Player;
 import View.Background;
 import View.MainScene;
 import View.NPCView;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 public class MainController {
 
@@ -23,6 +20,8 @@ public class MainController {
 	private Player player;
 	
 	private ApplicationController appController;
+	private MovementController movementController;
+	
 	private MainScene scene;
 	private FileIO fileIO;
 	
@@ -30,12 +29,6 @@ public class MainController {
 	private HashMap<NPC, NPCView> npcsWithViews;
 	
 	private Direction movingDirection = Direction.SOUTH;
-	
-	private BooleanProperty upPressed = new SimpleBooleanProperty();
-	private BooleanProperty leftPressed = new SimpleBooleanProperty();
-    private BooleanProperty downPressed = new SimpleBooleanProperty();
-    private BooleanProperty rightPressed = new SimpleBooleanProperty();
-    private BooleanBinding keyPressed = upPressed.or(leftPressed).or(downPressed).or(rightPressed);
 	
 	@SuppressWarnings("static-access")
 	public MainController(ApplicationController appController, FileIO fileIO) {
@@ -47,8 +40,7 @@ public class MainController {
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
 		this.appController = appController;
-		
-		addKeyPressedListener();
+		movementController = new MovementController(this, player);
 		
 	}
 	
@@ -81,10 +73,6 @@ public class MainController {
 		player.move(Direction.getOpposite(dir));
 	}
 	
-	public void setMovingDirection(Direction dir) {
-		movingDirection = dir;
-	}
-	
 	public void setPlayerStandingStillAnimation(Direction dir) {
 		player.setStandingStillAnimation(dir);
 		scene.changePlayerImage();
@@ -104,7 +92,6 @@ public class MainController {
 	}
 	
 	private void moveNPCs(Direction dir) {
-		
 		for(NPC npc : npcs) {
 			npc.moveViewLocationWithBackground(dir);
 			moveNPCViewWithScreen(npc);
@@ -113,12 +100,6 @@ public class MainController {
 	
 	public void setFullScreen(boolean isFullScreen) {
 		appController.setFullScreen(isFullScreen);
-	}
-	
-	public void setNPCViewLocation(NPC npc) {
-		
-		moveNPCViewWithScreen(npc);
-		
 	}
 	
 	public void switchNPCImage(NPC npc, String url) {
@@ -137,14 +118,13 @@ public class MainController {
 	}
 	
 	private void resizeNPCLocation() {
-		
 		for(NPC npc : npcs) {
 			moveNPCViewWithScreen(npc);
 		}
 	}
 	
 	@SuppressWarnings("static-access")
-	private void moveNPCViewWithScreen(NPC npc) {
+	public void moveNPCViewWithScreen(NPC npc) {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
@@ -187,89 +167,23 @@ public class MainController {
 		return false;
 	}
 	
-	// -------------------------- Listeners --------------------------- //
-	
-	private AnimationTimer timer = new AnimationTimer() {
-		@Override
-		public void handle(long timestamp) {
-			
-			if(leftPressed.get()){
-				moveBackground(Direction.EAST);
-				if(!player.getURL().equals("Images/Fox/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
-					setPlayerImage(Direction.EAST);
-				}
-			}
-			if(rightPressed.get()){
-				moveBackground(Direction.WEST);
-				if(!player.getURL().equals("Images/Fox/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
-					setPlayerImage(Direction.WEST);
-				}
-			}
-			if(upPressed.get()) {
-				moveBackground(Direction.SOUTH);
-				if(!player.getURL().equals("Images/Fox/FoxBackRunning.gif")) {
-					setPlayerImage(Direction.SOUTH);
-				}
-
-			}
-			if(downPressed.get()){
-				moveBackground(Direction.NORTH);
-				if(!player.getURL().equals("Images/Fox/FoxRunning.gif")) {
-					setPlayerImage(Direction.NORTH);
-				}
-			}
-		}
-	};
-	
-	private void addKeyPressedListener() {
-		 keyPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
-            	timer.start();
-			 } else {	                
-            	setPlayerStandingStillAnimation(movingDirection);
-        		timer.stop();
-			 }
-		 }));
-		 
-		 upPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
-				 setPlayerImage(Direction.SOUTH);
-			 } 
-		 }));
-		 downPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
-				 setPlayerImage(Direction.NORTH);
-			 } 
-		 }));
-		 rightPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
-				 setPlayerImage(Direction.WEST);
-			 } 
-		 }));
-		 leftPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
-				 setPlayerImage(Direction.EAST);
-			 } 
-		 }));
-	}
+	// -------------------- Getters & Setters --------------------
 	
 	public BooleanProperty getUpPressed() {
-		return upPressed;
+		return movementController.getUpPressed();
 	}
 	
 	public BooleanProperty getLeftPressed() {
-		return leftPressed;
+		return movementController.getLeftPressed();
 	}
 	
 	public BooleanProperty getDownPressed() {
-		return downPressed;
+		return movementController.getDownPressed();
 	}
 	
 	public BooleanProperty getRightPressed() {
-		return rightPressed;
+		return movementController.getRightPressed();
 	}
-	
-	// --------------------
 	
 	public MainScene getMainScene() {
 		return scene;
@@ -289,6 +203,14 @@ public class MainController {
 	
 	public FileIO getFileIO() {
 		return fileIO;
+	}
+	
+	public void setMovingDirection(Direction dir) {
+		movingDirection = dir;
+	}
+	
+	public Direction getMovingDirection() {
+		return movingDirection;
 	}
 	
 }
