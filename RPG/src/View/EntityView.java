@@ -46,4 +46,8 @@ public abstract class EntityView extends BorderPane {
 		setCenter(imageView);
 	}
 	
+	public ImageView getImageView() {
+		return imageView;
+	}
+	
 }

@@ -15,6 +15,8 @@ public class NPC extends Entity {
 	private String name;
 	private boolean running;
 	
+	private Location viewLocation;
+	
 	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, String name) {
 		super(imageURL);
 		
@@ -31,9 +33,10 @@ public class NPC extends Entity {
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, MainController controller) {
+	public NPC(String imageURL, Location startLocation, MainController controller, String name) {
 		super(imageURL);
 		this.startLocation = startLocation;
+		this.name = name;
 	}
 	
 	private void setUpEndLocation(Direction direction) {
@@ -59,17 +62,6 @@ public class NPC extends Entity {
 			endLocation.setY(y); 
 			break;
 		}
-	}
-
-	public void moveWithBackground(Direction direction) {
-		
-		startLocation.setX(startLocation.getX() + direction.getX()); 
-		startLocation.setY(startLocation.getY() + direction.getY()); 
-		
-		endLocation.setX(endLocation.getX() + direction.getX()); 
-		endLocation.setY(endLocation.getY() + direction.getY()); 
-		
-		move(direction);
 	}
 	
 	@Override
@@ -118,6 +110,11 @@ public class NPC extends Entity {
 		controller.switchNPCImage(this, url);
 	}
 	
+	public void moveViewLocationWithBackground(Direction dir) {
+		viewLocation.setX(viewLocation.getX() + dir.getX());
+		viewLocation.setY(viewLocation.getY() + dir.getY());
+	}
+	
 	private void switchStartAndEndLocations() {
 		int tempX = startLocation.getX();
 		int tempY = startLocation.getY();
@@ -138,9 +135,12 @@ public class NPC extends Entity {
 		}
 		location.setX(getX() + walkDirection.getX()); 
 		location.setY(getY() + walkDirection.getY()); 
+		
+		viewLocation.setX(viewLocation.getX() + walkDirection.getX()); 
+		viewLocation.setY(viewLocation.getY() + walkDirection.getY()); 
 	}
 	
-	public void setUpThread(Direction dir) {
+	public void setUpThread() {
 		
 		Thread walkingThread = new Thread(() -> {
 			
@@ -185,6 +185,14 @@ public class NPC extends Entity {
 	
 	public String getName() {
 		return name;
+	}
+
+	public Location getViewLocation() {
+		return viewLocation;
+	}
+
+	public void setViewLocation(Location viewLocation) {
+		this.viewLocation = viewLocation;
 	}
 
 }

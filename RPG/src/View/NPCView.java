@@ -7,4 +7,11 @@ public class NPCView extends EntityView {
 		move(startX, startY);
 	}
 
+	public void fixImage() {
+		int fixX = (int) (getLayoutX() - imageView.getFitWidth()/2);
+		int fixY = (int) (getLayoutY() - imageView.getFitHeight()/2);
+		
+		move(fixX, fixY);
+	}
+
 }

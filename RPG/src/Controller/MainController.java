@@ -62,10 +62,13 @@ public class MainController {
 		npcs.add(tempNPCTwo);
 		
 		for(NPC npc : npcs) {
-			NPCView NPCView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
-			scene.addNPCView(NPCView);
-			npcsWithViews.put(npc, NPCView);
-			npc.setUpThread(npc.getWalkDirection());
+			NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
+			npcView.fixImage();
+			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
+			
+			scene.addNPCView(npcView);
+			npcsWithViews.put(npc, npcView);
+			npc.setUpThread();
 		}
 		
 	}
@@ -100,18 +103,11 @@ public class MainController {
 		}
 	}
 	
-	@SuppressWarnings("static-access")
 	private void moveNPCs(Direction dir) {
-		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
-		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
 		for(NPC npc : npcs) {
-			npc.moveWithBackground(dir);
-			NPCView npcView = npcsWithViews.get(npc);
-			if(appController.isFullScreen()) {
-				npcView.move(npc.getX() + screenXDiffernce, npc.getY() + screenYDiffernce);
-			} else {
-				npcView.move(npc.getX(), npc.getY());
-			}
+			npc.moveViewLocationWithBackground(dir);
+			moveNPCViewWithScreen(npc);
 		}
 	}
 	
@@ -119,14 +115,10 @@ public class MainController {
 		appController.setFullScreen(isFullScreen);
 	}
 	
-	@SuppressWarnings("static-access")
 	public void setNPCViewLocation(NPC npc) {
-		if(appController.isFullScreen()) {
-			npcsWithViews.get(npc).move(npc.getX() + (int) scene.getWidth()/2 - scene.SCENEWIDTH/2, 
-					npc.getY() + (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2);
-		} else {
-			npcsWithViews.get(npc).move(npc.getX(), npc.getY());
-		}
+		
+		moveNPCViewWithScreen(npc);
+		
 	}
 	
 	public void switchNPCImage(NPC npc, String url) {
@@ -139,33 +131,32 @@ public class MainController {
 	}
 	
 	public void resizeBackgroundAndNPCLocation() {
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+		if(npcs != null)
+			resizeNPCLocation();
+	}
+	
+	private void resizeNPCLocation() {
 		
-		boolean isFullScreen = appController.isFullScreen();
-		
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), isFullScreen);
-		resizeNPCLocation(isFullScreen);
-		
+		for(NPC npc : npcs) {
+			moveNPCViewWithScreen(npc);
+		}
 	}
 	
 	@SuppressWarnings("static-access")
-	private void resizeNPCLocation(boolean isFullScreen) {
-		
+	private void moveNPCViewWithScreen(NPC npc) {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
-		for(NPC npc : npcs) {
-			NPCView npcView = npcsWithViews.get(npc);
-			if(isFullScreen) {
-				npcView.move(npc.getX() + screenXDiffernce, npc.getY() + screenYDiffernce);
-			} else {
-				npcView.move(npc.getX(), npc.getY());
-			}
-			System.out.println(npc.getX() + " " + npc.getY());
+		NPCView npcView = npcsWithViews.get(npc);
+		if(appController.isFullScreen()) {
+			npcView.move(npc.getViewLocation().getX() + screenXDiffernce, npc.getViewLocation().getY() + screenYDiffernce);
+		} else {
+			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
 		}
 	}
 	
 	public void playerInteract() {
-		System.out.println(player.getX() + " " + player.getY());
 		NPC nearbyNPC = getNearbyNPC();
 		if(nearbyNPC != null) {			
 			player.talkToNPC(nearbyNPC);
@@ -174,18 +165,25 @@ public class MainController {
 	
 	private NPC getNearbyNPC() {
 		for(NPC npc : npcs) {
-			if(hasNPCInDirection(npc)) {
+			if(hasNPCNearby(npc)) {
 				return npc;
 			}
 		}
 		return null;
 	}
 
-	private boolean hasNPCInDirection(NPC npc) {
-		if((npc.getX() <= (player.getX() + movingDirection.getX() * 2) && npc.getX() <= (player.getX() - movingDirection.getX() * 2)) 
-				|| (npc.getY() <= (player.getY() + movingDirection.getY() * 2) && npc.getY() <= (player.getY() - movingDirection.getY() * 2))) {
+	private boolean hasNPCNearby(NPC npc) {
+		int multiplier = 12;
+		
+		if((player.getX() >= npc.getX() - movingDirection.getX() * multiplier) 
+				&& (player.getX() <= npc.getX() + movingDirection.getX() * multiplier)) {
 			return true;
 		}
+		if((player.getY() >= npc.getY() - movingDirection.getY() * multiplier) 
+				&& (player.getY() <= npc.getY() + movingDirection.getY() * multiplier)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
