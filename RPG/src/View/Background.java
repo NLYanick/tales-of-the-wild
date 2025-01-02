@@ -44,6 +44,8 @@ public class Background extends Pane {
 	}
 	
 	private ImageView makeImageView(int x, int y, String url) {
+		int standardImageSize = 128;
+		
 		Image img = new Image(url);
 		ImageView imgView = new ImageView(img);
 		
@@ -51,10 +53,10 @@ public class Background extends Pane {
 		imgView.setFitHeight(img.getHeight());
 		
 		imgView.setLayoutX(imgView.getFitWidth() * x);
-		if(img.getWidth() == 128 && img.getHeight() == 128) {
+		if(img.getWidth() == standardImageSize && img.getHeight() == standardImageSize) {
 			imgView.setLayoutY(imgView.getFitWidth() * y);
 		} else {
-			imgView.setLayoutY(128 * y);
+			imgView.setLayoutY(standardImageSize * y);
 		}
 		
 		return imgView;

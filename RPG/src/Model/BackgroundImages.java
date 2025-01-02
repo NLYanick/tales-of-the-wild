@@ -8,64 +8,68 @@ public class BackgroundImages {
 	private static final String GRASSPATH = "Images/Background/Grass/";
 	private static final String WATERPATH = "Images/Background/Water/";
 	
-	private HashMap<String, String> images;
+	private HashMap<Integer, Image> images;
 	
 	public BackgroundImages() {
-		images = new HashMap<String, String>();
+		images = new HashMap<Integer, Image>();
 		setUpImages();
 	}
 	
-	public String getImageUrl(String key) {
+	public Image getImage(int key) {
 		return images.get(key);
 	}
 
 	private void setUpImages() {
 		
-		images.put("0", WATERPATH.concat("Water.png"));
-		images.put("1", WATERPATH.concat("WaterGrassTopBottom.png"));
-		images.put("2", WATERPATH.concat("WaterGrassTopBottom.png SOUTH"));
-		images.put("3", WATERPATH.concat("WaterGrassSides.png"));
-		images.put("4", WATERPATH.concat("WaterGrassSides.png SOUTH"));
-		images.put("5", WATERPATH.concat("WaterGrassCorner.png"));
-		images.put("6", WATERPATH.concat("WaterGrassCorner.png SOUTH"));
-		images.put("7", WATERPATH.concat("WaterGrassCornerReversed.png"));
-		images.put("8", WATERPATH.concat("WaterGrassCornerReversed.png SOUTH"));
-		images.put("9", WATERPATH.concat("WaterGrassSidesAndTopBottom.png"));
-		images.put("10", WATERPATH.concat("WaterGrassSidesAndTopBottom.png SOUTH"));
-		images.put("11", WATERPATH.concat("WaterGrassSidesAndTopBottomReversed.png"));
-		images.put("12", WATERPATH.concat("WaterGrassSidesAndTopBottomReversed.png SOUTH"));
-		images.put("13", WATERPATH.concat("StoneBridge.png"));
-		images.put("14", WATERPATH.concat("StoneBridgeRailing.png"));
-		images.put("15", WATERPATH.concat("StoneBridgeRailing.png SOUTH"));
-		images.put("16", WATERPATH.concat("StoneBridgeRailingSide.png"));
-		images.put("17", WATERPATH.concat("StoneBridgeRailingSide.png SOUTH"));
-		images.put("18", WATERPATH.concat("WoodenBridge.png"));
-		images.put("19", WATERPATH.concat("WoodenBridge.png EAST"));
-		images.put("20", WATERPATH.concat("WoodenBridgeRailing.png"));
-		images.put("21", WATERPATH.concat("WoodenBridgeRailing.png EAST"));
-		images.put("22", WATERPATH.concat("WoodenBridgeRailing.png SOUTH"));
-		images.put("23", WATERPATH.concat("WoodenBridgeRailing.png WEST"));
-		images.put("24", WATERPATH.concat("WoodenBridgeRailingWater.png"));
-		images.put("25", WATERPATH.concat("WoodenBridgeRailingWater.png SOUTH"));
-		images.put("26", WATERPATH.concat("WoodenBridgeRailingWaterSide.png"));
-		images.put("27", WATERPATH.concat("WoodenBridgeRailingWaterSide.png SOUTH"));
+		images.put(0, new Image(WATERPATH.concat("Water.png"), false));
+		images.put(1, new Image(WATERPATH.concat("WaterGrassTopBottom.png"), false));
+		images.put(2, new Image(WATERPATH.concat("WaterGrassTopBottom.png SOUTH"), false));
+		images.put(3, new Image(WATERPATH.concat("WaterGrassSides.png"), false));
+		images.put(4, new Image(WATERPATH.concat("WaterGrassSides.png SOUTH"), false));
+		images.put(5, new Image(WATERPATH.concat("WaterGrassCorner.png"), false));
+		images.put(6, new Image(WATERPATH.concat("WaterGrassCorner.png SOUTH"), false));
+		images.put(7, new Image(WATERPATH.concat("WaterGrassCornerReversed.png"), false));
+		images.put(8, new Image(WATERPATH.concat("WaterGrassCornerReversed.png SOUTH"), false));
+		images.put(9, new Image(WATERPATH.concat("WaterGrassSidesAndTopBottom.png"), false));
+		images.put(10, new Image(WATERPATH.concat("WaterGrassSidesAndTopBottom.png SOUTH"), false));
+		images.put(11, new Image(WATERPATH.concat("WaterGrassSidesAndTopBottomReversed.png"), false));
+		images.put(12, new Image(WATERPATH.concat("WaterGrassSidesAndTopBottomReversed.png SOUTH"), false));
+		images.put(13, new Image(WATERPATH.concat("StoneBridge.png"), false));
+		images.put(14, new Image(WATERPATH.concat("StoneBridgeRailing.png"), false));
+		images.put(15, new Image(WATERPATH.concat("StoneBridgeRailing.png SOUTH"), false));
+		images.put(16, new Image(WATERPATH.concat("StoneBridgeRailingSide.png"), false));
+		images.put(17, new Image(WATERPATH.concat("StoneBridgeRailingSide.png SOUTH"), false));
+		images.put(18, new Image(WATERPATH.concat("WoodenBridge.png"), false));
+		images.put(19, new Image(WATERPATH.concat("WoodenBridge.png EAST"), false));
+		images.put(20, new Image(WATERPATH.concat("WoodenBridgeRailing.png"), false));
+		images.put(21, new Image(WATERPATH.concat("WoodenBridgeRailing.png EAST"), false));
+		images.put(22, new Image(WATERPATH.concat("WoodenBridgeRailing.png SOUTH"), false));
+		images.put(23, new Image(WATERPATH.concat("WoodenBridgeRailing.png WEST"), false));
+		images.put(24, new Image(WATERPATH.concat("WoodenBridgeRailingWater.png"), false));
+		images.put(25, new Image(WATERPATH.concat("WoodenBridgeRailingWater.png SOUTH"), false));
+		images.put(26, new Image(WATERPATH.concat("WoodenBridgeRailingWaterSide.png"), false));
+		images.put(27, new Image(WATERPATH.concat("WoodenBridgeRailingWaterSide.png SOUTH"), false));
 		
-		images.put("28", GRASSPATH.concat("Grass.png"));
-		images.put("29", GRASSPATH.concat("PathUp.png"));
-		images.put("30", GRASSPATH.concat("PathSide.png"));
-		images.put("31", GRASSPATH.concat("PathCross.png"));
-		images.put("32", GRASSPATH.concat("PathTUp.png"));
-		images.put("33", GRASSPATH.concat("PathTLeft.png"));
-		images.put("34", GRASSPATH.concat("PathTDown.png"));
-		images.put("35", GRASSPATH.concat("PathTRight.png"));
-		images.put("36", GRASSPATH.concat("PathUpEndUp.png"));
-		images.put("37", GRASSPATH.concat("PathUpEndDown.png"));
-		images.put("38", GRASSPATH.concat("PathSideEndLeft.png"));
-		images.put("39", GRASSPATH.concat("PathSideEndRight.png"));
-		images.put("40", GRASSPATH.concat("OakTree.png"));
+		images.put(28, new Image(GRASSPATH.concat("Grass.png"), true));
+		images.put(29, new Image(GRASSPATH.concat("PathUp.png"), false));
+		images.put(30, new Image(GRASSPATH.concat("PathSide.png"), false));
+		images.put(31, new Image(GRASSPATH.concat("PathCross.png"), false));
+		images.put(32, new Image(GRASSPATH.concat("PathTUp.png"), false));
+		images.put(33, new Image(GRASSPATH.concat("PathTLeft.png"), false));
+		images.put(34, new Image(GRASSPATH.concat("PathTDown.png"), false));
+		images.put(35, new Image(GRASSPATH.concat("PathTRight.png"), false));
+		images.put(36, new Image(GRASSPATH.concat("PathUpEndUp.png"), false));
+		images.put(37, new Image(GRASSPATH.concat("PathUpEndDown.png"), false));
+		images.put(38, new Image(GRASSPATH.concat("PathSideEndLeft.png"), false));
+		images.put(39, new Image(GRASSPATH.concat("PathSideEndRight.png"), false));
+		images.put(40, new Image(GRASSPATH.concat("OakTree.png"), false));
 		
-		images.put("41", PATH.concat("BlueTent.png"));
+		images.put(41, new Image(PATH.concat("BlueTent.png"), false));
 		
+	}
+	
+	public HashMap<Integer, Image> getAllImages() {
+		return images;
 	}
 	
 }

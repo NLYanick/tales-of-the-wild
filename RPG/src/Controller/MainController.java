@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import Model.BackgroundLocation;
 import Model.Direction;
+import Model.Image;
 import Model.Location;
 import Model.NPC;
 import Model.Player;
@@ -66,11 +67,58 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		backgroundLocation.move(dir);
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
-		moveNPCs(dir);
+		if(playerCanWalk()) {
+			backgroundLocation.move(dir);
+			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+			moveNPCs(dir);
+			
+			player.move(Direction.getOpposite(dir));
+		}
+	}
+	
+	private boolean playerCanWalk() {
+		ArrayList<Image> backgroundImages = fileIO.getImagesInFile();
 		
-		player.move(Direction.getOpposite(dir));
+		for(Image img : backgroundImages) {
+			if(img.canWalkOn() && playerIsOnImage(img)) {
+				return true;
+			}
+			else if (!img.canWalkOn() && playerIsOnImage(img) && !playerIsWalkingToImage(img)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean playerIsOnImage(Image img) {
+		int extraSpace = 127;
+		int nextStepX = player.getX() + movingDirection.getX();
+		int nextStepY = player.getY() + movingDirection.getY();
+//		return (player.getX() >= img.getX()
+//				&& player.getY() >= img.getY())
+//				&& (player.getX() <= img.getX() + extraSpace
+//				&& player.getY() <= img.getY() + extraSpace);
+		return (nextStepX >= img.getX()
+				&& nextStepY >= img.getY())
+				&& (nextStepX <= img.getX() + extraSpace
+				&& nextStepY <= img.getY() + extraSpace);
+	}
+	
+	private boolean playerIsWalkingToImage(Image img) {
+		int extraSpace = 127;
+		int imageWidth = img.getX() + extraSpace;
+		int imageHeight = img.getY() + extraSpace;
+		
+		boolean isWalkingToImage = (player.getX() + movingDirection.getX() >= img.getX()
+			&& player.getY() + movingDirection.getY() >= img.getY())
+			&& (player.getX() + movingDirection.getX() <= imageWidth
+			&& player.getY() + movingDirection.getY() <= imageHeight);
+//		boolean isWalkingToImage = (player.getX() + movingDirection.getX() >= img.getX()
+//				&& player.getY() + movingDirection.getY() >= img.getY())
+//				&& (player.getX() + movingDirection.getX() <= imageWidth
+//				&& player.getY() + movingDirection.getY() <= imageHeight);
+		return isWalkingToImage;
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {

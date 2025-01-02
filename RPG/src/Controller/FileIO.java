@@ -5,9 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.BackgroundImages;
 import Model.Direction;
+import Model.Image;
+import Model.Location;
 import View.Background;
 
 public class FileIO {
@@ -17,12 +21,16 @@ public class FileIO {
 	private Background background;
 	private BackgroundImages backgroundImages;
 	
-	private int layer = -4;
+	private int imagesUp = 4;
+	private int layer = -imagesUp;
 	private int imagesToLeft = 6;
 	
-	public FileIO() {;
+	private ArrayList<Image> imagesInFile;
+	
+	public FileIO() {
 		background = new Background();
 		backgroundImages = new BackgroundImages();
+		imagesInFile = new ArrayList<Image>();
 	}
 	
 	public void readText(File file) {
@@ -45,7 +53,7 @@ public class FileIO {
 				line = readLine.split(" ");
 			}
 			br.close();
-			background.setSize(longestLine, layer);
+			background.setSize(longestLine, layer + imagesUp);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -56,14 +64,40 @@ public class FileIO {
 	private void loadBackground(String[] line, int i) {
 		if(!line[i].equals("-1")) {
 			int xLocation = i - imagesToLeft;
-			String[] imageUrl = backgroundImages.getImageUrl(line[i]).split(" ");
+			Image bgImage = makeNewImage(backgroundImages.getImage(Integer.parseInt(line[i])));
+			String[] imageUrl = bgImage.getUrl().split(" ");
+			
 			if(imageUrl.length > 1) {
-				Direction direction = Direction.valueOf(imageUrl[1]);
-				background.placeBackground(xLocation, layer, imageUrl[0], direction);
+				background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
 			} else {
 				background.placeBackground(xLocation, layer, imageUrl[0]);
 			}
+			
+			setImageLocation(bgImage, xLocation);
+			imagesInFile.add(bgImage);
 		}
+	}
+	
+	private Image makeNewImage(Image image) {
+		Image newImage = new Image(image.getUrl(), image.canWalkOn());
+		newImage.setLocation(image.getLocation());
+		return newImage;
+	}
+	
+	private void setImageLocation(Image image, int xLocation) {
+		int standardImageSize = 128;
+		int y = standardImageSize * layer;
+		int x = standardImageSize * xLocation;
+
+		image.setLocation(new Location(x, y));
+	}
+	
+	public HashMap<Integer, Image> getAllBackgroundImages() {
+		return backgroundImages.getAllImages();
+	}
+	
+	public ArrayList<Image> getImagesInFile() {
+		return imagesInFile;
 	}
 
 	public Background getBackground() {
