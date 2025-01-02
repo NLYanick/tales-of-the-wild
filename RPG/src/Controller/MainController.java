@@ -158,21 +158,17 @@ public class MainController {
 		boolean hasNearby = false;
 		Direction direction = getGoodNPCCheckDirection(movingDirection);
 		Direction nextDirection = Direction.getNext(direction);
-		
+
 		if(Direction.isHorizontal(movingDirection)) {
 			
 			if(movingDirection == Direction.EAST) {
-				if((player.getX() >= npc.getX()) 
-						&& (player.getX() <= npc.getX() + direction.getX() * multiplier)
-					&&((player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
-						&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier))) {
+				if((player.getX() >= npc.getX()) && (player.getX() <= npc.getX() + direction.getX() * multiplier)
+					&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
 					hasNearby = true;
 				}
 			} else if(movingDirection == Direction.WEST) {
-				if((player.getX() >= npc.getX() - direction.getX() * multiplier) 
-						&& (player.getX() <= npc.getX())
-					&&((player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
-						&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier))) {
+				if((player.getX() >= npc.getX() - direction.getX() * multiplier) && (player.getX() <= npc.getX())
+					&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
 					hasNearby = true;
 				}
 			}
@@ -180,17 +176,13 @@ public class MainController {
 		} else if(Direction.isVertical(movingDirection)) {
 			
 			if(movingDirection == Direction.NORTH) {
-				if((player.getX() >= npc.getX() + nextDirection.getX() * multiplier) 
-						&& (player.getX() <= npc.getX() - nextDirection.getX() * multiplier)
-					&&((player.getY() >= npc.getY() - direction.getY() * multiplier) 
-						&& (player.getY() <= npc.getY()))) {
+				if(((player.getY() >= npc.getY() - direction.getY() * multiplier) && (player.getY() <= npc.getY()))
+						&& playerXIsNearNPCX(npc, nextDirection, multiplier)) {
 					hasNearby = true;
 				}
 			} else if(movingDirection == Direction.SOUTH) {
-				if((player.getX() >= npc.getX() + nextDirection.getX() * multiplier) 
-						&& (player.getX() <= npc.getX() - nextDirection.getX() * multiplier)
-					&&((player.getY() >= npc.getY()) 
-						&& (player.getY() <= npc.getY() + direction.getY() * multiplier))) {
+				if((player.getY() >= npc.getY()) && (player.getY() <= npc.getY() + direction.getY() * multiplier)
+					&& playerXIsNearNPCX(npc, nextDirection, multiplier)) {
 					hasNearby = true;
 				}
 			}
@@ -204,6 +196,16 @@ public class MainController {
 			dir = Direction.getOpposite(dir);
 		}
 		return dir;
+	}
+	
+	private boolean playerXIsNearNPCX(NPC npc, Direction nextDirection, int multiplier) {
+		return (player.getX() >= npc.getX() + nextDirection.getX() * multiplier) 
+		&& (player.getX() <= npc.getX() - nextDirection.getX() * multiplier);
+	}
+	
+	private boolean playerYIsNearNPCY(NPC npc, Direction nextDirection, int multiplier) {
+		return (player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
+				&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier);
 	}
 	
 	// -------------------- Getters & Setters --------------------
