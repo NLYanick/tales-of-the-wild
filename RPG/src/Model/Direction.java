@@ -30,4 +30,26 @@ public enum Direction {
 			default: return direction;
 		}
 	}
+	
+	public static Direction getNext(Direction direction) {
+		switch(direction) {
+			case NORTH: 
+				return EAST;
+			case EAST: 
+				return SOUTH;
+			case SOUTH: 
+				return WEST;
+			case WEST: 
+				return NORTH;
+			default: return direction;
+		}
+	}
+	
+	public static boolean isHorizontal(Direction dir) {
+		return dir == EAST || dir == WEST;
+	}
+	
+	public static boolean isVertical(Direction dir) {
+		return dir == NORTH || dir == SOUTH;
+	}
 }

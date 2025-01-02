@@ -174,7 +174,7 @@ public class MainScene extends Scene {
 					controller.setMovingDirection(Direction.EAST);
 					controller.getLeftPressed().set(false);
 					break;
-				default: System.out.println("Input not valid");
+				default:
 			}
 		}
 	}
