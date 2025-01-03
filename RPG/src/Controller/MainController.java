@@ -67,7 +67,7 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		if(playerCanWalk()) {
+		if(playerCanWalk(dir)) {
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
@@ -76,11 +76,11 @@ public class MainController {
 		}
 	}
 	
-	private boolean playerCanWalk() {
+	private boolean playerCanWalk(Direction dir) {
 		ArrayList<Image> backgroundImages = fileIO.getImagesInFile();
 		
 		for(Image img : backgroundImages) {
-			if(nextStepIsOnImage(img) && img.canWalkOn()) {
+			if(nextStepIsOnImage(img, dir) && img.canWalkOn()) {
 				return true;
 			}
 		}
@@ -88,17 +88,12 @@ public class MainController {
 		return false;
 	}
 	
-	private boolean nextStepIsOnImage(Image img) {
+	private boolean nextStepIsOnImage(Image img, Direction dir) {
 		int extraSpace = 127;
-		Direction opposite = Direction.getOpposite(movingDirection);
+		Direction opposite = Direction.getOpposite(dir);
 		int nextStepX = player.getX() + opposite.getX();
 		int nextStepY = player.getY() + opposite.getY();
-		if(img.getY() + extraSpace == 127) {
-			System.out.println(player.getY());
-			System.out.println(nextStepY);
-			System.out.println(img.getY() + extraSpace);
-			System.out.println();
-		}
+		
 		return (nextStepX >= img.getX()
 				&& nextStepY >= img.getY())
 				&& (nextStepX <= img.getX() + extraSpace

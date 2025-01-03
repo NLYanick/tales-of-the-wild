@@ -136,19 +136,15 @@ public class MainScene extends Scene {
 	private void handleMovementPressed(KeyEvent e) {
 		switch(e.getCode()) {
 			case UP:
-				controller.setMovingDirection(Direction.SOUTH);
 				controller.getUpPressed().set(true);
 				break;
 			case DOWN:
-				controller.setMovingDirection(Direction.NORTH);
 				controller.getDownPressed().set(true);
 				break;
 			case RIGHT:
-				controller.setMovingDirection(Direction.WEST);
 				controller.getRightPressed().set(true);
 				break;
 			case LEFT:
-				controller.setMovingDirection(Direction.EAST);
 				controller.getLeftPressed().set(true);
 				break;
 			default: System.out.println("Input not valid");

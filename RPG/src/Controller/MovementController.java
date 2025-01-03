@@ -32,25 +32,28 @@ public class MovementController {
 			
 			if(leftPressed.get()){
 				controller.moveBackground(Direction.EAST);
+				controller.setMovingDirection(Direction.EAST);
 				if(!player.getURL().equals("Images/Fox/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					controller.setPlayerImage(Direction.EAST);
 				}
 			}
 			if(rightPressed.get()){
 				controller.moveBackground(Direction.WEST);
+				controller.setMovingDirection(Direction.WEST);
 				if(!player.getURL().equals("Images/Fox/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					controller.setPlayerImage(Direction.WEST);
 				}
 			}
 			if(upPressed.get()) {
 				controller.moveBackground(Direction.SOUTH);
+				controller.setMovingDirection(Direction.SOUTH);
 				if(!player.getURL().equals("Images/Fox/FoxBackRunning.gif")) {
 					controller.setPlayerImage(Direction.SOUTH);
 				}
-
 			}
 			if(downPressed.get()){
 				controller.moveBackground(Direction.NORTH);
+				controller.setMovingDirection(Direction.NORTH);
 				if(!player.getURL().equals("Images/Fox/FoxRunning.gif")) {
 					controller.setPlayerImage(Direction.NORTH);
 				}
@@ -61,10 +64,10 @@ public class MovementController {
 	private void addKeyPressedListener() {
 		 keyPressed.addListener(((observableValue, isPressed, t1) -> {
 			 if(!isPressed){
-            	timer.start();
+				 timer.start();
 			 } else {	                
 				 controller.setPlayerStandingStillAnimation(controller.getMovingDirection());
-        		timer.stop();
+				 timer.stop();
 			 }
 		 }));
 		 
