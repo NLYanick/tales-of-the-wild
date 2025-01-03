@@ -26,6 +26,8 @@ public abstract class EntityView extends BorderPane {
 		imageView.setFitWidth(IMAGESIZE);
 		imageView.setFitHeight(IMAGESIZE);
 		
+		imageView.setTranslateY(-30);
+		
 		setCenter(imageView);
 	}
 

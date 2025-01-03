@@ -7,3 +7,8 @@ Menu toevoegen
 
 Code Smells:
 switch statements naar Strategie pattern
+
+
+
+Kan mogelijk dingen breken:
+EntityView --> imageView.setTranslateY(-30);
