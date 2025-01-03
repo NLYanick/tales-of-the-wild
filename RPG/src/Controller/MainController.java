@@ -80,10 +80,7 @@ public class MainController {
 		ArrayList<Image> backgroundImages = fileIO.getImagesInFile();
 		
 		for(Image img : backgroundImages) {
-			if(img.canWalkOn() && playerIsOnImage(img)) {
-				return true;
-			}
-			else if (!img.canWalkOn() && playerIsOnImage(img) && !playerIsWalkingToImage(img)) {
+			if(nextStepIsOnImage(img) && img.canWalkOn()) {
 				return true;
 			}
 		}
@@ -91,34 +88,21 @@ public class MainController {
 		return false;
 	}
 	
-	private boolean playerIsOnImage(Image img) {
+	private boolean nextStepIsOnImage(Image img) {
 		int extraSpace = 127;
-		int nextStepX = player.getX() + movingDirection.getX();
-		int nextStepY = player.getY() + movingDirection.getY();
-//		return (player.getX() >= img.getX()
-//				&& player.getY() >= img.getY())
-//				&& (player.getX() <= img.getX() + extraSpace
-//				&& player.getY() <= img.getY() + extraSpace);
+		Direction opposite = Direction.getOpposite(movingDirection);
+		int nextStepX = player.getX() + opposite.getX();
+		int nextStepY = player.getY() + opposite.getY();
+		if(img.getY() + extraSpace == 127) {
+			System.out.println(player.getY());
+			System.out.println(nextStepY);
+			System.out.println(img.getY() + extraSpace);
+			System.out.println();
+		}
 		return (nextStepX >= img.getX()
 				&& nextStepY >= img.getY())
 				&& (nextStepX <= img.getX() + extraSpace
 				&& nextStepY <= img.getY() + extraSpace);
-	}
-	
-	private boolean playerIsWalkingToImage(Image img) {
-		int extraSpace = 127;
-		int imageWidth = img.getX() + extraSpace;
-		int imageHeight = img.getY() + extraSpace;
-		
-		boolean isWalkingToImage = (player.getX() + movingDirection.getX() >= img.getX()
-			&& player.getY() + movingDirection.getY() >= img.getY())
-			&& (player.getX() + movingDirection.getX() <= imageWidth
-			&& player.getY() + movingDirection.getY() <= imageHeight);
-//		boolean isWalkingToImage = (player.getX() + movingDirection.getX() >= img.getX()
-//				&& player.getY() + movingDirection.getY() >= img.getY())
-//				&& (player.getX() + movingDirection.getX() <= imageWidth
-//				&& player.getY() + movingDirection.getY() <= imageHeight);
-		return isWalkingToImage;
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
