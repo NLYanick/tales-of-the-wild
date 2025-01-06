@@ -8,6 +8,8 @@ public class BackgroundImages {
 	private static final String GRASSPATH = "Images/Background/Grass/";
 	private static final String WATERPATH = "Images/Background/Water/";
 	
+	public static final int MAXNUMBER = 41;
+	
 	private HashMap<Integer, Image> images;
 	
 	public BackgroundImages() {

@@ -52,12 +52,8 @@ public class Background extends Pane {
 		imgView.setFitWidth(img.getWidth());
 		imgView.setFitHeight(img.getHeight());
 		
-		imgView.setLayoutX(imgView.getFitWidth() * x);
-		if(img.getWidth() == standardImageSize && img.getHeight() == standardImageSize) {
-			imgView.setLayoutY(imgView.getFitWidth() * y);
-		} else {
-			imgView.setLayoutY(standardImageSize * y);
-		}
+		imgView.setLayoutX(standardImageSize * x);
+		imgView.setLayoutY(standardImageSize * y);
 		
 		return imgView;
 	}

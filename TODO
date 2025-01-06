@@ -1,13 +1,15 @@
 Background maken 
 Met NPC's kunnen interacten
+NPC plaatjes mogen niet mee gaan
 Items toevoegen
 Inventory toevoegen
 Menu toevoegen
-(Database toevoegen)
+Database toevoegen
+(Voor development) iets van een teleport of als je standaard coördinaten instelt het daar naar toe gaat
+
 
 Code Smells:
 switch statements naar Strategie pattern
-
 
 
 Kan mogelijk dingen breken:
