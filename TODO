@@ -1,5 +1,6 @@
 Background maken 
 Met NPC's kunnen interacten
+Background moet meegaan als je andere player locatie instelt
 NPC plaatjes mogen niet mee gaan
 Items toevoegen
 Inventory toevoegen
@@ -14,3 +15,7 @@ switch statements naar Strategie pattern
 
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
+
+
+TODO Images:
+Bloemen, Huizen, NPC's
