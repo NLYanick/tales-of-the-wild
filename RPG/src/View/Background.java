@@ -18,6 +18,7 @@ public class Background extends Pane {
 	public void move(int x, int y) {
 		setLayoutX(x);
 		setLayoutY(y);
+//		System.out.println(x + " " + y);
 	}
 	
 	public void placeBackground(int x, int y, String url, Direction dir) {

@@ -17,6 +17,8 @@ import javafx.beans.property.BooleanProperty;
 
 public class MainController {
 
+	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350 ;
+	
 	private BackgroundLocation backgroundLocation;
 	private Player player;
 	
@@ -37,6 +39,9 @@ public class MainController {
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
+//		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(1100, 3400));
+////		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
+//		backgroundLocation = new BackgroundLocation(player.getX() - BACKGROUND_PLAYER_DIFFERENCE, player.getY() - 350);
 		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
 		backgroundLocation = new BackgroundLocation(0, 0);
 		
@@ -49,7 +54,7 @@ public class MainController {
 		npcs = new ArrayList<NPC>();
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		
-		NPC tempNPC = new NPC("Images/NPCs/TempCharacter.png", new Location(1100, 3350), Direction.WEST, this, "TempCharacter");
+		NPC tempNPC = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw");
 		npcs.add(tempNPC);
 		
 		for(NPC npc : npcs) {
