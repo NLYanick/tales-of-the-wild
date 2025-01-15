@@ -39,8 +39,7 @@ public class MainController {
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(3400, 700));
-//		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
+		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
 		backgroundLocation = new BackgroundLocation(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE, -player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		
 		this.appController = appController;
@@ -75,7 +74,28 @@ public class MainController {
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
 			
+			if(player.getX() >= 1100 && player.getX() <= 1150 
+			&& player.getY() >= 3400 && player.getX() <= 3450) {
+				teleportPlayer(new Location(350, 350));
+			}
 			player.move(Direction.getOpposite(dir));
+		}
+	}
+	
+	public void teleportPlayer(Location location) {
+		player.setX(location.getX());
+		player.setY(location.getY());
+		
+		backgroundLocation.setX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
+		backgroundLocation.setY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
+		
+		int bgX = backgroundLocation.getX();
+		int bgY = backgroundLocation.getY();
+		for(NPC npc : npcs) {
+			NPCView npcView = npcsWithViews.get(npc);
+			npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
+			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
+			npcView.fixImage();
 		}
 	}
 	
