@@ -39,11 +39,9 @@ public class MainController {
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-//		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(1100, 3400));
-////		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
-//		backgroundLocation = new BackgroundLocation(player.getX() - BACKGROUND_PLAYER_DIFFERENCE, player.getY() - 350);
-		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
-		backgroundLocation = new BackgroundLocation(0, 0);
+		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(3400, 700));
+//		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
+		backgroundLocation = new BackgroundLocation(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE, -player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		
 		this.appController = appController;
 		movementController = new MovementController(this, player);
@@ -53,14 +51,16 @@ public class MainController {
 	public void setUpNPCs() {
 		npcs = new ArrayList<NPC>();
 		npcsWithViews = new HashMap<NPC, NPCView>();
+		int bgX = backgroundLocation.getX();
+		int bgY = backgroundLocation.getY();
 		
-		NPC tempNPC = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw");
-		npcs.add(tempNPC);
+		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw");
+		npcs.add(scarletMacaw);
 		
 		for(NPC npc : npcs) {
 			NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
 			npcView.fixImage();
-			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
+			npc.setViewLocation(new Location(bgX + (int) npcView.getLayoutX(), bgY + (int) npcView.getLayoutY()));
 			
 			scene.addNPCView(npcView);
 			npcsWithViews.put(npc, npcView);
@@ -295,6 +295,10 @@ public class MainController {
 	
 	public Direction getMovingDirection() {
 		return movingDirection;
+	}
+	
+	public BackgroundLocation getBackgroundLocation() {
+		return backgroundLocation;
 	}
 	
 }

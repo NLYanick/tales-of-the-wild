@@ -75,6 +75,7 @@ public class MainScene extends Scene {
 		
 		addBackground();
 		controller.setUpNPCs();
+		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
 		createPlayerView();
 		
 		setCursor(Cursor.NONE);
