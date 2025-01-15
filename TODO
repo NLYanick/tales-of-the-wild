@@ -1,7 +1,6 @@
 Background maken 
 Met NPC's kunnen interacten
-Background goed connecten met de BackgroundLocation
-Background moet meegaan als je andere player locatie instelt
+NPCViews moeten meegaan als je andere player locatie instelt
 NPC plaatjes mogen niet mee gaan
 Items toevoegen
 Inventory toevoegen
