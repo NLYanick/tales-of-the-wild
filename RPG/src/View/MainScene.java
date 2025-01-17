@@ -121,14 +121,17 @@ public class MainScene extends Scene {
 			playerAndMenuPane.getChildren().add(menuView);
 		} else {
 			playerAndMenuPane.getChildren().remove(menuView);
+			menuView.resetView();
 		}
 	}
 	
 	private void pauzeOrResumeGame() {
 		if(menuIsOpen) {
 			controller.pauzeGame();
+			setCursor(Cursor.DEFAULT);
 		} else {
 			controller.resumeGame();
+			setCursor(Cursor.NONE);
 		}
 	}
 	

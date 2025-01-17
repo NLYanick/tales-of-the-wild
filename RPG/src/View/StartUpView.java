@@ -81,7 +81,6 @@ public class StartUpView extends BorderPane {
 		
 		int buttonWidth = 200;
 		int buttonHeight= buttonWidth / 2;
-		
 		int fontSize = 30;
 		
 		Button button = new Button("Continue");
