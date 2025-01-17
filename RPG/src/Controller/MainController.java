@@ -74,10 +74,6 @@ public class MainController {
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
 			
-			if(player.getX() >= 1100 && player.getX() <= 1150 
-			&& player.getY() >= 3400 && player.getX() <= 3450) {
-				teleportPlayer(new Location(350, 350));
-			}
 			player.move(Direction.getOpposite(dir));
 		}
 	}

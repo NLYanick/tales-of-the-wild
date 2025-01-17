@@ -65,8 +65,12 @@ public class BackgroundImages {
 		images.put(38, new Image(GRASSPATH.concat("PathSideEndLeft.png"), true));
 		images.put(39, new Image(GRASSPATH.concat("PathSideEndRight.png"), true));
 		images.put(40, new Image(GRASSPATH.concat("OakTree.png"), false));
+		images.put(41, new Image(GRASSPATH.concat("PurpleFlower.png"), true));
+		images.put(42, new Image(GRASSPATH.concat("RedFlowerBatch.png"), true));
 		
-		images.put(41, new Image(PATH.concat("BlueTent.png"), false));
+		images.put(43, new Image(PATH.concat("BlueTent.png"), false));
+		images.put(44, new Image(PATH.concat("BrickHouse.png"), false));
+		images.put(45, new Image(PATH.concat("Brick.png"), false));
 		
 	}
 	
