@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class MainScene extends Scene {
 
@@ -21,6 +22,7 @@ public class MainScene extends Scene {
 	private MenuView menuView;
 	
 	private BorderPane root;
+	private StackPane playerAndMenuView;
 	
 	private boolean gameHasLoaded;
 	private boolean menuIsOpen;
@@ -35,6 +37,8 @@ public class MainScene extends Scene {
 	
 	private void setUpRoot() {
 		root = new BorderPane();
+		playerAndMenuView = new StackPane();
+		
 		menuView = new MenuView();
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
@@ -67,7 +71,8 @@ public class MainScene extends Scene {
 	private void createPlayerView()
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
-		root.setCenter(playerView);
+		playerAndMenuView.getChildren().add(playerView);
+		root.setCenter(playerAndMenuView);
 	}
 	
 	public void loadBackground() {
@@ -113,11 +118,9 @@ public class MainScene extends Scene {
 	
 	private void toggleMenu() {
 		if(menuIsOpen) {
-			root.setCenter(menuView);
-//			root.getChildren().add(menuView);
+			playerAndMenuView.getChildren().add(menuView);
 		} else {
-			root.setCenter(playerView);
-//			root.getChildren().remove(menuView);
+			playerAndMenuView.getChildren().remove(menuView);
 		}
 	}
 	
