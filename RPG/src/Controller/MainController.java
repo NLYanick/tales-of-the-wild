@@ -96,6 +96,7 @@ public class MainController {
 			npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
 			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
 			npcView.fixImage();
+			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
 		}
 	}
 	

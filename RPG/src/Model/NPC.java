@@ -124,14 +124,13 @@ public class NPC extends Entity {
 		
 		endLocation.setX(tempX);
 		endLocation.setY(tempY);
-		
-		setRunningImage(walkDirection);
 	}
 
 	private void moveInLine() {
 		if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 			walkDirection = Direction.getOpposite(walkDirection);
 			switchStartAndEndLocations();
+			setRunningImage(walkDirection);
 		}
 		location.setX(getX() + walkDirection.getX()); 
 		location.setY(getY() + walkDirection.getY()); 
