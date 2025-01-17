@@ -149,6 +149,10 @@ public class MainController {
 		appController.setFullScreen(isFullScreen);
 	}
 	
+	public boolean isFullScreen() {
+		return appController.isFullScreen();
+	}
+	
 	public void switchNPCImage(NPC npc, String url) {
 		Platform.runLater(new Runnable() {
 			@Override

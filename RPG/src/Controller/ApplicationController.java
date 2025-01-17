@@ -5,6 +5,7 @@ import java.io.File;
 import View.MainScene;
 import javafx.application.Application;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class ApplicationController extends Application {
@@ -39,6 +40,8 @@ public class ApplicationController extends Application {
 		
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
+		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		
 		stage.centerOnScreen();
 		stage.setResizable(false);
 		

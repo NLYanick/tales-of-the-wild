@@ -18,10 +18,12 @@ public class MainScene extends Scene {
 	private PlayerView playerView;
 	private Background background;
 	private StartUpView startUpView;
+	private MenuView menuView;
 	
 	private BorderPane root;
 	
-	private boolean gameHasLoaded = false;
+	private boolean gameHasLoaded;
+	private boolean menuIsOpen;
 	
 	public MainScene(MainController controller) {
 		super(new Pane());
@@ -33,6 +35,7 @@ public class MainScene extends Scene {
 	
 	private void setUpRoot() {
 		root = new BorderPane();
+		menuView = new MenuView();
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -108,6 +111,16 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	private void toggleMenu() {
+		if(menuIsOpen) {
+			root.setCenter(menuView);
+//			root.getChildren().add(menuView);
+		} else {
+			root.setCenter(playerView);
+//			root.getChildren().remove(menuView);
+		}
+	}
+	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case E: 
@@ -116,15 +129,21 @@ public class MainScene extends Scene {
 			}
 			break;
 		case ESCAPE: 
-			controller.setFullScreen(false);
-			controller.resizeBackgroundAndNPCLocation();
-			setCursor(Cursor.DEFAULT);
-			break;
-		case F11:
-			controller.setFullScreen(true);
 			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
-				setCursor(Cursor.NONE);
+				menuIsOpen = !menuIsOpen;
+				toggleMenu();
+			}
+			break;
+		case F11:
+			controller.setFullScreen(!controller.isFullScreen());
+			controller.resizeBackgroundAndNPCLocation();
+			if(gameHasLoaded) {
+				if(controller.isFullScreen()) {
+					setCursor(Cursor.NONE);
+				} else {
+					setCursor(Cursor.DEFAULT);
+				}
 			}
 			break;
 		default: 
