@@ -22,7 +22,7 @@ public class MainScene extends Scene {
 	private MenuView menuView;
 	
 	private BorderPane root;
-	private StackPane playerAndMenuView;
+	private StackPane playerAndMenuPane;
 	
 	private boolean gameHasLoaded;
 	private boolean menuIsOpen;
@@ -37,7 +37,7 @@ public class MainScene extends Scene {
 	
 	private void setUpRoot() {
 		root = new BorderPane();
-		playerAndMenuView = new StackPane();
+		playerAndMenuPane = new StackPane();
 		
 		menuView = new MenuView();
 		
@@ -71,8 +71,8 @@ public class MainScene extends Scene {
 	private void createPlayerView()
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
-		playerAndMenuView.getChildren().add(playerView);
-		root.setCenter(playerAndMenuView);
+		playerAndMenuPane.getChildren().add(playerView);
+		root.setCenter(playerAndMenuPane);
 	}
 	
 	public void loadBackground() {
@@ -118,24 +118,37 @@ public class MainScene extends Scene {
 	
 	private void toggleMenu() {
 		if(menuIsOpen) {
-			playerAndMenuView.getChildren().add(menuView);
+			playerAndMenuPane.getChildren().add(menuView);
 		} else {
-			playerAndMenuView.getChildren().remove(menuView);
+			playerAndMenuPane.getChildren().remove(menuView);
 		}
+	}
+	
+	private void pauzeOrResumeGame() {
+		if(menuIsOpen) {
+			controller.pauzeGame();
+		} else {
+			controller.resumeGame();
+		}
+	}
+	
+	private void handleMenu() {
+		menuIsOpen = !menuIsOpen;
+		toggleMenu();
+		pauzeOrResumeGame();
 	}
 	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case E: 
-			if(gameHasLoaded) {
+			if(gameHasLoaded && !menuIsOpen) {
 				controller.playerInteract();
 			}
 			break;
 		case ESCAPE: 
 			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
-				menuIsOpen = !menuIsOpen;
-				toggleMenu();
+				handleMenu();
 			}
 			break;
 		case F11:
@@ -150,7 +163,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		default: 
-			if(gameHasLoaded) {
+			if(gameHasLoaded && !menuIsOpen) {
 				handleMovementPressed(e);
 			}
 		}
@@ -175,7 +188,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void handleMovementReleased(KeyEvent e) {
-		if(gameHasLoaded) {
+		if(gameHasLoaded && !menuIsOpen) {
 			switch(e.getCode()) {
 				case UP:
 					controller.setMovingDirection(Direction.SOUTH);

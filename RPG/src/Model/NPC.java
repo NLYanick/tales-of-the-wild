@@ -14,6 +14,9 @@ public class NPC extends Entity {
 	private Direction walkDirection;
 	private String name;
 	private boolean running;
+	private boolean isPaused;
+	
+	private Thread walkingThread;
 	
 	private Location viewLocation;
 	
@@ -141,10 +144,17 @@ public class NPC extends Entity {
 	
 	public void setUpThread() {
 		
-		Thread walkingThread = new Thread(() -> {
+		walkingThread = new Thread(() -> {
 			
 			running = true;
 			while(running) {
+				while(isPaused) {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 					try {
 						setStandingStillAnimation(walkDirection);
@@ -164,6 +174,14 @@ public class NPC extends Entity {
 			
 		});
 		walkingThread.start();
+	}
+	
+	public void pauzeThread() {
+		isPaused = true;
+	}
+	
+	public void resumeThread() {
+		isPaused = false;
 	}
 	
 	public Direction getWalkDirection() {

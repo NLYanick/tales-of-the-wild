@@ -32,6 +32,7 @@ public class MainController {
 	private HashMap<NPC, NPCView> npcsWithViews;
 	
 	private Direction movingDirection = Direction.SOUTH;
+	private boolean gameIsPaused;
 	
 	@SuppressWarnings("static-access")
 	public MainController(ApplicationController appController, FileIO fileIO) {
@@ -69,7 +70,7 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		if(playerCanWalk(dir)) {
+		if(playerCanWalk(dir) && !gameIsPaused) {
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
@@ -184,6 +185,20 @@ public class MainController {
 			npcView.move(npc.getViewLocation().getX() + screenXDiffernce, npc.getViewLocation().getY() + screenYDiffernce);
 		} else {
 			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
+		}
+	}
+	
+	public void pauzeGame() {
+		gameIsPaused = true;
+		for(NPC npc : npcs) {
+			npc.pauzeThread();
+		}
+	}
+	
+	public void resumeGame() {
+		gameIsPaused = false;
+		for(NPC npc : npcs) {
+			npc.resumeThread();
 		}
 	}
 	
