@@ -158,7 +158,7 @@ public class MainScene extends Scene {
 			controller.setFullScreen(!controller.isFullScreen());
 			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
-				if(controller.isFullScreen()) {
+				if(controller.isFullScreen() && !menuIsOpen) {
 					setCursor(Cursor.NONE);
 				} else {
 					setCursor(Cursor.DEFAULT);

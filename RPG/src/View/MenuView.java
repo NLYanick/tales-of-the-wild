@@ -48,9 +48,9 @@ public class MenuView extends BorderPane {
 	
 	private Button getButton(String text) {
 		
-		int buttonWidth = 120;
+		int buttonWidth = 150;
 		int buttonHeight= buttonWidth / 2;
-		int fontSize = 18;
+		int fontSize = 24;
 		int borderWidth = 3;
 		
 		Button button = new Button(text);
@@ -67,7 +67,7 @@ public class MenuView extends BorderPane {
 	
 	private VBox createButtonsVBox() {
 		
-		int spacing = 20;
+		int spacing = 30;
 		
 		VBox buttonsPane = new VBox();
 		
@@ -87,22 +87,52 @@ public class MenuView extends BorderPane {
 	
 	private BorderPane createControllsPane() {
 		
+		int spacing = 100;
+		
 		BorderPane controllsPane = new BorderPane();
 		
+		VBox titleBox = getTitleBox();
+
+		HBox textVBoxes = getTextVBoxes();
+		textVBoxes.setSpacing(spacing);
+		
+		HBox buttonBox = getButtonBox();
+
+		controllsPane.setTop(titleBox);
+		controllsPane.setCenter(textVBoxes);
+		controllsPane.setBottom(buttonBox);
+		
+		return controllsPane;
+	}
+	
+	private VBox getTitleBox() {
+		int height = 200;
+		int fontSize = 64;
+		
+		VBox titleBox = new VBox();
 		Label title = new Label("Controlls");
-		title.setFont(Font.font("Times New Roman", 36));
+		title.setFont(Font.font("Times New Roman", fontSize));
 		title.setTextFill(Color.WHITE);
 		
-		HBox textVBoxes = getTextVBoxes();
+		titleBox.setAlignment(Pos.CENTER);
+		titleBox.getChildren().add(title);
+		titleBox.setMinHeight(height);
 		
+		return titleBox;
+	}
+	
+	private HBox getButtonBox() {
+		int height = 200;
+		
+		HBox buttonBox = new HBox();
 		Button button = getButton("Go Back");
 		button.setOnMouseClicked(e -> goBack());
 		
-		controllsPane.setTop(title);
-		controllsPane.setCenter(textVBoxes);
-		controllsPane.setLeft(button);
+		buttonBox.setAlignment(Pos.TOP_CENTER);
+		buttonBox.getChildren().add(button);
+		buttonBox.setMinHeight(height);
 		
-		return controllsPane;
+		return buttonBox;
 	}
 	
 	private HBox getTextVBoxes() {
@@ -116,8 +146,8 @@ public class MenuView extends BorderPane {
 		
 		textBoxOne.getChildren().addAll(textE);
 		
-		VBox textBoxTwo = new VBox();
-		textBoxTwo.setAlignment(Pos.CENTER);
+		VBox textBoxTwo = new VBox(20);
+		textBoxTwo.setAlignment(Pos.CENTER_LEFT);
 		
 		Text textUp = getText("Arrow Up - Walk Up");
 		Text textLeft = getText("Arrow Left - Walk To Left");
@@ -133,9 +163,11 @@ public class MenuView extends BorderPane {
 	
 	private Text getText(String string) {
 		
+		int fontSize = 28;
+		
 		Text text = new Text(string);
 		
-		text.setFont(Font.font("Times New Roman", 18));
+		text.setFont(Font.font("Times New Roman", fontSize));
 		text.setTextAlignment(TextAlignment.CENTER);
 		text.setFill(Color.WHITE);
 		
