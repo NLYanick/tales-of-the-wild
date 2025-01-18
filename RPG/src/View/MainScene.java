@@ -130,9 +130,11 @@ public class MainScene extends Scene {
 			setAllKeyPressesFalse();
 			controller.pauzeGame();
 			setCursor(Cursor.DEFAULT);
+			menuView.requestFocus();
 		} else {
 			controller.resumeGame();
 			setCursor(Cursor.NONE);
+			root.requestFocus();
 		}
 	}
 	

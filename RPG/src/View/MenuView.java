@@ -1,10 +1,12 @@
 package View;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -15,6 +17,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -23,11 +26,20 @@ public class MenuView extends BorderPane {
 	
 	private BorderPane menu;
 	
-	private VBox buttonsPane;
-	private BorderPane controllsPane;
+	private HBox arrowAndButtons;
+	private BorderPane controlsPane;
+	
+	private Polygon arrow;
+	
+	private int buttonWidth = 150;
+	private int buttonHeight = buttonWidth/2;
+	private int buttonSpacing = 30;
+	private int buttonBorderWidth = 3;
+	private int amountOfButtons = 0;
 	
 	public MenuView() {
 		setUpLayout();
+		setOnKeyPressed(e -> handleKeyInput(e));
 	}
 	
 	private void setUpLayout() {
@@ -37,10 +49,10 @@ public class MenuView extends BorderPane {
 		menu = new BorderPane();
 		menu.setBackground(new Background(new BackgroundFill(color, null, null)));
 		
-		buttonsPane = createButtonsVBox();
-		controllsPane = createControllsPane();
+		arrowAndButtons = createButtonsVBox();
+		controlsPane = createControlsPane();
 		
-		menu.setCenter(buttonsPane);
+		menu.setCenter(arrowAndButtons);
 		
 		setCenter(menu);
 		
@@ -49,9 +61,7 @@ public class MenuView extends BorderPane {
 	private Button getButton(String text) {
 		
 		int buttonWidth = 150;
-		int buttonHeight= buttonWidth / 2;
 		int fontSize = 24;
-		int borderWidth = 3;
 		
 		Button button = new Button(text);
 		button.setPrefSize(buttonWidth, buttonHeight);
@@ -59,37 +69,50 @@ public class MenuView extends BorderPane {
 		button.setFont(Font.font("Times New Roman", fontSize));
 		button.setTextFill(Color.WHITE);
 		button.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
+		button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
 		button.setCursor(Cursor.HAND);
 		
 		return button;
 	}
 	
-	private VBox createButtonsVBox() {
+	private HBox createButtonsVBox() {
 		
-		int spacing = 30;
+		int spacing = 40;
+		
+		HBox arrowAndButtons = new HBox();
+		arrow = new Polygon(0, 0, 30, 30, 0, 60);
+		arrow.setFill(Color.WHITE);
+		arrow.setTranslateY(-54);
+		
+		arrowAndButtons.getChildren().add(arrow);
 		
 		VBox buttonsPane = new VBox();
 		
-		Button controllsButton = getButton("Controlls");
-		controllsButton.setOnMouseClicked(e -> openControlls());
+		Button controlsButton = getButton("Controls");
+		controlsButton.setOnMouseClicked(e -> openControls());
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnMouseClicked(e -> Platform.exit());
 		
-		buttonsPane.getChildren().addAll(controllsButton, exitButton);
+		buttonsPane.getChildren().addAll(controlsButton, exitButton);
+		amountOfButtons = buttonsPane.getChildren().size();
 		
+		buttonsPane.setSpacing(buttonSpacing);
 		buttonsPane.setAlignment(Pos.CENTER);
-		buttonsPane.setSpacing(spacing);
 		
-		return buttonsPane;
+		arrowAndButtons.setAlignment(Pos.CENTER);
+		arrowAndButtons.setSpacing(spacing);
+		arrowAndButtons.setPadding(new Insets(0, 30 + spacing, 0, 0));
+		arrowAndButtons.getChildren().add(buttonsPane);
+		
+		return arrowAndButtons;
 	}
 	
-	private BorderPane createControllsPane() {
+	private BorderPane createControlsPane() {
 		
 		int spacing = 100;
 		
-		BorderPane controllsPane = new BorderPane();
+		BorderPane controlsPane = new BorderPane();
 		
 		VBox titleBox = getTitleBox();
 
@@ -98,11 +121,11 @@ public class MenuView extends BorderPane {
 		
 		HBox buttonBox = getButtonBox();
 
-		controllsPane.setTop(titleBox);
-		controllsPane.setCenter(textVBoxes);
-		controllsPane.setBottom(buttonBox);
+		controlsPane.setTop(titleBox);
+		controlsPane.setCenter(textVBoxes);
+		controlsPane.setBottom(buttonBox);
 		
-		return controllsPane;
+		return controlsPane;
 	}
 	
 	private VBox getTitleBox() {
@@ -110,7 +133,7 @@ public class MenuView extends BorderPane {
 		int fontSize = 64;
 		
 		VBox titleBox = new VBox();
-		Label title = new Label("Controlls");
+		Label title = new Label("Controls");
 		title.setFont(Font.font("Times New Roman", fontSize));
 		title.setTextFill(Color.WHITE);
 		
@@ -174,16 +197,44 @@ public class MenuView extends BorderPane {
 		return text;
 	}
 	
-	private void openControlls() {
-		menu.setCenter(controllsPane);
+	private void openControls() {
+		menu.setCenter(controlsPane);
 	}
 	
 	private void goBack() {
-		menu.setCenter(buttonsPane);
+		menu.setCenter(arrowAndButtons);
 	}
 
 	public void resetView() {
-		menu.setCenter(buttonsPane);
+		menu.setCenter(arrowAndButtons);
+	}
+	
+	private void handleKeyInput(KeyEvent e) {
+		switch(e.getCode()) {
+		case UP:
+			moveArrow("Up");
+			break;
+		case DOWN:
+			moveArrow("Down");
+			break;
+			default: System.out.println("Input not valid");
+		}
+	}
+	
+	private void moveArrow(String direction) {
+		int distance = buttonSpacing + buttonHeight + buttonBorderWidth;
+		int height = amountOfButtons * (buttonHeight + buttonBorderWidth * 2) + (amountOfButtons - 1) * buttonSpacing;
+		
+		double nextPosition = 0;
+		if(direction.toLowerCase().equals("up")) {
+			nextPosition = arrow.getTranslateY() - distance;
+			if(nextPosition > -(height/2))
+				arrow.setTranslateY(nextPosition);
+		} else if(direction.toLowerCase().equals("down")) {
+			nextPosition = arrow.getTranslateY() + distance;
+			if(nextPosition < (height/2))
+				arrow.setTranslateY(nextPosition);
+		}
 	}
 	
 }
