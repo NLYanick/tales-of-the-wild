@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -30,14 +31,17 @@ public class MenuView extends BorderPane {
 	
 	private HBox arrowAndButtons;
 	private BorderPane controlsPane;
+	private VBox buttonsPane;
 	
+	private HBox arrowBox;
 	private Polygon arrow;
 	
 	private int buttonWidth = 150;
 	private int buttonHeight = buttonWidth/2;
 	private int buttonSpacing = 30;
 	private int buttonBorderWidth = 3;
-	private int amountOfButtons = 0;
+	
+	private int buttonCounter = 0;
 	
 	private ArrayList<Button> buttons;
 	
@@ -86,13 +90,18 @@ public class MenuView extends BorderPane {
 		int spacing = 40;
 		
 		HBox arrowAndButtons = new HBox();
+		arrowBox = new HBox();
+		
 		arrow = new Polygon(0, 0, 30, 30, 0, 60);
 		arrow.setFill(Color.WHITE);
 		arrow.setTranslateY(-54);
 		
-		arrowAndButtons.getChildren().add(arrow);
+		arrowBox.setAlignment(Pos.CENTER);
+		arrowBox.getChildren().add(arrow);
 		
-		VBox buttonsPane = new VBox();
+		arrowAndButtons.getChildren().add(arrowBox);
+		
+		buttonsPane = new VBox();
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnMouseClicked(e -> openControls());
@@ -103,7 +112,6 @@ public class MenuView extends BorderPane {
 		buttons.add(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, exitButton);
-		amountOfButtons = buttonsPane.getChildren().size();
 		
 		buttonsPane.setSpacing(buttonSpacing);
 		buttonsPane.setAlignment(Pos.CENTER);
@@ -226,39 +234,43 @@ public class MenuView extends BorderPane {
 			moveArrow("Down");
 			break;
 		case ENTER:
-			checkForButton();
+//			checkForButton();
 			break;
 			default: System.out.println("Input not valid");
 		}
 	}
 	
 	private void moveArrow(String direction) {
-		int distance = buttonSpacing + buttonHeight + buttonBorderWidth;
-		int height = amountOfButtons * (buttonHeight + buttonBorderWidth * 2) + (amountOfButtons - 1) * buttonSpacing;
 		
-		double nextPosition = 0;
 		if(direction.toLowerCase().equals("up")) {
-			nextPosition = arrow.getTranslateY() - distance;
-			if(nextPosition > -(height/2))
-				arrow.setTranslateY(nextPosition);
+			buttonCounter--;
+			if(buttonCounter < 0) {
+				buttonCounter = 0;
+			}
+			buttonsPane.getChildren().get(buttonCounter).requestFocus();
 		} else if(direction.toLowerCase().equals("down")) {
-			nextPosition = arrow.getTranslateY() + distance;
-			if(nextPosition < (height/2))
-				arrow.setTranslateY(nextPosition);
+			buttonCounter++;
+			if(buttonCounter >= buttonsPane.getChildren().size()) {
+				buttonCounter = buttonsPane.getChildren().size() - 1;
+			}
+			buttonsPane.getChildren().get(buttonCounter).requestFocus();
 		}
-	}
-	
-	private void checkForButton() {
-		double arrowLocation = arrow.getTranslateY() + arrow.getLayoutY();
-		for(Button button : buttons) {
-			if(isNextToButton(arrowLocation, button)) {
-				System.out.println("Is equal: " + button.getText());
+		
+		int halfAButtonUp = buttonHeight/2 + buttonBorderWidth + buttonSpacing/2;
+		
+		arrowAndButtons.getChildren().clear();
+		for(Node node : buttonsPane.getChildren()) {
+			if(node.isFocused()) {
+				arrow.setTranslateY(node.getLayoutY() - buttonsPane.getChildren().get(0).getLayoutY() - halfAButtonUp);
+				arrowAndButtons.getChildren().add(arrowBox);
+				break;
 			}
 		}
+		arrowAndButtons.getChildren().add(buttonsPane);
 	}
-	
-	private boolean isNextToButton(double y, Button button) {
-		return y > button.getLayoutY() && y < button.getLayoutY() + button.getHeight();
+
+	public void requestFocusForButtons() {
+		buttonsPane.getChildren().get(0).requestFocus();
 	}
 	
 }

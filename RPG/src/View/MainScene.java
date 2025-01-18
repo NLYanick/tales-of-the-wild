@@ -130,7 +130,8 @@ public class MainScene extends Scene {
 			setAllKeyPressesFalse();
 			controller.pauzeGame();
 			setCursor(Cursor.DEFAULT);
-			menuView.requestFocus();
+//			menuView.requestFocus();
+			menuView.requestFocusForButtons();
 		} else {
 			controller.resumeGame();
 			setCursor(Cursor.NONE);
