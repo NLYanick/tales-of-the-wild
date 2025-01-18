@@ -16,8 +16,6 @@ public class NPC extends Entity {
 	private boolean running;
 	private boolean isPaused;
 	
-	private Thread walkingThread;
-	
 	private Location viewLocation;
 	
 	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, String name) {
@@ -144,7 +142,7 @@ public class NPC extends Entity {
 	
 	public void setUpThread() {
 		
-		walkingThread = new Thread(() -> {
+		Thread walkingThread = new Thread(() -> {
 			
 			running = true;
 			while(running) {
