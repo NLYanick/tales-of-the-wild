@@ -33,7 +33,6 @@ public class MenuView extends BorderPane {
 	private BorderPane controlsPane;
 	private VBox buttonsPane;
 	
-	private HBox arrowBox;
 	private Polygon arrow;
 	
 	private int buttonWidth = 150;
@@ -90,16 +89,12 @@ public class MenuView extends BorderPane {
 		int spacing = 40;
 		
 		HBox arrowAndButtons = new HBox();
-		arrowBox = new HBox();
 		
 		arrow = new Polygon(0, 0, 30, 30, 0, 60);
 		arrow.setFill(Color.WHITE);
 		arrow.setTranslateY(-54);
 		
-		arrowBox.setAlignment(Pos.CENTER);
-		arrowBox.getChildren().add(arrow);
-		
-		arrowAndButtons.getChildren().add(arrowBox);
+		arrowAndButtons.getChildren().add(arrow);
 		
 		buttonsPane = new VBox();
 		
@@ -262,7 +257,7 @@ public class MenuView extends BorderPane {
 		for(Node node : buttonsPane.getChildren()) {
 			if(node.isFocused()) {
 				arrow.setTranslateY(node.getLayoutY() - buttonsPane.getChildren().get(0).getLayoutY() - halfAButtonUp);
-				arrowAndButtons.getChildren().add(arrowBox);
+				arrowAndButtons.getChildren().add(arrow);
 				break;
 			}
 		}
