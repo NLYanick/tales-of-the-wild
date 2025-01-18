@@ -1,5 +1,7 @@
 package View;
 
+import java.util.ArrayList;
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,7 +39,11 @@ public class MenuView extends BorderPane {
 	private int buttonBorderWidth = 3;
 	private int amountOfButtons = 0;
 	
+	private ArrayList<Button> buttons;
+	
 	public MenuView() {
+		buttons = new ArrayList<Button>();
+		
 		setUpLayout();
 		setOnKeyPressed(e -> handleKeyInput(e));
 	}
@@ -90,9 +96,11 @@ public class MenuView extends BorderPane {
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnMouseClicked(e -> openControls());
+		buttons.add(controlsButton);
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnMouseClicked(e -> Platform.exit());
+		buttons.add(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, exitButton);
 		amountOfButtons = buttonsPane.getChildren().size();
@@ -217,6 +225,9 @@ public class MenuView extends BorderPane {
 		case DOWN:
 			moveArrow("Down");
 			break;
+		case ENTER:
+			checkForButton();
+			break;
 			default: System.out.println("Input not valid");
 		}
 	}
@@ -235,6 +246,19 @@ public class MenuView extends BorderPane {
 			if(nextPosition < (height/2))
 				arrow.setTranslateY(nextPosition);
 		}
+	}
+	
+	private void checkForButton() {
+		double arrowLocation = arrow.getTranslateY() + arrow.getLayoutY();
+		for(Button button : buttons) {
+			if(isNextToButton(arrowLocation, button)) {
+				System.out.println("Is equal: " + button.getText());
+			}
+		}
+	}
+	
+	private boolean isNextToButton(double y, Button button) {
+		return y > button.getLayoutY() && y < button.getLayoutY() + button.getHeight();
 	}
 	
 }
