@@ -127,6 +127,7 @@ public class MainScene extends Scene {
 	
 	private void pauzeOrResumeGame() {
 		if(menuIsOpen) {
+			setAllKeyPressesFalse();
 			controller.pauzeGame();
 			setCursor(Cursor.DEFAULT);
 		} else {
@@ -212,5 +213,12 @@ public class MainScene extends Scene {
 				default:
 			}
 		}
+	}
+	
+	private void setAllKeyPressesFalse() {
+		controller.getUpPressed().set(false);
+		controller.getDownPressed().set(false);
+		controller.getRightPressed().set(false);
+		controller.getLeftPressed().set(false);
 	}
 }

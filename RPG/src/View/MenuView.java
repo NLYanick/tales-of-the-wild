@@ -71,7 +71,7 @@ public class MenuView extends BorderPane {
 		
 		VBox buttonsPane = new VBox();
 		
-		Button exitButton = getButton("Exit");
+		Button exitButton = getButton("Exit Game");
 		exitButton.setOnMouseClicked(e -> Platform.exit());
 		
 		Button controllsButton = getButton("Controlls");
