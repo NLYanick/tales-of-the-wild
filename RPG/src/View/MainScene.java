@@ -39,7 +39,7 @@ public class MainScene extends Scene {
 		root = new BorderPane();
 		playerAndMenuPane = new StackPane();
 		
-		menuView = new MenuView();
+		menuView = new MenuView(this);
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -93,6 +93,10 @@ public class MainScene extends Scene {
 		root.getChildren().add(nPCView);
 	}
 	
+	public void stopNPCThreads() {
+		controller.stopNPCThreads();
+	}
+	
 	public void setAsRoot(Pane root) {
 		setRoot(root);
 	}
@@ -119,9 +123,13 @@ public class MainScene extends Scene {
 	private void toggleMenu() {
 		if(menuIsOpen) {
 			playerAndMenuPane.getChildren().add(menuView);
+			menuView.requestFocusForButtons();
+			setCursor(Cursor.DEFAULT);
 		} else {
 			playerAndMenuPane.getChildren().remove(menuView);
 			menuView.resetView();
+			root.requestFocus();
+			setCursor(Cursor.NONE);
 		}
 	}
 	
@@ -129,12 +137,8 @@ public class MainScene extends Scene {
 		if(menuIsOpen) {
 			setAllKeyPressesFalse();
 			controller.pauzeGame();
-			setCursor(Cursor.DEFAULT);
-			menuView.requestFocusForButtons();
 		} else {
 			controller.resumeGame();
-			setCursor(Cursor.NONE);
-			root.requestFocus();
 		}
 	}
 	
@@ -152,7 +156,6 @@ public class MainScene extends Scene {
 			}
 			break;
 		case ESCAPE: 
-			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
 				handleMenu();
 			}

@@ -188,6 +188,7 @@ public class NPC extends Entity {
 	
 	public void setThreadRunning(boolean running) {
 		this.running = running;
+		resumeThread();
 	}
 	
 	public Location getStartLocation() {

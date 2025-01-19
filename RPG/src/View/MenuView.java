@@ -1,12 +1,13 @@
 package View;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -19,20 +20,17 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class MenuView extends BorderPane {
 	
+	private MainScene scene;
 	private BorderPane menu;
 	
-	private HBox arrowAndButtons;
 	private BorderPane controlsPane;
 	private VBox buttonsPane;
-	
-	private Polygon arrow;
 	
 	private int buttonWidth = 150;
 	private int buttonHeight = buttonWidth/2;
@@ -41,7 +39,13 @@ public class MenuView extends BorderPane {
 	
 	private int buttonCounter = 0;
 	
-	public MenuView() {
+	private Button[] buttons;
+	
+	private ImageView arrowView;
+	
+	public MenuView(MainScene scene) {
+		this.scene = scene;
+		
 		setUpLayout();
 		setOnKeyPressed(e -> handleKeyInput(e));
 	}
@@ -53,13 +57,32 @@ public class MenuView extends BorderPane {
 		menu = new BorderPane();
 		menu.setBackground(new Background(new BackgroundFill(color, null, null)));
 		
-		arrowAndButtons = createButtonsVBox();
+		buttonsPane = createButtonsVBox();
 		controlsPane = createControlsPane();
 		
-		menu.setCenter(arrowAndButtons);
+		buttons = new Button[buttonsPane.getChildren().size()];
+		fillButtonsArray();
+		menu.setCenter(buttonsPane);
+		
+		arrowView = getArrow();
+		menu.getChildren().add(arrowView);
 		
 		setCenter(menu);
-		
+	}
+	
+	private void fillButtonsArray() {
+		int i = 0;
+		for(Node node : buttonsPane.getChildren()) {
+			buttons[i] = (Button) node;
+			i++;
+		}
+	}
+	
+	private ImageView getArrow() {
+		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
+		arrowView.setLayoutX(810);
+		arrowView.setLayoutY(345);
+		return arrowView;
 	}
 	
 	private Button getButton(String text) {
@@ -80,38 +103,34 @@ public class MenuView extends BorderPane {
 		
 		return button;
 	}
+	
+	private void exit() {
+		scene.stopNPCThreads();
+		Platform.exit();
+	}
 
-	private HBox createButtonsVBox() {
+	private VBox createButtonsVBox() {
 		
-		int spacing = 40;
-		
-		HBox arrowAndButtons = new HBox();
-		
-		arrow = new Polygon(0, 0, 30, 30, 0, 60);
-		arrow.setFill(Color.WHITE);
-		arrow.setTranslateY(-54);
-		
-		arrowAndButtons.getChildren().add(arrow);
-		
-		buttonsPane = new VBox();
+		VBox buttonsPane = new VBox();
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnAction(e -> openControls());
 		
 		Button exitButton = getButton("Exit Game");
-		exitButton.setOnAction(e -> Platform.exit());
+		exitButton.setOnAction(e -> exit());
 		
-		buttonsPane.getChildren().addAll(controlsButton, exitButton);
+		Button exitButtonTwo = getButton("Exit Game 2");
+		exitButtonTwo.setOnAction(e -> exit());
+		
+		Button exitButtonThree = getButton("Exit Game 3");
+		exitButtonThree.setOnAction(e -> exit());
+		
+		buttonsPane.getChildren().addAll(controlsButton, exitButton, exitButtonTwo, exitButtonThree);
 		
 		buttonsPane.setSpacing(buttonSpacing);
 		buttonsPane.setAlignment(Pos.CENTER);
 		
-		arrowAndButtons.setAlignment(Pos.CENTER);
-		arrowAndButtons.setSpacing(spacing);
-		arrowAndButtons.setPadding(new Insets(0, 30 + spacing, 0, 0));
-		arrowAndButtons.getChildren().add(buttonsPane);
-		
-		return arrowAndButtons;
+		return buttonsPane;
 	}
 	
 	private BorderPane createControlsPane() {
@@ -204,6 +223,7 @@ public class MenuView extends BorderPane {
 	}
 	
 	private void openControls() {
+		menu.getChildren().remove(arrowView);
 		menu.setCenter(controlsPane);
 		for(Node node : controlsPane.getChildren()) {
 			if(node instanceof Button) {
@@ -214,31 +234,31 @@ public class MenuView extends BorderPane {
 	}
 	
 	private void goBack() {
-		resetArrowAndButtonsPane();
-		menu.setCenter(arrowAndButtons);
+		resetArrow();
+		menu.setCenter(buttonsPane);
 		requestFocusForButtons();
 	}
 
 	public void resetView() {
-		resetArrowAndButtonsPane();
-		menu.setCenter(arrowAndButtons);
+		resetArrow();
+		menu.setCenter(buttonsPane);
 	}
 	
-	public void resetArrowAndButtonsPane() {
-		if(!arrowAndButtons.getChildren().contains(arrow)) {
-			arrowAndButtons.getChildren().clear();
-			arrowAndButtons.getChildren().add(arrow);
-			arrowAndButtons.getChildren().add(buttonsPane);
+	public void resetArrow() {
+		if(!menu.getChildren().contains(arrowView)) {
+			menu.getChildren().add(arrowView);
 		}
+		arrowView.setLayoutX(buttons[0].getLayoutX() - buttonWidth/2);
+		arrowView.setLayoutY(buttons[0].getLayoutY());
 	}
 	
 	private void handleKeyInput(KeyEvent e) {
 		switch(e.getCode()) {
 		case UP:
-			moveArrow("Up");
+			moveArrow("Up", e);
 			break;
 		case DOWN:
-			moveArrow("Down");
+			moveArrow("Down", e);
 			break;
 			default: System.out.println("Input not valid");
 		}
@@ -250,37 +270,40 @@ public class MenuView extends BorderPane {
 		}
 	}
 	
-	private void moveArrow(String direction) {
+	private void moveArrow(String direction, KeyEvent event) {
 		
+		event.consume();
+		setButtonFocus(direction);
+		
+		menu.getChildren().remove(arrowView);
+		for(Button button : buttons) {
+			if(button.isFocused()) {
+				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2));
+				arrowView.setLayoutY(button.getLayoutY());
+				menu.getChildren().add(arrowView);
+				break;
+			}
+		}
+	}
+	
+	private void setButtonFocus(String direction) {
 		if(direction.toLowerCase().equals("up")) {
 			buttonCounter--;
 			if(buttonCounter < 0) {
 				buttonCounter = 0;
 			}
-			buttonsPane.getChildren().get(buttonCounter).requestFocus();
 		} else if(direction.toLowerCase().equals("down")) {
 			buttonCounter++;
-			if(buttonCounter >= buttonsPane.getChildren().size()) {
-				buttonCounter = buttonsPane.getChildren().size() - 1;
-			}
-			buttonsPane.getChildren().get(buttonCounter).requestFocus();
-		}
-		
-		int halfAButtonUp = buttonHeight/2 + buttonBorderWidth + buttonSpacing/2;
-		
-		arrowAndButtons.getChildren().clear();
-		for(Node node : buttonsPane.getChildren()) {
-			if(node.isFocused()) {
-				arrow.setTranslateY(node.getLayoutY() - buttonsPane.getChildren().get(0).getLayoutY() - halfAButtonUp);
-				arrowAndButtons.getChildren().add(arrow);
-				break;
+			if(buttonCounter >= buttons.length) {
+				buttonCounter = buttons.length - 1;
 			}
 		}
-		arrowAndButtons.getChildren().add(buttonsPane);
+		buttons[buttonCounter].requestFocus();
 	}
 
 	public void requestFocusForButtons() {
-		buttonsPane.getChildren().get(0).requestFocus();
+		buttons[0].requestFocus();
+		buttonCounter = 0;
 	}
 
 }
