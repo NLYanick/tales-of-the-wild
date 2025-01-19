@@ -1,7 +1,5 @@
 package View;
 
-import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -42,11 +41,7 @@ public class MenuView extends BorderPane {
 	
 	private int buttonCounter = 0;
 	
-	private ArrayList<Button> buttons;
-	
 	public MenuView() {
-		buttons = new ArrayList<Button>();
-		
 		setUpLayout();
 		setOnKeyPressed(e -> handleKeyInput(e));
 	}
@@ -81,9 +76,11 @@ public class MenuView extends BorderPane {
 		button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
 		button.setCursor(Cursor.HAND);
 		
+		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
+		
 		return button;
 	}
-	
+
 	private HBox createButtonsVBox() {
 		
 		int spacing = 40;
@@ -100,11 +97,9 @@ public class MenuView extends BorderPane {
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnAction(e -> openControls());
-		buttons.add(controlsButton);
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> Platform.exit());
-		buttons.add(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, exitButton);
 		
@@ -245,10 +240,13 @@ public class MenuView extends BorderPane {
 		case DOWN:
 			moveArrow("Down");
 			break;
-		case ENTER:
-//			checkForButton();
-			break;
 			default: System.out.println("Input not valid");
+		}
+	}
+	
+	private void handleButtonKeyPressed(KeyEvent e, Button button) {
+		if(e.getCode().equals(KeyCode.ENTER) && button.isFocused()) {
+			button.fire();
 		}
 	}
 	
@@ -284,5 +282,5 @@ public class MenuView extends BorderPane {
 	public void requestFocusForButtons() {
 		buttonsPane.getChildren().get(0).requestFocus();
 	}
-	
+
 }

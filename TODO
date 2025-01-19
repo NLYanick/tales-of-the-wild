@@ -21,4 +21,4 @@ EntityView --> imageView.setTranslateY(-30);
 TODO Images:
 Bloemen, Huizen, NPC's
 
-Snel: MenuView naam veranderen & als knop focus heeft, knop indrukken bij ENTER
+Snel: MenuView naam veranderen & pijl laten werken bij meerdere buttons
