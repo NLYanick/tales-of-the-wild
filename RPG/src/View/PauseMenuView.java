@@ -24,12 +24,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class MenuView extends BorderPane {
+public class PauseMenuView extends BorderPane {
 	
 	int imageDifference = 4;
 	
 	private MainScene scene;
-	private BorderPane menu;
+	private BorderPane pauseMenu;
 	
 	private BorderPane controlsPane;
 	private VBox buttonsPane;
@@ -45,7 +45,7 @@ public class MenuView extends BorderPane {
 	
 	private ImageView arrowView;
 	
-	public MenuView(MainScene scene) {
+	public PauseMenuView(MainScene scene) {
 		this.scene = scene;
 		
 		setUpLayout();
@@ -56,20 +56,20 @@ public class MenuView extends BorderPane {
 		
 		Color color = new Color(0, 0, 0, 0.5);
 		
-		menu = new BorderPane();
-		menu.setBackground(new Background(new BackgroundFill(color, null, null)));
+		pauseMenu = new BorderPane();
+		pauseMenu.setBackground(new Background(new BackgroundFill(color, null, null)));
 		
 		buttonsPane = createButtonsVBox();
 		controlsPane = createControlsPane();
 		
 		buttons = new Button[buttonsPane.getChildren().size()];
 		fillButtonsArray();
-		menu.setCenter(buttonsPane);
+		pauseMenu.setCenter(buttonsPane);
 		
 		arrowView = getArrow();
-		menu.getChildren().add(arrowView);
+		pauseMenu.getChildren().add(arrowView);
 		
-		setCenter(menu);
+		setCenter(pauseMenu);
 	}
 	
 	private void fillButtonsArray() {
@@ -223,8 +223,8 @@ public class MenuView extends BorderPane {
 	}
 	
 	private void openControls() {
-		menu.getChildren().remove(arrowView);
-		menu.setCenter(controlsPane);
+		pauseMenu.getChildren().remove(arrowView);
+		pauseMenu.setCenter(controlsPane);
 		for(Node node : controlsPane.getChildren()) {
 			if(node instanceof Button) {
 				node.requestFocus();
@@ -235,18 +235,18 @@ public class MenuView extends BorderPane {
 	
 	private void goBack() {
 		resetArrow();
-		menu.setCenter(buttonsPane);
+		pauseMenu.setCenter(buttonsPane);
 		requestFocusForButtons();
 	}
 
 	public void resetView() {
 		resetArrow();
-		menu.setCenter(buttonsPane);
+		pauseMenu.setCenter(buttonsPane);
 	}
 	
 	public void resetArrow() {
-		if(!menu.getChildren().contains(arrowView)) {
-			menu.getChildren().add(arrowView);
+		if(!pauseMenu.getChildren().contains(arrowView)) {
+			pauseMenu.getChildren().add(arrowView);
 		}
 		arrowView.setLayoutX(buttons[0].getLayoutX() - buttonWidth/2);
 		arrowView.setLayoutY(buttons[0].getLayoutY() + imageDifference);
@@ -275,12 +275,12 @@ public class MenuView extends BorderPane {
 		event.consume();
 		setButtonFocus(direction);
 		
-		menu.getChildren().remove(arrowView);
+		pauseMenu.getChildren().remove(arrowView);
 		for(Button button : buttons) {
 			if(button.isFocused()) {
 				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2));
 				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-				menu.getChildren().add(arrowView);
+				pauseMenu.getChildren().add(arrowView);
 				break;
 			}
 		}

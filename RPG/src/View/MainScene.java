@@ -19,13 +19,13 @@ public class MainScene extends Scene {
 	private PlayerView playerView;
 	private Background background;
 	private StartUpView startUpView;
-	private MenuView menuView;
+	private PauseMenuView pauseMenuView;
 	
 	private BorderPane root;
-	private StackPane playerAndMenuPane;
+	private StackPane playerAndMenusPane;
 	
 	private boolean gameHasLoaded;
-	private boolean menuIsOpen;
+	private boolean pauseMenuIsOpen;
 	
 	public MainScene(MainController controller) {
 		super(new Pane());
@@ -37,9 +37,9 @@ public class MainScene extends Scene {
 	
 	private void setUpRoot() {
 		root = new BorderPane();
-		playerAndMenuPane = new StackPane();
+		playerAndMenusPane = new StackPane();
 		
-		menuView = new MenuView(this);
+		pauseMenuView = new PauseMenuView(this);
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -71,8 +71,8 @@ public class MainScene extends Scene {
 	private void createPlayerView()
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
-		playerAndMenuPane.getChildren().add(playerView);
-		root.setCenter(playerAndMenuPane);
+		playerAndMenusPane.getChildren().add(playerView);
+		root.setCenter(playerAndMenusPane);
 	}
 	
 	public void loadBackground() {
@@ -120,21 +120,21 @@ public class MainScene extends Scene {
 		}
 	}
 	
-	private void toggleMenu() {
-		if(menuIsOpen) {
-			playerAndMenuPane.getChildren().add(menuView);
-			menuView.requestFocusForButtons();
+	private void togglePauseMenu() {
+		if(pauseMenuIsOpen) {
+			playerAndMenusPane.getChildren().add(pauseMenuView);
+			pauseMenuView.requestFocusForButtons();
 			setCursor(Cursor.DEFAULT);
 		} else {
-			playerAndMenuPane.getChildren().remove(menuView);
-			menuView.resetView();
+			playerAndMenusPane.getChildren().remove(pauseMenuView);
+			pauseMenuView.resetView();
 			root.requestFocus();
 			setCursor(Cursor.NONE);
 		}
 	}
 	
 	private void pauzeOrResumeGame() {
-		if(menuIsOpen) {
+		if(pauseMenuIsOpen) {
 			setAllKeyPressesFalse();
 			controller.pauzeGame();
 		} else {
@@ -142,29 +142,29 @@ public class MainScene extends Scene {
 		}
 	}
 	
-	private void handleMenu() {
-		menuIsOpen = !menuIsOpen;
-		toggleMenu();
+	private void handlePauseMenu() {
+		pauseMenuIsOpen = !pauseMenuIsOpen;
+		togglePauseMenu();
 		pauzeOrResumeGame();
 	}
 	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case E: 
-			if(gameHasLoaded && !menuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen) {
 				controller.playerInteract();
 			}
 			break;
 		case ESCAPE: 
 			if(gameHasLoaded) {
-				handleMenu();
+				handlePauseMenu();
 			}
 			break;
 		case F11:
 			controller.setFullScreen(!controller.isFullScreen());
 			controller.resizeBackgroundAndNPCLocation();
 			if(gameHasLoaded) {
-				if(controller.isFullScreen() && !menuIsOpen) {
+				if(controller.isFullScreen() && !pauseMenuIsOpen) {
 					setCursor(Cursor.NONE);
 				} else {
 					setCursor(Cursor.DEFAULT);
@@ -172,7 +172,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		default: 
-			if(gameHasLoaded && !menuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen) {
 				handleMovementPressed(e);
 			}
 		}
@@ -197,7 +197,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void handleMovementReleased(KeyEvent e) {
-		if(gameHasLoaded && !menuIsOpen) {
+		if(gameHasLoaded && !pauseMenuIsOpen) {
 			switch(e.getCode()) {
 				case UP:
 					controller.setMovingDirection(Direction.SOUTH);
