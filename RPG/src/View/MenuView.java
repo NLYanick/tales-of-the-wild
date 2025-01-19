@@ -26,6 +26,8 @@ import javafx.scene.text.TextAlignment;
 
 public class MenuView extends BorderPane {
 	
+	int imageDifference = 4;
+	
 	private MainScene scene;
 	private BorderPane menu;
 	
@@ -80,8 +82,12 @@ public class MenuView extends BorderPane {
 	
 	private ImageView getArrow() {
 		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
-		arrowView.setLayoutX(810);
-		arrowView.setLayoutY(345);
+		
+		int x = 810;
+		int y = 450 + imageDifference;
+		
+		arrowView.setLayoutX(x);
+		arrowView.setLayoutY(y);
 		return arrowView;
 	}
 	
@@ -119,13 +125,7 @@ public class MenuView extends BorderPane {
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> exit());
 		
-		Button exitButtonTwo = getButton("Exit Game 2");
-		exitButtonTwo.setOnAction(e -> exit());
-		
-		Button exitButtonThree = getButton("Exit Game 3");
-		exitButtonThree.setOnAction(e -> exit());
-		
-		buttonsPane.getChildren().addAll(controlsButton, exitButton, exitButtonTwo, exitButtonThree);
+		buttonsPane.getChildren().addAll(controlsButton, exitButton);
 		
 		buttonsPane.setSpacing(buttonSpacing);
 		buttonsPane.setAlignment(Pos.CENTER);
@@ -249,7 +249,7 @@ public class MenuView extends BorderPane {
 			menu.getChildren().add(arrowView);
 		}
 		arrowView.setLayoutX(buttons[0].getLayoutX() - buttonWidth/2);
-		arrowView.setLayoutY(buttons[0].getLayoutY());
+		arrowView.setLayoutY(buttons[0].getLayoutY() + imageDifference);
 	}
 	
 	private void handleKeyInput(KeyEvent e) {
@@ -279,7 +279,7 @@ public class MenuView extends BorderPane {
 		for(Button button : buttons) {
 			if(button.isFocused()) {
 				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2));
-				arrowView.setLayoutY(button.getLayoutY());
+				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
 				menu.getChildren().add(arrowView);
 				break;
 			}
