@@ -99,11 +99,11 @@ public class MenuView extends BorderPane {
 		buttonsPane = new VBox();
 		
 		Button controlsButton = getButton("Controls");
-		controlsButton.setOnMouseClicked(e -> openControls());
+		controlsButton.setOnAction(e -> openControls());
 		buttons.add(controlsButton);
 		
 		Button exitButton = getButton("Exit Game");
-		exitButton.setOnMouseClicked(e -> Platform.exit());
+		exitButton.setOnAction(e -> Platform.exit());
 		buttons.add(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, exitButton);
@@ -160,7 +160,7 @@ public class MenuView extends BorderPane {
 		
 		HBox buttonBox = new HBox();
 		Button button = getButton("Go Back");
-		button.setOnMouseClicked(e -> goBack());
+		button.setOnAction(e -> goBack());
 		
 		buttonBox.setAlignment(Pos.TOP_CENTER);
 		buttonBox.getChildren().add(button);
@@ -210,14 +210,31 @@ public class MenuView extends BorderPane {
 	
 	private void openControls() {
 		menu.setCenter(controlsPane);
+		for(Node node : controlsPane.getChildren()) {
+			if(node instanceof Button) {
+				node.requestFocus();
+				break;
+			}
+		}
 	}
 	
 	private void goBack() {
+		resetArrowAndButtonsPane();
 		menu.setCenter(arrowAndButtons);
+		requestFocusForButtons();
 	}
 
 	public void resetView() {
+		resetArrowAndButtonsPane();
 		menu.setCenter(arrowAndButtons);
+	}
+	
+	public void resetArrowAndButtonsPane() {
+		if(!arrowAndButtons.getChildren().contains(arrow)) {
+			arrowAndButtons.getChildren().clear();
+			arrowAndButtons.getChildren().add(arrow);
+			arrowAndButtons.getChildren().add(buttonsPane);
+		}
 	}
 	
 	private void handleKeyInput(KeyEvent e) {
