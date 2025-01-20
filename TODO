@@ -2,7 +2,6 @@ Background maken
 Met NPC's kunnen interacten
 NPC plaatjes mogen niet mee gaan
 Niet over NPC's lopen
-Tent image fixen
 Items toevoegen
 Inventory toevoegen
 In-Game Menu toevoegen
@@ -17,3 +16,5 @@ In pauze menu is de eerste pijl hardcoded
 
 TODO Images:
 Bloemen, Huizen, NPC's
+Characters zwarte rand weg
+Tent image fixen

@@ -26,8 +26,6 @@ import javafx.scene.text.TextAlignment;
 
 public class PauseMenuView extends BorderPane {
 	
-	int imageDifference = 4;
-	
 	private MainScene scene;
 	private BorderPane pauseMenu;
 	
@@ -39,6 +37,7 @@ public class PauseMenuView extends BorderPane {
 	private int buttonSpacing = 30;
 	private int buttonBorderWidth = 3;
 	
+	private int imageDifference = 4;
 	private int buttonCounter = 0;
 	
 	private Button[] buttons;
@@ -93,7 +92,6 @@ public class PauseMenuView extends BorderPane {
 	
 	private Button getButton(String text) {
 		
-		int buttonWidth = 150;
 		int fontSize = 24;
 		
 		Button button = new Button(text);
@@ -184,17 +182,22 @@ public class PauseMenuView extends BorderPane {
 	}
 	
 	private HBox getTextVBoxes() {
+		
+		int textSpacing = 20;
+		
 		HBox textVBoxes = new HBox();
 		textVBoxes.setAlignment(Pos.CENTER);
 		
-		VBox textBoxOne = new VBox();
-		textBoxOne.setAlignment(Pos.CENTER);
+		VBox textBoxOne = new VBox(textSpacing);
+		textBoxOne.setAlignment(Pos.CENTER_LEFT);
 		
 		Text textE = getText("E - Interact");
+		Text textEsc = getText("Esc - Toggle Pause Menu");
+		Text textI = getText("I - Toggle In Game Menu");
 		
-		textBoxOne.getChildren().addAll(textE);
+		textBoxOne.getChildren().addAll(textE, textEsc, textI);
 		
-		VBox textBoxTwo = new VBox(20);
+		VBox textBoxTwo = new VBox(textSpacing);
 		textBoxTwo.setAlignment(Pos.CENTER_LEFT);
 		
 		Text textUp = getText("Arrow Up - Walk Up");

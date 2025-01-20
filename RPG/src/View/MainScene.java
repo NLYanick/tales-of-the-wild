@@ -20,12 +20,14 @@ public class MainScene extends Scene {
 	private Background background;
 	private StartUpView startUpView;
 	private PauseMenuView pauseMenuView;
+	private InGameMenuView inGameMenuView;
 	
 	private BorderPane root;
 	private StackPane playerAndMenusPane;
 	
 	private boolean gameHasLoaded;
 	private boolean pauseMenuIsOpen;
+	private boolean inGameMenuIsOpen;
 	
 	public MainScene(MainController controller) {
 		super(new Pane());
@@ -40,6 +42,7 @@ public class MainScene extends Scene {
 		playerAndMenusPane = new StackPane();
 		
 		pauseMenuView = new PauseMenuView(this);
+		inGameMenuView = new InGameMenuView();
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -142,22 +145,43 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	private void toggleInGameMenu() {
+		if(inGameMenuIsOpen) {
+			playerAndMenusPane.getChildren().add(inGameMenuView);
+			inGameMenuView.requestFocusForButtons();
+			setAllKeyPressesFalse();
+		} else {
+			playerAndMenusPane.getChildren().remove(inGameMenuView);
+			root.requestFocus();
+		}
+	}
+	
 	private void handlePauseMenu() {
 		pauseMenuIsOpen = !pauseMenuIsOpen;
 		togglePauseMenu();
 		pauzeOrResumeGame();
 	}
 	
+	private void handleInGameMenu() {
+		inGameMenuIsOpen = !inGameMenuIsOpen;
+		toggleInGameMenu();
+	}
+	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case E: 
-			if(gameHasLoaded && !pauseMenuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {
 				controller.playerInteract();
 			}
 			break;
 		case ESCAPE: 
 			if(gameHasLoaded) {
 				handlePauseMenu();
+			}
+			break;
+		case I:
+			if(gameHasLoaded && !pauseMenuIsOpen) {
+				handleInGameMenu();
 			}
 			break;
 		case F11:
@@ -172,7 +196,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		default: 
-			if(gameHasLoaded && !pauseMenuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {
 				handleMovementPressed(e);
 			}
 		}
