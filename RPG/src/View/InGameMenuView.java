@@ -56,7 +56,6 @@ public class InGameMenuView extends BorderPane {
 		for(int x = 0; x < 2; x++) {
 			for(int y = 0; y < 2; y++) {
 				Rectangle invisableRect = new Rectangle(1920/4, 1080/4);
-//				Rectangle invisableRect = new Rectangle(MainScene.SCENEWIDTH/4, MainScene.SCENEHEIGHT/4);
 				invisableRect.setFill(Color.TRANSPARENT);
 				if(!(x == 1 && y == 1)) {
 					menuPane.add(invisableRect, x, y);
@@ -92,21 +91,21 @@ public class InGameMenuView extends BorderPane {
 		int width = 400;
 		int height = 500;
 		
-		arrowView = getArrow();
+		BorderPane buttonsMenu = new BorderPane();
 		
-		BorderPane buttonsPane = new BorderPane();
-		
-		buttonsPane.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		buttonsPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
-		buttonsPane.setMinSize(width, height);
-		buttonsPane.setMaxSize(width, height);
+		buttonsMenu.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		buttonsMenu.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
+		buttonsMenu.setMinSize(width, height);
+		buttonsMenu.setMaxSize(width, height);
 		
 		VBox buttonsBox = getButtonsBox();
 		
-		buttonsPane.setCenter(buttonsBox);
-		buttonsPane.getChildren().add(arrowView);
+		buttonsMenu.setCenter(buttonsBox);
 		
-		return buttonsPane;
+		arrowView = getArrow();
+		buttonsMenu.getChildren().add(arrowView);
+		
+		return buttonsMenu;
 	}
 	
 	private VBox getButtonsBox() {
@@ -169,12 +168,14 @@ public class InGameMenuView extends BorderPane {
 		event.consume();
 		setButtonFocus(direction);
 		
-		menuPane.getChildren().remove(arrowView);
+		int toRight = 10;
+		
+		buttonsMenu.getChildren().remove(arrowView);
 		for(Button button : buttons) {
 			if(button.isFocused()) {
-				arrowView.setLayoutX((button.getLayoutX() - button.getWidth()/2));
+				arrowView.setLayoutX(buttonsBox.getLayoutX() + toRight);
 				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-				menuPane.getChildren().add(arrowView);
+				buttonsMenu.getChildren().add(arrowView);
 				break;
 			}
 		}
@@ -198,6 +199,20 @@ public class InGameMenuView extends BorderPane {
 	public void requestFocusForButtons() {
 		buttons[0].requestFocus();
 		buttonCounter = 0;
+	}
+	
+	public void resetView() {
+		resetArrow();
+		buttonsMenu.setCenter(buttonsBox);
+	}
+	
+	public void resetArrow() {
+		if(!buttonsMenu.getChildren().contains(arrowView)) {
+			buttonsMenu.getChildren().add(arrowView);
+		}
+		int toRight = 10;
+		arrowView.setLayoutX(buttonsBox.getLayoutX() + toRight);
+		arrowView.setLayoutY(buttons[0].getLayoutY() + imageDifference);
 	}
 	
 	private void openInventory() {

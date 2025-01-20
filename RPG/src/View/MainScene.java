@@ -131,7 +131,11 @@ public class MainScene extends Scene {
 		} else {
 			playerAndMenusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
-			root.requestFocus();
+			if(inGameMenuIsOpen) {
+				inGameMenuView.requestFocus();
+			} else {
+				root.requestFocus();
+			}
 			setCursor(Cursor.NONE);
 		}
 	}
@@ -152,6 +156,7 @@ public class MainScene extends Scene {
 			setAllKeyPressesFalse();
 		} else {
 			playerAndMenusPane.getChildren().remove(inGameMenuView);
+			inGameMenuView.resetView();
 			root.requestFocus();
 		}
 	}
