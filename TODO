@@ -6,12 +6,11 @@ Items toevoegen
 Inventory toevoegen
 In-Game Menu toevoegen (pijl op begin goed (en bij PauseMenu) & resizable)
 Database toevoegen
-(Voor development) iets van een teleport of als je standaard coördinaten instelt het daar naar toe gaat
 
 
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
-In pauze menu is de eerste pijl hardcoded
+In pauze en in-game menu is de eerste pijl hardcoded
 
 
 TODO Images:

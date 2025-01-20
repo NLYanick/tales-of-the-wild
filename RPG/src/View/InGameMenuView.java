@@ -77,8 +77,8 @@ public class InGameMenuView extends BorderPane {
 	private ImageView getArrow() {
 		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
 		
-		int x = 410;
-		int y = 250 + imageDifference;
+		int x = 20;
+		int y = 100 + imageDifference;
 		
 		arrowView.setLayoutX(x);
 		arrowView.setLayoutY(y);
@@ -153,7 +153,7 @@ public class InGameMenuView extends BorderPane {
 		case DOWN:
 			moveArrow("Down", e);
 			break;
-			default: System.out.println("Input not valid");
+			default: 
 		}
 	}
 	

@@ -263,7 +263,7 @@ public class PauseMenuView extends BorderPane {
 		case DOWN:
 			moveArrow("Down", e);
 			break;
-			default: System.out.println("Input not valid");
+			default: 
 		}
 	}
 	
