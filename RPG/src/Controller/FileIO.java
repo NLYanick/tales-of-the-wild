@@ -21,9 +21,9 @@ public class FileIO {
 	private Background background;
 	private BackgroundImages backgroundImages;
 	
-	private int imagesUp = 4;
-	private int layer = -imagesUp;
-	private int imagesToLeft = 6;
+	private int imagesUp;
+	private int layer;
+	private int imagesToLeft;
 	
 	private ArrayList<Image> imagesInFile;
 	
@@ -38,6 +38,8 @@ public class FileIO {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			int longestLine = 0;
 			String[] line = br.readLine().split(" ");
+			setImagesUp(line);
+			line = br.readLine().split(" ");
 			while(line != null){
 				for (int i = 0; i < line.length; i++) {
 					loadBackground(line, i);
@@ -61,6 +63,19 @@ public class FileIO {
 		} 
 	}
 	
+	private void setImagesUp(String[] line) {
+		for(int i = 0; i < line.length; i++) {
+			if(line[i].equals("imagesUp:")) {
+				i++;
+				imagesUp = Integer.parseInt(line[i]);
+				layer = -imagesUp;
+			} else if(line[i].equals("imagesToLeft:")) {
+				i++;
+				imagesToLeft = Integer.parseInt(line[i]);
+			}
+		}
+	}
+
 	private void loadBackground(String[] line, int i) {
 		if(!line[i].equals("-1")) {
 			int xLocation = i - imagesToLeft;
