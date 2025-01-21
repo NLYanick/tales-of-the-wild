@@ -33,7 +33,6 @@ public class MainScene extends Scene {
 		super(new Pane());
 		
 		this.controller = controller;
-		
 		setUpRoot();
 	}
 	
@@ -42,7 +41,7 @@ public class MainScene extends Scene {
 		playerAndMenusPane = new StackPane();
 		
 		pauseMenuView = new PauseMenuView(this);
-		inGameMenuView = new InGameMenuView();
+		inGameMenuView = new InGameMenuView(this);
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -151,6 +150,7 @@ public class MainScene extends Scene {
 	
 	private void toggleInGameMenu() {
 		if(inGameMenuIsOpen) {
+			inGameMenuView.fillGrid();
 			playerAndMenusPane.getChildren().add(inGameMenuView);
 			inGameMenuView.requestFocusForButtons();
 			setAllKeyPressesFalse();
@@ -172,6 +172,21 @@ public class MainScene extends Scene {
 		toggleInGameMenu();
 	}
 	
+	private void handleFullScreen() {
+		controller.setFullScreen(!controller.isFullScreen());
+		controller.resizeBackgroundAndNPCLocation();
+		if(gameHasLoaded) {
+			if(controller.isFullScreen() && !pauseMenuIsOpen) {
+				setCursor(Cursor.NONE);
+			} else {
+				setCursor(Cursor.DEFAULT);
+			}
+		}
+		if(inGameMenuIsOpen) {
+			inGameMenuView.fillGrid();
+		}
+	}
+	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case E: 
@@ -190,15 +205,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		case F11:
-			controller.setFullScreen(!controller.isFullScreen());
-			controller.resizeBackgroundAndNPCLocation();
-			if(gameHasLoaded) {
-				if(controller.isFullScreen() && !pauseMenuIsOpen) {
-					setCursor(Cursor.NONE);
-				} else {
-					setCursor(Cursor.DEFAULT);
-				}
-			}
+			handleFullScreen();
 			break;
 		default: 
 			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {

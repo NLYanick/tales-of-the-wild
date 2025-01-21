@@ -27,14 +27,17 @@ public class InGameMenuView extends BorderPane {
 	private BorderPane buttonsMenu;
 	private VBox buttonsBox;
 	
-	private Button[] buttons;
+	private MainScene scene;
 	
+	private Button[] buttons;
 	private ImageView arrowView;
 	
 	private int imageDifference = 4;
 	private int buttonCounter = 0;
 	
-	public InGameMenuView() {
+	public InGameMenuView(MainScene scene) {
+		this.scene = scene;
+		
 		setUpLayout();
 		setOnKeyPressed(e -> handleKeyInput(e));
 	}
@@ -42,23 +45,25 @@ public class InGameMenuView extends BorderPane {
 	private void setUpLayout() {
 		menuPane = new GridPane();
 		
-		buttonsMenu = GetFirstMenu();
+		buttonsMenu = getButtonsMenu();
 		fillButtonsArray();
 		
-		fillGrid();
 		menuPane.add(buttonsMenu, 1, 1);
 		
 		setCenter(menuPane);
 		
 	}
 	
-	private void fillGrid() {
+	public void fillGrid() {
+		menuPane.getChildren().clear();
 		for(int x = 0; x < 2; x++) {
 			for(int y = 0; y < 2; y++) {
-				Rectangle invisableRect = new Rectangle(1920/4, 1080/4);
+				Rectangle invisableRect = new Rectangle(scene.getWidth()/4, scene.getHeight()/4);
 				invisableRect.setFill(Color.TRANSPARENT);
 				if(!(x == 1 && y == 1)) {
 					menuPane.add(invisableRect, x, y);
+				} else {
+					menuPane.add(buttonsMenu, x, y);
 				}
 			}
 		}
@@ -85,7 +90,7 @@ public class InGameMenuView extends BorderPane {
 		return arrowView;
 	}
 
-	private BorderPane GetFirstMenu() {
+	private BorderPane getButtonsMenu() {
 		
 		int borderWidth = 10;
 		int width = 400;
