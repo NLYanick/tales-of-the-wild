@@ -2,6 +2,7 @@ package View;
 
 import Controller.MainController;
 import Model.Direction;
+import Model.Location;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -189,6 +190,10 @@ public class MainScene extends Scene {
 	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
+		// TODO Remove 
+		case T:
+			controller.teleportPlayer(new Location(5000, 2400));
+			break;
 		case E: 
 			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {
 				controller.playerInteract();
