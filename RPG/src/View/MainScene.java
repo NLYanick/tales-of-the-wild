@@ -4,6 +4,7 @@ import Controller.MainController;
 import Model.Direction;
 import Model.Location;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -29,6 +30,7 @@ public class MainScene extends Scene {
 	private boolean gameHasLoaded;
 	private boolean pauseMenuIsOpen;
 	private boolean inGameMenuIsOpen;
+	private boolean playerIsInDialog;
 	
 	public MainScene(MainController controller) {
 		super(new Pane());
@@ -123,6 +125,29 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	public void addDialogView(String dialogText) {
+		DialogView dialogView = new DialogView(dialogText, this);
+		playerAndMenusPane.getChildren().add(dialogView);
+		
+		playerIsInDialog = true;
+	}
+	
+	public void removeDialog(DialogView dialogView) {
+		playerAndMenusPane.getChildren().remove(dialogView);
+		if(!checkForDialogViews()) {
+			playerIsInDialog = false;
+		}
+	}
+	
+	private boolean checkForDialogViews() {
+		for(Node node : playerAndMenusPane.getChildren()) {
+			if(node instanceof DialogView) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void togglePauseMenu() {
 		if(pauseMenuIsOpen) {
 			playerAndMenusPane.getChildren().add(pauseMenuView);
@@ -195,7 +220,7 @@ public class MainScene extends Scene {
 			controller.teleportPlayer(new Location(1100, 3000));
 			break;
 		case E: 
-			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
 				controller.playerInteract();
 			}
 			break;
@@ -205,7 +230,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		case I:
-			if(gameHasLoaded && !pauseMenuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !playerIsInDialog) {
 				handleInGameMenu();
 			}
 			break;
@@ -213,7 +238,7 @@ public class MainScene extends Scene {
 			handleFullScreen();
 			break;
 		default: 
-			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
 				handleMovementPressed(e);
 			}
 		}

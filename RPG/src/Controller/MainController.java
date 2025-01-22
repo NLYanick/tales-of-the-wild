@@ -142,6 +142,14 @@ public class MainController {
 		}
 	}
 	
+	public void resumeNPCThreads() {
+		if(npcs != null && !(npcs.size() <= 0)) {			
+			for(NPC npc : npcs) {
+				npc.resumeThread();
+			}
+		}
+	}
+	
 	private void moveNPCs(Direction dir) {
 		for(NPC npc : npcs) {
 			npc.moveViewLocationWithBackground(dir);
@@ -291,6 +299,12 @@ public class MainController {
 	private boolean playerYIsNearNPCY(NPC npc, Direction nextDirection, int multiplier) {
 		return (player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
 				&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier);
+	}
+	
+	public void addDialogView(List<String> dialog) {
+		for(String text : dialog) {
+			scene.addDialogView(text);
+		}
 	}
 	
 	// -------------------- Getters & Setters --------------------

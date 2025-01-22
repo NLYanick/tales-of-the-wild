@@ -181,10 +181,10 @@ public class NPC extends Entity {
 	}
 	
 	public void startDialog() {
-		for(String text : dialog) {
-			System.out.println(text);
-		}
-		resumeThread();
+		pauzeThread();
+		setStandingStillAnimation(movingDirection);
+		
+		controller.addDialogView(dialog);
 	}
 	
 	public void pauzeThread() {

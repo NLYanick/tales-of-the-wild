@@ -50,8 +50,6 @@ public class Player extends Entity {
 	
 	public void talkToNPC(NPC npc) {
 		if(npc != null && npc.getDialog() != null) {
-			npc.pauzeThread();
-			npc.setStandingStillAnimation(movingDirection);
 			npc.startDialog();
 		}
 	}
