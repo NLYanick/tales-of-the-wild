@@ -192,7 +192,7 @@ public class MainScene extends Scene {
 		switch(e.getCode()) {
 		// TODO Remove 
 		case T:
-			controller.teleportPlayer(new Location(5000, 2400));
+			controller.teleportPlayer(new Location(1100, 3000));
 			break;
 		case E: 
 			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen) {

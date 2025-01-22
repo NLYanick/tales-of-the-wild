@@ -4,10 +4,12 @@ public abstract class Entity {
 
 	protected Location location;
 	protected String imageURL;
+	protected Direction movingDirection;
 	
 	public Entity(String imageURL) {
 		this.imageURL = imageURL;
 		location = new Location();
+		movingDirection = Direction.SOUTH;
 	}
 	
 	public void move(Direction dir) {
@@ -41,6 +43,14 @@ public abstract class Entity {
 	
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+	
+	public Direction getMovingDirection() {
+		return movingDirection;
+	}
+	
+	public void setMovingDirection(Direction movingDirection) {
+		this.movingDirection = movingDirection;
 	}
 	
 }

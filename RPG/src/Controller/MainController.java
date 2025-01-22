@@ -1,7 +1,9 @@
 package Controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import Model.BackgroundLocation;
 import Model.Direction;
@@ -31,7 +33,6 @@ public class MainController {
 	private ArrayList<NPC> npcs;
 	private HashMap<NPC, NPCView> npcsWithViews;
 	
-	private Direction movingDirection = Direction.SOUTH;
 	private boolean gameIsPaused;
 	
 	@SuppressWarnings("static-access")
@@ -54,7 +55,8 @@ public class MainController {
 		int bgX = backgroundLocation.getX();
 		int bgY = backgroundLocation.getY();
 		
-		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw");
+		List<String> scarletMacawDialog = Arrays.asList("Hi there!", "What do you think of my tent?", "Thank you for visiting my tent!");
+		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw", scarletMacawDialog);
 		npcs.add(scarletMacaw);
 		
 		for(NPC npc : npcs) {
@@ -85,6 +87,7 @@ public class MainController {
 		
 		backgroundLocation.setX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
 		backgroundLocation.setY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
+		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 		
 		int bgX = backgroundLocation.getX();
 		int bgY = backgroundLocation.getY();
@@ -220,6 +223,7 @@ public class MainController {
 
 	private boolean hasNPCNearby(NPC npc) {
 		
+		Direction movingDirection = player.getMovingDirection();
 		Direction direction = getGoodNPCCheckDirection(movingDirection);
 		Direction nextDirection = Direction.getNext(direction);
 
@@ -243,6 +247,7 @@ public class MainController {
 		
 		int multiplier = 8;
 		boolean hasNearby = false;
+		Direction movingDirection = player.getMovingDirection();
 		
 		if(movingDirection == Direction.EAST) {
 			if((player.getX() >= npc.getX()) && (player.getX() <= npc.getX() + direction.getX() * multiplier)
@@ -262,6 +267,7 @@ public class MainController {
 		
 		int multiplier = 8;
 		boolean hasNearby = false;
+		Direction movingDirection = player.getMovingDirection();
 		
 		if(movingDirection == Direction.NORTH) {
 			if(((player.getY() >= npc.getY() - direction.getY() * multiplier) && (player.getY() <= npc.getY()))
@@ -326,11 +332,11 @@ public class MainController {
 	}
 	
 	public void setMovingDirection(Direction dir) {
-		movingDirection = dir;
+		player.setMovingDirection(dir);
 	}
 	
 	public Direction getMovingDirection() {
-		return movingDirection;
+		return player.getMovingDirection();
 	}
 	
 	public BackgroundLocation getBackgroundLocation() {

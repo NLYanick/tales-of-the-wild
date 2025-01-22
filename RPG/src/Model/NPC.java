@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import Controller.MainController;
 
 public class NPC extends Entity {
@@ -11,14 +13,16 @@ public class NPC extends Entity {
 	private Location startLocation;
 	private Location endLocation;
 	
-	private Direction walkDirection;
 	private String name;
 	private boolean running;
 	private boolean isPaused;
 	
 	private Location viewLocation;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, String name) {
+	private List<String> dialog;
+	
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, 
+			String name, List<String> dialog) {
 		super(imageURL);
 		
 		this.controller = controller;
@@ -29,12 +33,14 @@ public class NPC extends Entity {
 		location.setY(startLocation.getY());
 		
 		this.startLocation = startLocation;
-		this.walkDirection = walkDirection;
+		movingDirection = walkDirection;
+		
+		this.dialog = dialog;
 
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, MainController controller, String name) {
+	public NPC(String imageURL, Location startLocation, MainController controller, String name, List<String> dialog) {
 		super(imageURL);
 		this.startLocation = startLocation;
 		this.name = name;
@@ -129,15 +135,15 @@ public class NPC extends Entity {
 
 	private void moveInLine() {
 		if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
-			walkDirection = Direction.getOpposite(walkDirection);
+			movingDirection = Direction.getOpposite(movingDirection);
 			switchStartAndEndLocations();
-			setRunningImage(walkDirection);
+			setRunningImage(movingDirection);
 		}
-		location.setX(getX() + walkDirection.getX()); 
-		location.setY(getY() + walkDirection.getY()); 
+		location.setX(getX() + movingDirection.getX()); 
+		location.setY(getY() + movingDirection.getY()); 
 		
-		viewLocation.setX(viewLocation.getX() + walkDirection.getX()); 
-		viewLocation.setY(viewLocation.getY() + walkDirection.getY()); 
+		viewLocation.setX(viewLocation.getX() + movingDirection.getX()); 
+		viewLocation.setY(viewLocation.getY() + movingDirection.getY()); 
 	}
 	
 	public void setUpThread() {
@@ -155,7 +161,7 @@ public class NPC extends Entity {
 				}
 				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 					try {
-						setStandingStillAnimation(walkDirection);
+						setStandingStillAnimation(movingDirection);
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -174,6 +180,13 @@ public class NPC extends Entity {
 		walkingThread.start();
 	}
 	
+	public void startDialog() {
+		for(String text : dialog) {
+			System.out.println(text);
+		}
+		resumeThread();
+	}
+	
 	public void pauzeThread() {
 		isPaused = true;
 	}
@@ -183,7 +196,7 @@ public class NPC extends Entity {
 	}
 	
 	public Direction getWalkDirection() {
-		return walkDirection;
+		return movingDirection;
 	}
 	
 	public void setThreadRunning(boolean running) {
@@ -209,6 +222,10 @@ public class NPC extends Entity {
 
 	public void setViewLocation(Location viewLocation) {
 		this.viewLocation = viewLocation;
+	}
+	
+	public List<String> getDialog(){
+		return dialog;
 	}
 
 }
