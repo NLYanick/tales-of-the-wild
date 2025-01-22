@@ -76,7 +76,6 @@ public class MainController {
 			moveNPCs(dir);
 			
 			player.move(Direction.getOpposite(dir));
-//			System.out.println(player.getX() + " " + player.getY());
 		}
 	}
 	
