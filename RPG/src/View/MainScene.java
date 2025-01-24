@@ -136,6 +136,7 @@ public class MainScene extends Scene {
 		playerAndMenusPane.getChildren().remove(dialogView);
 		if(!checkForDialogViews()) {
 			playerIsInDialog = false;
+			controller.resumeNearbyNPCThread();
 		}
 	}
 	

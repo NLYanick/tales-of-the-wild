@@ -50,7 +50,7 @@ public class Player extends Entity {
 	
 	public void talkToNPC(NPC npc) {
 		if(npc != null && npc.getDialog() != null) {
-			npc.startDialog();
+			npc.startDialog(movingDirection);
 		}
 	}
 	

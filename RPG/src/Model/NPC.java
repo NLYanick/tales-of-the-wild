@@ -117,6 +117,21 @@ public class NPC extends Entity {
 		controller.switchNPCImage(this, url);
 	}
 	
+	private String getCorrectImage() {
+		switch(movingDirection) {
+		case NORTH:
+			return "Images/NPCs/"+ name +"BackRunning.gif";
+		case EAST:
+			return "Images/NPCs/"+ name +"RightRunning.gif";
+		case SOUTH:
+			return "Images/NPCs/"+ name +"Running.gif";
+		case WEST:
+			return "Images/NPCs/"+ name +"LeftRunning.gif";
+			default:
+				return "Images/NPCs/"+ name +".png";
+		}
+	}
+	
 	public void moveViewLocationWithBackground(Direction dir) {
 		viewLocation.setX(viewLocation.getX() + dir.getX());
 		viewLocation.setY(viewLocation.getY() + dir.getY());
@@ -144,6 +159,14 @@ public class NPC extends Entity {
 		
 		viewLocation.setX(viewLocation.getX() + movingDirection.getX()); 
 		viewLocation.setY(viewLocation.getY() + movingDirection.getY()); 
+		
+		checkForCorrectImage();
+	}
+	
+	private void checkForCorrectImage() {
+		if(!imageURL.equals(getCorrectImage())) {
+			setRunningImage(movingDirection);
+		}
 	}
 	
 	public void setUpThread() {
@@ -152,17 +175,17 @@ public class NPC extends Entity {
 			
 			running = true;
 			while(running) {
-				while(isPaused) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
 				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
 					try {
 						setStandingStillAnimation(movingDirection);
 						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				while(isPaused) {
+					try {
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -180,9 +203,9 @@ public class NPC extends Entity {
 		walkingThread.start();
 	}
 	
-	public void startDialog() {
+	public void startDialog(Direction direction) {
 		pauzeThread();
-		setStandingStillAnimation(movingDirection);
+		setStandingStillAnimation(direction);
 		
 		controller.addDialogView(dialog);
 	}
