@@ -200,10 +200,10 @@ public class PauseMenuView extends BorderPane {
 		VBox textBoxTwo = new VBox(textSpacing);
 		textBoxTwo.setAlignment(Pos.CENTER_LEFT);
 		
-		Text textUp = getText("Arrow Up - Walk Up");
-		Text textLeft = getText("Arrow Left - Walk To Left");
-		Text textDown = getText("Arrow Down - Walk Down");
-		Text textRight = getText("Arrow Right - Walk To Right");
+		Text textUp = getText("Arrow Up | W - Walk Up");
+		Text textLeft = getText("Arrow Left | A - Walk To Left");
+		Text textDown = getText("Arrow Down | S - Walk Down");
+		Text textRight = getText("Arrow Right | D - Walk To Right");
 		
 		textBoxTwo.getChildren().addAll(textUp, textLeft, textDown, textRight);
 		
