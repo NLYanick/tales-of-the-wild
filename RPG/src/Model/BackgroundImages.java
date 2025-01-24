@@ -67,10 +67,21 @@ public class BackgroundImages {
 		images.put(40, new Image(GRASSPATH.concat("OakTree.png"), false));
 		images.put(41, new Image(GRASSPATH.concat("PurpleFlower.png"), true));
 		images.put(42, new Image(GRASSPATH.concat("RedFlowerBatch.png"), true));
+		images.put(43, new Image(GRASSPATH.concat("ConcretePath.png"), true));
+		images.put(44, new Image(GRASSPATH.concat("ConcretePath.png EAST"), true));
+		images.put(45, new Image(GRASSPATH.concat("ConcretePathEnd.png"), true));
+		images.put(46, new Image(GRASSPATH.concat("ConcretePathEnd.png EAST"), true));
+		images.put(47, new Image(GRASSPATH.concat("ConcretePathEnd.png SOUTH"), true));
+		images.put(48, new Image(GRASSPATH.concat("ConcretePathEnd.png WEST"), true));
+		images.put(49, new Image(GRASSPATH.concat("ConcretePathCrossing.png"), true));
+		images.put(50, new Image(GRASSPATH.concat("ConcretePathT.png"), true));
+		images.put(51, new Image(GRASSPATH.concat("ConcretePathT.png EAST"), true));
+		images.put(52, new Image(GRASSPATH.concat("ConcretePathT.png SOUTH"), true));
+		images.put(53, new Image(GRASSPATH.concat("ConcretePathT.png WEST"), true));
 		
-		images.put(43, new Image(PATH.concat("BlueTent.png"), false));
-		images.put(44, new Image(PATH.concat("BrickHouse.png"), false));
-		images.put(45, new Image(PATH.concat("Brick.png"), false));
+		images.put(54, new Image(PATH.concat("BlueTent.png"), false));
+		images.put(55, new Image(PATH.concat("BrickHouse.png"), false));
+		images.put(56, new Image(PATH.concat("Brick.png"), false));
 		
 	}
 	
