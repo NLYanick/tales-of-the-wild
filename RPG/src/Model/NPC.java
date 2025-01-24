@@ -149,7 +149,11 @@ public class NPC extends Entity {
 	}
 
 	private void moveInLine() {
-		if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
+		if(nextStepIsPlayer()) {
+			return;
+		}
+		
+		if(Location.isSame(location, endLocation)) {
 			movingDirection = Direction.getOpposite(movingDirection);
 			switchStartAndEndLocations();
 			setRunningImage(movingDirection);
@@ -169,13 +173,27 @@ public class NPC extends Entity {
 		}
 	}
 	
+	private boolean nextStepIsPlayer() {
+		int multiplier = 4;
+		
+		Location nextLocation = location.getNext(movingDirection);
+		Location playerLocation = controller.getPlayerLocation();
+		
+		if(Location.isSame(nextLocation, playerLocation)
+			|| (Location.isLess(nextLocation, new Location(playerLocation.getX() + Direction.getAmount() * multiplier, playerLocation.getY() + Direction.getAmount() * multiplier)) 
+			&& Location.isGreater(nextLocation, new Location(playerLocation.getX() - Direction.getAmount() * multiplier, playerLocation.getY() - Direction.getAmount() * multiplier)))) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void setUpThread() {
 		
 		Thread walkingThread = new Thread(() -> {
 			
 			running = true;
 			while(running) {
-				if(location.getX() == endLocation.getX() && location.getY() == endLocation.getY()) {
+				if(Location.isSame(location, endLocation)) {
 					try {
 						setStandingStillAnimation(movingDirection);
 						Thread.sleep(3000);

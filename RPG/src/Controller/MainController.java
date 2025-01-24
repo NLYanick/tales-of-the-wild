@@ -339,6 +339,10 @@ public class MainController {
 		return list;
 	}
 	
+	public Location getPlayerLocation() {
+		return player.getLocation();
+	}
+	
 	// -------------------- Getters & Setters --------------------
 	
 	public BooleanProperty getUpPressed() {

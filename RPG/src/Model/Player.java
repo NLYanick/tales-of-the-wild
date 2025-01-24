@@ -53,5 +53,9 @@ public class Player extends Entity {
 			npc.startDialog(movingDirection);
 		}
 	}
+
+	public Location getLocation() {
+		return location;
+	}
 	
 }

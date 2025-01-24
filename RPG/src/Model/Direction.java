@@ -52,4 +52,8 @@ public enum Direction {
 	public static boolean isVertical(Direction dir) {
 		return dir == NORTH || dir == SOUTH;
 	}
+	
+	public static int getAmount() {
+		return 6;
+	}
 }
