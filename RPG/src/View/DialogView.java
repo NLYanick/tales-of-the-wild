@@ -36,6 +36,7 @@ public class DialogView extends BorderPane {
 		int height = 300;
 		
 		dialogPane = new BorderPane();
+		dialogPane.setMinSize(width, height);
 		dialogPane.setMaxSize(width, height);
 		
 		HBox textBox = getTextBox();
@@ -61,13 +62,18 @@ public class DialogView extends BorderPane {
 	private HBox getTextBox() {
 		
 		int textBorderWidth = 10;
+		int width = 500;
+		int height = 300;
 		
 		HBox textBox = new HBox();
 		textBox.setAlignment(Pos.CENTER);
 		textBox.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
 		textBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(textBorderWidth))));
+		textBox.setMinSize(width, height);
+		textBox.setMaxSize(width, height);
 		
 		Text text = getText(dialogText);
+		text.setWrappingWidth(width - width/10);
 		
 		textBox.getChildren().add(text);
 		
