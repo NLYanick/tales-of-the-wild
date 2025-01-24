@@ -215,31 +215,36 @@ public class MainController {
 	}
 	
 	public void resumeNearbyNPCThread() {
-		NPC nearbyNPC = getNearbyNPC();
+		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
+
+		if(nearbyNPC == null) {
+			nearbyNPC = getNearbyNPC(Direction.getOpposite(player.getMovingDirection()));
+		}
+		
 		if(nearbyNPC != null) {			
 			nearbyNPC.resumeThread();
 		}
 	}
 	
 	public void playerInteract() {
-		NPC nearbyNPC = getNearbyNPC();
-		if(nearbyNPC != null) {			
+		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
+		if(nearbyNPC != null) {	
+			scene.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
 		}
 	}
 	
-	private NPC getNearbyNPC() {
+	private NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
-			if(hasNPCNearby(npc)) {
+			if(hasNPCNearby(npc, direction)) {
 				return npc;
 			}
 		}
 		return null;
 	}
 
-	private boolean hasNPCNearby(NPC npc) {
+	private boolean hasNPCNearby(NPC npc, Direction movingDirection) {
 		
-		Direction movingDirection = player.getMovingDirection();
 		Direction direction = getGoodNPCCheckDirection(movingDirection);
 		Direction nextDirection = Direction.getNext(direction);
 

@@ -264,7 +264,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void handleMovementReleased(KeyEvent e) {
-		if(gameHasLoaded && !pauseMenuIsOpen) {
+		if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
 			switch(e.getCode()) {
 				case UP:
 					controller.setMovingDirection(Direction.SOUTH);
@@ -287,7 +287,7 @@ public class MainScene extends Scene {
 		}
 	}
 	
-	private void setAllKeyPressesFalse() {
+	public void setAllKeyPressesFalse() {
 		controller.getUpPressed().set(false);
 		controller.getDownPressed().set(false);
 		controller.getRightPressed().set(false);
