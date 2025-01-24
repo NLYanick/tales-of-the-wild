@@ -2,6 +2,8 @@ package Controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -302,6 +304,8 @@ public class MainController {
 	}
 	
 	public void addDialogView(List<String> dialog) {
+
+		dialog.sort(Collections.reverseOrder());
 		for(String text : dialog) {
 			scene.addDialogView(text);
 		}
