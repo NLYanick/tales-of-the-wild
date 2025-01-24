@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -30,20 +31,36 @@ public class DialogView extends BorderPane {
 	}
 	
 	private void setUpLayout() {
+		
+		int width = 500;
+		int height = 300;
+		
 		dialogPane = new BorderPane();
+		dialogPane.setMaxSize(width, height);
 		
 		HBox textBox = getTextBox();
 		
 		dialogPane.setCenter(textBox);
 		
-		setBottom(dialogPane);
-		BorderPane.setAlignment(textBox, Pos.CENTER);
+		setCenter(dialogPane);
+		BorderPane.setAlignment(dialogPane, Pos.BOTTOM_CENTER);
 		
+		setInvisableRectangleBottom();
+		
+	}
+	
+	private void setInvisableRectangleBottom() {
+		Rectangle rect = new Rectangle();
+		
+		rect.setFill(Color.TRANSPARENT);
+		rect.setHeight(scene.getHeight()/10);
+		
+		setBottom(rect);
 	}
 	
 	private HBox getTextBox() {
 		
-		int textBorderWidth = 3;
+		int textBorderWidth = 10;
 		
 		HBox textBox = new HBox();
 		textBox.setAlignment(Pos.CENTER);
@@ -57,7 +74,7 @@ public class DialogView extends BorderPane {
 		return textBox;
 	}
 	
-private Text getText(String string) {
+	private Text getText(String string) {
 		
 		int fontSize = 28;
 		
