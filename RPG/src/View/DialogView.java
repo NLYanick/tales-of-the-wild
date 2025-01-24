@@ -1,6 +1,8 @@
 package View;
 
 import javafx.geometry.Pos;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -27,6 +29,7 @@ public class DialogView extends BorderPane {
 		this.scene = scene;
 		
 		setUpLayout();
+		setOnKeyPressed(e -> handleButtonKeyPressed(e));
 		setOnMouseClicked(e -> scene.removeDialog(this));
 	}
 	
@@ -91,6 +94,12 @@ public class DialogView extends BorderPane {
 		text.setFill(Color.BLACK);
 		
 		return text;
+	}
+	
+	private void handleButtonKeyPressed(KeyEvent e) {
+		if(e.getCode().equals(KeyCode.ENTER)) {
+			scene.removeDialog(this);
+		}
 	}
 	
 }

@@ -1,5 +1,7 @@
 package View;
 
+import java.util.ArrayList;
+
 import Controller.MainController;
 import Model.Direction;
 import Model.Location;
@@ -32,10 +34,13 @@ public class MainScene extends Scene {
 	private boolean inGameMenuIsOpen;
 	private boolean playerIsInDialog;
 	
+	private ArrayList<DialogView> dialogs;
+	
 	public MainScene(MainController controller) {
 		super(new Pane());
 		
 		this.controller = controller;
+		this.dialogs = new ArrayList<DialogView>();
 		setUpRoot();
 	}
 	
@@ -129,24 +134,21 @@ public class MainScene extends Scene {
 		DialogView dialogView = new DialogView(dialogText, this);
 		playerAndMenusPane.getChildren().add(dialogView);
 		
+		dialogs.add(dialogView);
+		dialogs.get(dialogs.size() - 1).requestFocus();
+		
 		playerIsInDialog = true;
 	}
 	
 	public void removeDialog(DialogView dialogView) {
 		playerAndMenusPane.getChildren().remove(dialogView);
-		if(!checkForDialogViews()) {
+		dialogs.remove(dialogView);
+		if(dialogs.size() == 0) {
 			playerIsInDialog = false;
 			controller.resumeNearbyNPCThread();
+			return;
 		}
-	}
-	
-	private boolean checkForDialogViews() {
-		for(Node node : playerAndMenusPane.getChildren()) {
-			if(node instanceof DialogView) {
-				return true;
-			}
-		}
-		return false;
+		dialogs.get(dialogs.size() - 1).requestFocus();
 	}
 	
 	private void togglePauseMenu() {
@@ -247,16 +249,16 @@ public class MainScene extends Scene {
 	
 	private void handleMovementPressed(KeyEvent e) {
 		switch(e.getCode()) {
-			case UP:
+			case UP: case W:
 				controller.getUpPressed().set(true);
 				break;
-			case DOWN:
+			case DOWN: case S:
 				controller.getDownPressed().set(true);
 				break;
-			case RIGHT:
+			case RIGHT: case D:
 				controller.getRightPressed().set(true);
 				break;
-			case LEFT:
+			case LEFT: case A:
 				controller.getLeftPressed().set(true);
 				break;
 			default: System.out.println("Input not valid");
@@ -266,19 +268,19 @@ public class MainScene extends Scene {
 	private void handleMovementReleased(KeyEvent e) {
 		if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
 			switch(e.getCode()) {
-				case UP:
+				case UP: case W:
 					controller.setMovingDirection(Direction.SOUTH);
 					controller.getUpPressed().set(false);
 					break;
-				case DOWN:
+				case DOWN: case S:
 					controller.setMovingDirection(Direction.NORTH);
 					controller.getDownPressed().set(false);
 					break;
-				case RIGHT:
+				case RIGHT: case D:
 					controller.setMovingDirection(Direction.WEST);
 					controller.getRightPressed().set(false);
 					break;
-				case LEFT:
+				case LEFT: case A:
 					controller.setMovingDirection(Direction.EAST);
 					controller.getLeftPressed().set(false);
 					break;
