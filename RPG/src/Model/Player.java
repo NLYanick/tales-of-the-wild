@@ -53,9 +53,20 @@ public class Player extends Entity {
 			npc.startDialog(movingDirection);
 		}
 	}
-
-	public Location getLocation() {
-		return location;
+	
+	public boolean nextStepIsNPC(NPC npc) {
+		int multiplier = 5;
+		int extraSpace = Direction.getAmount() * multiplier;
+		
+		Location nextLocation = location.getNext(movingDirection);
+		Location npcLocation = npc.getLocation();
+		
+		if(Location.isSame(nextLocation, npcLocation)
+			|| (Location.isLess(nextLocation, new Location(npcLocation.getX() + extraSpace, npcLocation.getY() +extraSpace)) 
+			&& Location.isGreater(nextLocation, new Location(npcLocation.getX() - extraSpace, npcLocation.getY() - extraSpace)))) {
+			return true;
+		}
+		return false;
 	}
 	
 }

@@ -72,13 +72,21 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		if(playerCanWalk(dir) && !gameIsPaused) {
+		if(playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC()) {
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
 			
 			player.move(Direction.getOpposite(dir));
 		}
+	}
+	
+	private boolean nextStepForPlayerisNPC() {
+		NPC npc = getNearbyNPC(player.getMovingDirection());
+		if(npc != null && player.nextStepIsNPC(npc)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void teleportPlayer(Location location) {

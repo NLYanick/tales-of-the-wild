@@ -174,14 +174,15 @@ public class NPC extends Entity {
 	}
 	
 	private boolean nextStepIsPlayer() {
-		int multiplier = 4;
+		int multiplier = 5;
+		int extraSpace = Direction.getAmount() * multiplier;
 		
 		Location nextLocation = location.getNext(movingDirection);
 		Location playerLocation = controller.getPlayerLocation();
 		
 		if(Location.isSame(nextLocation, playerLocation)
-			|| (Location.isLess(nextLocation, new Location(playerLocation.getX() + Direction.getAmount() * multiplier, playerLocation.getY() + Direction.getAmount() * multiplier)) 
-			&& Location.isGreater(nextLocation, new Location(playerLocation.getX() - Direction.getAmount() * multiplier, playerLocation.getY() - Direction.getAmount() * multiplier)))) {
+			|| (Location.isLess(nextLocation, new Location(playerLocation.getX() + extraSpace, playerLocation.getY() + extraSpace)) 
+			&& Location.isGreater(nextLocation, new Location(playerLocation.getX() - extraSpace, playerLocation.getY() - extraSpace)))) {
 			return true;
 		}
 		return false;

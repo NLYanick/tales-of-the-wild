@@ -45,6 +45,10 @@ public abstract class Entity {
 		this.imageURL = imageURL;
 	}
 	
+	public Location getLocation() {
+		return location;
+	}
+	
 	public Direction getMovingDirection() {
 		return movingDirection;
 	}
