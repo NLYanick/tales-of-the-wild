@@ -2,7 +2,6 @@ package Controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -315,10 +314,29 @@ public class MainController {
 	}
 	
 	public void addDialogView(List<String> dialog) {
-		dialog.sort(Collections.reverseOrder());
+		dialog = reverseSort(new ArrayList<>(dialog));
 		for(String text : dialog) {
 			scene.addDialogView(text);
 		}
+	}
+	
+	private <T> ArrayList<T> reverseSort(ArrayList<T> list) {
+		int j = list.size() - 1;
+		T temp;
+		for(int i = 0; i < list.size(); i++) {
+			if(i >= j) {
+				break;
+			}
+			
+			temp = list.get(j);
+			list.remove(temp);
+			list.add(j, list.get(i));
+			list.remove(list.get(i));
+			list.add(i, temp);
+			
+			j--;
+		}
+		return list;
 	}
 	
 	// -------------------- Getters & Setters --------------------
