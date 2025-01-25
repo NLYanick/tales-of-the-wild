@@ -1,5 +1,6 @@
 Background maken 
 NPC plaatjes mogen niet mee gaan
+Schuin lopen moet 1 i.p.v. 1.41
 Niet over NPC's lopen
 Items toevoegen
 Building object toevoegen
@@ -15,5 +16,4 @@ In pauze en in-game menu is de eerste pijl hardcoded
 
 TODO Images:
 Huizen, NPC's
-Characters zwarte rand weg
 Tent & BrickHouse image fixen
