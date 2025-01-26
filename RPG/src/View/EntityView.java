@@ -43,7 +43,7 @@ public abstract class EntityView extends BorderPane {
 		hitBox.setFill(Color.TRANSPARENT);
 		
 		int strokeWidth = 5;
-		hitBox.setStroke(Color.BLACK);
+//		hitBox.setStroke(Color.BLACK);
 		hitBox.setStrokeWidth(strokeWidth);
 		
 		hitBox.setX(getLayoutX() + IMAGESIZE/4);

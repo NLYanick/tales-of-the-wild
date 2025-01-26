@@ -16,16 +16,18 @@ public class NPCView extends EntityView {
 		}
 		
 		boolean isOnNPCView = false;
+		int lessVerticalPersonalSpace = 20;
+		int lessHorizontalPersonalSpace = 10;
 		
 		setLayoutX(getLayoutX() + dir.getX());
 		setLayoutY(getLayoutY() + dir.getY());
 		
 		Bounds bounds = getBoundsInParent();
-		Bounds npcBounds = playerView.getBoundsInParent();
+		Bounds playerBounds = playerView.getBoundsInParent();
 
-		if(bounds.intersects(npcBounds.getMinX(), npcBounds.getMinY(),
-				npcBounds.getWidth()/2, npcBounds.getHeight())
-			&& playerView.getBoundsInParent().intersects(bounds.getMinX(), bounds.getMinY(), 
+		if(bounds.intersects(playerBounds.getMinX(), playerBounds.getMinY(),
+				playerBounds.getWidth()/2 - lessHorizontalPersonalSpace, playerBounds.getHeight() - lessVerticalPersonalSpace)
+			&& playerBounds.intersects(bounds.getMinX() - lessHorizontalPersonalSpace, bounds.getMinY() - lessVerticalPersonalSpace * 3, 
 					bounds.getWidth()/2, bounds.getHeight())) {
 			isOnNPCView = true;
 		}
