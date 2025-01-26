@@ -173,21 +173,6 @@ public class NPC extends Entity {
 		}
 	}
 	
-	private boolean nextStepIsPlayer() {
-		int multiplier = 8;
-		int extraSpace = Direction.getAmount() * multiplier;
-		
-		Location nextLocation = location.getNext(movingDirection);
-		Location playerLocation = controller.getPlayerLocation();
-		
-		if(Location.isSame(nextLocation, playerLocation)
-			|| (Location.isLess(nextLocation, new Location(playerLocation.getX() + extraSpace, playerLocation.getY() + extraSpace)) 
-			&& Location.isGreater(nextLocation, new Location(playerLocation.getX() - extraSpace, playerLocation.getY() - extraSpace)))) {
-			return true;
-		}
-		return false;
-	}
-	
 	public void setUpThread() {
 		
 		Thread walkingThread = new Thread(() -> {

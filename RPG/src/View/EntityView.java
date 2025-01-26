@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class EntityView extends BorderPane {
 	
-	public final static int IMAGESIZE = 96;
+	protected final static int IMAGESIZE = 96;
 	
 	protected Image image;
 	protected ImageView imageView;
