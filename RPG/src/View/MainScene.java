@@ -6,7 +6,6 @@ import Controller.MainController;
 import Model.Direction;
 import Model.Location;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -81,7 +80,11 @@ public class MainScene extends Scene {
 	private void createPlayerView()
 	{
 		playerView = new PlayerView(controller.getPlayerURL());
-		playerAndMenusPane.getChildren().add(playerView);
+		playerView.setLayoutX(getWidth()/2);
+		playerView.setLayoutY(getHeight()/2);
+		playerView.fixImage();
+		
+		root.getChildren().add(playerView);
 		root.setCenter(playerAndMenusPane);
 	}
 	
@@ -151,6 +154,21 @@ public class MainScene extends Scene {
 		dialogs.get(dialogs.size() - 1).requestFocus();
 	}
 	
+	public boolean playerViewNextStepIsOnNPCView(NPCView npcView, Direction dir) {
+		return playerView.nextStepIsOnNPCView(npcView, dir);
+	}
+	
+	public boolean npcViewNextStepIsOnPlayerView(NPCView npcView, Direction dir) {
+		return npcView.nextStepIsOnPlayerView(playerView, dir);
+	}
+	
+	public void resizePlayerViewLocation() {
+		if(playerView != null) {
+			playerView.move((int) getWidth()/2, (int) getHeight()/2);
+			playerView.fixImage();
+		}
+	}
+	
 	private void togglePauseMenu() {
 		if(pauseMenuIsOpen) {
 			playerAndMenusPane.getChildren().add(pauseMenuView);
@@ -203,7 +221,7 @@ public class MainScene extends Scene {
 	
 	private void handleFullScreen() {
 		controller.setFullScreen(!controller.isFullScreen());
-		controller.resizeBackgroundAndNPCLocation();
+		controller.resizeLocationsInView();
 		if(gameHasLoaded) {
 			if(controller.isFullScreen() && !pauseMenuIsOpen) {
 				setCursor(Cursor.NONE);
@@ -220,7 +238,8 @@ public class MainScene extends Scene {
 		switch(e.getCode()) {
 		// TODO Remove 
 		case T:
-			controller.teleportPlayer(new Location(1100, 3000));
+			if(gameHasLoaded)
+				controller.teleportPlayer(new Location(1100, 3350));
 			break;
 		case E: 
 			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {

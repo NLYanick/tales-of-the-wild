@@ -149,7 +149,7 @@ public class NPC extends Entity {
 	}
 
 	private void moveInLine() {
-		if(nextStepIsPlayer()) {
+		if(controller.npcViewNextStepIsOnPlayerView(this, movingDirection)) {
 			return;
 		}
 		
@@ -174,7 +174,7 @@ public class NPC extends Entity {
 	}
 	
 	private boolean nextStepIsPlayer() {
-		int multiplier = 5;
+		int multiplier = 8;
 		int extraSpace = Direction.getAmount() * multiplier;
 		
 		Location nextLocation = location.getNext(movingDirection);

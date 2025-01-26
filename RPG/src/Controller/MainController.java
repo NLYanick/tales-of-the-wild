@@ -56,7 +56,8 @@ public class MainController {
 		int bgY = backgroundLocation.getY();
 		
 		List<String> scarletMacawDialog = Arrays.asList("Hi there!", "What do you think of my tent?", "Thank you for visiting my tent!");
-		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, "ScarletMacaw", scarletMacawDialog);
+		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, 
+				"ScarletMacaw", scarletMacawDialog);
 		npcs.add(scarletMacaw);
 		
 		for(NPC npc : npcs) {
@@ -72,7 +73,7 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		if(playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC()) {
+		if(canWalk(dir)) {
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
@@ -81,12 +82,23 @@ public class MainController {
 		}
 	}
 	
+	private boolean canWalk(Direction dir) {
+		return playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC();
+	}
+	
 	private boolean nextStepForPlayerisNPC() {
-		NPC npc = getNearbyNPC(player.getMovingDirection());
-		if(npc != null && player.nextStepIsNPC(npc)) {
-			return true;
+		Direction movingDirection = player.getMovingDirection();
+		for(NPC npc : npcs) {
+			NPCView npcView = npcsWithViews.get(npc);
+			if(npc != null && scene.playerViewNextStepIsOnNPCView(npcView, movingDirection)) {
+				return true;
+			}
 		}
 		return false;
+	}
+	
+	public boolean npcViewNextStepIsOnPlayerView(NPC npc, Direction dir) {
+		return scene.npcViewNextStepIsOnPlayerView(npcsWithViews.get(npc), dir);
 	}
 	
 	public void teleportPlayer(Location location) {
@@ -182,13 +194,14 @@ public class MainController {
 		});
 	}
 	
-	public void resizeBackgroundAndNPCLocation() {
+	public void resizeLocationsInView() {
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+		scene.resizePlayerViewLocation();
 		if(npcs != null)
-			resizeNPCLocation();
+			resizeNPCViewLocation();
 	}
 	
-	private void resizeNPCLocation() {
+	private void resizeNPCViewLocation() {
 		for(NPC npc : npcs) {
 			moveNPCViewWithScreen(npc);
 		}

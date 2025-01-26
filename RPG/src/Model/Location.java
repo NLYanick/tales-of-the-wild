@@ -18,11 +18,11 @@ public class Location {
 	}
 	
 	public static boolean isGreater(Location locationOne, Location locationTwo) {
-		return locationOne.getX() > locationTwo.getX() && locationOne.getY() > locationTwo.getY();
+		return locationOne.getX() >= locationTwo.getX() && locationOne.getY() >= locationTwo.getY();
 	}
 	
 	public static boolean isLess(Location locationOne, Location locationTwo) {
-		return locationOne.getX() < locationTwo.getX() && locationOne.getY() < locationTwo.getY();
+		return locationOne.getX() <= locationTwo.getX() && locationOne.getY() <= locationTwo.getY();
 	}
 	
 	public Location getNext(Direction direction) {

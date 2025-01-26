@@ -3,20 +3,27 @@ package View;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public abstract class EntityView extends BorderPane {
 	
-	protected final static int IMAGESIZE = 96;
+	public final static int IMAGESIZE = 96;
 	
 	protected Image image;
 	protected ImageView imageView;
 	
+	protected Rectangle hitBox;
+	
 	protected String imageURL;
+	
+	protected int yUp = 30;
 	
 	public EntityView(String imageURL) {
 		this.imageURL = imageURL;
 		
 		setUpImage();
+		setHitBox();
 	}
 	
 	private void setUpImage() {
@@ -26,9 +33,23 @@ public abstract class EntityView extends BorderPane {
 		imageView.setFitWidth(IMAGESIZE);
 		imageView.setFitHeight(IMAGESIZE);
 		
-		imageView.setTranslateY(-30);
+		imageView.setTranslateY(-yUp);
 		
 		setCenter(imageView);
+	}
+	
+	private void setHitBox() {
+		hitBox = new Rectangle(IMAGESIZE/2, IMAGESIZE);
+		hitBox.setFill(Color.TRANSPARENT);
+		
+		int strokeWidth = 5;
+		hitBox.setStroke(Color.BLACK);
+		hitBox.setStrokeWidth(strokeWidth);
+		
+		hitBox.setX(getLayoutX() + IMAGESIZE/4);
+		hitBox.setY(getLayoutY() - yUp);
+		
+		getChildren().add(hitBox);
 	}
 
 	public void move(int x, int y) {
@@ -48,8 +69,11 @@ public abstract class EntityView extends BorderPane {
 		setCenter(imageView);
 	}
 	
-	public ImageView getImageView() {
-		return imageView;
+	public void fixImage() {
+		int fixX = (int) (getLayoutX() - imageView.getFitWidth()/2);
+		int fixY = (int) (getLayoutY() - imageView.getFitHeight()/2);
+		
+		move(fixX, fixY);
 	}
 	
 }
