@@ -306,18 +306,18 @@ public class MainController {
 	
 	private boolean hasNPCNearbyVertical(NPC npc, Direction direction, Direction nextDirection) {
 		
-		int multiplier = 24;
+		int multiplier = 12;
 		boolean hasNearby = false;
 		Direction movingDirection = player.getMovingDirection();
 		
 		if(movingDirection == Direction.NORTH) {
-			if(((player.getY() >= npc.getY() - direction.getY() * multiplier) && (player.getY() <= npc.getY()))
-					&& playerXIsNearNPCX(npc, nextDirection, multiplier/4)) {
+			if(((player.getY() >= npc.getY() - direction.getY() * (multiplier * 1.5)) && (player.getY() <= npc.getY()))
+					&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
 				hasNearby = true;
 			}
 		} else if(movingDirection == Direction.SOUTH) {
 			if((player.getY() >= npc.getY()) && (player.getY() <= npc.getY() + direction.getY() * multiplier)
-				&& playerXIsNearNPCX(npc, nextDirection, multiplier/4)) {
+				&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
 				hasNearby = true;
 			}
 		}
