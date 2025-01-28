@@ -5,6 +5,8 @@ Inventory toevoegen
 Database toevoegen
 Player naam kunnen geven
 Map toevoegen
+
+Minder Prioriteit:
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
@@ -18,6 +20,3 @@ In pauze en in-game menu is de eerste pijl hardcoded
 TODO Images:
 Huizen, NPC's
 Tent image fixen
-
-
-Snel: tegen NPC aan lopen laat NPC soms lopen en teruggaan
