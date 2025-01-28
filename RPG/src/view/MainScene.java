@@ -96,6 +96,8 @@ public class MainScene extends Scene {
 		
 		addBackground();
 		controller.setUpNPCs();
+		controller.setUpItems();
+		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
 		createPlayerView();
 		
@@ -104,6 +106,10 @@ public class MainScene extends Scene {
 	
 	public void addNPCView(NPCView nPCView) {
 		root.getChildren().add(nPCView);
+	}
+	
+	public void addItemView(ItemView itemView) {
+		root.getChildren().add(itemView);
 	}
 	
 	public void stopNPCThreads() {
@@ -314,4 +320,5 @@ public class MainScene extends Scene {
 		controller.getRightPressed().set(false);
 		controller.getLeftPressed().set(false);
 	}
+
 }

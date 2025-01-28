@@ -10,10 +10,12 @@ import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
 import model.Direction;
 import model.Image;
+import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
 import view.Background;
+import view.ItemView;
 import view.MainScene;
 import view.NPCView;
 
@@ -32,6 +34,8 @@ public class MainController {
 	
 	private ArrayList<NPC> npcs;
 	private HashMap<NPC, NPCView> npcsWithViews;
+	private ArrayList<Item> items;
+	private HashMap<Item, ItemView> itemsWithViews;
 	
 	private boolean gameIsPaused;
 	
@@ -72,11 +76,27 @@ public class MainController {
 		
 	}
 	
+	public void setUpItems() {
+		items = new ArrayList<Item>();
+		itemsWithViews = new HashMap<Item, ItemView>();
+		
+		Item testItem = new Item(new Location(350, 350), "Appel", "Images/Items/TempAppel.png");
+		items.add(testItem);
+		
+		for(Item item : items) {
+			ItemView itemView = new ItemView(new Location(item.getX(), item.getY()), item.getImageUrl());
+			itemsWithViews.put(item, itemView);
+			
+			scene.addItemView(itemView);
+		}
+	}
+	
 	public void moveBackground(Direction dir) {
 		if(canWalk(dir)) {
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
+			moveItems(dir);
 			
 			player.move(Direction.getOpposite(dir));
 		}
@@ -177,6 +197,25 @@ public class MainController {
 		}
 	}
 	
+	private void moveItems(Direction dir) {
+		for(Item item : items) {
+			moveItemViewWithScreen(item);
+		}
+	}
+	
+	@SuppressWarnings("static-access")
+	public void moveItemViewWithScreen(Item item) {
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
+		ItemView itemView = itemsWithViews.get(item);
+		if(appController.isFullScreen()) {
+			itemView.move(new Location(item.getX() + screenXDiffernce, item.getY() + screenYDiffernce));
+		} else {
+			itemView.move(new Location(item.getX(), item.getY()));
+		}
+	}
+	
 	public void setFullScreen(boolean isFullScreen) {
 		appController.setFullScreen(isFullScreen);
 	}
@@ -248,12 +287,32 @@ public class MainController {
 	
 	public void playerInteract() {
 		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
+		Item item = getNearbyItem();
+		
 		if(nearbyNPC != null) {	
 			scene.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
+		} else if(item != null) {
+			player.addItemToInventory(item);
 		}
 	}
 	
+	private Item getNearbyItem() {
+		for(Item item : items) {
+			if(playerIsOnItem(item)) {
+				System.out.println(item);
+				return item;
+			}
+		}
+		return null;
+	}
+	
+	private boolean playerIsOnItem(Item item) {
+		int extraSpace = 10;
+		return Location.isGreater(new Location(item.getX() - extraSpace, player.getX()), new Location(item.getY() - extraSpace, player.getY())) 
+				&& Location.isLess(new Location(item.getX() + extraSpace, player.getX()), new Location(item.getY() + extraSpace, player.getY()));
+	}
+
 	private NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
 			if(hasNPCNearby(npc, direction)) {

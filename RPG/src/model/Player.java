@@ -2,10 +2,14 @@ package model;
 
 public class Player extends Entity {
 
+	private Inventory inventory;
+	
 	public Player(String imgURL, Location location) {
 		super(imgURL);
 		setX(location.getX());
 		setY(location.getY());
+		
+		inventory = new Inventory();
 	}
 	
 	@Override
@@ -52,6 +56,14 @@ public class Player extends Entity {
 		if(npc != null && npc.getDialog() != null) {
 			npc.startDialog(movingDirection);
 		}
+	}
+
+	public void addItemToInventory(Item item) {
+		inventory.addItem(item);
+	}
+	
+	public void removeItemFromInventory(Item item) {
+		inventory.removeItem(item);
 	}
 	
 }
