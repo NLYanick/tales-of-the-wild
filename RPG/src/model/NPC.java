@@ -1,8 +1,8 @@
-package Model;
+package model;
 
 import java.util.List;
 
-import Controller.MainController;
+import controller.MainController;
 
 public class NPC extends Entity {
 

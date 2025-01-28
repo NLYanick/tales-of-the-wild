@@ -1,12 +1,12 @@
-package Controller;
+package controller;
 
 import java.io.File;
 
-import View.MainScene;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import view.MainScene;
 
 public class ApplicationController extends Application {
 

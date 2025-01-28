@@ -1,21 +1,21 @@
-package Controller;
+package controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import Model.BackgroundLocation;
-import Model.Direction;
-import Model.Image;
-import Model.Location;
-import Model.NPC;
-import Model.Player;
-import View.Background;
-import View.MainScene;
-import View.NPCView;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import model.BackgroundLocation;
+import model.Direction;
+import model.Image;
+import model.Location;
+import model.NPC;
+import model.Player;
+import view.Background;
+import view.MainScene;
+import view.NPCView;
 
 public class MainController {
 

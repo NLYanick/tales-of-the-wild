@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Controller.ApplicationController;
+import controller.ApplicationController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;

@@ -1,16 +1,16 @@
-package View;
+package view;
 
 import java.util.ArrayList;
 
-import Controller.MainController;
-import Model.Direction;
-import Model.Location;
+import controller.MainController;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import model.Direction;
+import model.Location;
 
 public class MainScene extends Scene {
 

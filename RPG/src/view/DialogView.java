@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;

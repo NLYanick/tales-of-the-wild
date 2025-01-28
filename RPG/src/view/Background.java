@@ -1,11 +1,11 @@
-package View;
+package view;
 
 import java.util.ArrayList;
 
-import Model.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Direction;
 
 public class Background extends Pane {
 	

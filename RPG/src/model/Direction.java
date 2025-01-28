@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public enum Direction {
 	NORTH(0, -6), EAST(6, 0), SOUTH(0, 6), WEST(-6, 0);

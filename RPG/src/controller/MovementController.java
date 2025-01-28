@@ -1,11 +1,11 @@
-package Controller;
+package controller;
 
-import Model.Direction;
-import Model.Player;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import model.Direction;
+import model.Player;
 
 public class MovementController {
 

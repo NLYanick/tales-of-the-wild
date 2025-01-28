@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Model.BackgroundImages;
-import Model.Direction;
-import Model.Image;
-import Model.Location;
-import View.Background;
+import model.BackgroundImages;
+import model.Direction;
+import model.Image;
+import model.Location;
+import view.Background;
 
 public class FileIO {
 

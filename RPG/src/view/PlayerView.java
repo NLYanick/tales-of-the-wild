@@ -1,7 +1,7 @@
-package View;
+package view;
 
-import Model.Direction;
 import javafx.geometry.Bounds;
+import model.Direction;
 
 public class PlayerView extends EntityView {
 	
