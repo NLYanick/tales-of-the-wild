@@ -80,7 +80,7 @@ public class MainController {
 		items = new ArrayList<Item>();
 		itemsWithViews = new HashMap<Item, ItemView>();
 		
-		Item testItem = new Item(new Location(350, 350), "Appel", "Images/Items/TempAppel.png");
+		Item testItem = new Item(new Location(650, 350), "Appel", "Images/Items/TempAppel.png");
 		items.add(testItem);
 		
 		for(Item item : items) {
@@ -325,7 +325,6 @@ public class MainController {
 	
 	private boolean playerIsOnItem(Item item) {
 		int extraSpace = 20;
-		System.out.println(player.getX() + " " + player.getY());
 		return Location.isGreater(player.getLocation(), new Location(item.getX() - extraSpace, item.getY() - extraSpace)) 
 				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace * 3, item.getY() + extraSpace * 3));
 	}

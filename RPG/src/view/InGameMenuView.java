@@ -221,7 +221,7 @@ public class InGameMenuView extends BorderPane {
 	}
 	
 	private void openInventory() {
-		System.out.println("Open Inventory");
+		scene.openInventory();
 	}
 	
 }

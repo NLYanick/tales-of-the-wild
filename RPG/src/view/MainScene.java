@@ -24,6 +24,7 @@ public class MainScene extends Scene {
 	private StartUpView startUpView;
 	private PauseMenuView pauseMenuView;
 	private InGameMenuView inGameMenuView;
+	private InventoryView inventoryView;
 	
 	private BorderPane root;
 	private StackPane playerAndMenusPane;
@@ -32,6 +33,7 @@ public class MainScene extends Scene {
 	private boolean pauseMenuIsOpen;
 	private boolean inGameMenuIsOpen;
 	private boolean playerIsInDialog;
+	private boolean inventoryIsOpen;
 	
 	private ArrayList<DialogView> dialogs;
 	
@@ -49,6 +51,7 @@ public class MainScene extends Scene {
 		
 		pauseMenuView = new PauseMenuView(this);
 		inGameMenuView = new InGameMenuView(this);
+		inventoryView = new InventoryView(this);
 		
 		root.setPrefSize(SCENEWIDTH, SCENEHEIGHT);
 		
@@ -114,6 +117,20 @@ public class MainScene extends Scene {
 	
 	public void removeItemView(ItemView itemView) {
 		root.getChildren().remove(itemView);
+	}
+	
+	public void openInventory() {
+		playerAndMenusPane.getChildren().add(inventoryView);
+		inventoryView.requestFocusForButton();
+		inventoryIsOpen = true;
+		setCursor(Cursor.DEFAULT);
+	}
+	
+	public void removeInventoryView() {
+		playerAndMenusPane.getChildren().remove(inventoryView);
+		inGameMenuView.requestFocusForButtons();
+		inventoryIsOpen = false;
+		setCursor(Cursor.NONE);
 	}
 	
 	public void stopNPCThreads() {
@@ -252,7 +269,7 @@ public class MainScene extends Scene {
 				controller.teleportPlayer(new Location(1100, 3350));
 			break;
 		case E: 
-			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
+			if(gameHasLoaded && allIsClosed()) {
 				controller.playerInteract();
 			}
 			break;
@@ -262,7 +279,7 @@ public class MainScene extends Scene {
 			}
 			break;
 		case I:
-			if(gameHasLoaded && !pauseMenuIsOpen && !playerIsInDialog) {
+			if(gameHasLoaded && !pauseMenuIsOpen && !playerIsInDialog && !inventoryIsOpen) {
 				handleInGameMenu();
 			}
 			break;
@@ -270,7 +287,7 @@ public class MainScene extends Scene {
 			handleFullScreen();
 			break;
 		default: 
-			if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
+			if(gameHasLoaded && allIsClosed()) {
 				handleMovementPressed(e);
 			}
 		}
@@ -295,7 +312,7 @@ public class MainScene extends Scene {
 	}
 	
 	private void handleMovementReleased(KeyEvent e) {
-		if(gameHasLoaded && !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog) {
+		if(gameHasLoaded && allIsClosed()) {
 			switch(e.getCode()) {
 				case UP: case W:
 					controller.setMovingDirection(Direction.SOUTH);
@@ -323,6 +340,10 @@ public class MainScene extends Scene {
 		controller.getDownPressed().set(false);
 		controller.getRightPressed().set(false);
 		controller.getLeftPressed().set(false);
+	}
+	
+	private boolean allIsClosed() {
+		return !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog && !inventoryIsOpen;
 	}
 
 }
