@@ -20,6 +20,10 @@ public class Item {
 		viewLocation.setY(viewLocation.getY() + dir.getY());
 	}
 	
+	public void setViewLocation(Location location) {
+		viewLocation = location;
+	}
+	
 	public Location getViewLocation() {
 		return viewLocation;
 	}

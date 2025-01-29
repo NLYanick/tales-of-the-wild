@@ -139,6 +139,11 @@ public class MainController {
 			npcView.fixImage();
 			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
 		}
+		for(Item item : items) {
+			ItemView itemView = itemsWithViews.get(item);
+			item.setViewLocation(new Location(bgX + (int) item.getX(), bgY + (int) item.getY()));
+			itemView.move(item.getViewLocation());
+		}
 	}
 	
 	private boolean playerCanWalk(Direction dir) {
