@@ -104,12 +104,16 @@ public class MainScene extends Scene {
 		setCursor(Cursor.NONE);
 	}
 	
-	public void addNPCView(NPCView nPCView) {
-		root.getChildren().add(nPCView);
+	public void addNPCView(NPCView npcView) {
+		root.getChildren().add(npcView);
 	}
 	
 	public void addItemView(ItemView itemView) {
 		root.getChildren().add(itemView);
+	}
+	
+	public void removeItemView(ItemView itemView) {
+		root.getChildren().remove(itemView);
 	}
 	
 	public void stopNPCThreads() {

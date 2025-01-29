@@ -6,10 +6,22 @@ public class Item {
 	private String name;
 	private Location location;
 	
+	private Location viewLocation;
+	
 	public Item(Location location, String name, String imageUrl) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
+		viewLocation = new Location(location.getX(), location.getY());
+	}
+	
+	public void moveViewLocation(Direction dir) {
+		viewLocation.setX(viewLocation.getX() + dir.getX());
+		viewLocation.setY(viewLocation.getY() + dir.getY());
+	}
+	
+	public Location getViewLocation() {
+		return viewLocation;
 	}
 	
 	public String getImageUrl() {

@@ -88,6 +88,7 @@ public class MainController {
 			itemsWithViews.put(item, itemView);
 			
 			scene.addItemView(itemView);
+			moveItemViewWithScreen(item);
 		}
 	}
 	
@@ -199,20 +200,8 @@ public class MainController {
 	
 	private void moveItems(Direction dir) {
 		for(Item item : items) {
+			item.moveViewLocation(dir);
 			moveItemViewWithScreen(item);
-		}
-	}
-	
-	@SuppressWarnings("static-access")
-	public void moveItemViewWithScreen(Item item) {
-		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
-		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
-		
-		ItemView itemView = itemsWithViews.get(item);
-		if(appController.isFullScreen()) {
-			itemView.move(new Location(item.getX() + screenXDiffernce, item.getY() + screenYDiffernce));
-		} else {
-			itemView.move(new Location(item.getX(), item.getY()));
 		}
 	}
 	
@@ -238,11 +227,19 @@ public class MainController {
 		scene.resizePlayerViewLocation();
 		if(npcs != null)
 			resizeNPCViewLocation();
+		if(items != null)
+			resizeItemViewLocation();
 	}
 	
 	private void resizeNPCViewLocation() {
 		for(NPC npc : npcs) {
 			moveNPCViewWithScreen(npc);
+		}
+	}
+	
+	private void resizeItemViewLocation() {
+		for(Item item : items) {
+			moveItemViewWithScreen(item);
 		}
 	}
 	
@@ -256,6 +253,19 @@ public class MainController {
 			npcView.move(npc.getViewLocation().getX() + screenXDiffernce, npc.getViewLocation().getY() + screenYDiffernce);
 		} else {
 			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
+		}
+	}
+	
+	@SuppressWarnings("static-access")
+	public void moveItemViewWithScreen(Item item) {
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
+		ItemView itemView = itemsWithViews.get(item);
+		if(appController.isFullScreen()) {
+			itemView.move(new Location(item.getViewLocation().getX() + screenXDiffernce, item.getViewLocation().getY() + screenYDiffernce));
+		} else {
+			itemView.move(new Location(item.getViewLocation().getX(), item.getViewLocation().getY()));
 		}
 	}
 	
@@ -279,7 +289,6 @@ public class MainController {
 		if(nearbyNPC == null) {
 			nearbyNPC = getNearbyNPC(Direction.getOpposite(player.getMovingDirection()));
 		}
-		
 		if(nearbyNPC != null) {			
 			nearbyNPC.resumeThread();
 		}
@@ -294,13 +303,15 @@ public class MainController {
 			player.talkToNPC(nearbyNPC);
 		} else if(item != null) {
 			player.addItemToInventory(item);
+			scene.removeItemView(itemsWithViews.get(item));
+			item = null;
 		}
 	}
 	
 	private Item getNearbyItem() {
 		for(Item item : items) {
 			if(playerIsOnItem(item)) {
-				System.out.println(item);
+				System.out.println(item.getName());
 				return item;
 			}
 		}
@@ -308,9 +319,10 @@ public class MainController {
 	}
 	
 	private boolean playerIsOnItem(Item item) {
-		int extraSpace = 10;
-		return Location.isGreater(new Location(item.getX() - extraSpace, player.getX()), new Location(item.getY() - extraSpace, player.getY())) 
-				&& Location.isLess(new Location(item.getX() + extraSpace, player.getX()), new Location(item.getY() + extraSpace, player.getY()));
+		int extraSpace = 20;
+		System.out.println(player.getX() + " " + player.getY());
+		return Location.isGreater(player.getLocation(), new Location(item.getX() - extraSpace, item.getY() - extraSpace)) 
+				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace * 3, item.getY() + extraSpace * 3));
 	}
 
 	private NPC getNearbyNPC(Direction direction) {
