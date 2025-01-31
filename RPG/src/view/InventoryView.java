@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -76,11 +77,13 @@ public class InventoryView extends BorderPane {
 		int rectStrokeWidth = 5;
 		int gapSize = 10;
 		
-		int width = gridWidth * rectSize + gridWidth * gapSize + gridWidth * rectStrokeWidth;
-		int height = gridHeight * rectSize + gridHeight * gapSize + gridHeight * rectStrokeWidth;
+		int insets = 30;
+		int width = gridWidth * rectSize + (gridWidth - 1) * gapSize + gridWidth * rectStrokeWidth + insets * 2;
+		int height = gridHeight * rectSize + (gridHeight - 1) * gapSize + gridHeight * rectStrokeWidth + insets * 2;
 		
 		inventorySlots.setMinSize(width, height);
 		inventorySlots.setMaxSize(width, height);
+		inventorySlots.setPadding(new Insets(insets));
 		
 		for(int x = 0; x < gridWidth; x++) {
 			for(int y = 0; y < gridHeight; y++) {
@@ -92,10 +95,10 @@ public class InventoryView extends BorderPane {
 			}
 		}
 		
-//		inventorySlots.setGridLinesVisible(true);
 		inventorySlots.setHgap(gapSize);
 		inventorySlots.setVgap(gapSize);
 		inventorySlots.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+		inventorySlots.setBorder(new Border(new BorderStroke(Color.LIGHTSLATEGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
 		
 		BorderPane.setAlignment(inventorySlots, Pos.CENTER);
 	}
