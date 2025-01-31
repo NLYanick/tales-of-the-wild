@@ -284,17 +284,17 @@ public class MainController {
 	public void resumeGame() {
 		gameIsPaused = false;
 		for(NPC npc : npcs) {
-			npc.resumeThread();
+			if(!npc.isInDialog()) {
+				npc.resumeThread();
+			}
 		}
 	}
 	
 	public void resumeNearbyNPCThread() {
 		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
 
-		if(nearbyNPC == null) {
-			nearbyNPC = getNearbyNPC(Direction.getOpposite(player.getMovingDirection()));
-		}
-		if(nearbyNPC != null) {			
+		if(nearbyNPC != null) {
+			nearbyNPC.setIsInDialog(false);
 			nearbyNPC.resumeThread();
 		}
 	}

@@ -16,6 +16,7 @@ public class NPC extends Entity {
 	private String name;
 	private boolean running;
 	private boolean isPaused;
+	private boolean isInDialog;
 	
 	private Location viewLocation;
 	
@@ -212,6 +213,7 @@ public class NPC extends Entity {
 		setStandingStillAnimation(direction);
 		
 		controller.addDialogView(dialog);
+		isInDialog = true;
 	}
 	
 	public void pauzeThread() {
@@ -253,6 +255,14 @@ public class NPC extends Entity {
 	
 	public List<String> getDialog(){
 		return dialog;
+	}
+	
+	public boolean isInDialog() {
+		return isInDialog;
+	}
+	
+	public void setIsInDialog(boolean isInDialog) {
+		this.isInDialog = isInDialog;
 	}
 
 }

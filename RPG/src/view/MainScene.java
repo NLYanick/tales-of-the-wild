@@ -218,6 +218,7 @@ public class MainScene extends Scene {
 		} else {
 			playerAndMenusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
+			setCursor(Cursor.NONE);
 			requestFocusForView();
 		}
 	}
@@ -225,6 +226,7 @@ public class MainScene extends Scene {
 	private void requestFocusForView() {
 		if(inventoryIsOpen) {
 			inventoryView.requestFocusForButton();
+			setCursor(Cursor.DEFAULT);
 			return;
 		} 
 		if(inGameMenuIsOpen) {
@@ -237,7 +239,6 @@ public class MainScene extends Scene {
 		} 
 		
 		root.requestFocus();
-		setCursor(Cursor.NONE);
 	}
 	
 	private void pauzeOrResumeGame() {
