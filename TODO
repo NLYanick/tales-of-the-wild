@@ -11,6 +11,7 @@ NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
 In pauze en in-game menu de eerste pijl niet hardcoded maken
+Random ArrayIndexOutOfBoundsException in Scene;
 
 
 Kan mogelijk dingen breken:
