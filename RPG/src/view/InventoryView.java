@@ -26,7 +26,7 @@ public class InventoryView extends BorderPane {
 	
 	private void setUpLayout() {
 		inventorySlots = new GridPane();
-		setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
 		
 		close = getButton("Close");
 		close.setOnAction(e -> scene.removeInventoryView());
