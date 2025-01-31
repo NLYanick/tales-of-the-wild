@@ -12,6 +12,7 @@ Plaatjes met z-volgorde (bovenste plaatje moet voorop)
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
+In pauze en in-game menu de eerste pijl niet hardcoded maken
 
 
 Kan mogelijk dingen breken:
@@ -23,4 +24,4 @@ TODO Images:
 Huizen, NPC's
 
 
-Snel: Na sluiten van PauseMenu is er geen focus
+Snel: 

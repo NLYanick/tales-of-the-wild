@@ -218,14 +218,26 @@ public class MainScene extends Scene {
 		} else {
 			playerAndMenusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
-			
-			if(inGameMenuIsOpen) {
-				inGameMenuView.requestFocusForButtons();
-			} else {
-				root.requestFocus();
-			}
-			setCursor(Cursor.NONE);
+			requestFocusForView();
 		}
+	}
+	
+	private void requestFocusForView() {
+		if(inventoryIsOpen) {
+			inventoryView.requestFocusForButton();
+			return;
+		} 
+		if(inGameMenuIsOpen) {
+			inGameMenuView.requestFocusForButtons();
+			return;
+		} 
+		if(playerIsInDialog) {
+			dialogs.get(dialogs.size() - 1).requestFocus();
+			return;
+		} 
+		
+		root.requestFocus();
+		setCursor(Cursor.NONE);
 	}
 	
 	private void pauzeOrResumeGame() {
