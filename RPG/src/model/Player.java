@@ -65,5 +65,9 @@ public class Player extends Entity {
 	public void removeItemFromInventory(Item item) {
 		inventory.removeItem(item);
 	}
+
+	public boolean inventoryIsFull() {
+		return inventory.isFull();
+	}
 	
 }

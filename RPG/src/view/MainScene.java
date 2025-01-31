@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import model.Direction;
+import model.Item;
 import model.Location;
 
 public class MainScene extends Scene {
@@ -196,6 +197,19 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	public void addItemViewToInventoryView(Item item, ItemView itemView, boolean inventoryIsFull) {
+		if(!inventoryIsFull) {
+			controller.addItemToPlayerInventory(item);
+			
+			removeItemView(itemView);
+			inventoryView.addItemView(itemView);
+			
+			item.resetLocation();
+		} else {
+			addDialogView("Your Inventory is full");
+		}
+	}
+	
 	private void togglePauseMenu() {
 		if(pauseMenuIsOpen) {
 			playerAndMenusPane.getChildren().add(pauseMenuView);
@@ -267,7 +281,7 @@ public class MainScene extends Scene {
 		// TODO Remove 
 		case T:
 			if(gameHasLoaded)
-				controller.teleportPlayer(new Location(1100, 3350));
+				controller.teleportPlayer(new Location(1100, 3000));
 			break;
 		case E: 
 			if(gameHasLoaded && allIsClosed()) {

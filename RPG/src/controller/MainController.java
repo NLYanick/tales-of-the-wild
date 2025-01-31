@@ -307,16 +307,17 @@ public class MainController {
 			scene.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
 		} else if(item != null) {
-			player.addItemToInventory(item);
-			scene.removeItemView(itemsWithViews.get(item));
-			item = null;
+			scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
 		}
+	}
+	
+	public void addItemToPlayerInventory(Item item) {
+		player.addItemToInventory(item);
 	}
 	
 	private Item getNearbyItem() {
 		for(Item item : items) {
 			if(playerIsOnItem(item)) {
-				System.out.println(item.getName());
 				return item;
 			}
 		}

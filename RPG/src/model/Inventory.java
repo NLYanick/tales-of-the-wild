@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-	ArrayList<Item> items;
+	private final static int SIZE = 60;
+	
+	private ArrayList<Item> items;
+	private boolean isFull;
 	
 	public Inventory() {
 		items = new ArrayList<Item>();
@@ -12,10 +15,20 @@ public class Inventory {
 	
 	public void addItem(Item item) {
 		items.add(item);
+		if(items.size() >= SIZE) {
+			isFull = true;
+		}
 	}
 	
 	public void removeItem(Item item) {
 		items.remove(item);
+		if(items.size() < SIZE) {
+			isFull = false;
+		} 
+	}
+	
+	public boolean isFull() {
+		return isFull;
 	}
 
 }

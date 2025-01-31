@@ -19,14 +19,21 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 public class InventoryView extends BorderPane {
-
+	
+	private final static int GRIDWIDTH = 10;
+	private final static int GRIDHEIGHT = 6;
+	
 	private MainScene scene;
 	private GridPane inventorySlots;
 	
 	private Button close;
 	
+	private int newX;
+	private int newY;
+		
 	public InventoryView(MainScene scene) {
 		this.scene = scene;
+		
 		setUpLayout();
 	}
 	
@@ -71,22 +78,20 @@ public class InventoryView extends BorderPane {
 	private void setUpInventorySlots() {
 		
 		
-		int gridWidth = 10;
-		int gridHeight = 6;
 		int rectSize = 64;
 		int rectStrokeWidth = 5;
 		int gapSize = 10;
 		
 		int insets = 30;
-		int width = gridWidth * rectSize + (gridWidth - 1) * gapSize + gridWidth * rectStrokeWidth + insets * 2;
-		int height = gridHeight * rectSize + (gridHeight - 1) * gapSize + gridHeight * rectStrokeWidth + insets * 2;
+		int width = GRIDWIDTH * rectSize + (GRIDWIDTH - 1) * gapSize + GRIDWIDTH * rectStrokeWidth + insets * 2;
+		int height = GRIDHEIGHT * rectSize + (GRIDHEIGHT - 1) * gapSize + GRIDHEIGHT * rectStrokeWidth + insets * 2;
 		
 		inventorySlots.setMinSize(width, height);
 		inventorySlots.setMaxSize(width, height);
 		inventorySlots.setPadding(new Insets(insets));
 		
-		for(int x = 0; x < gridWidth; x++) {
-			for(int y = 0; y < gridHeight; y++) {
+		for(int x = 0; x < GRIDWIDTH; x++) {
+			for(int y = 0; y < GRIDHEIGHT; y++) {
 				Rectangle rect = new Rectangle(rectSize, rectSize);
 				rect.setFill(Color.TRANSPARENT);
 				rect.setStroke(Color.GRAY);
@@ -132,6 +137,21 @@ public class InventoryView extends BorderPane {
 	
 	public void requestFocusForButton() {
 		close.requestFocus();
+	}
+	
+	public void addItemView(ItemView itemView) {
+		if(newX >= GRIDWIDTH) {
+			newX = 0;
+			newY++;
+		}
+		
+		inventorySlots.add(itemView, newX, newY);
+		newX++;
+		
+	}
+	
+	public void removeItemView(ItemView itemView) {
+		inventorySlots.getChildren().remove(itemView);
 	}
 	
 }
