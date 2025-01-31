@@ -1,7 +1,9 @@
 package controller;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import database.DatabaseConnector;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
@@ -11,6 +13,9 @@ import view.MainScene;
 public class ApplicationController extends Application {
 
 	public final static String APPLICATIONNAME = "Tales of the Wild";
+	
+	@SuppressWarnings("unused")
+	private DatabaseConnector dbConnector;
 	
 	private Stage stage;
 	
@@ -53,6 +58,12 @@ public class ApplicationController extends Application {
 	@Override
 	public void stop() {
 		controller.stopNPCThreads();
+		try {
+			DatabaseConnector.getConn().close();
+			System.out.println("Database closed");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setFullScreen(boolean isFullScreen) {
@@ -66,6 +77,8 @@ public class ApplicationController extends Application {
     @Override
     public void init() throws Exception {
         super.init();
+        
+		dbConnector = new DatabaseConnector();
         
         fileIO = new FileIO();
     	fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
