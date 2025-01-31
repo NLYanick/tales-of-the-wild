@@ -204,8 +204,9 @@ public class MainScene extends Scene {
 		} else {
 			playerAndMenusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
+			
 			if(inGameMenuIsOpen) {
-				inGameMenuView.requestFocus();
+				inGameMenuView.requestFocusForButtons();
 			} else {
 				root.requestFocus();
 			}
