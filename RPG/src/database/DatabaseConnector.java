@@ -9,6 +9,10 @@ public class DatabaseConnector {
 	private static Connection connection;
 	private static String url;
 	
+	/*
+	 * For database connection, download mysql-connector-j-8.3.0.jar 
+	 * or another version and add it to the library
+	 */
 	public DatabaseConnector() {
 		url = "jdbc:mysql://localhost:3306/tales_of_the_wild";
 		makeConnection();
