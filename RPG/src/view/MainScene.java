@@ -117,6 +117,11 @@ public class MainScene extends Scene {
 		loadGame(player);
 	}
 	
+	public void deletePlayer(Player player) {
+		controller.deletePlayer(player);
+		addLoadGameView();
+	}
+	
 	public boolean nameIsUnique(String name) {
 		return controller.nameIsUnique(name);
 	}

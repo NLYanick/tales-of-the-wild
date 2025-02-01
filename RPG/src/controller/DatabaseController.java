@@ -44,6 +44,10 @@ public class DatabaseController {
 		return player;
 	}
 	
+	public void deletePlayer(Player player) {
+		playerLayer.deletePlayer(player);
+	}
+	
 	public boolean nameIsUnique(String name) {
 		for(String playerName : playerLayer.getAllPlayerNames()) {
 			if(name.equals(playerName)) {

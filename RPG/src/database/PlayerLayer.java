@@ -106,4 +106,17 @@ public class PlayerLayer {
 		return playerNames;
 	}
 	
+	public void deletePlayer(Player player) {
+		String query = "DELETE FROM player WHERE name = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, player.getName());
+			stmt.execute();
+			
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

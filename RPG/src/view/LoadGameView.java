@@ -124,19 +124,39 @@ public class LoadGameView extends BorderPane {
 		Label nameLabel = new Label(player.getName());
 		nameLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		
+		HBox buttons = getButtonsOfGamePane(player);
+		
+		BorderPane playerBox = new BorderPane();
+		playerBox.setCenter(nameLabel);
+		playerBox.setRight(buttons);
+		BorderPane.setAlignment(buttons, Pos.CENTER);
+		gamePane.setCenter(playerBox);
+		
+		return gamePane;
+	}
+	
+	private HBox getButtonsOfGamePane(Player player) {
+		int spacing = 30;
+		
+		HBox buttons = new HBox();
+		buttons.setAlignment(Pos.CENTER);
+		buttons.setSpacing(spacing);
+		
 		Button loadButton = getButton("Load");
 		loadButton.setOnAction(e -> scene.loadGame(player));
 		loadButton.setPrefWidth(loadButton.getPrefWidth()/3 * 2);
 		loadButton.setPrefHeight(loadButton.getPrefHeight()/2);
 		loadButton.setStyle("-fx-background-color: forestgreen;");
 		
-		BorderPane playerBox = new BorderPane();
-		playerBox.setCenter(nameLabel);
-		playerBox.setRight(loadButton);
-		BorderPane.setAlignment(loadButton, Pos.CENTER);
-		gamePane.setCenter(playerBox);
+		Button deleteButton = getButton("Delete");
+		deleteButton.setOnAction(e -> scene.deletePlayer(player));
+		deleteButton.setPrefWidth(deleteButton.getPrefWidth()/3 * 2);
+		deleteButton.setPrefHeight(deleteButton.getPrefHeight()/2);
+		deleteButton.setStyle("-fx-background-color: forestgreen;");
 		
-		return gamePane;
+		buttons.getChildren().addAll(loadButton, deleteButton);
+		
+		return buttons;
 	}
 	
 	private void setUpButton() {

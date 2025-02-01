@@ -455,6 +455,10 @@ public class MainController {
 		return databaseController.nameIsUnique(name);
 	}
 	
+	public void deletePlayer(Player player) {
+		databaseController.deletePlayer(player);
+	}
+	
 	// -------------------- Getters & Setters --------------------
 	
 	public BooleanProperty getUpPressed() {
