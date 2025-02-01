@@ -28,6 +28,7 @@ public class MainScene extends Scene {
 	private InGameMenuView inGameMenuView;
 	private InventoryView inventoryView;
 	private LoadGameView loadGameView;
+	private NewGameView newGameView;
 	
 	private BorderPane root;
 	private StackPane playerAndMenusPane;
@@ -94,10 +95,15 @@ public class MainScene extends Scene {
 		root.setCenter(playerAndMenusPane);
 	}
 	
-	public void addLoadPlayersView() {
+	public void addLoadGameView() {
 		loadGameView = new LoadGameView(this);
 		root.setCenter(null);
 		root.setCenter(loadGameView);
+	}
+	public void addNewGameView() {
+		newGameView = new NewGameView(this);
+		root.setCenter(null);
+		root.setCenter(newGameView);
 	}
 	
 	public void goBackToStartUpView() {

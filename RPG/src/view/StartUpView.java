@@ -118,11 +118,11 @@ public class StartUpView extends BorderPane {
 	}
 	
 	private void loadGame() {
-		scene.addLoadPlayersView();
+		scene.addLoadGameView();
 	}
 	
 	private void makeNewGame() {
-		scene.loadGame(null);
+		scene.addNewGameView();
 	}
 	
 	private void exit() {

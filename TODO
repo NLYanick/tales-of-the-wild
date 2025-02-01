@@ -1,3 +1,4 @@
+Scene switcher met Startup & Game
 Background maken 
 Building object toevoegen
 Database toevoegen
@@ -23,5 +24,5 @@ TODO Images:
 Huizen, NPC's
 
 
-Snel: Focus en pijl bij startview, loadgameview & newplayerview | items met database | player heeft connectie met item in db |
-Bij teleport player moeten alle plaatjes gelijk meegaan | Delete player knop 
+Snel: Focus en pijl bij startview, loadgameview & newgameview | items met database | player heeft connectie met item in db |
+Bij teleport player moeten alle plaatjes gelijk meegaan | Delete player knop | NewGameView
