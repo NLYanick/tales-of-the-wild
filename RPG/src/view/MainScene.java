@@ -18,6 +18,7 @@ public class MainScene extends Scene {
 
 	public final static int SCENEWIDTH = 700;
 	public final static int SCENEHEIGHT = 700;
+	public final static String FONTNAME = "Times New Roman";
 	
 	private MainController controller;
 	
@@ -109,6 +110,15 @@ public class MainScene extends Scene {
 	public void goBackToStartUpView() {
 		root.setCenter(null);
 		root.setCenter(startUpView);
+	}
+	
+	public void createPlayer(String name) {
+		Player player = controller.createPlayer(name);
+		loadGame(player);
+	}
+	
+	public boolean nameIsUnique(String name) {
+		return controller.nameIsUnique(name);
 	}
 	
 	public ArrayList<Player> getAllPlayers(){

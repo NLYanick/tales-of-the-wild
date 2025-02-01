@@ -88,4 +88,22 @@ public class PlayerLayer {
 		return players;
 	}
 	
+	public ArrayList<String> getAllPlayerNames() {
+		ArrayList<String> playerNames = new ArrayList<String>();
+		
+		String query = "SELECT * FROM player";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				playerNames.add(rs.getString("name"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playerNames;
+	}
+	
 }

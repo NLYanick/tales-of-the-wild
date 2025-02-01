@@ -449,8 +449,12 @@ public class MainController {
 		databaseController.loadPlayer(player);
 	}
 	
-	public ArrayList<Player> getAllPlayers() {
-		return databaseController.getAllPlayers();
+	public Player createPlayer(String name) {
+		return databaseController.createPlayer(name);
+	}
+	
+	public boolean nameIsUnique(String name) {
+		return databaseController.nameIsUnique(name);
 	}
 	
 	// -------------------- Getters & Setters --------------------
@@ -505,6 +509,10 @@ public class MainController {
 	
 	public Location getPlayerLocation() {
 		return player.getLocation();
+	}
+	
+	public ArrayList<Player> getAllPlayers() {
+		return databaseController.getAllPlayers();
 	}
 	
 }

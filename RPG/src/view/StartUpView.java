@@ -63,7 +63,7 @@ public class StartUpView extends BorderPane {
 		int fontSize = 60;
 		
 		Label welcomeText = new Label(ApplicationController.APPLICATIONNAME);
-		welcomeText.setFont(Font.font("Times New Roman", FontWeight.BOLD, fontSize));
+		welcomeText.setFont(Font.font(MainScene.FONTNAME, FontWeight.BOLD, fontSize));
 		welcomeText.setTextFill(Color.WHITE);
 		
 		welcomeText.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(10))));
@@ -101,7 +101,7 @@ public class StartUpView extends BorderPane {
 		Button button = new Button(text);
 		button.setPrefSize(buttonWidth, buttonHeight);
 		
-		button.setFont(Font.font("Times New Roman", fontSize));
+		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		button.setTextFill(Color.WHITE);
 		button.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
 		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));

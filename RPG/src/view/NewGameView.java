@@ -5,8 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,21 +20,24 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import model.Player;
 
 public class NewGameView extends BorderPane {
 
 	private MainScene scene;
 	
 	private VBox layout;
+	private TextField nameField;
+	private BorderPane errorPane;
 	
 	public NewGameView(MainScene scene) {
 		this.scene = scene;
 		
-		setUpNewPlayerView();
+		setUpErrorPane();
+		
+		setUpNewGameView();
 	}
 
-	private void setUpNewPlayerView() {
+	private void setUpNewGameView() {
 		
 		setBackground(new Background(new BackgroundImage(new Image("Images/Background/Grass/Grass.png"), null, null, null, null)));
 		
@@ -43,8 +45,8 @@ public class NewGameView extends BorderPane {
 		
 		setUpLayout();
 		setUpTopText();
-		setUpGames();
-		setUpButton();
+		setUpNewGame();
+		setUpButtons();
 		
 		setCenter(layout);
 		
@@ -52,7 +54,7 @@ public class NewGameView extends BorderPane {
 	
 	private void setUpLayout() {
 		
-		int spacing = 50;
+		int spacing = 80;
 		
 		layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
@@ -64,7 +66,7 @@ public class NewGameView extends BorderPane {
 		int fontSize = 60;
 		
 		Label topText = new Label("New Player");
-		topText.setFont(Font.font("Times New Roman", FontWeight.BOLD, fontSize));
+		topText.setFont(Font.font(MainScene.FONTNAME, FontWeight.BOLD, fontSize));
 		topText.setTextFill(Color.WHITE);
 		
 		topText.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(10))));
@@ -78,72 +80,41 @@ public class NewGameView extends BorderPane {
 		layout.getChildren().add(topPane);
 	}
 	
-	private void setUpGames() {
+	private void setUpNewGame() {
+		int fontSize = 28;
+		int textFieldWidth = 300;
 		
-		int height = 500;
+		BorderPane namePane = new BorderPane();
 		
-		VBox content = getScrollBarContent();
+		Label nameLabel = new Label("Name");
+		nameLabel.setTextFill(Color.WHITE);
+		nameLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
+		namePane.setTop(nameLabel);
+		BorderPane.setAlignment(nameLabel, Pos.CENTER);
 		
-		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
-		scrollPane.setMinSize(content.getMinWidth(), height);
-		scrollPane.setMaxSize(content.getMaxWidth(), height);
-		scrollPane.setStyle("-fx-background: #32CD32;\n -fx-border-color: #32CD32;");
+		nameField = new TextField();
+		nameField.setMaxWidth(textFieldWidth);
+		namePane.setCenter(nameField);
 		
-		scrollPane.setContent(content);
-		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
-		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		
-		layout.getChildren().add(scrollPane);
+		layout.getChildren().add(namePane);
 	}
 	
-	private VBox getScrollBarContent() {
-		int width = 800;
-		int extraSpce = 5;
+	private void setUpButtons() {
+		int spacing = 50;
 		
-		VBox content = new VBox();
-		for(Player player : scene.getAllPlayers()) {
-			content.getChildren().add(getGamePane(player));
-		}
-		
-		content.setMinWidth(width);
-		content.setMaxWidth(width + extraSpce);
-		
-		return content;
-	}
-	
-	private BorderPane getGamePane(Player player) {
-		int borderWidths = 5;
-		int fontSize = 24;
-		int padding = 15;
-		
-		BorderPane gamePane = new BorderPane();
-		gamePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidths))));
-		gamePane.setPadding(new Insets(padding, padding, padding, 0));
-		
-		Label nameLabel = new Label(player.getName());
-		nameLabel.setFont(Font.font(fontSize));
-		
-		Button loadButton = getButton("Load");
-		loadButton.setPrefWidth(loadButton.getPrefWidth()/3 * 2);
-		loadButton.setPrefHeight(loadButton.getPrefHeight()/2);
-		loadButton.setStyle("-fx-background-color: forestgreen;");
-		
-		BorderPane playerBox = new BorderPane();
-		playerBox.setCenter(nameLabel);
-		playerBox.setRight(loadButton);
-		BorderPane.setAlignment(loadButton, Pos.CENTER);
-		gamePane.setCenter(playerBox);
-		
-		return gamePane;
-	}
-	
-	private void setUpButton() {
+		HBox buttons = new HBox();
+		buttons.setSpacing(spacing);
+		buttons.setAlignment(Pos.CENTER);
 		
 		Button goBackButton = getButton("Go Back");
 		goBackButton.setOnAction(e -> goBack());
 		
-		layout.getChildren().addAll(goBackButton);
+		Button createButton = getButton("Create");
+		createButton.setOnAction(e -> createPlayer());
+		
+		buttons.getChildren().addAll(goBackButton, createButton);
+		
+		layout.getChildren().add(buttons);
 	}
 	
 	private Button getButton(String text) {
@@ -154,7 +125,7 @@ public class NewGameView extends BorderPane {
 		Button button = new Button(text);
 		button.setPrefSize(buttonWidth, buttonHeight);
 		
-		button.setFont(Font.font("Times New Roman", fontSize));
+		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		button.setTextFill(Color.WHITE);
 		button.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
 		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
@@ -165,6 +136,60 @@ public class NewGameView extends BorderPane {
 	
 	private void goBack() {
 		scene.goBackToStartUpView();
+	}
+	
+	private void createPlayer() {
+		String name = nameField.getText();
+		if(!nameIsValid(name)) {
+			return;
+		}
+		scene.createPlayer(name);
+	}
+	
+	private boolean nameIsValid(String name) {
+		if(name.equals(" ") || name.equals("") || name == null) {
+			addError("Name can't be empty");
+			return false;
+		}
+		if(name.length() > 50) {
+			addError("Name must be under 50 characters");
+			return false;
+		}
+		if(!scene.nameIsUnique(name)) {
+			addError("Name must be unique");
+			return false;
+		}
+		return true;
+	}
+	
+	private void addError(String text) {
+		
+		if(layout.getChildren().contains(errorPane)) {
+			layout.getChildren().remove(errorPane);
+		}
+		
+		int fontSize = 28;
+		
+		Label errorLabel = new Label(text);
+		errorLabel.setTextFill(Color.RED);
+		errorLabel.setFont(Font.font(MainScene.FONTNAME, FontWeight.BOLD, fontSize));
+		errorPane.setCenter(errorLabel);
+		
+		layout.getChildren().add(2, errorPane);
+	}
+	
+	private void setUpErrorPane() {
+		int width = 600;
+		int height = 100;
+		int borderWidth = 10;
+		
+		errorPane = new BorderPane();
+		errorPane.setMinSize(width, height);
+		errorPane.setMaxSize(width, height);
+		
+		Color backgroundColor = new Color(0.3, 0, 0, 1);
+		errorPane.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+		errorPane.setBorder(new Border(new BorderStroke(Color.FIREBRICK, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
 	}
 	
 }

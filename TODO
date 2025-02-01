@@ -1,4 +1,5 @@
 Scene switcher met Startup & Game
+In game menu naam laten zien
 Background maken 
 Building object toevoegen
 Database toevoegen
@@ -24,5 +25,6 @@ TODO Images:
 Huizen, NPC's
 
 
-Snel: Focus en pijl bij startview, loadgameview & newgameview | items met database | player heeft connectie met item in db |
-Bij teleport player moeten alle plaatjes gelijk meegaan | Delete player knop | NewGameView
+Nu: Focus en pijl bij startview, loadgameview & newgameview | items met database | player heeft connectie met item in db |
+Bij teleport en spawnen player moeten alle plaatjes gelijk meegaan | Delete player knop | Laten zien dat je opslaat |
+Player wordt nog aangemaakt in MainController 

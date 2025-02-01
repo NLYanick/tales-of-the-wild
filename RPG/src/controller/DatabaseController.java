@@ -36,4 +36,19 @@ public class DatabaseController {
 		controller.teleportPlayer(player.getLocation());
 	}
 	
+	public Player createPlayer(String name) {
+		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
+		playerLayer.saveNewPlayer(player);
+		return player;
+	}
+	
+	public boolean nameIsUnique(String name) {
+		for(String playerName : playerLayer.getAllPlayerNames()) {
+			if(name.equals(playerName)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }

@@ -64,7 +64,7 @@ public class LoadGameView extends BorderPane {
 		int fontSize = 60;
 		
 		Label topText = new Label("Load Game");
-		topText.setFont(Font.font("Times New Roman", FontWeight.BOLD, fontSize));
+		topText.setFont(Font.font(MainScene.FONTNAME, FontWeight.BOLD, fontSize));
 		topText.setTextFill(Color.WHITE);
 		
 		topText.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(10))));
@@ -122,7 +122,7 @@ public class LoadGameView extends BorderPane {
 		gamePane.setPadding(new Insets(padding, padding, padding, 0));
 		
 		Label nameLabel = new Label(player.getName());
-		nameLabel.setFont(Font.font(fontSize));
+		nameLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		
 		Button loadButton = getButton("Load");
 		loadButton.setOnAction(e -> scene.loadGame(player));
@@ -155,7 +155,7 @@ public class LoadGameView extends BorderPane {
 		Button button = new Button(text);
 		button.setPrefSize(buttonWidth, buttonHeight);
 		
-		button.setFont(Font.font("Times New Roman", fontSize));
+		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		button.setTextFill(Color.WHITE);
 		button.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
 		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));

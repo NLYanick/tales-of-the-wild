@@ -3,6 +3,7 @@ package model;
 public class Player extends Entity {
 
 	public static String DEFAULT_URL = "Images/Fox/FoxStandingStill.gif";
+	public static Location DEFAULT_LOCATION = new Location(350, 350);
 	
 	private Inventory inventory;
 	
