@@ -99,35 +99,42 @@ public class LoadGameView extends BorderPane {
 	
 	private VBox getScrollBarContent() {
 		int width = 800;
+		int extraSpce = 5;
 		
 		VBox content = new VBox();
 		for(Player player : scene.getAllPlayers()) {
-			Button loadButton = getButton("Load");
-			loadButton.setOnAction(e -> scene.loadGame(player));
-			HBox playerBox = new HBox(getGamePane(player.getName()), loadButton);
-			
-			content.getChildren().add(playerBox);
+			content.getChildren().add(getGamePane(player));
 		}
 		
 		content.setMinWidth(width);
-		content.setMaxWidth(width);
+		content.setMaxWidth(width + extraSpce);
 		
 		return content;
 	}
 	
-	private BorderPane getGamePane(String name) {
+	private BorderPane getGamePane(Player player) {
 		int borderWidths = 5;
 		int fontSize = 24;
 		int padding = 15;
 		
 		BorderPane gamePane = new BorderPane();
-		
 		gamePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidths))));
-		gamePane.setPadding(new Insets(padding, 0, padding, 0));
+		gamePane.setPadding(new Insets(padding, padding, padding, 0));
 		
-		Label nameLabel = new Label(name);
+		Label nameLabel = new Label(player.getName());
 		nameLabel.setFont(Font.font(fontSize));
-		gamePane.setCenter(nameLabel);
+		
+		Button loadButton = getButton("Load");
+		loadButton.setOnAction(e -> scene.loadGame(player));
+		loadButton.setPrefWidth(loadButton.getPrefWidth()/3 * 2);
+		loadButton.setPrefHeight(loadButton.getPrefHeight()/2);
+		loadButton.setStyle("-fx-background-color: forestgreen;");
+		
+		BorderPane playerBox = new BorderPane();
+		playerBox.setCenter(nameLabel);
+		playerBox.setRight(loadButton);
+		BorderPane.setAlignment(loadButton, Pos.CENTER);
+		gamePane.setCenter(playerBox);
 		
 		return gamePane;
 	}

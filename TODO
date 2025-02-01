@@ -5,7 +5,7 @@ Player naam kunnen geven
 Map toevoegen
 
 Minder Prioriteit:
-Menu's responsive maken
+Menu's en LoadGameView responsive maken
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
@@ -23,4 +23,5 @@ TODO Images:
 Huizen, NPC's
 
 
-Snel: Focus en pijl bij startview, loadgameview & newplayerview | items met database | player heeft connectie met item in db
+Snel: Focus en pijl bij startview, loadgameview & newplayerview | items met database | player heeft connectie met item in db |
+Bij teleport player moeten alle plaatjes gelijk meegaan | Delete player knop 

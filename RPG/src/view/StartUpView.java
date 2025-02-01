@@ -25,6 +25,8 @@ import javafx.scene.text.FontWeight;
 
 public class StartUpView extends BorderPane {
 	
+	private final static int SPACING = 50;
+	
 	private MainScene scene;
 	
 	private VBox layout;
@@ -51,12 +53,9 @@ public class StartUpView extends BorderPane {
 	}
 	
 	private void setUpLayout() {
-		
-		int spacing = 50;
-		
 		layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
-		layout.setSpacing(spacing);
+		layout.setSpacing(SPACING);
 	}
 	
 	private void setUpTopText() {
@@ -79,15 +78,19 @@ public class StartUpView extends BorderPane {
 	}
 	
 	private void setUpButtons() {
-		
 		Button continueButton = getButton("Load Game");
 		continueButton.setOnAction(e -> loadGame());
 		Button newGameButton = getButton("New Game");
 		newGameButton.setOnAction(e -> makeNewGame());
+		
+		HBox buttons = new HBox(continueButton, newGameButton);
+		buttons.setSpacing(SPACING);
+		buttons.setAlignment(Pos.CENTER);
+		
 		Button exitButton = getButton("Exit");
 		exitButton.setOnAction(e -> exit());
 		
-		layout.getChildren().addAll(continueButton, newGameButton, exitButton);
+		layout.getChildren().addAll(buttons, exitButton);
 	}
 	
 	private Button getButton(String text) {
