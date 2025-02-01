@@ -13,7 +13,6 @@ public class NPC extends Entity {
 	private Location startLocation;
 	private Location endLocation;
 	
-	private String name;
 	private boolean running;
 	private boolean isPaused;
 	private boolean isInDialog;
@@ -24,11 +23,9 @@ public class NPC extends Entity {
 	
 	public NPC(String imageURL, Location startLocation, Direction walkDirection, MainController controller, 
 			String name, List<String> dialog) {
-		super(imageURL);
+		super(imageURL, name);
 		
 		this.controller = controller;
-		
-		this.name = name;
 		
 		location.setX(startLocation.getX());
 		location.setY(startLocation.getY());
@@ -42,9 +39,8 @@ public class NPC extends Entity {
 	}
 	
 	public NPC(String imageURL, Location startLocation, MainController controller, String name, List<String> dialog) {
-		super(imageURL);
+		super(imageURL, name);
 		this.startLocation = startLocation;
-		this.name = name;
 	}
 	
 	private void setUpEndLocation(Direction direction) {
@@ -239,10 +235,6 @@ public class NPC extends Entity {
 
 	public Location getEndLocation() {
 		return endLocation;
-	}
-	
-	public String getName() {
-		return name;
 	}
 
 	public Location getViewLocation() {

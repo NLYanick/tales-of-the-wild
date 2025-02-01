@@ -5,9 +5,12 @@ public abstract class Entity {
 	protected Location location;
 	protected String imageURL;
 	protected Direction movingDirection;
+	protected String name;
 	
-	public Entity(String imageURL) {
+	public Entity(String imageURL, String name) {
 		this.imageURL = imageURL;
+		this.name = name;
+		
 		location = new Location();
 		movingDirection = Direction.SOUTH;
 	}
@@ -49,12 +52,20 @@ public abstract class Entity {
 		return location;
 	}
 	
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	
 	public Direction getMovingDirection() {
 		return movingDirection;
 	}
 	
 	public void setMovingDirection(Direction movingDirection) {
 		this.movingDirection = movingDirection;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 }

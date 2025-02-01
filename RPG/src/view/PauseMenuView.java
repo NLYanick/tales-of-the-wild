@@ -83,7 +83,7 @@ public class PauseMenuView extends BorderPane {
 		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
 		
 		int x = 810;
-		int y = 450 + imageDifference;
+		int y = 402 + imageDifference;
 		
 		arrowView.setLayoutX(x);
 		arrowView.setLayoutY(y);
@@ -110,6 +110,7 @@ public class PauseMenuView extends BorderPane {
 	
 	private void exit() {
 		scene.stopNPCThreads();
+		scene.saveGame();
 		Platform.exit();
 	}
 
@@ -120,10 +121,13 @@ public class PauseMenuView extends BorderPane {
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnAction(e -> openControls());
 		
+		Button saveButton = getButton("Save");
+		saveButton.setOnAction(e -> scene.saveGame());
+		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> exit());
 		
-		buttonsPane.getChildren().addAll(controlsButton, exitButton);
+		buttonsPane.getChildren().addAll(controlsButton, saveButton, exitButton);
 		
 		buttonsPane.setSpacing(buttonSpacing);
 		buttonsPane.setAlignment(Pos.CENTER);

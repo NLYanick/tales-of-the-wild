@@ -34,10 +34,10 @@ public class DatabaseConnector {
 	}
 	
 	 public static Connection getConn() {
-	    	if(connection == null) {
-	    		makeConnection();
-	    	}
-	        return connection;
-	    }
+    	if(connection == null) {
+    		makeConnection();
+    	}
+        return connection;
+    }
 	
 }

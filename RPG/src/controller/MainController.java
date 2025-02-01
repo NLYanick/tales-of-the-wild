@@ -28,6 +28,7 @@ public class MainController {
 	
 	private ApplicationController appController;
 	private MovementController movementController;
+	private DatabaseController databaseController;
 	
 	private MainScene scene;
 	private FileIO fileIO;
@@ -45,11 +46,12 @@ public class MainController {
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2));
+		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2), "Fox");
 		backgroundLocation = new BackgroundLocation(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE, -player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		
 		this.appController = appController;
 		movementController = new MovementController(this, player);
+		databaseController = new DatabaseController(this);
 		
 	}
 	
@@ -434,6 +436,16 @@ public class MainController {
 			j--;
 		}
 		return list;
+	}
+	
+	public void saveGame() {
+		databaseController.saveGame(player);
+	}
+	
+	public void loadPlayer() {
+		Location playerLocation = databaseController.getPlayerLocation(player.getName());
+		player.setLocation(playerLocation);
+		teleportPlayer(player.getLocation());
 	}
 	
 	// -------------------- Getters & Setters --------------------

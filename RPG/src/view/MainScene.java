@@ -103,6 +103,7 @@ public class MainScene extends Scene {
 		controller.setUpItems();
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
+		controller.loadPlayer();
 		createPlayerView();
 		
 		setCursor(Cursor.NONE);
@@ -208,6 +209,10 @@ public class MainScene extends Scene {
 		} else {
 			addDialogView("Your Inventory is full");
 		}
+	}
+	
+	public void saveGame() {
+		controller.saveGame();
 	}
 	
 	private void togglePauseMenu() {
