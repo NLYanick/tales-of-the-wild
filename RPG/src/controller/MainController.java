@@ -40,17 +40,15 @@ public class MainController {
 	
 	private boolean gameIsPaused;
 	
-	@SuppressWarnings("static-access")
 	public MainController(ApplicationController appController, FileIO fileIO) {
 		
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		player = new Player("Images/Fox/FoxStandingStill.gif", new Location(scene.SCENEWIDTH/2, scene.SCENEHEIGHT/2), "Fox");
-		backgroundLocation = new BackgroundLocation(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE, -player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
+		backgroundLocation = new BackgroundLocation(-Player.DEFAULT_LOCATION.getX() + BACKGROUND_PLAYER_DIFFERENCE, -Player.DEFAULT_LOCATION.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		
 		this.appController = appController;
-		movementController = new MovementController(this, player);
+		movementController = new MovementController(this);
 		databaseController = new DatabaseController(this);
 		
 	}
@@ -513,6 +511,11 @@ public class MainController {
 	
 	public ArrayList<Player> getAllPlayers() {
 		return databaseController.getAllPlayers();
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+		movementController.setPlayer(player);
 	}
 	
 }

@@ -1,9 +1,11 @@
 package model;
 
+import view.MainScene;
+
 public class Player extends Entity {
 
 	public static String DEFAULT_URL = "Images/Fox/FoxStandingStill.gif";
-	public static Location DEFAULT_LOCATION = new Location(350, 350);
+	public static Location DEFAULT_LOCATION = new Location(MainScene.SCENEWIDTH/2, MainScene.SCENEHEIGHT/2);
 	
 	private Inventory inventory;
 	

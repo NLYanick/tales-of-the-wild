@@ -33,12 +33,14 @@ public class DatabaseController {
 	public void loadPlayer(Player player) {
 		Location playerLocation = getPlayerLocation(player.getName());
 		player.setLocation(playerLocation);
+		controller.setPlayer(player);
 		controller.teleportPlayer(player.getLocation());
 	}
 	
 	public Player createPlayer(String name) {
 		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
 		playerLayer.saveNewPlayer(player);
+		controller.setPlayer(player);
 		return player;
 	}
 	

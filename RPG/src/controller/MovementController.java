@@ -19,9 +19,8 @@ public class MovementController {
 	
 	private Player player;
 	
-	public MovementController(MainController controller, Player player) {
+	public MovementController(MainController controller) {
 		this.controller = controller;
-		this.player = player;
 		
 		addKeyPressedListener();
 	}
@@ -107,6 +106,10 @@ public class MovementController {
 	
 	public BooleanProperty getRightPressed() {
 		return rightPressed;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	
 }
