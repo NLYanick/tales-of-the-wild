@@ -1,6 +1,7 @@
 package view;
 
 import controller.ApplicationController;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -43,7 +44,7 @@ public class StartUpView extends BorderPane {
 		setUpLayout();
 		setUpTopText();
 		setUpImage();
-		setUpButton();
+		setUpButtons();
 		
 		setCenter(layout);
 		
@@ -77,13 +78,24 @@ public class StartUpView extends BorderPane {
 		layout.getChildren().add(topPane);
 	}
 	
-	private void setUpButton() {
+	private void setUpButtons() {
 		
+		Button continueButton = getButton("Load Game");
+		continueButton.setOnAction(e -> loadGame());
+		Button newGameButton = getButton("New Game");
+		newGameButton.setOnAction(e -> makeNewGame());
+		Button exitButton = getButton("Exit");
+		exitButton.setOnAction(e -> exit());
+		
+		layout.getChildren().addAll(continueButton, newGameButton, exitButton);
+	}
+	
+	private Button getButton(String text) {
 		int buttonWidth = 200;
 		int buttonHeight= buttonWidth / 2;
 		int fontSize = 30;
 		
-		Button button = new Button("Continue");
+		Button button = new Button(text);
 		button.setPrefSize(buttonWidth, buttonHeight);
 		
 		button.setFont(Font.font("Times New Roman", fontSize));
@@ -92,9 +104,7 @@ public class StartUpView extends BorderPane {
 		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
 		button.setCursor(Cursor.HAND);
 		
-		button.setOnAction(e -> scene.loadBackground());
-		
-		layout.getChildren().add(button);
+		return button;
 	}
 	
 	private void setUpImage() {
@@ -102,5 +112,17 @@ public class StartUpView extends BorderPane {
         ImageView foxImageView = new ImageView(foxImage);
         
         layout.getChildren().add(foxImageView);
+	}
+	
+	private void loadGame() {
+		scene.addLoadPlayersView();
+	}
+	
+	private void makeNewGame() {
+		scene.loadGame(null);
+	}
+	
+	private void exit() {
+		Platform.exit();
 	}
 }

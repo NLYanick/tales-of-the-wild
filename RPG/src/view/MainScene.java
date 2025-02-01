@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import model.Direction;
 import model.Item;
 import model.Location;
+import model.Player;
 
 public class MainScene extends Scene {
 
@@ -26,6 +27,7 @@ public class MainScene extends Scene {
 	private PauseMenuView pauseMenuView;
 	private InGameMenuView inGameMenuView;
 	private InventoryView inventoryView;
+	private LoadGameView loadGameView;
 	
 	private BorderPane root;
 	private StackPane playerAndMenusPane;
@@ -92,7 +94,22 @@ public class MainScene extends Scene {
 		root.setCenter(playerAndMenusPane);
 	}
 	
-	public void loadBackground() {
+	public void addLoadPlayersView() {
+		loadGameView = new LoadGameView(this);
+		root.setCenter(null);
+		root.setCenter(loadGameView);
+	}
+	
+	public void goBackToStartUpView() {
+		root.setCenter(null);
+		root.setCenter(startUpView);
+	}
+	
+	public ArrayList<Player> getAllPlayers(){
+		return controller.getAllPlayers();
+	}
+	
+	public void loadGame(Player player) {
 		
 		gameHasLoaded = true;
 		
@@ -101,9 +118,9 @@ public class MainScene extends Scene {
 		addBackground();
 		controller.setUpNPCs();
 		controller.setUpItems();
+		controller.loadPlayer(player);
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
-		controller.loadPlayer();
 		createPlayerView();
 		
 		setCursor(Cursor.NONE);

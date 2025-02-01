@@ -2,6 +2,8 @@ package model;
 
 public class Player extends Entity {
 
+	public static String DEFAULT_URL = "Images/Fox/FoxStandingStill.gif";
+	
 	private Inventory inventory;
 	
 	public Player(String imgURL, Location location, String name) {

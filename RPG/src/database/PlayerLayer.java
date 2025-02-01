@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import model.Location;
 import model.Player;
@@ -65,6 +66,26 @@ public class PlayerLayer {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Player> getAllPlayers() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		
+		String query = "SELECT * FROM player";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
+				Player player = new Player(Player.DEFAULT_URL, location, rs.getString("name"));
+				players.add(player);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return players;
 	}
 	
 }

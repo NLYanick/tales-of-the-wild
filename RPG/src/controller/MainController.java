@@ -442,10 +442,15 @@ public class MainController {
 		databaseController.saveGame(player);
 	}
 	
-	public void loadPlayer() {
-		Location playerLocation = databaseController.getPlayerLocation(player.getName());
-		player.setLocation(playerLocation);
-		teleportPlayer(player.getLocation());
+	public void loadPlayer(Player player) {
+		if(player == null) {
+			throw new NullPointerException();
+		}
+		databaseController.loadPlayer(player);
+	}
+	
+	public ArrayList<Player> getAllPlayers() {
+		return databaseController.getAllPlayers();
 	}
 	
 	// -------------------- Getters & Setters --------------------
