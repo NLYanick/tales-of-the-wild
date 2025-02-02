@@ -143,6 +143,10 @@ public class MainController {
 		player.setX(location.getX());
 		player.setY(location.getY());
 		
+		teleportImages();
+	}
+	
+	private void teleportImages() {
 		backgroundLocation.setX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
 		backgroundLocation.setY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
@@ -155,11 +159,13 @@ public class MainController {
 			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
 			npcView.fixImage();
 			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
+			moveNPCViewWithScreen(npc);
 		}
 		for(Item item : items) {
 			ItemView itemView = itemsWithViews.get(item);
 			item.setViewLocation(new Location(bgX + (int) item.getX(), bgY + (int) item.getY()));
 			itemView.move(item.getViewLocation());
+			moveItemViewWithScreen(item);
 		}
 	}
 	
@@ -335,6 +341,7 @@ public class MainController {
 	}
 	
 	public void dropItem(Item item) {
+		// TODO
 		databaseController.setItemLocation(item, player.getLocation());
 	}
 	
