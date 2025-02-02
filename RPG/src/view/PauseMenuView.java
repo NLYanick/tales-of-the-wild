@@ -122,7 +122,7 @@ public class PauseMenuView extends BorderPane {
 		controlsButton.setOnAction(e -> openControls());
 		
 		Button saveButton = getButton("Save");
-		saveButton.setOnAction(e -> scene.saveGame());
+		saveButton.setOnAction(e -> saveGame());
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> exit());
@@ -311,6 +311,10 @@ public class PauseMenuView extends BorderPane {
 	public void requestFocusForButtons() {
 		buttons[0].requestFocus();
 		buttonCounter = 0;
+	}
+	
+	private void saveGame() {
+		scene.saveGame();
 	}
 
 }
