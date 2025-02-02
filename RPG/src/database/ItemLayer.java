@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,6 +57,25 @@ private Connection conn;
 		}
 		
 		return items;
+	}
+	
+	public void savePlayerItems(Player player, ArrayList<Item> items) {
+		String query = "UPDATE item SET player_name = ? WHERE name = ?";
+				
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			
+		    for (Item item : items) {
+		        stmt.setString(1, player.getName());
+		        stmt.setString(2, item.getName());
+		        stmt.addBatch(); 
+		    }
+			
+		    stmt.executeBatch();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

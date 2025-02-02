@@ -24,6 +24,7 @@ public class DatabaseController {
 	
 	public void saveGame(Player player) {
 		playerLayer.saveLocation(player);
+		itemLayer.savePlayerItems(player, player.getItemsOfInventory());
 	}
 	
 	public Location getPlayerLocation(String name) {
@@ -44,6 +45,7 @@ public class DatabaseController {
 	public Player createPlayer(String name) {
 		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
 		playerLayer.saveNewPlayer(player);
+		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
 		controller.setPlayer(player);
 		return player;
 	}
@@ -63,6 +65,10 @@ public class DatabaseController {
 	
 	public ArrayList<Item> getAllItems(){
 		return itemLayer.getAllItems();
+	}
+	
+	public ArrayList<Item> getAllItemsOfPlayer(Player player){
+		return itemLayer.getAllItemsOfPlayer(player);
 	}
 	
 }

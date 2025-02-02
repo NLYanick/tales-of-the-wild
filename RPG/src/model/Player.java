@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import view.MainScene;
 
 public class Player extends Entity {
@@ -73,6 +75,16 @@ public class Player extends Entity {
 
 	public boolean inventoryIsFull() {
 		return inventory.isFull();
+	}
+	
+	public void addItemsToInventory(ArrayList<Item> items) {
+		for(Item item : items) {
+			addItemToInventory(item);
+		}
+	}
+	
+	public ArrayList<Item> getItemsOfInventory() {
+		return inventory.getItems();
 	}
 	
 }

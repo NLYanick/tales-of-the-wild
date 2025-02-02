@@ -2,8 +2,7 @@ Scene switcher met Startup & Game
 In game menu naam laten zien
 Background maken 
 Building object toevoegen
-Database toevoegen
-Player naam kunnen geven
+Inventory verbeteren
 Map toevoegen
 NPC's in database
 
@@ -26,5 +25,5 @@ TODO Images:
 Huizen, NPC's
 
 
-Nu: Focus en pijl bij startview, loadgameview & newgameview | items met database | player heeft connectie met item in db |
-Bij teleport en spawnen player moeten alle plaatjes gelijk meegaan | Laten zien dat je opslaat 
+Nu: Focus en pijl bij startview, loadgameview & newgameview | items goed regelen met game
+Bij teleport en spawnen player moeten alle plaatjes gelijk meegaan | Laten zien dat je opslaat | item locatie opslaan bij oppakken en droppen

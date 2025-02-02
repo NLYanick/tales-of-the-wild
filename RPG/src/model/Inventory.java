@@ -30,5 +30,9 @@ public class Inventory {
 	public boolean isFull() {
 		return isFull;
 	}
+	
+	public ArrayList<Item> getItems() {
+		return items;
+	}
 
 }
