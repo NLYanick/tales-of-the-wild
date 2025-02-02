@@ -22,13 +22,13 @@ private Connection conn;
 	public ArrayList<Item> getAllItemsOfPlayer(Player player) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		String query = "SELECT * FROM item WHERE player_name = ?";
+		String query = "SELECT * FROM item WHERE player_name = '" + player.getName() + "'";
 		
 		try {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), "");
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -48,7 +48,7 @@ private Connection conn;
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"));
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -60,15 +60,16 @@ private Connection conn;
 	}
 	
 	public void savePlayerItems(Player player, ArrayList<Item> items) {
-		String query = "UPDATE item SET player_name = ? WHERE name = ?";
-				
+		String query = "UPDATE item SET player_name = ? WHERE id = ?";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			
 		    for (Item item : items) {
 		        stmt.setString(1, player.getName());
-		        stmt.setString(2, item.getName());
+		        stmt.setInt(2, item.getId());
 		        stmt.addBatch(); 
+		        stmt.execute();
 		    }
 			
 		    stmt.executeBatch();

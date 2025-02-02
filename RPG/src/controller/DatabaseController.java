@@ -39,13 +39,14 @@ public class DatabaseController {
 		Location playerLocation = getPlayerLocation(player.getName());
 		player.setLocation(playerLocation);
 		controller.setPlayer(player);
+		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
+		controller.addPlayerItemViewsToInventoryView();
 		controller.teleportPlayer(player.getLocation());
 	}
 	
 	public Player createPlayer(String name) {
 		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
 		playerLayer.saveNewPlayer(player);
-		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
 		controller.setPlayer(player);
 		return player;
 	}

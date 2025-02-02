@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -28,6 +30,7 @@ public class InventoryView extends BorderPane {
 	
 	private Button close;
 	
+	private ArrayList<ItemView> itemViews;
 	private int newX;
 	private int newY;
 		
@@ -152,6 +155,21 @@ public class InventoryView extends BorderPane {
 	
 	public void removeItemView(ItemView itemView) {
 		inventorySlots.getChildren().remove(itemView);
+	}
+	
+	public void setItemViews(ArrayList<ItemView> itemViews) {
+		this.itemViews = itemViews;
+		
+		addItemViews();
+	}
+	
+	private void addItemViews() {
+		if(itemViews == null || itemViews.size() == 0) {
+			return;
+		}
+		for(ItemView itemView : itemViews) {
+			addItemView(itemView);
+		}
 	}
 	
 }

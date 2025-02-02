@@ -80,6 +80,10 @@ public class MainController {
 		items = databaseController.getAllItems();
 		itemsWithViews = new HashMap<Item, ItemView>();
 		
+		addItemsToGame();
+	}
+	
+	private void addItemsToGame() {
 		for(Item item : items) {
 			ItemView itemView = new ItemView(new Location(item.getX(), item.getY()), item.getImageUrl());
 			itemsWithViews.put(item, itemView);
@@ -87,6 +91,22 @@ public class MainController {
 			scene.addItemView(itemView);
 			moveItemViewWithScreen(item);
 		}
+	}
+	
+	public void addPlayerItemViewsToInventoryView() {
+		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
+		for(Item playerItem : player.getItemsOfInventory()) {
+			for(int i = 0; i < items.size(); i++) {
+				Item item = items.get(i);
+				if(playerItem.getId() == item.getId()) {
+					ItemView itemView = itemsWithViews.get(item);
+					itemViews.add(itemView);
+					items.remove(item);
+				}
+			}
+		}
+		
+		scene.setItemViewsInInventory(itemViews);
 	}
 	
 	public void moveBackground(Direction dir) {

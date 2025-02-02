@@ -8,10 +8,14 @@ public class Item {
 	
 	private Location viewLocation;
 	
-	public Item(Location location, String name, String imageUrl) {
+	private int id;
+	
+	public Item(Location location, String name, String imageUrl, int id) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
+		this.id = id;
+		
 		viewLocation = new Location(location.getX(), location.getY());
 	}
 	
@@ -49,6 +53,10 @@ public class Item {
 	
 	public int getY() {
 		return location.getY();
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 }

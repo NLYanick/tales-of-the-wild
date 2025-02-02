@@ -253,6 +253,10 @@ public class MainScene extends Scene {
 		controller.saveGame();
 	}
 	
+	public void setItemViewsInInventory(ArrayList<ItemView> itemViews) {
+		inventoryView.setItemViews(itemViews);
+	}
+
 	private void togglePauseMenu() {
 		if(pauseMenuIsOpen) {
 			playerAndMenusPane.getChildren().add(pauseMenuView);
