@@ -1,12 +1,13 @@
 Scene switcher met Startup & Game
 In game menu naam laten zien
 Background maken 
-Building object toevoegen
+Building object toevoegen | Buildings in kunnen
 Inventory verbeteren
 Map toevoegen
 NPC's in database
 
 Minder Prioriteit:
+Meer Controllers | Minder in MainController
 Menu's en LoadGameView responsive maken
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
 NPC plaatjes mogen niet mee gaan
@@ -26,4 +27,4 @@ Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: Focus en pijl bij startview, loadgameview & newgameview | Laten zien dat je opslaat 
+Nu: Focus en pijl bij startview, loadgameview & newgameview | savedLabel niet setLeft doen
