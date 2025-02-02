@@ -242,8 +242,6 @@ public class MainScene extends Scene {
 			
 			removeItemView(itemView);
 			inventoryView.addItemView(itemView);
-			
-			item.resetLocation();
 		} else {
 			addDialogView("Your Inventory is full");
 		}

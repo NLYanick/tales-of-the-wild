@@ -330,6 +330,12 @@ public class MainController {
 	
 	public void addItemToPlayerInventory(Item item) {
 		player.addItemToInventory(item);
+		item.resetLocation();
+		databaseController.setItemLocation(item, new Location(item.getX(), item.getY()));
+	}
+	
+	public void dropItem(Item item) {
+		databaseController.setItemLocation(item, player.getLocation());
 	}
 	
 	private Item getNearbyItem() {

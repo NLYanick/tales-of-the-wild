@@ -79,4 +79,20 @@ private Connection conn;
 		}
 	}
 	
+	public void setItemLocation(Item item, Location location) {
+		String query = "UPDATE item SET x = ?, y = ? WHERE id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, location.getX());
+			stmt.setInt(2, location.getY());
+			stmt.setInt(3, item.getId());
+		    
+			stmt.execute();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

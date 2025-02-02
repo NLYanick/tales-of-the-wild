@@ -72,4 +72,8 @@ public class DatabaseController {
 		return itemLayer.getAllItemsOfPlayer(player);
 	}
 	
+	public void setItemLocation(Item item, Location location) {
+		itemLayer.setItemLocation(item, location);
+	}
+	
 }
