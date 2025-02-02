@@ -249,6 +249,7 @@ public class PauseMenuView extends BorderPane {
 	public void resetView() {
 		resetArrow();
 		pauseMenu.setCenter(buttonsPane);
+		pauseMenu.setLeft(null);
 	}
 	
 	public void resetArrow() {
@@ -285,7 +286,7 @@ public class PauseMenuView extends BorderPane {
 		pauseMenu.getChildren().remove(arrowView);
 		for(Button button : buttons) {
 			if(button.isFocused()) {
-				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2));
+				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX()));
 				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
 				pauseMenu.getChildren().add(arrowView);
 				break;
@@ -315,6 +316,20 @@ public class PauseMenuView extends BorderPane {
 	
 	private void saveGame() {
 		scene.saveGame();
+		addSavedText();
+	}
+	
+	private void addSavedText() {
+
+		String saved = "Saved";
+		int fontSize = 32;
+		
+		Label savedLabel = new Label(saved);
+		savedLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
+		savedLabel.setTextFill(Color.WHITE);
+		
+		pauseMenu.setLeft(savedLabel);
+		
 	}
 
 }
