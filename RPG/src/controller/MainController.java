@@ -77,11 +77,8 @@ public class MainController {
 	}
 	
 	public void setUpItems() {
-		items = new ArrayList<Item>();
+		items = databaseController.getAllItems();
 		itemsWithViews = new HashMap<Item, ItemView>();
-		
-		Item testItem = new Item(new Location(650, 350), "Appel", "Images/Items/TempAppel.png");
-		items.add(testItem);
 		
 		for(Item item : items) {
 			ItemView itemView = new ItemView(new Location(item.getX(), item.getY()), item.getImageUrl());
