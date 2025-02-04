@@ -31,6 +31,7 @@ public class PauseMenuView extends BorderPane {
 	
 	private BorderPane controlsPane;
 	private VBox buttonsPane;
+	private BorderPane savedPane;
 	
 	private int buttonWidth = 150;
 	private int buttonHeight = buttonWidth/2;
@@ -69,6 +70,24 @@ public class PauseMenuView extends BorderPane {
 		pauseMenu.getChildren().add(arrowView);
 		
 		setCenter(pauseMenu);
+		
+		setUpSavedPane();
+	}
+	
+	private void setUpSavedPane() {
+
+		String saved = "Saved";
+		int fontSize = 32;
+		int minWidth = 100;
+		
+		Label savedLabel = new Label(saved);
+		savedLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
+		savedLabel.setTextFill(Color.WHITE);
+		
+		savedPane = new BorderPane(savedLabel);
+		savedPane.setMinWidth(minWidth);
+		savedPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
+		
 	}
 	
 	private void fillButtonsArray() {
@@ -231,6 +250,7 @@ public class PauseMenuView extends BorderPane {
 	
 	private void openControls() {
 		pauseMenu.getChildren().remove(arrowView);
+		pauseMenu.getChildren().remove(savedPane);
 		pauseMenu.setCenter(controlsPane);
 		for(Node node : controlsPane.getChildren()) {
 			if(node instanceof Button) {
@@ -248,6 +268,7 @@ public class PauseMenuView extends BorderPane {
 
 	public void resetView() {
 		resetArrow();
+		pauseMenu.getChildren().remove(savedPane);
 		pauseMenu.setCenter(buttonsPane);
 		pauseMenu.setLeft(null);
 	}
@@ -316,20 +337,8 @@ public class PauseMenuView extends BorderPane {
 	
 	private void saveGame() {
 		scene.saveGame();
-		addSavedText();
-	}
-	
-	private void addSavedText() {
-
-		String saved = "Saved";
-		int fontSize = 32;
-		
-		Label savedLabel = new Label(saved);
-		savedLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
-		savedLabel.setTextFill(Color.WHITE);
-		
-		pauseMenu.setLeft(savedLabel);
-		
+		pauseMenu.getChildren().remove(savedPane);
+		pauseMenu.getChildren().add(savedPane);
 	}
 
 }

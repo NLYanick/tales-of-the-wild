@@ -27,4 +27,5 @@ Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: Focus en pijl bij startview, loadgameview & newgameview | savedLabel niet setLeft doen
+Nu: Focus en pijl bij startview, loadgameview & newgameview |
+Als je hovert over knoppen met pijl, moet daar de pijl heen
