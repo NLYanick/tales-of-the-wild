@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
+import model.Building;
 import model.Direction;
 import model.Image;
 import model.Item;
@@ -32,6 +33,7 @@ public class MainController {
 	private MainScene scene;
 	private FileIO fileIO;
 	
+	private ArrayList<Building> buildings;
 	private ArrayList<NPC> npcs;
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private ArrayList<Item> items;
@@ -89,6 +91,13 @@ public class MainController {
 		}
 	}
 	
+	public void setUpBuildings() {
+		buildings = new ArrayList<Building>();
+		
+		Building building = new Building(new Location(5504, 2944), true, 384, 512);
+		buildings.add(building);
+	}
+	
 	public void addPlayerItemViewsToInventoryView() {
 		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
 		for(Item playerItem : player.getItemsOfInventory()) {
@@ -114,6 +123,35 @@ public class MainController {
 			
 			player.move(Direction.getOpposite(dir));
 		}
+		else if(nextStepIsBuilding(Direction.getOpposite(dir))) {
+			enterBuilding(Direction.getOpposite(dir));
+		}
+	}
+	
+	private boolean nextStepIsBuilding(Direction dir) {
+		Building building = getNearbyBuilding(dir);
+		if(building != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	private Building getNearbyBuilding(Direction dir) {
+		int nextX = player.getX() + dir.getX();
+		int nextY = player.getY() + dir.getY();
+		for (Building building : buildings) {
+			if(Location.isGreater(new Location(nextX, nextY), new Location(building.getX(), building.getY()))
+					&& Location.isLess(new Location(nextX, nextY), 
+						new Location(building.getX() + building.getWidth(), building.getY() + building.getHeight()))) {
+				return building;
+			}
+		}
+		return null;
+	}
+	
+	private void enterBuilding(Direction dir) {
+		Building building = getNearbyBuilding(dir);
+		building.enter();
 	}
 	
 	private boolean canWalk(Direction dir) {

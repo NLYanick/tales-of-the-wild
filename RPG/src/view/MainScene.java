@@ -143,6 +143,7 @@ public class MainScene extends Scene {
 		addBackground();
 		controller.setUpNPCs();
 		controller.setUpItems();
+		controller.setUpBuildings();
 		controller.loadPlayer(player);
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
@@ -345,7 +346,7 @@ public class MainScene extends Scene {
 		// TODO Remove 
 		case T:
 			if(gameHasLoaded)
-				controller.teleportPlayer(new Location(1100, 3000));
+				controller.teleportPlayer(new Location(5100, 3500));
 			break;
 		case E: 
 			if(gameHasLoaded && allIsClosed()) {

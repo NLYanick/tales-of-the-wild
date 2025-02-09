@@ -3,6 +3,7 @@ Background maken
 Building object toevoegen | Buildings in kunnen
 Inventory verbeteren
 Map toevoegen
+Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 (Als er meer stats zijn, laten zien in in-game menu)
 
 
@@ -30,4 +31,4 @@ Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
+Nu: Images in Building object en dan mag je er niet overheen lopen
