@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -139,12 +140,15 @@ public class PauseMenuView extends BorderPane {
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnAction(e -> openControls());
+		addHoverListenerToButton(controlsButton);
 		
 		Button saveButton = getButton("Save");
 		saveButton.setOnAction(e -> saveGame());
+		addHoverListenerToButton(saveButton);
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> exit());
+		addHoverListenerToButton(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, saveButton, exitButton);
 		
@@ -152,6 +156,35 @@ public class PauseMenuView extends BorderPane {
 		buttonsPane.setAlignment(Pos.CENTER);
 		
 		return buttonsPane;
+	}
+	
+	private void addHoverListenerToButton(Button button) {
+		SimpleBooleanProperty hoverBind = new SimpleBooleanProperty();
+		hoverBind.addListener(((observableValue, isNotHovered, isHovered) -> {
+		 	if(isHovered) {
+	 			button.requestFocus();
+	 			
+				pauseMenu.getChildren().remove(arrowView);
+
+				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX()));
+				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
+				pauseMenu.getChildren().add(arrowView);
+				
+				checkButton(button);
+		 	} 
+		}));
+		hoverBind.bind(button.hoverProperty());
+	}
+	
+	private void checkButton(Button button) {
+		int i = 0;
+		for(Button b: buttons) {
+			if(button == b) {
+				buttonCounter = i;
+				break;
+			}
+			i++;
+		}
 	}
 	
 	private BorderPane createControlsPane() {
