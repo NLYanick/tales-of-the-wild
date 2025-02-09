@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,17 +53,14 @@ public class MainController {
 	}
 	
 	public void setUpNPCs() {
-		npcs = new ArrayList<NPC>();
+		npcs = databaseController.getAllNPCs();
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		int bgX = backgroundLocation.getX();
 		int bgY = backgroundLocation.getY();
 		
-		List<String> scarletMacawDialog = Arrays.asList("Hi there!", "What do you think of my tent?", "Thank you for visiting my tent!");
-		NPC scarletMacaw = new NPC("Images/NPCs/ScarletMacaw.png", new Location(1100, 3350), Direction.WEST, this, 
-				"ScarletMacaw", scarletMacawDialog);
-		npcs.add(scarletMacaw);
-		
 		for(NPC npc : npcs) {
+			npc.setMainController(this);
+			
 			NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
 			npcView.fixImage();
 			npc.setViewLocation(new Location(bgX + (int) npcView.getLayoutX(), bgY + (int) npcView.getLayoutY()));

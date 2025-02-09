@@ -13,7 +13,7 @@ import model.Player;
 
 public class ItemLayer {
 
-private Connection conn;
+	private Connection conn;
 	
 	public ItemLayer() {
 		conn = DatabaseConnector.getConn();
