@@ -15,6 +15,7 @@ NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
 In pauze en in-game menu de eerste pijl niet hardcoded maken
+In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
 Focus bij startview, loadgameview & newgameview
 
