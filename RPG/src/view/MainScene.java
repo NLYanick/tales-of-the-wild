@@ -130,6 +130,10 @@ public class MainScene extends Scene {
 		return controller.getAllPlayers();
 	}
 	
+	public Player getPlayer() {
+		return controller.getPlayer();
+	}
+	
 	public void loadGame(Player player) {
 		
 		gameHasLoaded = true;
@@ -143,6 +147,8 @@ public class MainScene extends Scene {
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
 		createPlayerView();
+		
+		inGameMenuView.setPlayerPane();
 		
 		setCursor(Cursor.NONE);
 	}

@@ -1,15 +1,16 @@
 Scene switcher met Startup & Game
-In game menu naam laten zien
 Background maken 
 Building object toevoegen | Buildings in kunnen
 Inventory verbeteren
 Map toevoegen
 NPC's in database
+(Als er meer stats zijn, laten zien in in-game menu)
 
 
 Minder Prioriteit:
 Meer Controllers | Minder in MainController
 Menu's en LoadGameView responsive maken
+Kijken naar naam lengte (sommige te lange namen gaan uit het frame)
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is

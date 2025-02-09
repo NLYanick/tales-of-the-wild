@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -16,6 +17,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,6 +27,7 @@ public class InGameMenuView extends BorderPane {
 
 	private GridPane menuPane;
 	private BorderPane buttonsMenu;
+	private BorderPane playerPane;
 	private VBox buttonsBox;
 	
 	private MainScene scene;
@@ -57,13 +60,13 @@ public class InGameMenuView extends BorderPane {
 	public void fillGrid() {
 		menuPane.getChildren().clear();
 		for(int x = 0; x < 2; x++) {
-			for(int y = 0; y < 2; y++) {
-				Rectangle invisableRect = new Rectangle(scene.getWidth()/4, scene.getHeight()/4);
-				invisableRect.setFill(Color.TRANSPARENT);
-				if(!(x == 1 && y == 1)) {
-					menuPane.add(invisableRect, x, y);
-				} else {
+			for(int y = 0; y < 3; y++) {
+				if(x == 1 && y == 1) {
 					menuPane.add(buttonsMenu, x, y);
+				} else if(x == 1 && y == 2) {
+					menuPane.add(playerPane, x, y);
+				} else {
+					menuPane.add(new Rectangle(scene.getWidth()/5, scene.getHeight()/5, Color.TRANSPARENT), x, y);
 				}
 			}
 		}
@@ -88,6 +91,45 @@ public class InGameMenuView extends BorderPane {
 		arrowView.setLayoutX(x);
 		arrowView.setLayoutY(y);
 		return arrowView;
+	}
+	
+	private BorderPane getPlayerPane() {
+		
+		int width = 1000;
+		int height = 150;
+		int borderWidth = 10;
+		
+		BorderPane playerPane = new BorderPane();
+		playerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		playerPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
+		playerPane.setMinSize(width, height);
+		playerPane.setMaxSize(width, height);
+		
+		HBox playerText = getPlayerText();
+		
+		playerPane.setCenter(playerText);
+		
+		return playerPane;
+	}
+	
+	private HBox getPlayerText() {
+		int fontSize = 40;
+		
+		HBox playerText = new HBox();
+		playerText.setAlignment(Pos.CENTER);
+		
+		Label playerName = new Label(scene.getPlayer().getName());
+		playerName.setFont(Font.font(MainScene.FONTNAME, fontSize));
+		playerName.setTextFill(Color.WHITE);
+		
+		playerText.getChildren().addAll(playerName);
+		
+		return playerText;
+	}
+	
+	public void setPlayerPane() {
+		playerPane = getPlayerPane();
+		menuPane.add(playerPane, 1, 3);
 	}
 
 	private BorderPane getButtonsMenu() {
@@ -141,7 +183,7 @@ public class InGameMenuView extends BorderPane {
 		Button button = new Button(text);
 		button.setPadding(new Insets(0));
 		
-		button.setFont(Font.font("Times New Roman", fontSize));
+		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		button.setTextFill(Color.WHITE);
 			
