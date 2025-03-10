@@ -6,6 +6,7 @@ public abstract class Entity {
 	protected String imageURL;
 	protected Direction movingDirection;
 	protected String name;
+	protected boolean inBuilding;
 	
 	public Entity(String imageURL, String name) {
 		this.imageURL = imageURL;
@@ -66,6 +67,14 @@ public abstract class Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isInBuilding() {
+		return inBuilding;
+	}
+	
+	public void setInBuilding(boolean inBuilding) {
+		this.inBuilding = inBuilding;
 	}
 	
 }

@@ -8,7 +8,7 @@ public class BackgroundImages {
 	private static final String GRASSPATH = "Images/Background/Grass/";
 	private static final String WATERPATH = "Images/Background/Water/";
 	
-	public static final int MAXNUMBER = 41;
+	public static final int MAXNUMBER = 56;
 	
 	private HashMap<Integer, Image> images;
 	
@@ -81,7 +81,7 @@ public class BackgroundImages {
 		
 		images.put(54, new Image(PATH.concat("BlueTent.png"), false));
 		images.put(55, new Image(PATH.concat("BrickHouse.png"), false));
-		images.put(56, new Image(PATH.concat("Brick.png"), false));
+		images.put(56, new Image(PATH.concat("Bricks.png"), false));
 		
 	}
 	

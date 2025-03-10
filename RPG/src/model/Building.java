@@ -1,28 +1,48 @@
 package model;
 
+import controller.MainController;
+
 public class Building {
 
-	private Location location;
-	private boolean canPass;
-	private int width;
-	private int height;
+	public final static Location BUILDING_LOCATION = new Location(-2000, -1000);
 	
-	public Building(Location location, boolean canPass, int width, int height) {
+	private Location location, leaveLocation, startLocation;
+	
+	private BuildingType type;
+	private boolean canPass;
+	private Size size;
+	
+	private MainController controller;
+	
+	public Building(Location location, boolean canPass, int width, int height, BuildingType type,
+			Location leaveLocation, MainController controller) {
 		this.location = location;
+		this.leaveLocation = leaveLocation;
+		startLocation = location;
+		
+		this.type = type;
 		this.canPass = canPass;
-		this.width = width;
-		this.height = height;
+		
+		size = new Size(width, height);
+		
+		this.controller = controller;
 	}
 	
-	public void enter() {
+	public void enter(Player player) {
 		if(canPass) {
-			System.out.println("Entered");
+			controller.setBuildingView(this);
+			player.setLocation(BUILDING_LOCATION);
+			player.setInBuilding(true);
+			location = null;
 		}
 	}
 	
-	public void leave() {
+	public void leave(Player player) {
 		if(canPass) {
-			System.out.println("Left");
+			controller.removeBuildingView(this);
+			player.setLocation(leaveLocation);
+			player.setInBuilding(false);
+			location = startLocation;
 		}
 	}
 	
@@ -35,11 +55,11 @@ public class Building {
 	}
 	
 	public int getWidth() {
-		return width;
+		return size.getWidth();
 	}
 	
 	public int getHeight() {
-		return height;
+		return size.getHeight();
 	}
 	
 	public int getX() {
@@ -48,6 +68,18 @@ public class Building {
 	
 	public int getY() {
 		return location.getY();
+	}
+	
+	public BuildingType getType() {
+		return type;
+	}
+	
+	public Location getLocation() {
+		return location;
+	}
+	
+	public Location getLeaveLocation() {
+		return leaveLocation;
 	}
 	
 }

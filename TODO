@@ -3,8 +3,10 @@ Background maken
 Building object toevoegen | Buildings in kunnen
 Inventory verbeteren
 Map toevoegen
+Elke game moet eigen items en npcs en eigen player enz. hebben 
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 (Als er meer stats zijn, laten zien in in-game menu)
+(Building in Database)
 
 
 Minder Prioriteit:
@@ -27,9 +29,11 @@ In pauze en in-game menu is de eerste pijl hardcoded
 
 
 TODO Images:
+Player plaatje voelt toch niet helemaal thuis
 Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: Building grootte alleen bij deur |
-Images in Building object en dan mag je er niet overheen lopen
+Nu: BuildingView aanpassen aan schermgrootte | isMiddle() methode moet ook voor oneven | 
+NPC's moeten in Buildings kunnen | BrickBuildingView data en exit mag niet hardcoded | 
+Als je tegen een muur loopt, mag je locatie ook niet veranderen

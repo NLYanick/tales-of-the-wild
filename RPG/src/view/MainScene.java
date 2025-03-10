@@ -6,13 +6,20 @@ import controller.MainController;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import model.Building;
 import model.Direction;
+import model.Image;
 import model.Item;
 import model.Location;
 import model.Player;
+import model.Size;
+import view.Buildings.BrickBuildingView;
+import view.Buildings.BuildingView;
 
 public class MainScene extends Scene {
 
@@ -30,15 +37,17 @@ public class MainScene extends Scene {
 	private InventoryView inventoryView;
 	private LoadGameView loadGameView;
 	private NewGameView newGameView;
+	private BuildingView buildingView;
 	
 	private BorderPane root;
-	private StackPane playerAndMenusPane;
+	private StackPane menusPane;
 	
 	private boolean gameHasLoaded;
 	private boolean pauseMenuIsOpen;
 	private boolean inGameMenuIsOpen;
 	private boolean playerIsInDialog;
 	private boolean inventoryIsOpen;
+	private boolean inBuilding;
 	
 	private ArrayList<DialogView> dialogs;
 	
@@ -52,7 +61,7 @@ public class MainScene extends Scene {
 	
 	private void setUpRoot() {
 		root = new BorderPane();
-		playerAndMenusPane = new StackPane();
+		menusPane = new StackPane();
 		
 		pauseMenuView = new PauseMenuView(this);
 		inGameMenuView = new InGameMenuView(this);
@@ -85,15 +94,14 @@ public class MainScene extends Scene {
 		root.getChildren().add(background);
 	}
 	
-	private void createPlayerView()
-	{
+	private void createPlayerView() {
 		playerView = new PlayerView(controller.getPlayerURL());
 		playerView.setLayoutX(getWidth()/2);
 		playerView.setLayoutY(getHeight()/2);
 		playerView.fixImage();
 		
 		root.getChildren().add(playerView);
-		root.setCenter(playerAndMenusPane);
+		root.setCenter(menusPane);
 	}
 	
 	public void addLoadGameView() {
@@ -167,14 +175,14 @@ public class MainScene extends Scene {
 	}
 	
 	public void openInventory() {
-		playerAndMenusPane.getChildren().add(inventoryView);
+		menusPane.getChildren().add(inventoryView);
 		inventoryView.requestFocusForButton();
 		inventoryIsOpen = true;
 		setCursor(Cursor.DEFAULT);
 	}
 	
 	public void removeInventoryView() {
-		playerAndMenusPane.getChildren().remove(inventoryView);
+		menusPane.getChildren().remove(inventoryView);
 		inGameMenuView.requestFocusForButtons();
 		inventoryIsOpen = false;
 		setCursor(Cursor.NONE);
@@ -209,7 +217,7 @@ public class MainScene extends Scene {
 	
 	public void addDialogView(String dialogText) {
 		DialogView dialogView = new DialogView(dialogText, this);
-		playerAndMenusPane.getChildren().add(dialogView);
+		menusPane.getChildren().add(dialogView);
 		
 		dialogs.add(dialogView);
 		dialogs.get(dialogs.size() - 1).requestFocus();
@@ -218,7 +226,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void removeDialog(DialogView dialogView) {
-		playerAndMenusPane.getChildren().remove(dialogView);
+		menusPane.getChildren().remove(dialogView);
 		dialogs.remove(dialogView);
 		if(dialogs.size() == 0) {
 			playerIsInDialog = false;
@@ -261,14 +269,86 @@ public class MainScene extends Scene {
 	public void setItemViewsInInventory(ArrayList<ItemView> itemViews) {
 		inventoryView.setItemViews(itemViews);
 	}
+	
+	public void setBuildingView(Building building) {
+		
+		root.getChildren().remove(background);
+		
+		root.setBackground(new javafx.scene.layout.Background(new BackgroundFill(Color.CADETBLUE, null, null)));
+		
+		buildingView = getBuildingViewByType(building);
+		root.getChildren().add(buildingView);
+		
+		inBuilding = true;
+		
+		refreshPlayerAndMenus();
+	}
+	
+	public void removeBuildingView(Building building) {		
+		root.getChildren().add(background);
+		inBuilding = false;		
+		
+		root.setBackground(null);
+		root.getChildren().remove(buildingView);
+
+		refreshPlayerAndMenus();
+	}
+	
+	private BuildingView getBuildingViewByType(Building building) {
+		switch(building.getType()) {
+			case BRICK:
+				// Is nu hardcoded :(
+				double newWidth = building.getWidth()/128.0 * 8;
+				double newHeight = building.getHeight()/128.0 * 8;
+				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, Direction.SOUTH);
+			default: return null;
+		
+		}
+	}
+	
+	public boolean nextStepIsBuildingExit(Direction dir) {
+		return buildingView.nextStepIsOnExit(dir, playerView);
+	}
+	
+	private void refreshPlayerAndMenus() {
+		root.getChildren().remove(playerView);
+		root.getChildren().add(playerView);
+		
+		root.getChildren().remove(menusPane);
+		root.getChildren().add(menusPane);
+	}
+	
+	public void moveBuildingView(Direction dir) {
+		buildingView.move(dir);
+	}
+	
+	public String getImageUrlByIndex(int index) {
+		return controller.getImageUrlByIndex(index);
+	}
+	
+	public boolean isInBuilding() {
+		return inBuilding;
+	}
+	
+	public boolean locationIsOnBuildingWall(Location location, Direction dir) {
+		return buildingView.locationIsOnWall(playerView, dir);
+	}
+	
+	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
+		controller.addBuildingViewImage(url, canWalkOn, location);
+	}
+	
+	public ArrayList<Image> getBuildingViewImages() {
+		return controller.getBuildingViewImages();
+	}
 
 	private void togglePauseMenu() {
 		if(pauseMenuIsOpen) {
-			playerAndMenusPane.getChildren().add(pauseMenuView);
+			menusPane.getChildren().add(pauseMenuView);
 			pauseMenuView.requestFocusForButtons();
 			setCursor(Cursor.DEFAULT);
 		} else {
-			playerAndMenusPane.getChildren().remove(pauseMenuView);
+			menusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
 			setCursor(Cursor.NONE);
 			requestFocusForView();
@@ -305,11 +385,11 @@ public class MainScene extends Scene {
 	private void toggleInGameMenu() {
 		if(inGameMenuIsOpen) {
 			inGameMenuView.fillGrid();
-			playerAndMenusPane.getChildren().add(inGameMenuView);
+			menusPane.getChildren().add(inGameMenuView);
 			inGameMenuView.requestFocusForButtons();
 			setAllKeyPressesFalse();
 		} else {
-			playerAndMenusPane.getChildren().remove(inGameMenuView);
+			menusPane.getChildren().remove(inGameMenuView);
 			inGameMenuView.resetView();
 			root.requestFocus();
 		}

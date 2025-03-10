@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
 import model.Building;
+import model.BuildingType;
 import model.Direction;
 import model.Image;
 import model.Item;
@@ -25,6 +26,7 @@ public class MainController {
 	
 	private BackgroundLocation backgroundLocation;
 	private Player player;
+	private Building currentBuilding;
 	
 	private ApplicationController appController;
 	private MovementController movementController;
@@ -34,6 +36,7 @@ public class MainController {
 	private FileIO fileIO;
 	
 	private ArrayList<Building> buildings;
+	private ArrayList<Image> buildingViewImages;
 	private ArrayList<NPC> npcs;
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private ArrayList<Item> items;
@@ -93,8 +96,10 @@ public class MainController {
 	
 	public void setUpBuildings() {
 		buildings = new ArrayList<Building>();
+		buildingViewImages = new ArrayList<Image>();
 		
-		Building building = new Building(new Location(5504, 2944), true, 384, 512);
+		Building building = new Building(new Location(5664, 3328), true, 96, 128, BuildingType.BRICK, 
+				new Location(5696, 3456), this);
 		buildings.add(building);
 	}
 	
@@ -115,16 +120,24 @@ public class MainController {
 	}
 	
 	public void moveBackground(Direction dir) {
-		if(canWalk(dir)) {
+		Direction oppositeDir = Direction.getOpposite(dir);
+		if(canWalk(dir) || (player.isInBuilding())) {
+			if(scene.isInBuilding() && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)) {
+				if(scene.nextStepIsBuildingExit(oppositeDir)) {
+					leaveBuilding();
+				}
+				scene.moveBuildingView(dir);
+			}
+			
 			backgroundLocation.move(dir);
 			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 			moveNPCs(dir);
 			moveItems(dir);
 			
-			player.move(Direction.getOpposite(dir));
+			player.move(oppositeDir);
 		}
-		else if(nextStepIsBuilding(Direction.getOpposite(dir))) {
-			enterBuilding(Direction.getOpposite(dir));
+		else if(nextStepIsBuilding(oppositeDir)) {
+			enterBuilding(oppositeDir);
 		}
 	}
 	
@@ -140,18 +153,27 @@ public class MainController {
 		int nextX = player.getX() + dir.getX();
 		int nextY = player.getY() + dir.getY();
 		for (Building building : buildings) {
-			if(Location.isGreater(new Location(nextX, nextY), new Location(building.getX(), building.getY()))
-					&& Location.isLess(new Location(nextX, nextY), 
-						new Location(building.getX() + building.getWidth(), building.getY() + building.getHeight()))) {
+			if(building.getLocation() != null && isBetweenBuildingWalls(building, nextX, nextY)) {
 				return building;
 			}
 		}
 		return null;
 	}
 	
+	private boolean isBetweenBuildingWalls(Building building, int nextX, int nextY) {
+		return Location.isGreater(new Location(nextX, nextY), new Location(building.getX(), building.getY()))
+				&& Location.isLess(new Location(nextX, nextY), 
+					new Location(building.getX() + building.getWidth(), building.getY() + building.getHeight()));
+	}
+	
 	private void enterBuilding(Direction dir) {
 		Building building = getNearbyBuilding(dir);
-		building.enter();
+		currentBuilding = building;
+		building.enter(player);
+	}
+	
+	private void leaveBuilding() {
+		currentBuilding.leave(player);
 	}
 	
 	private boolean canWalk(Direction dir) {
@@ -500,7 +522,31 @@ public class MainController {
 		return list;
 	}
 	
+	public void setBuildingView(Building building) {
+		buildingViewImages.clear();
+		scene.setBuildingView(building);
+	}
+	
+	public void removeBuildingView(Building building) {
+		scene.removeBuildingView(building);
+	}
+	
+	public String getImageUrlByIndex(int index) {
+		return fileIO.getImageUrlByIndex(index);
+	}
+	
+	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
+		Image image = new Image(url, canWalkOn);
+		image.setLocation(location);
+		buildingViewImages.add(image);
+	}
+	
+	// -------------------- Database --------------------
+	
 	public void saveGame() {
+		if(scene.isInBuilding()) {
+			player.setLocation(currentBuilding.getLeaveLocation());
+		}
 		databaseController.saveGame(player);
 	}
 	
@@ -584,6 +630,10 @@ public class MainController {
 	public void setPlayer(Player player) {
 		this.player = player;
 		movementController.setPlayer(player);
+	}
+	
+	public ArrayList<Image> getBuildingViewImages() {
+		return buildingViewImages;
 	}
 	
 }

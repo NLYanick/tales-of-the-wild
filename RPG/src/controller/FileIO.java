@@ -107,6 +107,10 @@ public class FileIO {
 		image.setLocation(new Location(x, y));
 	}
 	
+	public String getImageUrlByIndex(int index) {
+		return backgroundImages.getImage(index).getUrl();
+	}
+	
 	public HashMap<Integer, Image> getAllBackgroundImages() {
 		return backgroundImages.getAllImages();
 	}

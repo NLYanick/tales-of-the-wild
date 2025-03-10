@@ -11,7 +11,6 @@ public class PlayerView extends EntityView {
 	
 	public boolean nextStepIsOnNPCView(NPCView npcView, Direction dir) {
 		
-		boolean isOnNPCView = false;
 		int lessVerticalPersonalSpace = 20;
 		int lessHorizontalPersonalSpace = 10;
 				
@@ -24,10 +23,10 @@ public class PlayerView extends EntityView {
 			&& npcBounds.intersects(bounds.getMinX() - dir.getX(), bounds.getMinY() - dir.getY(), 
 					bounds.getWidth()/2 - lessHorizontalPersonalSpace - dir.getX(), 
 					bounds.getHeight() - lessVerticalPersonalSpace - dir.getY())) {
-			isOnNPCView = true;
+			return true;
 		}
 				
-		return isOnNPCView;
+		return false;
 	}
 	
 }
