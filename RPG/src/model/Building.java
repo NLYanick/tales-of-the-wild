@@ -9,21 +9,22 @@ public class Building {
 	private Location location, leaveLocation, startLocation;
 	
 	private BuildingType type;
+	private Direction exit;
 	private boolean canPass;
 	private Size size;
 	
 	private MainController controller;
 	
-	public Building(Location location, boolean canPass, int width, int height, BuildingType type,
-			Location leaveLocation, MainController controller) {
+	public Building(Location location, boolean canPass, Size size, BuildingType type,
+			Direction exit, Location leaveLocation, MainController controller) {
 		this.location = location;
 		this.leaveLocation = leaveLocation;
 		startLocation = location;
 		
 		this.type = type;
+		this.exit = exit;
 		this.canPass = canPass;
-		
-		size = new Size(width, height);
+		this.size = size;
 		
 		this.controller = controller;
 	}
@@ -80,6 +81,10 @@ public class Building {
 	
 	public Location getLeaveLocation() {
 		return leaveLocation;
+	}
+	
+	public Direction getExit() {
+		return exit;
 	}
 	
 }

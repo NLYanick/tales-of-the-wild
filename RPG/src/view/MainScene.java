@@ -297,13 +297,16 @@ public class MainScene extends Scene {
 	private BuildingView getBuildingViewByType(Building building) {
 		switch(building.getType()) {
 			case BRICK:
-				// Is nu hardcoded :(
-				double newWidth = building.getWidth()/128.0 * 8;
+				double newWidth = building.getWidth()/128.0 * 8; // Is 8 to have a normal sized building
 				double newHeight = building.getHeight()/128.0 * 8;
-				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, Direction.SOUTH);
+				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit());
 			default: return null;
 		
 		}
+	}
+	
+	public BuildingView getBuildingView() {
+		return buildingView;
 	}
 	
 	public boolean nextStepIsBuildingExit(Direction dir) {

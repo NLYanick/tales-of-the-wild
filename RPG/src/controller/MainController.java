@@ -15,11 +15,13 @@ import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.Size;
 import view.Background;
 import view.ItemView;
 import view.MainScene;
 import view.NPCView;
 
+@SuppressWarnings("static-access")
 public class MainController {
 
 	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350 ;
@@ -98,8 +100,8 @@ public class MainController {
 		buildings = new ArrayList<Building>();
 		buildingViewImages = new ArrayList<Image>();
 		
-		Building building = new Building(new Location(5664, 3328), true, 96, 128, BuildingType.BRICK, 
-				new Location(5696, 3456), this);
+		Building building = new Building(new Location(5664, 3328), true, new Size(96, 128), BuildingType.BRICK, 
+				Direction.SOUTH, new Location(5696, 3456), this);
 		buildings.add(building);
 	}
 	
@@ -122,19 +124,23 @@ public class MainController {
 	public void moveBackground(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		if(canWalk(dir) || (player.isInBuilding())) {
-			if(scene.isInBuilding() && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)) {
+			boolean inBuilding = scene.isInBuilding();
+			if(inBuilding && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)) {
 				if(scene.nextStepIsBuildingExit(oppositeDir)) {
 					leaveBuilding();
 				}
 				scene.moveBuildingView(dir);
+				player.move(oppositeDir);
+			} else {
+				backgroundLocation.move(dir);
+				scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+				moveNPCs(dir);
+				moveItems(dir);
+					
+				if(!inBuilding) {					
+					player.move(oppositeDir);
+				}
 			}
-			
-			backgroundLocation.move(dir);
-			scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
-			moveNPCs(dir);
-			moveItems(dir);
-			
-			player.move(oppositeDir);
 		}
 		else if(nextStepIsBuilding(oppositeDir)) {
 			enterBuilding(oppositeDir);
@@ -174,6 +180,7 @@ public class MainController {
 	
 	private void leaveBuilding() {
 		currentBuilding.leave(player);
+		teleportImages();
 	}
 	
 	private boolean canWalk(Direction dir) {
@@ -309,25 +316,24 @@ public class MainController {
 	public void resizeLocationsInView() {
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 		scene.resizePlayerViewLocation();
-		if(npcs != null)
-			resizeNPCViewLocation();
-		if(items != null)
-			resizeItemViewLocation();
-	}
-	
-	private void resizeNPCViewLocation() {
-		for(NPC npc : npcs) {
-			moveNPCViewWithScreen(npc);
+		
+		if(npcs != null) {
+			for(NPC npc : npcs) {
+				moveNPCViewWithScreen(npc);
+			}
 		}
+		if(items != null) {
+			for(Item item : items) {
+				moveItemViewWithScreen(item);
+			}
+		}	
+		if(buildings != null) {
+			for(Building building : buildings) {
+				moveBuildingViewWithScreen(building);
+			}
+		}	
 	}
 	
-	private void resizeItemViewLocation() {
-		for(Item item : items) {
-			moveItemViewWithScreen(item);
-		}
-	}
-	
-	@SuppressWarnings("static-access")
 	public void moveNPCViewWithScreen(NPC npc) {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
@@ -340,8 +346,7 @@ public class MainController {
 		}
 	}
 	
-	@SuppressWarnings("static-access")
-	public void moveItemViewWithScreen(Item item) {
+	public void moveItemViewWithScreen(Item item) {	
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
@@ -351,6 +356,18 @@ public class MainController {
 		} else {
 			itemView.move(new Location(item.getViewLocation().getX(), item.getViewLocation().getY()));
 		}
+	}
+	
+	public void moveBuildingViewWithScreen(Building building) {
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
+//		BuildingView itemView =  buildingsWithViews.get(building);
+//		if(appController.isFullScreen()) {
+//			scene.getBuildingView().move(new Location(building.getViewLocation().getX() + screenXDiffernce, building.getViewLocation().getY() + screenYDiffernce));
+//		} else {
+//			itemView.move(new Location(building.getViewLocation().getX(), building.getViewLocation().getY()));
+//		}
 	}
 	
 	public void pauzeGame() {

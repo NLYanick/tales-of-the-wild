@@ -1,6 +1,6 @@
 Scene switcher met Startup & Game
 Background maken 
-Building object toevoegen | Buildings in kunnen
+Buildings maken
 Inventory verbeteren
 Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
@@ -11,6 +11,7 @@ Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan
 
 Minder Prioriteit:
 Meer Controllers | Minder in MainController
+Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
 Kijken naar naam lengte (sommige te lange namen gaan uit het frame)
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
@@ -34,6 +35,4 @@ Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: BuildingView aanpassen aan schermgrootte | isMiddle() methode moet ook voor oneven | 
-NPC's moeten in Buildings kunnen | BrickBuildingView data en exit mag niet hardcoded | 
-Als je tegen een muur loopt, mag je locatie ook niet veranderen
+Nu: BuildingView aanpassen aan schermgrootte | Building opslaan in database | NPC's moeten in Buildings kunnen 

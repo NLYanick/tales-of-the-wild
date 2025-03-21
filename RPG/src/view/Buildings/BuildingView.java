@@ -1,6 +1,10 @@
 package view.Buildings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.Direction;
@@ -9,33 +13,79 @@ import view.MainScene;
 import view.PlayerView;
 
 public abstract class BuildingView extends BorderPane {
-
+	
+	private final static int EXTRA_In_BUILDING = 32;
+	
 	protected Size size;
+	protected Direction exit;
+	
+	protected HashMap<ImageView, String> imagesWithType;
 	
 	protected MainScene scene;
 	protected GridPane layout;
-	protected Direction exit;
-	
-	private int upInBuilding = 32;
 	
 	public BuildingView(Size size, MainScene scene, Direction exit) {
 		this.size = size;
+		this.exit = exit;
 		
 		this.scene = scene;
 		this.layout = new GridPane();
+		imagesWithType = new HashMap<ImageView, String>();
 		
-		setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * 128));
-		setLayoutY(scene.getHeight()/2 - (size.getHeight() * 128) + upInBuilding);
+		setLocation();
+		
+		if(size.getWidth() % 2 != 0) {
+			setLayoutX(getLayoutX() - 64);
+		}
 		
 		setCenter(layout);
+	}
+	
+	private void setLocation() {
+		switch(exit) {
+		case NORTH: 
+			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * 128));
+			setLayoutY(scene.getHeight()/2 - EXTRA_In_BUILDING);
+			break;
+		case EAST: 
+			setLayoutX(scene.getWidth()/2 - EXTRA_In_BUILDING);
+			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * 128));
+			break;
+		case SOUTH: 
+			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * 128));
+			setLayoutY(scene.getHeight()/2 - (size.getHeight() * 128) + EXTRA_In_BUILDING);
+			break;
+		case WEST: 
+			setLayoutX(scene.getWidth()/2 - (size.getWidth() * 128) + EXTRA_In_BUILDING);
+			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * 128));
+			break;
+			default: return;
+		}
 	}
 	
 	public void move(Direction dir) {
 		setLayoutX(getLayoutX() + dir.getX());
 		setLayoutY(getLayoutY() + dir.getY());
 	}
+	public void move(int x, int y) {
+		setLayoutX(x);
+		setLayoutY(y);
+	}
 	
-	public abstract boolean locationIsOnWall(PlayerView playerView, Direction dir);
+	public boolean locationIsOnWall(PlayerView playerView, Direction dir) {	
+		for(Node node : layout.getChildren()) {
+			double x = node.getLayoutX();
+			double y = node.getLayoutY();
+			for (Map.Entry<ImageView, String> entry : imagesWithType.entrySet()) {
+				ImageView key = entry.getKey();
+				if(key.getLayoutX() == x && key.getLayoutY() == y
+					&& playerIsOnNode(x + getLayoutX(), y + getLayoutY(), playerView, dir)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	public boolean nextStepIsOnExit(Direction dir, PlayerView playerView) {
 		boolean playerIsOnNode = false;
@@ -55,17 +105,15 @@ public abstract class BuildingView extends BorderPane {
 	}
 	
 	protected boolean isXMiddle(int x) {
-		return x + 1 == size.getWidth()/2 || x + 1 == size.getWidth()/2 + 1;
-//		return (size.getWidth()/2 % 2 != 0 && x + 1 == size.getWidth()/2 + 1)
-//				|| (size.getWidth()/2 % 2 == 0 && x + 1 == size.getWidth()/2)
-//				|| (size.getWidth()/2 % 2 == 0 && x + 1 == size.getWidth()/2 + 1);
+		int width = size.getWidth();
+		return (width % 2 != 0 && x + 1 == width/2 + 1) ||
+			   (width % 2 == 0 && (x + 1 == width/2 || x + 1 == width/2 + 1));
 	}
 	
 	protected boolean isYMiddle(int y) {
-		return y + 1 == size.getHeight()/2 || y + 1 == size.getHeight()/2 + 1;
-//		return (size.getWidth()/2 % 2 != 0 && x + 1 == size.getWidth()/2 + 1)
-//				|| (size.getWidth()/2 % 2 == 0 && x + 1 == size.getWidth()/2)
-//				|| (size.getWidth()/2 % 2 == 0 && x + 1 == size.getWidth()/2 + 1);
+		int height = size.getHeight();
+		return (height % 2 != 0 && y + 1 == height/2 + 1) ||
+			   (height % 2 == 0 && (y + 1 == height/2 || y + 1 == height/2 + 1));
 	}
 	
 	protected boolean playerIsOnNode(double x, double y, PlayerView playerView, Direction dir) {
@@ -75,10 +123,24 @@ public abstract class BuildingView extends BorderPane {
 			playerX += playerView.getBoundsInParent().getWidth()/3;
 		}
 		if(dir == Direction.SOUTH) {
-			playerY += playerView.getBoundsInParent().getHeight()/5;
+			playerY += playerView.getBoundsInParent().getHeight()/4;
 		}
 		return x - 32 <= playerX + dir.getX() && x - 32 + 127 >= playerX + dir.getX()
 		&& y - 32 <= playerY + dir.getY() && y - 32 + 127 >= playerY + dir.getY();
 	}
-
+	
+	protected boolean isOnExit(int x, int y) {
+		switch(exit) {
+			case NORTH: 
+				return isXMiddle(x) && y == 0;
+			case EAST: 
+				return isYMiddle(y) && x == 0;
+			case SOUTH: 
+				return isXMiddle(x) && y == size.getHeight() - 1;
+			case WEST: 
+				return isYMiddle(y) && x == size.getWidth() - 1;
+			default: return false;
+		}
+	}
+	
 }

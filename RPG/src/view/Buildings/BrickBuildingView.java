@@ -1,9 +1,5 @@
 package view.Buildings;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -13,16 +9,12 @@ import model.Direction;
 import model.Location;
 import model.Size;
 import view.MainScene;
-import view.PlayerView;
 
 public class BrickBuildingView extends BuildingView {
-	
-	private HashMap<ImageView, String> imagesWithType;
 	
 	public BrickBuildingView(Size size, MainScene scene, Direction exit) {
 		super(size, scene, exit);
 		
-		imagesWithType = new HashMap<ImageView, String>();
 		setUpLayout();
 	}
 
@@ -31,7 +23,7 @@ public class BrickBuildingView extends BuildingView {
 		
 		for(int x = 0; x < size.getWidth(); x++) {
 			for(int y = 0; y < size.getHeight(); y++) {
-				if(isWall(x, y) && isXMiddle(x) && y == size.getHeight() - 1) {
+				if(isWall(x, y) && isOnExit(x, y)) {
 					createImage("Floor", new Location(x, y));
 				} else if(isWall(x, y)) {
 					createImage("Wall", new Location(x, y));
@@ -58,22 +50,6 @@ public class BrickBuildingView extends BuildingView {
 			Rectangle redFloor = new Rectangle(128, 128, Color.RED);
 			layout.add(redFloor, location.getX(), location.getY());
 		}
-	}
-	
-
-	public boolean locationIsOnWall(PlayerView playerView, Direction dir) {		
-		for(Node node : layout.getChildren()) {
-			double x = node.getLayoutX();
-			double y = node.getLayoutY();
-			for (Map.Entry<ImageView, String> entry : imagesWithType.entrySet()) {
-				ImageView key = entry.getKey();
-				if(key.getLayoutX() == x && key.getLayoutY() == y
-					&& playerIsOnNode(x + getLayoutX(), y + getLayoutY(), playerView, dir)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 	
 }
