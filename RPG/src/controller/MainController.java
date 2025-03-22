@@ -125,29 +125,21 @@ public class MainController {
 				}
 				scene.moveBuildingView(dir);
 				moveBuildings(dir);
+				
 				player.move(oppositeDir);
-			} else {
+			} else if(!inBuilding) {
 				backgroundLocation.move(dir);
 				scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+				
 				moveNPCs(dir);
 				moveItems(dir);
-					
-				if(!inBuilding) {					
-					player.move(oppositeDir);
-				}
+				
+				player.move(oppositeDir);
 			}
 		}
-		else if(nextStepIsBuilding(oppositeDir)) {
+		else if(getNearbyBuilding(oppositeDir) != null) {
 			enterBuilding(oppositeDir);
 		}
-	}
-	
-	private boolean nextStepIsBuilding(Direction dir) {
-		Building building = getNearbyBuilding(dir);
-		if(building != null) {
-			return true;
-		}
-		return false;
 	}
 	
 	private Building getNearbyBuilding(Direction dir) {
@@ -281,6 +273,8 @@ public class MainController {
 		for(NPC npc : npcs) {
 			npc.moveViewLocationWithBackground(dir);
 			moveNPCViewWithScreen(npc);
+			NPCView npcView = npcsWithViews.get(npc);
+			System.out.println(npcView.getLayoutX() + " " + npcView.getLayoutY());
 		}
 	}
 	
@@ -294,7 +288,6 @@ public class MainController {
 	private void moveBuildings(Direction dir) {
 		for(Building building : buildings) {
 			building.moveViewLocation(dir);
-//			moveBuildingViewWithScreen(building);
 		}
 	}
 	

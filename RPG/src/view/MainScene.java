@@ -278,11 +278,11 @@ public class MainScene extends Scene {
 		
 		buildingView = getBuildingViewByType(building);
 		root.getChildren().add(buildingView);
+		buildingView.toBack();
 		
 		inBuilding = true;
 		addViewLocation(building);
 		
-		refreshPlayerAndMenus();
 	}
 	
 	private void addViewLocation(Building building) {
@@ -294,12 +294,11 @@ public class MainScene extends Scene {
 	
 	public void removeBuildingView(Building building) {		
 		root.getChildren().add(background);
+		background.toBack();
 		inBuilding = false;		
 		
 		root.setBackground(null);
 		root.getChildren().remove(buildingView);
-
-		refreshPlayerAndMenus();
 	}
 	
 	private BuildingView getBuildingViewByType(Building building) {
@@ -323,14 +322,6 @@ public class MainScene extends Scene {
 	
 	public boolean nextStepIsBuildingExit(Direction dir) {
 		return buildingView.nextStepIsOnExit(dir, playerView);
-	}
-	
-	private void refreshPlayerAndMenus() {
-		root.getChildren().remove(playerView);
-		root.getChildren().add(playerView);
-		
-		root.getChildren().remove(menusPane);
-		root.getChildren().add(menusPane);
 	}
 	
 	public void moveBuildingView(Direction dir) {
