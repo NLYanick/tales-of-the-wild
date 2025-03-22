@@ -2,9 +2,11 @@ package controller;
 
 import java.util.ArrayList;
 
+import database.BuildingLayer;
 import database.ItemLayer;
 import database.NPCLayer;
 import database.PlayerLayer;
+import model.Building;
 import model.Item;
 import model.Location;
 import model.NPC;
@@ -17,6 +19,7 @@ public class DatabaseController {
 	private PlayerLayer playerLayer;
 	private ItemLayer itemLayer;
 	private NPCLayer npcLayer;
+	private BuildingLayer buildingLayer;
 	
 	public DatabaseController(MainController controller) {
 		this.controller = controller;
@@ -24,6 +27,7 @@ public class DatabaseController {
 		playerLayer = new PlayerLayer();
 		itemLayer = new ItemLayer();
 		npcLayer = new NPCLayer();
+		buildingLayer = new BuildingLayer(controller);
 	}
 	
 	public void saveGame(Player player) {
@@ -74,6 +78,10 @@ public class DatabaseController {
 	
 	public ArrayList<NPC> getAllNPCs(){
 		return npcLayer.getAllNPCs();
+	}
+	
+	public ArrayList<Building> getAllBuildings(){
+		return buildingLayer.getAllBuildings();
 	}
 	
 	public ArrayList<Item> getAllItemsOfPlayer(Player player){

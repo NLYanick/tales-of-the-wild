@@ -67,6 +67,7 @@ public abstract class BuildingView extends BorderPane {
 		setLayoutX(getLayoutX() + dir.getX());
 		setLayoutY(getLayoutY() + dir.getY());
 	}
+	
 	public void move(int x, int y) {
 		setLayoutX(x);
 		setLayoutY(y);

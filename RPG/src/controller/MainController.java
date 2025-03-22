@@ -8,14 +8,12 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
 import model.Building;
-import model.BuildingType;
 import model.Direction;
 import model.Image;
 import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
-import model.Size;
 import view.Background;
 import view.ItemView;
 import view.MainScene;
@@ -97,12 +95,8 @@ public class MainController {
 	}
 	
 	public void setUpBuildings() {
-		buildings = new ArrayList<Building>();
+		buildings = databaseController.getAllBuildings();
 		buildingViewImages = new ArrayList<Image>();
-		
-		Building building = new Building(new Location(5664, 3328), true, new Size(96, 128), BuildingType.BRICK, 
-				Direction.SOUTH, new Location(5696, 3456), this);
-		buildings.add(building);
 	}
 	
 	public void addPlayerItemViewsToInventoryView() {
@@ -130,6 +124,7 @@ public class MainController {
 					leaveBuilding();
 				}
 				scene.moveBuildingView(dir);
+				moveBuildings(dir);
 				player.move(oppositeDir);
 			} else {
 				backgroundLocation.move(dir);
@@ -296,6 +291,13 @@ public class MainController {
 		}
 	}
 	
+	private void moveBuildings(Direction dir) {
+		for(Building building : buildings) {
+			building.moveViewLocation(dir);
+//			moveBuildingViewWithScreen(building);
+		}
+	}
+	
 	public void setFullScreen(boolean isFullScreen) {
 		appController.setFullScreen(isFullScreen);
 	}
@@ -352,9 +354,10 @@ public class MainController {
 		
 		ItemView itemView = itemsWithViews.get(item);
 		if(appController.isFullScreen()) {
-			itemView.move(new Location(item.getViewLocation().getX() + screenXDiffernce, item.getViewLocation().getY() + screenYDiffernce));
+			itemView.move(new Location(item.getViewLocation().getX() + screenXDiffernce, 
+					item.getViewLocation().getY() + screenYDiffernce));
 		} else {
-			itemView.move(new Location(item.getViewLocation().getX(), item.getViewLocation().getY()));
+			itemView.move(item.getViewLocation());
 		}
 	}
 	
@@ -362,12 +365,14 @@ public class MainController {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
-//		BuildingView itemView =  buildingsWithViews.get(building);
-//		if(appController.isFullScreen()) {
-//			scene.getBuildingView().move(new Location(building.getViewLocation().getX() + screenXDiffernce, building.getViewLocation().getY() + screenYDiffernce));
-//		} else {
-//			itemView.move(new Location(building.getViewLocation().getX(), building.getViewLocation().getY()));
-//		}
+		if(building.getViewLocation() == null) return;
+		
+		if(appController.isFullScreen()) {
+			scene.moveBuildingView(new Location(building.getViewLocation().getX() + screenXDiffernce, 
+					building.getViewLocation().getY() + screenYDiffernce));
+		} else {
+			scene.moveBuildingView(building.getViewLocation());
+		}
 	}
 	
 	public void pauzeGame() {

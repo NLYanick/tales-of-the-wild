@@ -6,7 +6,7 @@ public class Building {
 
 	public final static Location BUILDING_LOCATION = new Location(-2000, -1000);
 	
-	private Location location, leaveLocation, startLocation;
+	private Location location, leaveLocation, startLocation, viewLocation;
 	
 	private BuildingType type;
 	private Direction exit;
@@ -47,6 +47,11 @@ public class Building {
 		}
 	}
 	
+	public void moveViewLocation(Direction dir) {
+		viewLocation.setX(viewLocation.getX() + dir.getX());
+		viewLocation.setY(viewLocation.getY() + dir.getY());
+	}
+	
 	public void setCanPass(boolean canPass) {
 		this.canPass = canPass;
 	}
@@ -85,6 +90,14 @@ public class Building {
 	
 	public Direction getExit() {
 		return exit;
+	}
+	
+	public void setViewLocation(Location location) {
+		viewLocation = location;
+	}
+	
+	public Location getViewLocation() {
+		return viewLocation;
 	}
 	
 }

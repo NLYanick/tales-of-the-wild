@@ -280,8 +280,16 @@ public class MainScene extends Scene {
 		root.getChildren().add(buildingView);
 		
 		inBuilding = true;
+		addViewLocation(building);
 		
 		refreshPlayerAndMenus();
+	}
+	
+	private void addViewLocation(Building building) {
+		int screenXDiffernce = (int) getWidth()/2 - SCENEWIDTH/2;
+		int screenYDiffernce = (int) getHeight()/2 - SCENEHEIGHT/2;
+		building.setViewLocation(new Location((int) buildingView.getLayoutX() - screenXDiffernce, 
+				(int) buildingView.getLayoutY() - screenYDiffernce));
 	}
 	
 	public void removeBuildingView(Building building) {		
@@ -303,6 +311,10 @@ public class MainScene extends Scene {
 			default: return null;
 		
 		}
+	}
+	
+	public void moveBuildingView(Location location) {
+		buildingView.move(location.getX(), location.getY());
 	}
 	
 	public BuildingView getBuildingView() {

@@ -1,15 +1,18 @@
 Scene switcher met Startup & Game
 Background maken 
 Buildings maken
+NPC's in buildings
 Inventory verbeteren
 Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
+Audio toevoegen
 (Als er meer stats zijn, laten zien in in-game menu)
 (Building in Database)
 
 
 Minder Prioriteit:
+Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
@@ -35,4 +38,4 @@ Huizen, NPC's
 BrickHouse image fixen
 
 
-Nu: BuildingView aanpassen aan schermgrootte | Building opslaan in database | NPC's moeten in Buildings kunnen 
+Nu: Als je uit building gaat, gaan npc's (en items) images weg
