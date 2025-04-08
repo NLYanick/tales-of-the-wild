@@ -16,12 +16,13 @@ public class NPC extends Entity {
 	private boolean running;
 	private boolean isPaused;
 	private boolean isInDialog;
+	private int buildingId;
 	
 	private Location viewLocation;
 	
 	private List<String> dialog;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog) {
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, int buildingId) {
 		super(imageURL, name);
 				
 		location.setX(startLocation.getX());
@@ -31,13 +32,20 @@ public class NPC extends Entity {
 		movingDirection = walkDirection;
 		
 		this.dialog = dialog;
+		this.buildingId = buildingId;
 
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, List<String> dialog) {
+	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId) {
 		super(imageURL, name);
 		this.startLocation = startLocation;
+		
+		location.setX(startLocation.getX());
+		location.setY(startLocation.getY());
+		
+		this.dialog = dialog;
+		this.buildingId = buildingId;
 	}
 	
 	private void setUpEndLocation(Direction direction) {
@@ -217,10 +225,6 @@ public class NPC extends Entity {
 		isPaused = false;
 	}
 	
-	public Direction getWalkDirection() {
-		return movingDirection;
-	}
-	
 	public void setThreadRunning(boolean running) {
 		this.running = running;
 		resumeThread();
@@ -256,6 +260,10 @@ public class NPC extends Entity {
 	
 	public void setMainController(MainController controller) {
 		this.controller = controller;
+	}
+	
+	public int getBuildingId() {
+		return buildingId;
 	}
 
 }

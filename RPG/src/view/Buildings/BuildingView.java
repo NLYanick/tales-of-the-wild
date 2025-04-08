@@ -1,5 +1,6 @@
 package view.Buildings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import model.Direction;
 import model.Size;
 import view.MainScene;
+import view.NPCView;
 import view.PlayerView;
 
 public abstract class BuildingView extends BorderPane {
@@ -20,6 +22,7 @@ public abstract class BuildingView extends BorderPane {
 	protected Direction exit;
 	
 	protected HashMap<ImageView, String> imagesWithType;
+	protected ArrayList<NPCView> npcViews;
 	
 	protected MainScene scene;
 	protected GridPane layout;

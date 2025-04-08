@@ -1,23 +1,24 @@
 Scene switcher met Startup & Game
 Background maken 
-Buildings maken
-NPC's in buildings
+Items in buildings
 Inventory verbeteren
 Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
 (Als er meer stats zijn, laten zien in in-game menu)
-(Building in Database)
 
 
 Minder Prioriteit:
+Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
+Met Tab kan je knoppen besturen :(
 Kijken naar naam lengte (sommige te lange namen gaan uit het frame)
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
+Geen ruimte tussen NPC en player als je er tegen aan loopt
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
@@ -35,7 +36,7 @@ In pauze en in-game menu is de eerste pijl hardcoded
 TODO Images:
 Player plaatje voelt toch niet helemaal thuis
 Huizen, NPC's
-BrickHouse image fixen
+BrickHouse image fixen en voelt plat
 
 
 Nu:

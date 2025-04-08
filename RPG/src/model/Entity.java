@@ -13,7 +13,7 @@ public abstract class Entity {
 		this.name = name;
 		
 		location = new Location();
-		movingDirection = Direction.SOUTH;
+		movingDirection = null;
 	}
 	
 	public void move(Direction dir) {

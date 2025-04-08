@@ -72,7 +72,9 @@ public class MainController {
 			
 			scene.addNPCView(npcView);
 			npcsWithViews.put(npc, npcView);
-			npc.setUpThread();
+			if(npc.getMovingDirection() != null) {
+				npc.setUpThread();
+			}
 		}
 		
 	}
@@ -97,6 +99,13 @@ public class MainController {
 	public void setUpBuildings() {
 		buildings = databaseController.getAllBuildings();
 		buildingViewImages = new ArrayList<Image>();
+		for (Building building : buildings) {			
+			for (NPC npc : npcs) {
+				if(npc.getBuildingId() == building.getId()) {
+					building.addNPC(npc);
+				}
+			}
+		}
 	}
 	
 	public void addPlayerItemViewsToInventoryView() {
@@ -125,21 +134,26 @@ public class MainController {
 				}
 				scene.moveBuildingView(dir);
 				moveBuildings(dir);
+								
+				moveAll(dir, oppositeDir);
 				
-				player.move(oppositeDir);
 			} else if(!inBuilding) {
 				backgroundLocation.move(dir);
 				scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
 				
-				moveNPCs(dir);
-				moveItems(dir);
-				
-				player.move(oppositeDir);
+				moveAll(dir, oppositeDir);
 			}
 		}
 		else if(getNearbyBuilding(oppositeDir) != null) {
 			enterBuilding(oppositeDir);
 		}
+	}
+	
+	private void moveAll(Direction dir, Direction oppositeDir) {
+		moveNPCs(dir);
+		moveItems(dir);
+		
+		player.move(oppositeDir);
 	}
 	
 	private Building getNearbyBuilding(Direction dir) {
@@ -163,6 +177,11 @@ public class MainController {
 		Building building = getNearbyBuilding(dir);
 		currentBuilding = building;
 		building.enter(player);
+		building.getNPCs().forEach(npc -> {
+			NPCView npcView = npcsWithViews.get(npc);
+			npcView.setLayoutX(0);
+			npcView.setLayoutY(0);
+		});
 	}
 	
 	private void leaveBuilding() {
@@ -271,10 +290,11 @@ public class MainController {
 	
 	private void moveNPCs(Direction dir) {
 		for(NPC npc : npcs) {
-			npc.moveViewLocationWithBackground(dir);
-			moveNPCViewWithScreen(npc);
-			NPCView npcView = npcsWithViews.get(npc);
-			System.out.println(npcView.getLayoutX() + " " + npcView.getLayoutY());
+			if(npc.getBuildingId() != 0) {				
+				npc.moveViewLocationWithBackground(dir);
+				moveNPCViewWithScreen(npc);
+			}
+			
 		}
 	}
 	
@@ -332,7 +352,7 @@ public class MainController {
 	public void moveNPCViewWithScreen(NPC npc) {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
-		
+				
 		NPCView npcView = npcsWithViews.get(npc);
 		if(appController.isFullScreen()) {
 			npcView.move(npc.getViewLocation().getX() + screenXDiffernce, npc.getViewLocation().getY() + screenYDiffernce);
