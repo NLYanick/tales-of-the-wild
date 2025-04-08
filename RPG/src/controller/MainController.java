@@ -177,11 +177,6 @@ public class MainController {
 		Building building = getNearbyBuilding(dir);
 		currentBuilding = building;
 		building.enter(player);
-		building.getNPCs().forEach(npc -> {
-			NPCView npcView = npcsWithViews.get(npc);
-			npcView.setLayoutX(0);
-			npcView.setLayoutY(0);
-		});
 	}
 	
 	private void leaveBuilding() {
