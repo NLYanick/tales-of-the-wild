@@ -30,7 +30,6 @@ public class Building {
 		
 		this.type = type;
 		this.exit = exit;
-		this.exit = Direction.EAST;
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
