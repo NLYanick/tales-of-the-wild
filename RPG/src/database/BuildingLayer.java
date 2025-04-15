@@ -35,7 +35,7 @@ public class BuildingLayer {
 				Building building = new Building(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
 						new Size(rs.getInt("width"), rs.getInt("height")), BuildingType.valueOf(rs.getString("type")), 
 						Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-						controller, rs.getInt("id"));
+						controller, rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")));
 				buildings.add(building);
 			}
 			stmt.close();

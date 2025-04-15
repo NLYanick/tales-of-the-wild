@@ -292,7 +292,7 @@ public class MainScene extends Scene {
 				(int) buildingView.getLayoutY() - screenYDiffernce));
 	}
 	
-	public void removeBuildingView(Building building) {		
+	public void removeBuildingView() {		
 		root.getChildren().add(background);
 		background.toBack();
 		inBuilding = false;		
@@ -304,8 +304,8 @@ public class MainScene extends Scene {
 	private BuildingView getBuildingViewByType(Building building) {
 		switch(building.getType()) {
 			case BRICK:
-				double newWidth = building.getWidth()/128.0 * 8; // Is 8 to have a normal sized building
-				double newHeight = building.getHeight()/128.0 * 8;
+				double newWidth = building.getWidth()/128.0;
+				double newHeight = building.getHeight()/128.0;
 				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit());
 			default: return null;
 		
@@ -314,14 +314,6 @@ public class MainScene extends Scene {
 	
 	public void moveBuildingView(Location location) {
 		buildingView.move(location.getX(), location.getY());
-	}
-	
-	public BuildingView getBuildingView() {
-		return buildingView;
-	}
-	
-	public boolean nextStepIsBuildingExit(Direction dir) {
-		return buildingView.nextStepIsOnExit(dir, playerView);
 	}
 	
 	public void moveBuildingView(Direction dir) {
@@ -334,10 +326,6 @@ public class MainScene extends Scene {
 	
 	public boolean isInBuilding() {
 		return inBuilding;
-	}
-	
-	public boolean locationIsOnBuildingWall(Location location, Direction dir) {
-		return buildingView.locationIsOnWall(playerView, dir);
 	}
 	
 	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
@@ -364,7 +352,7 @@ public class MainScene extends Scene {
 	private void requestFocusForView() {
 		if(inventoryIsOpen) {
 			inventoryView.requestFocusForButton();
-			setCursor(Cursor.DEFAULT);
+			setCursor(Cursor.DEFAULT); 
 			return;
 		} 
 		if(inGameMenuIsOpen) {

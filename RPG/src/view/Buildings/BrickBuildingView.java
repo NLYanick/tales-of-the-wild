@@ -20,9 +20,9 @@ public class BrickBuildingView extends BuildingView {
 
 	private void setUpLayout() {
 		setPrefSize(size.getWidth() * 128, size.getHeight() * 128);
-		
+				
 		for(int x = 0; x < size.getWidth(); x++) {
-			for(int y = 0; y < size.getHeight(); y++) {
+			for(int y = 0; y < size.getHeight(); y++) { 
 				if(isWall(x, y) && isOnExit(x, y)) {
 					createImage("Floor", new Location(x, y));
 				} else if(isWall(x, y)) {
@@ -36,8 +36,8 @@ public class BrickBuildingView extends BuildingView {
 	
 	private void createImage(String type, Location location) {
 		int imgSize = 128;
-		int buildingX = -Building.BUILDING_LOCATION.getX();
-		int buildingY = -Building.BUILDING_LOCATION.getY();
+		int buildingX = -Building.INSIDE_SPAWN_X;
+		int buildingY = -Building.INSIDE_SPAWN_Y;
 		if(type.equals("Wall")) {
 			String url = scene.getImageUrlByIndex(56);
 			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
@@ -48,7 +48,7 @@ public class BrickBuildingView extends BuildingView {
 			layout.add(imageView, location.getX(), location.getY());
 			imageView.toBack();
 		} else if(type.equals("Floor")) {
-			Rectangle redFloor = new Rectangle(128, 128, Color.RED);
+			Rectangle redFloor = new Rectangle(imgSize, imgSize, Color.RED);
 			layout.add(redFloor, location.getX(), location.getY());
 			redFloor.toBack();
 		}

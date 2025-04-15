@@ -6,10 +6,11 @@ import controller.MainController;
 
 public class Building {
 
-	public final static Location BUILDING_LOCATION = new Location(-2000, -1000);
+	public final static int INSIDE_SPAWN_X = -2000;
+	public final static int INSIDE_SPAWN_Y = -1000;
 	public final static Location NEW_NPC_LOCATION = new Location(-4000, -4000);
 	
-	private Location location, leaveLocation, startLocation, viewLocation;
+	private Location insideLocation, leaveLocation, entranceLocation, viewLocation;
 	
 	private BuildingType type;
 	private Direction exit;
@@ -21,14 +22,15 @@ public class Building {
 	
 	private MainController controller;
 	
-	public Building(Location location, boolean canPass, Size size, BuildingType type,
-			Direction exit, Location leaveLocation, MainController controller, int id) {
-		this.location = location;
+	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
+			Location leaveLocation, MainController controller, int id, Location entranceLocation) {
+		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
-		startLocation = location;
+		this.entranceLocation= entranceLocation; 
 		
 		this.type = type;
 		this.exit = exit;
+		this.exit = Direction.EAST;
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
@@ -41,11 +43,11 @@ public class Building {
 		if(canPass) {
 			controller.setBuildingView(this);
 			
-			Location difference = new Location(player.getX() - BUILDING_LOCATION.getX(), player.getY() - BUILDING_LOCATION.getY());
+			Location playerInsideLocation = getInsideLocation();
+			Location difference = new Location(player.getX() - playerInsideLocation.getX(), player.getY() - playerInsideLocation.getY());
 			
-			player.setLocation(BUILDING_LOCATION);
+			player.setLocation(playerInsideLocation);
 			player.setInBuilding(true);
-			location = null;
 			
 			loadNPCs(difference);
 		}
@@ -53,19 +55,112 @@ public class Building {
 	
 	public void leave(Player player) {
 		if(canPass) {
-			controller.removeBuildingView(this);
+			controller.removeBuildingView();
 			
 			player.setLocation(leaveLocation);
 			player.setInBuilding(false);
-			location = startLocation;
 			
 			unloadNPCs();
+		}
+	}
+	
+	private Location getInsideLocation() {
+		int extra = 40;
+		switch(exit) {
+			case NORTH:
+				return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y - size.getHeight() + extra * 2);
+			case EAST:
+				return new Location(INSIDE_SPAWN_X + size.getWidth() / 2 - extra, INSIDE_SPAWN_Y - size.getHeight() / 2);
+			case SOUTH:
+				return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y);
+			case WEST:
+				return new Location(INSIDE_SPAWN_X - size.getWidth() / 2 + extra, INSIDE_SPAWN_Y - size.getHeight() / 2);
+			default: return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y);
 		}
 	}
 	
 	public void moveViewLocation(Direction dir) {
 		viewLocation.setX(viewLocation.getX() + dir.getX());
 		viewLocation.setY(viewLocation.getY() + dir.getY());
+	}
+	
+	public boolean collidesWith(Location playerLocation, Direction dir) {
+		
+		int multiplier = 2;
+		int nextX = playerLocation.getX() + dir.getX() * multiplier;
+		int nextY = playerLocation.getY() + dir.getY() * multiplier;
+		
+		if(nextStepIsInBuilding(nextX, nextY)) {
+			return false;
+		} else if(dir == exit && nextStepIsOnExit(nextX, nextY)) {
+			controller.leaveBuilding();
+			return true;
+		}
+		
+		return true;
+	}
+	
+	private boolean nextStepIsInBuilding(int nextX, int nextY) {
+		int wallSize = 128;
+		Location nextLocation = new Location(nextX, nextY);
+		
+		switch(exit) {
+			case NORTH: 
+				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY())) 
+						&& Location.isLess(nextLocation, 
+							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight() - wallSize))
+						&& !nextStepIsOnExitSideWall(nextLocation, wallSize); 
+			case EAST: 
+				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY() + wallSize)) 
+						&& Location.isLess(nextLocation, 
+							new Location(insideLocation.getX() + size.getWidth(), insideLocation.getY() + size.getHeight() - wallSize))
+						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
+			case SOUTH: 
+				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY() + wallSize)) 
+						&& Location.isLess(nextLocation, 
+							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight()))
+						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
+			case WEST: 
+				return Location.isGreater(nextLocation, new Location(insideLocation.getX(), insideLocation.getY() + wallSize)) 
+						&& Location.isLess(nextLocation, 
+							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight() - wallSize))
+						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
+			default: return false;
+		}
+	}
+	
+	private boolean nextStepIsOnExit(int nextX, int nextY) {
+		
+		switch(exit) {
+			case NORTH: 
+				return nextY <= insideLocation.getY();
+			case EAST: 
+				return nextX >= insideLocation.getX() + size.getWidth();
+			case SOUTH: 
+				return nextY >= insideLocation.getY() + size.getHeight();
+			case WEST: 
+				return nextX <= insideLocation.getX();
+			default: return false;
+		}
+	}
+	
+	private boolean nextStepIsOnExitSideWall(Location nextLocation, int wallSize) {
+		Location playerInLoc = getInsideLocation();
+		int extra = 32;
+		switch(exit) {
+			case NORTH:
+			case SOUTH:
+				return nextLocation.getY() > playerInLoc.getY() - wallSize / 2 - extra 
+						&& nextLocation.getY() < playerInLoc.getY() + wallSize / 2 + extra
+						&& (nextLocation.getX() > playerInLoc.getX() + wallSize || nextLocation.getX() < playerInLoc.getX() - wallSize);
+			case EAST:
+			case WEST:
+				return nextLocation.getX() > playerInLoc.getX() - wallSize / 2 - extra 
+						&& nextLocation.getX() < playerInLoc.getX() + wallSize / 2 + extra 
+						&& (nextLocation.getY() > playerInLoc.getY() + wallSize + extra
+								|| nextLocation.getY() < playerInLoc.getY() - wallSize + extra);
+			default: return true;
+		}
 	}
 	
 	public void addNPC(NPC npc) {
@@ -87,10 +182,6 @@ public class Building {
 	
 	/* Getters and Setters */
 	
-	public void setCanPass(boolean canPass) {
-		this.canPass = canPass;
-	}
-	
 	public boolean canPass() {
 		return canPass;
 	}
@@ -104,19 +195,27 @@ public class Building {
 	}
 	
 	public int getX() {
-		return location.getX();
+		return insideLocation.getX();
 	}
 	
 	public int getY() {
-		return location.getY();
+		return insideLocation.getY();
+	}
+	
+	public int getEntranceX() {
+		return entranceLocation.getX();
+	}
+	
+	public int getEntranceY() {
+		return entranceLocation.getY();
 	}
 	
 	public BuildingType getType() {
 		return type;
 	}
 	
-	public Location getLocation() {
-		return location;
+	public Location getEntranceLocation() {
+		return entranceLocation;
 	}
 	
 	public Location getLeaveLocation() {
@@ -133,14 +232,6 @@ public class Building {
 	
 	public Location getViewLocation() {
 		return viewLocation;
-	}
-	
-	public void setNPCs(ArrayList<NPC> npcs) {
-		this.npcs = npcs;
-	}
-	
-	public ArrayList<NPC> getNPCs() {
-		return npcs;
 	}
 	
 	public int getId() {

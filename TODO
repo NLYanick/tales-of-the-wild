@@ -6,6 +6,7 @@ Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
+Layout van binnenkant van building moeten aanpasbaar zijn
 (Als er meer stats zijn, laten zien in in-game menu)
 
 
@@ -31,12 +32,14 @@ Focus bij startview, loadgameview & newgameview
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
 In pauze en in-game menu is de eerste pijl hardcoded
+Building heeft allemaal extra, dus kan de verhouding niet goed zijn
 
 
 TODO Images:
 Player plaatje voelt toch niet helemaal thuis
 Huizen, NPC's
-BrickHouse image fixen en voelt plat
+BrickHouse image fixen en voelt plat & binnenkant
 
 
-Nu: Als je uit de building loopt, gaat de building op de verkeerde plek terug staan
+Nu: Nieuwe code | Niet door NPC lopen (Probeer in model lopen te stoppen) | Muren op goede manier zetten | 
+Extra verminderen overal | Testen met nieuw huizen

@@ -126,17 +126,14 @@ public class MainController {
 	
 	public void moveBackground(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
-		if(canWalk(dir) || (player.isInBuilding())) {
-			boolean inBuilding = scene.isInBuilding();
-			if(inBuilding && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)) {
-				if(scene.nextStepIsBuildingExit(oppositeDir)) {
-					leaveBuilding();
-				}
+		boolean inBuilding = player.isInBuilding();
+		if(canWalk(dir) || inBuilding) {
+			if(inBuilding && !currentBuilding.collidesWith(player.getLocation(), oppositeDir)) { // && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)
 				scene.moveBuildingView(dir);
 				moveBuildings(dir);
-								
-				moveAll(dir, oppositeDir);
 				
+				moveAll(dir, oppositeDir);
+
 			} else if(!inBuilding) {
 				backgroundLocation.move(dir);
 				scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
@@ -160,26 +157,28 @@ public class MainController {
 		int nextX = player.getX() + dir.getX();
 		int nextY = player.getY() + dir.getY();
 		for (Building building : buildings) {
-			if(building.getLocation() != null && isBetweenBuildingWalls(building, nextX, nextY)) {
+			if(building.canPass() && building.getEntranceLocation() != null && isBetweenBuildingEntranceWalls(building, nextX, nextY)) {
 				return building;
 			}
 		}
 		return null;
 	}
 	
-	private boolean isBetweenBuildingWalls(Building building, int nextX, int nextY) {
-		return Location.isGreater(new Location(nextX, nextY), new Location(building.getX(), building.getY()))
+	private boolean isBetweenBuildingEntranceWalls(Building building, int nextX, int nextY) {
+		int divider = 8;
+		return Location.isGreater(new Location(nextX, nextY), new Location(building.getEntranceX(), building.getEntranceY()))
 				&& Location.isLess(new Location(nextX, nextY), 
-					new Location(building.getX() + building.getWidth(), building.getY() + building.getHeight()));
+					new Location(building.getEntranceX() + building.getWidth() / divider, building.getEntranceY() + building.getHeight() / divider));
 	}
 	
 	private void enterBuilding(Direction dir) {
 		Building building = getNearbyBuilding(dir);
 		currentBuilding = building;
 		building.enter(player);
+		teleportImages(); 
 	}
 	
-	private void leaveBuilding() {
+	public void leaveBuilding() {
 		currentBuilding.leave(player);
 		teleportImages();
 	}
@@ -285,11 +284,8 @@ public class MainController {
 	
 	private void moveNPCs(Direction dir) {
 		for(NPC npc : npcs) {
-			if(npc.getBuildingId() != 0) {				
-				npc.moveViewLocationWithBackground(dir);
-				moveNPCViewWithScreen(npc);
-			}
-			
+			npc.moveViewLocationWithBackground(dir);
+			moveNPCViewWithScreen(npc);			
 		}
 	}
 	
@@ -557,8 +553,8 @@ public class MainController {
 		scene.setBuildingView(building);
 	}
 	
-	public void removeBuildingView(Building building) {
-		scene.removeBuildingView(building);
+	public void removeBuildingView() {
+		scene.removeBuildingView();
 	}
 	
 	public String getImageUrlByIndex(int index) {
