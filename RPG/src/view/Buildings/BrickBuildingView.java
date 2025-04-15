@@ -48,7 +48,7 @@ public class BrickBuildingView extends BuildingView {
 			layout.add(imageView, location.getX(), location.getY());
 			imageView.toBack();
 		} else if(type.equals("Floor")) {
-			Rectangle redFloor = new Rectangle(imgSize, imgSize, Color.RED);
+			Rectangle redFloor = new Rectangle(imgSize, imgSize, Color.rgb(204, 65, 37));
 			layout.add(redFloor, location.getX(), location.getY());
 			redFloor.toBack();
 		}
