@@ -102,6 +102,7 @@ public class MainController {
 		for (Building building : buildings) {			
 			for (NPC npc : npcs) {
 				if(npc.getBuildingId() == building.getId()) {
+					npc.setLocation(Building.NEW_NPC_LOCATION);
 					building.addNPC(npc);
 				}
 			}
@@ -128,7 +129,7 @@ public class MainController {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
 		if(canWalk(dir) || inBuilding) {
-			if(inBuilding && !currentBuilding.collidesWith(player.getLocation(), oppositeDir)) { // && !scene.locationIsOnBuildingWall(player.getLocation(), oppositeDir)
+			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir)) {
 				scene.moveBuildingView(dir);
 				moveBuildings(dir);
 				
@@ -157,17 +158,18 @@ public class MainController {
 		int nextX = player.getX() + dir.getX();
 		int nextY = player.getY() + dir.getY();
 		for (Building building : buildings) {
-			if(building.canPass() && building.getEntranceLocation() != null && isBetweenBuildingEntranceWalls(building, nextX, nextY)) {
+			if(building.canPass() && building.getEntranceLocation() != null 
+					&& isBetweenBuildingEntranceWalls(building, new Location(nextX, nextY))) {
 				return building;
 			}
 		}
 		return null;
 	}
 	
-	private boolean isBetweenBuildingEntranceWalls(Building building, int nextX, int nextY) {
+	private boolean isBetweenBuildingEntranceWalls(Building building, Location nextLocation) {
 		int divider = 8;
-		return Location.isGreater(new Location(nextX, nextY), new Location(building.getEntranceX(), building.getEntranceY()))
-				&& Location.isLess(new Location(nextX, nextY), 
+		return Location.isGreater(nextLocation, new Location(building.getEntranceX(), building.getEntranceY()))
+				&& Location.isLess(nextLocation,
 					new Location(building.getEntranceX() + building.getWidth() / divider, building.getEntranceY() + building.getHeight() / divider));
 	}
 	
@@ -176,11 +178,6 @@ public class MainController {
 		currentBuilding = building;
 		building.enter(player);
 		teleportImages(); 
-	}
-	
-	public void leaveBuilding() {
-		currentBuilding.leave(player);
-		teleportImages();
 	}
 	
 	private boolean canWalk(Direction dir) {
@@ -209,7 +206,7 @@ public class MainController {
 		teleportImages();
 	}
 	
-	private void teleportImages() {
+	public void teleportImages() {
 		backgroundLocation.setX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
 		backgroundLocation.setY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
@@ -298,7 +295,9 @@ public class MainController {
 	
 	private void moveBuildings(Direction dir) {
 		for(Building building : buildings) {
-			building.moveViewLocation(dir);
+			if(currentBuilding == building) {				
+				building.moveViewLocation(dir);
+			}
 		}
 	}
 	
@@ -335,7 +334,9 @@ public class MainController {
 		}	
 		if(buildings != null) {
 			for(Building building : buildings) {
-				moveBuildingViewWithScreen(building);
+				if(currentBuilding == building) {					
+					moveBuildingViewWithScreen(building);
+				}
 			}
 		}	
 	}
@@ -593,6 +594,13 @@ public class MainController {
 	
 	public void deletePlayer(Player player) {
 		databaseController.deletePlayer(player);
+	}
+	
+	public Location getOriginalNPCBuildingLocation(NPC npc) {
+		if(npc.getBuildingId() > 0) {
+			return databaseController.getOriginalNPCBuildingLocation(npc);
+		}
+		return null;
 	}
 	
 	// -------------------- Getters & Setters --------------------

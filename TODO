@@ -4,9 +4,12 @@ Items in buildings
 Inventory verbeteren
 Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
+NPCs kunnen items hebben
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
+NPCs kunnen weglopen (Nieuwe data opslaan in database)
+Database performance
 (Als er meer stats zijn, laten zien in in-game menu)
 
 
@@ -14,6 +17,8 @@ Minder Prioriteit:
 Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
+Validatie op naam (bij aanmaken game)
+Dialogs mooi maken
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
 Met Tab kan je knoppen besturen :(
@@ -41,5 +46,4 @@ Huizen, NPC's
 BrickHouse image fixen en voelt plat & binnenkant
 
 
-Nu: Nieuwe code | Niet door NPC lopen (Probeer in model lopen te stoppen) |
-Extra verminderen overal | Testen met nieuw huizen
+Nu: Nieuwe code | Niet door NPC lopen (Probeer in model lopen te stoppen) | Extra verminderen overal 

@@ -72,6 +72,10 @@ public class DatabaseController {
 		return true;
 	}
 	
+	public Location getOriginalNPCBuildingLocation(NPC npc) {
+		return npcLayer.getOriginalNPCBuildingLocation(npc);
+	}
+	
 	public ArrayList<Item> getAllItems(){
 		return itemLayer.getAllItems();
 	}

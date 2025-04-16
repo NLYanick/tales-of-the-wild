@@ -8,7 +8,7 @@ public class Building {
 
 	public final static int INSIDE_SPAWN_X = -2000;
 	public final static int INSIDE_SPAWN_Y = -1000;
-	public final static Location NEW_NPC_LOCATION = new Location(-4000, -4000);
+	public final static Location NEW_NPC_LOCATION = new Location(-7000, -7000);
 	
 	private Location insideLocation, leaveLocation, entranceLocation, viewLocation;
 	
@@ -43,12 +43,11 @@ public class Building {
 			controller.setBuildingView(this);
 			
 			Location playerInsideLocation = getInsideLocation();
-			Location difference = new Location(player.getX() - playerInsideLocation.getX(), player.getY() - playerInsideLocation.getY());
 			
 			player.setLocation(playerInsideLocation);
 			player.setInBuilding(true);
 			
-			loadNPCs(difference);
+			loadNPCs();
 		}
 	}
 	
@@ -83,16 +82,18 @@ public class Building {
 		viewLocation.setY(viewLocation.getY() + dir.getY());
 	}
 	
-	public boolean collidesWith(Location playerLocation, Direction dir) {
+	public boolean collidesWith(Player player, Direction dir) {
 		
 		int multiplier = 2;
+		Location playerLocation = player.getLocation();
 		int nextX = playerLocation.getX() + dir.getX() * multiplier;
 		int nextY = playerLocation.getY() + dir.getY() * multiplier;
 		
 		if(nextStepIsInBuilding(nextX, nextY)) {
 			return false;
 		} else if(dir == exit && nextStepIsOnExit(nextX, nextY)) {
-			controller.leaveBuilding();
+			leave(player);
+			controller.teleportImages();
 			return true;
 		}
 		
@@ -162,20 +163,22 @@ public class Building {
 		}
 	}
 	
-	public void addNPC(NPC npc) {
-		npcs.add(npc);
-	}
-	
-	private void loadNPCs(Location difference) {
+	private void loadNPCs() {
 		for(NPC npc : npcs) {
-			npc.setViewLocation(new Location(npc.getViewLocation().getX() + difference.getX(), npc.getViewLocation().getY() + difference.getY()));
+			Location loc = controller.getOriginalNPCBuildingLocation(npc);
+			System.out.println(loc.getX() + " " + loc.getY());
+			npc.setLocation(loc);
 		}
 	}
 	
 	private void unloadNPCs() {
 		for(NPC npc : npcs) {
-			npc.setViewLocation(NEW_NPC_LOCATION);
+			npc.setLocation(NEW_NPC_LOCATION);
 		}
+	}
+	
+	public void addNPC(NPC npc) {
+		npcs.add(npc);
 	}
 	
 	
@@ -191,14 +194,6 @@ public class Building {
 	
 	public int getHeight() {
 		return size.getHeight();
-	}
-	
-	public int getX() {
-		return insideLocation.getX();
-	}
-	
-	public int getY() {
-		return insideLocation.getY();
 	}
 	
 	public int getEntranceX() {

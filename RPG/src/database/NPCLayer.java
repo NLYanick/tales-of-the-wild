@@ -48,7 +48,7 @@ public class NPCLayer {
 		return npcs;
 	}
 
-	public static List<String> getDialog(String dialogData) {
+	private List<String> getDialog(String dialogData) {
 		List<String> dialog = new ArrayList<String>();
 		
 		for(String text : dialogData.split(", ")) {
@@ -56,6 +56,28 @@ public class NPCLayer {
 		}
 		
 		return dialog;
+	}
+
+	public Location getOriginalNPCBuildingLocation(NPC npc) {
+		String query = "SELECT * FROM npc WHERE building_id = " + npc.getBuildingId() + ";";
+		
+		Location location = new Location();
+		try {			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				int x = rs.getInt("x");
+				int y = rs.getInt("y");
+				location = new Location(x, y);
+			}
+			
+			rs.close();
+			stmt.close();
+		} catch(SQLException s) {
+			s.printStackTrace();
+		}
+		return location;
 	}
 	
 }
