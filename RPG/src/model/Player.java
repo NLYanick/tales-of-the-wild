@@ -19,6 +19,26 @@ public class Player extends Entity {
 		inventory = new Inventory();
 	}
 	
+	public boolean nextStepIsNPC(Location npcLocation, Direction dir) {
+		int lessVerticalPersonalSpace = 20;
+		int lessHorizontalPersonalSpace = 10;
+		int multi = 3;
+		
+		int width = 32;
+		int height = 80;
+				
+		if(Location.isGreater(new Location(location.getX() + dir.getX(), location.getY() + dir.getY()), 
+				new Location(npcLocation.getX() - lessHorizontalPersonalSpace - width, 
+				npcLocation.getY() - lessVerticalPersonalSpace * multi))
+			&& Location.isLess(new Location(location.getX() + dir.getX(), location.getY() + dir.getY()), 
+				new Location(npcLocation.getX() + (int) (width * 1.5) - lessHorizontalPersonalSpace, 
+				npcLocation.getY() + height - lessVerticalPersonalSpace * multi))) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void setRunningImage(Direction dir) {
 		switch(dir) {

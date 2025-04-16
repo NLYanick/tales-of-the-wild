@@ -25,6 +25,8 @@ public abstract class Entity {
 	
 	public abstract void setStandingStillAnimation(Direction dir);
 	
+	/*    Getters & Setters    */
+	
 	public int getX() {
 		return location.getX();
 	}

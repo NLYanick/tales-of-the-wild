@@ -43,11 +43,11 @@ public class Building {
 			controller.setBuildingView(this);
 			
 			Location playerInsideLocation = getInsideLocation();
-			
-			player.setLocation(playerInsideLocation);
-			player.setInBuilding(true);
-			
+						
 			loadNPCs();
+			
+			player.setInBuilding(true);
+			controller.teleportPlayer(playerInsideLocation);
 		}
 	}
 	
@@ -55,7 +55,7 @@ public class Building {
 		if(canPass) {
 			controller.removeBuildingView();
 			
-			player.setLocation(leaveLocation);
+			controller.teleportPlayer(leaveLocation);
 			player.setInBuilding(false);
 			
 			unloadNPCs();
@@ -93,7 +93,6 @@ public class Building {
 			return false;
 		} else if(dir == exit && nextStepIsOnExit(nextX, nextY)) {
 			leave(player);
-			controller.teleportImages();
 			return true;
 		}
 		
@@ -166,7 +165,6 @@ public class Building {
 	private void loadNPCs() {
 		for(NPC npc : npcs) {
 			Location loc = controller.getOriginalNPCBuildingLocation(npc);
-			System.out.println(loc.getX() + " " + loc.getY());
 			npc.setLocation(loc);
 		}
 	}

@@ -134,6 +134,26 @@ public class NPC extends Entity {
 		}
 	}
 	
+	public boolean nextStepIsPlayer(Location playerLocation, Direction dir) {
+		int lessVerticalPersonalSpace = 20;
+		int lessHorizontalPersonalSpace = 10;
+		int multi = 3;
+		
+		int width = 32;
+		int height = 80;
+				
+		if(Location.isGreater(new Location(location.getX() + dir.getX(), location.getY() + dir.getY()), 
+				new Location(playerLocation.getX() - lessHorizontalPersonalSpace - width, 
+				playerLocation.getY() - lessVerticalPersonalSpace))
+			&& Location.isLess(new Location(location.getX(), location.getY() + dir.getY()), 
+				new Location(playerLocation.getX() + width * 2 - lessHorizontalPersonalSpace + dir.getX(), 
+				playerLocation.getY() + (int) (height * 1.5) - lessVerticalPersonalSpace * multi))) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public void moveViewLocationWithBackground(Direction dir) {
 		viewLocation.setX(viewLocation.getX() + dir.getX());
 		viewLocation.setY(viewLocation.getY() + dir.getY());
@@ -151,7 +171,7 @@ public class NPC extends Entity {
 	}
 
 	private void moveInLine() {
-		if(controller.npcViewNextStepIsOnPlayerView(this, movingDirection)) {
+		if(controller.getPlayer() != null && nextStepIsPlayer(controller.getPlayerLocation(), movingDirection)) {
 			return;
 		}
 		

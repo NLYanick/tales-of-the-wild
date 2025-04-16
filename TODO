@@ -9,11 +9,12 @@ Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
-Database performance
+Database & Code performance
 (Als er meer stats zijn, laten zien in in-game menu)
 
 
 Minder Prioriteit:
+Moving direction van player is reversed, moet niet reversed
 Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
@@ -46,4 +47,4 @@ Huizen, NPC's
 BrickHouse image fixen en voelt plat & binnenkant
 
 
-Nu: Nieuwe code | Niet door NPC lopen (Probeer in model lopen te stoppen) | Extra verminderen overal 
+Nu: Niet door NPC lopen | Extra verminderen overal 

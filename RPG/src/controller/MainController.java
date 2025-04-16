@@ -177,7 +177,6 @@ public class MainController {
 		Building building = getNearbyBuilding(dir);
 		currentBuilding = building;
 		building.enter(player);
-		teleportImages(); 
 	}
 	
 	private boolean canWalk(Direction dir) {
@@ -185,23 +184,17 @@ public class MainController {
 	}
 	
 	private boolean nextStepForPlayerisNPC() {
-		Direction movingDirection = player.getMovingDirection();
+		Direction movingDirection = Direction.getOpposite(player.getMovingDirection());
 		for(NPC npc : npcs) {
-			NPCView npcView = npcsWithViews.get(npc);
-			if(npc != null && scene.playerViewNextStepIsOnNPCView(npcView, movingDirection)) {
+			if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public boolean npcViewNextStepIsOnPlayerView(NPC npc, Direction dir) {
-		return scene.npcViewNextStepIsOnPlayerView(npcsWithViews.get(npc), dir);
-	}
-	
 	public void teleportPlayer(Location location) {
-		player.setX(location.getX());
-		player.setY(location.getY());
+		player.setLocation(location);
 		
 		teleportImages();
 	}

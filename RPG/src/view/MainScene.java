@@ -236,14 +236,6 @@ public class MainScene extends Scene {
 		dialogs.get(dialogs.size() - 1).requestFocus();
 	}
 	
-	public boolean playerViewNextStepIsOnNPCView(NPCView npcView, Direction dir) {
-		return playerView.nextStepIsOnNPCView(npcView, dir);
-	}
-	
-	public boolean npcViewNextStepIsOnPlayerView(NPCView npcView, Direction dir) {
-		return npcView.nextStepIsOnPlayerView(playerView, dir);
-	}
-	
 	public void resizePlayerViewLocation() {
 		if(playerView != null) {
 			playerView.move((int) getWidth()/2, (int) getHeight()/2);
