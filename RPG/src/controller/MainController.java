@@ -129,7 +129,7 @@ public class MainController {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
 		if(canWalk(dir) || inBuilding) {
-			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir)) {
+			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
 				scene.moveBuildingView(dir);
 				moveBuildings(dir);
 				
