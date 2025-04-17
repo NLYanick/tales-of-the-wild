@@ -11,6 +11,7 @@ Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Database & Code performance
 (Als er meer stats zijn, laten zien in in-game menu)
+(Animaties)
 
 
 Minder Prioriteit:
@@ -47,4 +48,4 @@ Huizen, NPC's
 BrickHouse image fixen en voelt plat & binnenkant
 
 
-Nu: Extra verminderen overal 
+Nu: Testen met 2 buildings | Niet in de entrance spawnen, maar er iets boven

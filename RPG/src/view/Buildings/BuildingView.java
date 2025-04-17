@@ -40,24 +40,23 @@ public abstract class BuildingView extends BorderPane {
 	}
 	
 	private void setLocation() {
-		int extra = 8;
-		int viewLocationFix = 32;
+		int imgSize = 128;
 		switch(exit) { 
 		case NORTH: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * 128));
-			setLayoutY(scene.getHeight()/2 - viewLocationFix - extra * 2);
+			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
+			setLayoutY(scene.getHeight()/2);
 			break;
 		case EAST: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth() * 128) + viewLocationFix + extra / 2);
-			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * 128) + viewLocationFix);
+			setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize));
+			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 			break;
 		case SOUTH: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * 128));
-			setLayoutY(scene.getHeight()/2 - (size.getHeight() * 128) + viewLocationFix + extra);
+			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
+			setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize));
 			break;
 		case WEST: 
-			setLayoutX(scene.getWidth()/2 - viewLocationFix);
-			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * 128) + viewLocationFix);
+			setLayoutX(scene.getWidth()/2);
+			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 			break;
 			default: return;
 		}

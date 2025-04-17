@@ -4,13 +4,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import model.Building;
 import model.Direction;
 import model.Location;
 import model.Size;
 import view.MainScene;
 
 public class BrickBuildingView extends BuildingView {
+	
+	private final static int INSIDE_SPAWN_X = -2000;
+	private final static int INSIDE_SPAWN_Y = -1000;
 	
 	public BrickBuildingView(Size size, MainScene scene, Direction exit) {
 		super(size, scene, exit);
@@ -36,8 +38,8 @@ public class BrickBuildingView extends BuildingView {
 	
 	private void createImage(String type, Location location) {
 		int imgSize = 128;
-		int buildingX = -Building.INSIDE_SPAWN_X;
-		int buildingY = -Building.INSIDE_SPAWN_Y;
+		int buildingX = -INSIDE_SPAWN_X;
+		int buildingY = -INSIDE_SPAWN_Y;
 		if(type.equals("Wall")) {
 			String url = scene.getImageUrlByIndex(56);
 			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));

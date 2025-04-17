@@ -6,8 +6,6 @@ import controller.MainController;
 
 public class Building {
 
-	public final static int INSIDE_SPAWN_X = -2000;
-	public final static int INSIDE_SPAWN_Y = -1000;
 	public final static Location NEW_NPC_LOCATION = new Location(-7000, -7000);
 	
 	private Location insideLocation, leaveLocation, entranceLocation, viewLocation;
@@ -63,17 +61,16 @@ public class Building {
 	}
 	
 	private Location getInsideLocation() {
-		int extra = 40;
 		switch(exit) {
 			case NORTH:
-				return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y - size.getHeight() + extra * 2);
+				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY());
 			case EAST:
-				return new Location(INSIDE_SPAWN_X + size.getWidth() / 2 - extra, INSIDE_SPAWN_Y - size.getHeight() / 2);
+				return new Location(insideLocation.getX() + size.getWidth(), insideLocation.getY() + size.getHeight() / 2);
 			case SOUTH:
-				return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y);
+				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + size.getHeight());
 			case WEST:
-				return new Location(INSIDE_SPAWN_X - size.getWidth() / 2 + extra, INSIDE_SPAWN_Y - size.getHeight() / 2);
-			default: return new Location(INSIDE_SPAWN_X, INSIDE_SPAWN_Y);
+				return new Location(insideLocation.getX(), insideLocation.getY() + size.getHeight() / 2);
+			default: return new Location(insideLocation.getX(), insideLocation.getY());
 		}
 	}
 	
@@ -145,19 +142,18 @@ public class Building {
 	
 	private boolean nextStepIsOnExitSideWall(Location nextLocation, int wallSize) {
 		Location playerInLoc = getInsideLocation();
-		int extra = 32;
 		switch(exit) {
 			case NORTH:
 			case SOUTH:
-				return nextLocation.getY() > playerInLoc.getY() - wallSize / 2 - extra 
-						&& nextLocation.getY() < playerInLoc.getY() + wallSize / 2 + extra
+				return nextLocation.getY() > playerInLoc.getY() - wallSize 
+						&& nextLocation.getY() < playerInLoc.getY() + wallSize
 						&& (nextLocation.getX() > playerInLoc.getX() + wallSize || nextLocation.getX() < playerInLoc.getX() - wallSize);
 			case EAST:
 			case WEST:
-				return nextLocation.getX() > playerInLoc.getX() - wallSize / 2 - extra 
-						&& nextLocation.getX() < playerInLoc.getX() + wallSize / 2 + extra 
-						&& (nextLocation.getY() > playerInLoc.getY() + wallSize + extra
-								|| nextLocation.getY() < playerInLoc.getY() - wallSize + extra);
+				return nextLocation.getX() > playerInLoc.getX() - wallSize
+						&& nextLocation.getX() < playerInLoc.getX() + wallSize
+						&& (nextLocation.getY() > playerInLoc.getY() + wallSize
+								|| nextLocation.getY() < playerInLoc.getY() - wallSize);
 			default: return true;
 		}
 	}
