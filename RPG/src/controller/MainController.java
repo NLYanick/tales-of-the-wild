@@ -128,6 +128,7 @@ public class MainController {
 	public void moveBackground(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
+		System.out.println(player.getX() + " " + player.getY());
 		if(canWalk(dir) || inBuilding) {
 			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
 				scene.moveBuildingView(dir);
@@ -167,10 +168,10 @@ public class MainController {
 	}
 	
 	private boolean isBetweenBuildingEntranceWalls(Building building, Location nextLocation) {
-		int divider = 8;
+		int entranceSize = 64;
 		return Location.isGreater(nextLocation, new Location(building.getEntranceX(), building.getEntranceY()))
 				&& Location.isLess(nextLocation,
-					new Location(building.getEntranceX() + building.getWidth() / divider, building.getEntranceY() + building.getHeight() / divider));
+					new Location(building.getEntranceX() + entranceSize, building.getEntranceY() + entranceSize));
 	}
 	
 	private void enterBuilding(Direction dir) {

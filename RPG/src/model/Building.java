@@ -147,15 +147,24 @@ public class Building {
 			case SOUTH:
 				return nextLocation.getY() > playerInLoc.getY() - wallSize 
 						&& nextLocation.getY() < playerInLoc.getY() + wallSize
-						&& (nextLocation.getX() > playerInLoc.getX() + wallSize || nextLocation.getX() < playerInLoc.getX() - wallSize);
+						&& (nextLocation.getX() > playerInLoc.getX() + (widthIsEven() ? wallSize : wallSize/2) 
+								|| nextLocation.getX() < playerInLoc.getX() - (widthIsEven() ? wallSize : wallSize/2));
 			case EAST:
 			case WEST:
 				return nextLocation.getX() > playerInLoc.getX() - wallSize
 						&& nextLocation.getX() < playerInLoc.getX() + wallSize
-						&& (nextLocation.getY() > playerInLoc.getY() + wallSize
-								|| nextLocation.getY() < playerInLoc.getY() - wallSize);
+						&& (nextLocation.getY() > playerInLoc.getY() + (heightIsEven() ? wallSize : wallSize/2)
+								|| nextLocation.getY() < playerInLoc.getY() - (heightIsEven() ? wallSize : wallSize/2));
 			default: return true;
 		}
+	}
+	
+	private boolean widthIsEven() {
+		return ((size.getWidth() / 128) % 2 == 0);
+	}
+	
+	private boolean heightIsEven() {
+		return ((size.getHeight() / 128) % 2 == 0);
 	}
 	
 	private void loadNPCs() {

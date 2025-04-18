@@ -32,8 +32,8 @@ public abstract class BuildingView extends BorderPane {
 		
 		setLocation();
 		
-		if(size.getWidth() % 2 != 0) {
-			setLayoutX(getLayoutX() - 64);
+		if(size.getHeight() % 2 != 0) {
+			setLayoutY(getLayoutY() - 64);
 		}
 		
 		setCenter(layout);
