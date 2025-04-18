@@ -41,21 +41,22 @@ public abstract class BuildingView extends BorderPane {
 	
 	private void setLocation() {
 		int imgSize = 128;
+		int entranceSpacing = 64;
 		switch(exit) { 
 		case NORTH: 
 			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-			setLayoutY(scene.getHeight()/2);
+			setLayoutY(scene.getHeight()/2 - entranceSpacing);
 			break;
 		case EAST: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize));
+			setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize) + entranceSpacing);
 			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 			break;
 		case SOUTH: 
 			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-			setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize));
+			setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize) + entranceSpacing);
 			break;
 		case WEST: 
-			setLayoutX(scene.getWidth()/2);
+			setLayoutX(scene.getWidth()/2 - entranceSpacing);
 			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 			break;
 			default: return;

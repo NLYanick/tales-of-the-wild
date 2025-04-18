@@ -128,7 +128,6 @@ public class MainController {
 	public void moveBackground(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
-		System.out.println(player.getX() + " " + player.getY());
 		if(canWalk(dir) || inBuilding) {
 			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
 				scene.moveBuildingView(dir);

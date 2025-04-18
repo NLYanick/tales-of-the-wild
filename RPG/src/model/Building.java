@@ -40,7 +40,7 @@ public class Building {
 		if(canPass) {
 			controller.setBuildingView(this);
 			
-			Location playerInsideLocation = getInsideLocation();
+			Location playerInsideLocation = getInsideLocation(true);
 						
 			loadNPCs();
 			
@@ -60,16 +60,17 @@ public class Building {
 		}
 	}
 	
-	private Location getInsideLocation() {
+	private Location getInsideLocation(boolean spawning) {
+		int entranceSpacing = spawning ? 64 : 0;
 		switch(exit) {
 			case NORTH:
-				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY());
+				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + entranceSpacing);
 			case EAST:
-				return new Location(insideLocation.getX() + size.getWidth(), insideLocation.getY() + size.getHeight() / 2);
+				return new Location(insideLocation.getX() + size.getWidth() - entranceSpacing, insideLocation.getY() + size.getHeight() / 2);
 			case SOUTH:
-				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + size.getHeight());
+				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + size.getHeight() - entranceSpacing);
 			case WEST:
-				return new Location(insideLocation.getX(), insideLocation.getY() + size.getHeight() / 2);
+				return new Location(insideLocation.getX() + entranceSpacing, insideLocation.getY() + size.getHeight() / 2);
 			default: return new Location(insideLocation.getX(), insideLocation.getY());
 		}
 	}
@@ -86,7 +87,7 @@ public class Building {
 		int nextX = playerLocation.getX() + dir.getX() * multiplier;
 		int nextY = playerLocation.getY() + dir.getY() * multiplier;
 		
-		if(nextStepIsInBuilding(nextX, nextY)) {
+		if(nextStepIsInBuilding(new Location(nextX, nextY))) {
 			return false;
 		} else if(dir == exit && nextStepIsOnExit(nextX, nextY)) {
 			leave(player);
@@ -96,9 +97,8 @@ public class Building {
 		return true;
 	}
 	
-	private boolean nextStepIsInBuilding(int nextX, int nextY) {
+	private boolean nextStepIsInBuilding(Location nextLocation) {
 		int wallSize = 128;
-		Location nextLocation = new Location(nextX, nextY);
 		
 		switch(exit) {
 			case NORTH: 
@@ -141,7 +141,7 @@ public class Building {
 	}
 	
 	private boolean nextStepIsOnExitSideWall(Location nextLocation, int wallSize) {
-		Location playerInLoc = getInsideLocation();
+		Location playerInLoc = getInsideLocation(false);
 		switch(exit) {
 			case NORTH:
 			case SOUTH:
