@@ -28,7 +28,8 @@ public class ItemLayer {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), rs.getInt("id"));
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
+						rs.getInt("building_id"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -48,7 +49,8 @@ public class ItemLayer {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), rs.getInt("id"));
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
+						rs.getInt("building_id"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -93,6 +95,28 @@ public class ItemLayer {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Location getOriginalItemBuildingLocation(Item item) {
+		String query = "SELECT x, y FROM item WHERE building_id = " + item.getBuildingId() + ";";
+		
+		Location location = new Location();
+		try {			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				int x = rs.getInt("x");
+				int y = rs.getInt("y");
+				location = new Location(x, y);
+			}
+			
+			rs.close();
+			stmt.close();
+		} catch(SQLException s) {
+			s.printStackTrace();
+		}
+		return location;
 	}
 	
 }

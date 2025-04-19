@@ -59,7 +59,7 @@ public class NPCLayer {
 	}
 
 	public Location getOriginalNPCBuildingLocation(NPC npc) {
-		String query = "SELECT * FROM npc WHERE building_id = " + npc.getBuildingId() + ";";
+		String query = "SELECT x, y FROM npc WHERE building_id = " + npc.getBuildingId() + ";";
 		
 		Location location = new Location();
 		try {			

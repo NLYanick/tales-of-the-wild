@@ -6,7 +6,7 @@ import controller.MainController;
 
 public class Building {
 
-	public final static Location NEW_NPC_LOCATION = new Location(-7000, -7000);
+	public final static Location UNLOAD_LOCATION = new Location(-7000, -7000);
 	
 	private Location insideLocation, leaveLocation, entranceLocation, viewLocation;
 	
@@ -17,6 +17,7 @@ public class Building {
 	private Size size;
 	
 	private ArrayList<NPC> npcs;
+	private ArrayList<Item> items;
 	
 	private MainController controller;
 	
@@ -34,6 +35,7 @@ public class Building {
 		
 		this.controller = controller;
 		npcs = new ArrayList<NPC>();
+		items = new ArrayList<Item>();
 	}
 	
 	public void enter(Player player) {
@@ -42,7 +44,7 @@ public class Building {
 			
 			Location playerInsideLocation = getInsideLocation(true);
 						
-			loadNPCs();
+			loadInside();
 			
 			player.setInBuilding(true);
 			controller.teleportPlayer(playerInsideLocation);
@@ -56,7 +58,7 @@ public class Building {
 			controller.teleportPlayer(leaveLocation);
 			player.setInBuilding(false);
 			
-			unloadNPCs();
+			unloadInside();
 		}
 	}
 	
@@ -167,21 +169,32 @@ public class Building {
 		return ((size.getHeight() / 128) % 2 == 0);
 	}
 	
-	private void loadNPCs() {
+	private void loadInside() {
 		for(NPC npc : npcs) {
 			Location loc = controller.getOriginalNPCBuildingLocation(npc);
 			npc.setLocation(loc);
 		}
+		for(Item item : items) {
+			Location loc = controller.getOriginalItemBuildingLocation(item);
+			item.setLocation(loc);
+		}
 	}
 	
-	private void unloadNPCs() {
+	private void unloadInside() {
 		for(NPC npc : npcs) {
-			npc.setLocation(NEW_NPC_LOCATION);
+			npc.setLocation(UNLOAD_LOCATION);
+		}
+		for(Item item : items) {
+			item.setLocation(UNLOAD_LOCATION);
 		}
 	}
 	
 	public void addNPC(NPC npc) {
 		npcs.add(npc);
+	}
+	
+	public void addItem(Item item) {
+		items.add(item);
 	}
 	
 	

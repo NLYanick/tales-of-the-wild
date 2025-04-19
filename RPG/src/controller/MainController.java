@@ -102,8 +102,14 @@ public class MainController {
 		for (Building building : buildings) {			
 			for (NPC npc : npcs) {
 				if(npc.getBuildingId() == building.getId()) {
-					npc.setLocation(Building.NEW_NPC_LOCATION);
+					npc.setLocation(Building.UNLOAD_LOCATION);
 					building.addNPC(npc);
+				}
+			}
+			for (Item item : items) {
+				if(item.getBuildingId() == building.getId()) {
+					item.setLocation(Building.UNLOAD_LOCATION);
+					building.addItem(item);
 				}
 			}
 		}
@@ -592,6 +598,13 @@ public class MainController {
 	public Location getOriginalNPCBuildingLocation(NPC npc) {
 		if(npc.getBuildingId() > 0) {
 			return databaseController.getOriginalNPCBuildingLocation(npc);
+		}
+		return null;
+	}
+	
+	public Location getOriginalItemBuildingLocation(Item item) {
+		if(item.getBuildingId() > 0) {
+			return databaseController.getOriginalItemBuildingLocation(item);
 		}
 		return null;
 	}

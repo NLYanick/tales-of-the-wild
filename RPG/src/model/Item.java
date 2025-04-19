@@ -2,18 +2,15 @@ package model;
 
 public class Item {
 
-	private String imageUrl;
-	private String name;
-	private Location location;
+	private String imageUrl, name;
+	private Location location, viewLocation;
+	private int id, buildingId;
 	
-	private Location viewLocation;
-	
-	private int id;
-	
-	public Item(Location location, String name, String imageUrl, int id) {
+	public Item(Location location, String name, String imageUrl, int buildingId, int id) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
+		this.buildingId = buildingId;
 		this.id = id;
 		
 		viewLocation = new Location(location.getX(), location.getY());
@@ -33,6 +30,10 @@ public class Item {
 	
 	public void setViewLocation(Location location) {
 		viewLocation = location;
+	}
+	
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 	public Location getViewLocation() {
@@ -57,6 +58,10 @@ public class Item {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public int getBuildingId() {
+		return buildingId;
 	}
 	
 }
