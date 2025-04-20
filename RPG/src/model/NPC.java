@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.MainController;
@@ -10,19 +11,17 @@ public class NPC extends Entity {
 	
 	private MainController controller;
 	
-	private Location startLocation;
-	private Location endLocation;
+	private Location startLocation, endLocation;
 	
-	private boolean running;
-	private boolean isPaused;
-	private boolean isInDialog;
-	private int buildingId;
+	private boolean running, isPaused, isInDialog;
+	private int buildingId, id;
 	
 	private Location viewLocation;
 	
 	private List<String> dialog;
+	private ArrayList<Item> items;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, int buildingId) {
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, int buildingId, int id) {
 		super(imageURL, name);
 				
 		location.setX(startLocation.getX());
@@ -33,11 +32,14 @@ public class NPC extends Entity {
 		
 		this.dialog = dialog;
 		this.buildingId = buildingId;
+		this.id = id;
+		
+		items = new ArrayList<Item>();
 
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId) {
+	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId, int id) {
 		super(imageURL, name);
 		this.startLocation = startLocation;
 		
@@ -46,6 +48,9 @@ public class NPC extends Entity {
 		
 		this.dialog = dialog;
 		this.buildingId = buildingId;
+		this.id = id;
+		
+		items = new ArrayList<Item>();
 	}
 	
 	private void setUpEndLocation(Direction direction) {
@@ -233,7 +238,7 @@ public class NPC extends Entity {
 		pauzeThread();
 		setStandingStillAnimation(direction);
 		
-		controller.addDialogView(dialog);
+		controller.addDialogView(dialog, items);
 		isInDialog = true;
 	}
 	
@@ -248,6 +253,10 @@ public class NPC extends Entity {
 	public void setThreadRunning(boolean running) {
 		this.running = running;
 		resumeThread();
+	}
+	
+	public void addItem(Item item) {
+		items.add(item);
 	}
 	
 	public Location getStartLocation() {
@@ -284,6 +293,10 @@ public class NPC extends Entity {
 	
 	public int getBuildingId() {
 		return buildingId;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 }

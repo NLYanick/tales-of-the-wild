@@ -3,6 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -74,6 +76,12 @@ public class MainController {
 			npcsWithViews.put(npc, npcView);
 			if(npc.getMovingDirection() != null) {
 				npc.setUpThread();
+			}
+			
+			for(Item item : items) {
+				if(item.getNPCId() == npc.getId()) {
+					npc.addItem(item);
+				}
 			}
 		}
 		
@@ -419,7 +427,7 @@ public class MainController {
 	public void addItemToPlayerInventory(Item item) {
 		player.addItemToInventory(item);
 		item.resetLocation();
-		databaseController.setItemLocation(item, new Location(item.getX(), item.getY()));
+		databaseController.addItemToPlayer(item, player);
 	}
 	
 	public void dropItem(Item item) {
@@ -522,14 +530,46 @@ public class MainController {
 				&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier);
 	}
 	
-	public void addDialogView(List<String> dialog) {
-		dialog = reverseSort(new ArrayList<>(dialog));
+	public void addDialogView(List<String> dialog, ArrayList<Item> items) {
+		scene.setPlayerIsInDialog(true);
+		
+		String compile = " I([0-9])+";
+		Pattern pattern = Pattern.compile(compile);
+		
+		String skipText = " /Skip/";
+		boolean skip = false;
+		
 		for(String text : dialog) {
-			scene.addDialogView(text);
+			Matcher matcher = pattern.matcher(text);
+			if(matcher.find()) {
+				int number = Integer.parseInt(matcher.group(1));
+				Item item = getDialogItem(items, number);
+				
+				if(item == null || item.getNPCId() <= 0) {
+					skip = true;
+					continue;
+				}
+				
+				text = text.replaceAll(compile, "");
+				
+				scene.addDialogView(text);
+				scene.addItemDialogView(item.getName(), text);
+				
+				scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
+				item.setNPCId(0);
+			} else {
+				if(text.matches(".*" + skipText)) {
+					text = text.replaceAll(skipText, "");
+					if(skip) {
+						continue;
+					}
+				}
+				scene.addDialogView(text);
+			}
 		}
 	}
 	
-	private <T> ArrayList<T> reverseSort(ArrayList<T> list) {
+	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
 		int j = list.size() - 1;
 		T temp;
 		for(int i = 0; i < list.size(); i++) {
@@ -546,6 +586,16 @@ public class MainController {
 			j--;
 		}
 		return list;
+	}
+	
+	private Item getDialogItem(ArrayList<Item> items, int number) {
+		for(Item item : items) {
+			if(item.getId() == number) {
+				return item;
+			}
+		}
+		
+		return null;
 	}
 	
 	public void setBuildingView(Building building) {
@@ -567,7 +617,15 @@ public class MainController {
 		buildingViewImages.add(image);
 	}
 	
+	
 	// -------------------- Database --------------------
+	
+	public void loadGame(Player player) {
+		setUpItems();
+		setUpNPCs();
+		setUpBuildings();
+		loadPlayer(player);
+	}
 	
 	public void saveGame() {
 		if(scene.isInBuilding()) {

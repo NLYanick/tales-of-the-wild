@@ -4,14 +4,15 @@ public class Item {
 
 	private String imageUrl, name;
 	private Location location, viewLocation;
-	private int id, buildingId;
+	private int id, buildingId, npcId;
 	
-	public Item(Location location, String name, String imageUrl, int buildingId, int id) {
+	public Item(Location location, String name, String imageUrl, int buildingId, int id, int npcId) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
 		this.buildingId = buildingId;
 		this.id = id;
+		this.npcId = npcId;
 		
 		viewLocation = new Location(location.getX(), location.getY());
 	}
@@ -62,6 +63,18 @@ public class Item {
 	
 	public int getBuildingId() {
 		return buildingId;
+	}
+	
+	public void setBuildingId(int id) {
+		buildingId = id;
+	}
+
+	public int getNPCId() {
+		return npcId;
+	}
+
+	public void setNPCId(int id) {
+		npcId = id;
 	}
 	
 }

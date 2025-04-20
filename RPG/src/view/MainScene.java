@@ -149,10 +149,8 @@ public class MainScene extends Scene {
 		root.setCenter(null);
 		
 		addBackground();
-		controller.setUpNPCs();
-		controller.setUpItems();
-		controller.setUpBuildings();
-		controller.loadPlayer(player);
+		
+		controller.loadGame(player);
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
 		createPlayerView();
@@ -217,12 +215,21 @@ public class MainScene extends Scene {
 	
 	public void addDialogView(String dialogText) {
 		DialogView dialogView = new DialogView(dialogText, this);
-		menusPane.getChildren().add(dialogView);
+		menusPane.getChildren().add(0, dialogView);
 		
 		dialogs.add(dialogView);
-		dialogs.get(dialogs.size() - 1).requestFocus();
+		dialogs.get(0).requestFocus();
+	}
+	
+	public void addItemDialogView(String itemName, String dialogText) {
+		dialogText = "You've collected a(n) " + itemName + "!";
 		
-		playerIsInDialog = true;
+		// TODO Moet andere DialogView worden
+		DialogView dialogView = new DialogView(dialogText, this);
+		menusPane.getChildren().add(0, dialogView);
+		
+		dialogs.add(dialogView);
+		dialogs.get(0).requestFocus();
 	}
 	
 	public void removeDialog(DialogView dialogView) {
@@ -233,7 +240,7 @@ public class MainScene extends Scene {
 			controller.resumeNearbyNPCThread();
 			return;
 		}
-		dialogs.get(dialogs.size() - 1).requestFocus();
+		dialogs.get(0).requestFocus();
 	}
 	
 	public void resizePlayerViewLocation() {
@@ -250,6 +257,7 @@ public class MainScene extends Scene {
 			removeItemView(itemView);
 			inventoryView.addItemView(itemView);
 		} else {
+			// TODO Moet andere Dialogview zijn
 			addDialogView("Your Inventory is full");
 		}
 	}
@@ -490,6 +498,10 @@ public class MainScene extends Scene {
 	
 	private boolean allIsClosed() {
 		return !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog && !inventoryIsOpen;
+	}
+	
+	public void setPlayerIsInDialog(boolean playerIsInDialog) {
+		this.playerIsInDialog = playerIsInDialog;
 	}
 
 }

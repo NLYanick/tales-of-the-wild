@@ -3,7 +3,7 @@ Background maken
 Inventory verbeteren
 Map toevoegen
 Elke game moet eigen items en npcs en eigen player enz. hebben 
-NPCs kunnen items hebben
+Items droppen
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
@@ -14,6 +14,7 @@ Database & Code performance
 
 
 Minder Prioriteit:
+Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
 Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
@@ -38,13 +39,14 @@ Focus bij startview, loadgameview & newgameview
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
 In pauze en in-game menu is de eerste pijl hardcoded
-Building heeft allemaal extra, dus kan de verhouding niet goed zijn
+Pas in de controller worden items aan npcs geven, npcs in buldings stoppen, enz. gedaan
 
 
 TODO Images:
 Player plaatje voelt toch niet helemaal thuis
 Huizen, NPC's
 BrickHouse image fixen en voelt plat & binnenkant
+Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: 
+Nu: Een Item DialogView en als Inventory vol is moeten aparte DialogViews zijn (overerving??) | Laat eventueel de item zien in de dialog 

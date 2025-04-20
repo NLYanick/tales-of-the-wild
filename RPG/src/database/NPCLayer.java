@@ -33,9 +33,10 @@ public class NPCLayer {
 				String directionString = rs.getString("direction");
 				NPC npc = null;
 				if(directionString != null) {
-					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, rs.getInt("building_id"));					
+					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
+							rs.getInt("building_id"), rs.getInt("id"));					
 				} else {					
-					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("building_id"));
+					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("building_id"), rs.getInt("id"));
 				}
 				
 				npcs.add(npc);
@@ -51,7 +52,7 @@ public class NPCLayer {
 	private List<String> getDialog(String dialogData) {
 		List<String> dialog = new ArrayList<String>();
 		
-		for(String text : dialogData.split(", ")) {
+		for(String text : dialogData.split(" & ")) {
 			dialog.add(text);
 		}
 		
