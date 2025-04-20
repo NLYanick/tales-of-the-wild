@@ -20,7 +20,7 @@ Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
 Validatie op naam (bij aanmaken game)
-Dialogs mooi maken
+Dialogs en ItemDialogs mooi maken
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
 Met Tab kan je knoppen besturen :(
@@ -49,4 +49,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Een Item DialogView en als Inventory vol is moeten aparte DialogViews zijn (overerving??) | Laat eventueel de item zien in de dialog 
+Nu: Laat eventueel de item zien in de dialog 

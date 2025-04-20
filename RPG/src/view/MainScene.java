@@ -224,8 +224,7 @@ public class MainScene extends Scene {
 	public void addItemDialogView(String itemName, String dialogText) {
 		dialogText = "You've collected a(n) " + itemName + "!";
 		
-		// TODO Moet andere DialogView worden
-		DialogView dialogView = new DialogView(dialogText, this);
+		ItemDialogView dialogView = new ItemDialogView(dialogText, this);
 		menusPane.getChildren().add(0, dialogView);
 		
 		dialogs.add(dialogView);
@@ -257,7 +256,6 @@ public class MainScene extends Scene {
 			removeItemView(itemView);
 			inventoryView.addItemView(itemView);
 		} else {
-			// TODO Moet andere Dialogview zijn
 			addDialogView("Your Inventory is full");
 		}
 	}

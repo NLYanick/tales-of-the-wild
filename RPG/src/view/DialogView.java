@@ -19,10 +19,10 @@ import javafx.scene.text.TextAlignment;
 
 public class DialogView extends BorderPane {
 
-	private MainScene scene;
-	private BorderPane dialogPane;
+	protected MainScene scene;
+	protected BorderPane dialogPane;
 	
-	private String dialogText;
+	protected String dialogText;
 	
 	public DialogView(String dialogText, MainScene scene) {
 		this.dialogText = dialogText;
@@ -33,7 +33,7 @@ public class DialogView extends BorderPane {
 		setOnMouseClicked(e -> scene.removeDialog(this));
 	}
 	
-	private void setUpLayout() {
+	protected void setUpLayout() {
 		
 		int width = 500;
 		int height = 300;
@@ -42,7 +42,7 @@ public class DialogView extends BorderPane {
 		dialogPane.setMinSize(width, height);
 		dialogPane.setMaxSize(width, height);
 		
-		HBox textBox = getTextBox();
+		HBox textBox = this.getTextBox();
 		
 		dialogPane.setCenter(textBox);
 		
@@ -53,7 +53,7 @@ public class DialogView extends BorderPane {
 		
 	}
 	
-	private void setInvisableRectangleBottom() {
+	protected void setInvisableRectangleBottom() {
 		Rectangle rect = new Rectangle();
 		
 		rect.setFill(Color.TRANSPARENT);
@@ -62,7 +62,7 @@ public class DialogView extends BorderPane {
 		setBottom(rect);
 	}
 	
-	private HBox getTextBox() {
+	protected HBox getTextBox() {
 		
 		int textBorderWidth = 10;
 		int width = 500;
@@ -83,7 +83,7 @@ public class DialogView extends BorderPane {
 		return textBox;
 	}
 	
-	private Text getText(String string) {
+	protected Text getText(String string) {
 		
 		int fontSize = 28;
 		
@@ -96,7 +96,7 @@ public class DialogView extends BorderPane {
 		return text;
 	}
 	
-	private void handleButtonKeyPressed(KeyEvent e) {
+	protected void handleButtonKeyPressed(KeyEvent e) {
 		if(e.getCode().equals(KeyCode.ENTER)) {
 			scene.removeDialog(this);
 		}
