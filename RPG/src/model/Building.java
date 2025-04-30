@@ -13,7 +13,7 @@ public class Building {
 	private BuildingType type;
 	private Direction exit;
 	private boolean canPass;
-	private int id;
+	private int id, gameId;
 	private Size size;
 	
 	private ArrayList<NPC> npcs;
@@ -22,7 +22,7 @@ public class Building {
 	private MainController controller;
 	
 	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, MainController controller, int id, Location entranceLocation) {
+			Location leaveLocation, MainController controller, int id, Location entranceLocation, int gameId) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation= entranceLocation; 
@@ -32,6 +32,7 @@ public class Building {
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
+		this.gameId = gameId;
 		
 		this.controller = controller;
 		npcs = new ArrayList<NPC>();
@@ -246,6 +247,10 @@ public class Building {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public int getGameId() {
+		return gameId;
 	}
 	
 }

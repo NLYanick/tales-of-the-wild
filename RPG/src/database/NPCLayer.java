@@ -34,9 +34,10 @@ public class NPCLayer {
 				NPC npc = null;
 				if(directionString != null) {
 					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
-							rs.getInt("building_id"), rs.getInt("id"));					
+							rs.getInt("building_id"), rs.getInt("id"), rs.getInt("game_id"));					
 				} else {					
-					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("building_id"), rs.getInt("id"));
+					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("building_id"), 
+							rs.getInt("id"), rs.getInt("game_id"));
 				}
 				
 				npcs.add(npc);

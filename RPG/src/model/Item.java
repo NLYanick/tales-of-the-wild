@@ -4,12 +4,13 @@ public class Item {
 
 	private String imageUrl, name;
 	private Location location, viewLocation;
-	private int id, buildingId, npcId;
+	private int id, buildingId, npcId, gameId;
 	
-	public Item(Location location, String name, String imageUrl, int buildingId, int id, int npcId) {
+	public Item(Location location, String name, String imageUrl, int buildingId, int id, int npcId, int gameId) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
+		this.gameId = gameId;
 		this.buildingId = buildingId;
 		this.id = id;
 		this.npcId = npcId;
@@ -57,6 +58,10 @@ public class Item {
 		return location.getY();
 	}
 	
+	public Location getLocation() {
+		return location;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -75,6 +80,10 @@ public class Item {
 
 	public void setNPCId(int id) {
 		npcId = id;
+	}
+	
+	public int getGameId() {
+		return gameId;
 	}
 	
 }

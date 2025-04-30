@@ -98,7 +98,7 @@ public class MainController {
 	
 	private void addItemsToGame() {
 		for(Item item : items) {
-			ItemView itemView = new ItemView(new Location(item.getX(), item.getY()), item.getImageUrl());
+			ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 			itemsWithViews.put(item, itemView);
 			
 			scene.addItemView(itemView);

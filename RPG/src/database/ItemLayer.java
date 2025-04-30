@@ -29,7 +29,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -50,7 +50,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -108,14 +108,12 @@ public class ItemLayer {
 			added += ", building_id = NULL";
 		}
 		
-		Location location = new Location(item.getX(), item.getY());
-		
 		String query = "UPDATE item SET x = ?, y = ?, player_name = ? " + added + " WHERE id = ?";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt(1, location.getX());
-			stmt.setInt(2, location.getY());
+			stmt.setInt(1, item.getX());
+			stmt.setInt(2, item.getY());
 			stmt.setString(3, player.getName());
 			stmt.setInt(4, item.getId());
 		    

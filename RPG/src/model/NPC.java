@@ -21,8 +21,9 @@ public class NPC extends Entity {
 	private List<String> dialog;
 	private ArrayList<Item> items;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, int buildingId, int id) {
-		super(imageURL, name, 0);
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, 
+			int buildingId, int id, int gameId) {
+		super(imageURL, name, gameId);
 				
 		location.setX(startLocation.getX());
 		location.setY(startLocation.getY());
@@ -39,8 +40,8 @@ public class NPC extends Entity {
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId, int id) {
-		super(imageURL, name, 0);
+	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId, int id, int gameId) {
+		super(imageURL, name, gameId);
 		this.startLocation = startLocation;
 		
 		location.setX(startLocation.getX());
@@ -49,6 +50,7 @@ public class NPC extends Entity {
 		this.dialog = dialog;
 		this.buildingId = buildingId;
 		this.id = id;
+		this.gameId = gameId;
 		
 		items = new ArrayList<Item>();
 	}
