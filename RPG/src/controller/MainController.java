@@ -11,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
 import model.Building;
 import model.Direction;
+import model.Game;
 import model.Image;
 import model.Item;
 import model.Location;
@@ -28,6 +29,7 @@ public class MainController {
 	
 	private BackgroundLocation backgroundLocation;
 	private Player player;
+	private Game game;
 	private Building currentBuilding;
 	
 	private ApplicationController appController;
@@ -620,11 +622,15 @@ public class MainController {
 	
 	// -------------------- Database --------------------
 	
-	public void loadGame(Player player) {
+	public void loadGame(String playerName) {
 		setUpItems();
 		setUpNPCs();
 		setUpBuildings();
-		loadPlayer(player);
+		
+		if(playerName == null || playerName == "") {
+			throw new NullPointerException();
+		}
+		databaseController.loadGame(playerName);
 	}
 	
 	public void saveGame() {
@@ -634,12 +640,12 @@ public class MainController {
 		databaseController.saveGame(player);
 	}
 	
-	public void loadPlayer(Player player) {
-		if(player == null) {
-			throw new NullPointerException();
-		}
-		databaseController.loadPlayer(player);
-	}
+//	public void loadPlayer(Player player) {
+//		if(player == null) {
+//			throw new NullPointerException();
+//		}
+//		databaseController.loadPlayer(player);
+//	}
 	
 	public Player createPlayer(String name) {
 		return databaseController.createPlayer(name);
@@ -649,8 +655,8 @@ public class MainController {
 		return databaseController.nameIsUnique(name);
 	}
 	
-	public void deletePlayer(Player player) {
-		databaseController.deletePlayer(player);
+	public void deletePlayer(String playerName) {
+		databaseController.deletePlayer(playerName);
 	}
 	
 	public Location getOriginalNPCBuildingLocation(NPC npc) {
@@ -721,8 +727,8 @@ public class MainController {
 		return player.getLocation();
 	}
 	
-	public ArrayList<Player> getAllPlayers() {
-		return databaseController.getAllPlayers();
+	public ArrayList<String> getAllPlayerNames() {
+		return databaseController.getAllPlayerNames();
 	}
 	
 	public void setPlayer(Player player) {
@@ -732,6 +738,14 @@ public class MainController {
 	
 	public ArrayList<Image> getBuildingViewImages() {
 		return buildingViewImages;
+	}
+
+	public void setGame(Game game) {
+		this.game = game; 
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 	
 }

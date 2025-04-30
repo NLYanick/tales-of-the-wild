@@ -3,10 +3,12 @@ package controller;
 import java.util.ArrayList;
 
 import database.BuildingLayer;
+import database.GameLayer;
 import database.ItemLayer;
 import database.NPCLayer;
 import database.PlayerLayer;
 import model.Building;
+import model.Game;
 import model.Item;
 import model.Location;
 import model.NPC;
@@ -16,6 +18,7 @@ public class DatabaseController {
 
 	private MainController controller;
 	
+	private GameLayer gameLayer;
 	private PlayerLayer playerLayer;
 	private ItemLayer itemLayer;
 	private NPCLayer npcLayer;
@@ -24,6 +27,7 @@ public class DatabaseController {
 	public DatabaseController(MainController controller) {
 		this.controller = controller;
 		
+		gameLayer = new GameLayer();
 		playerLayer = new PlayerLayer();
 		itemLayer = new ItemLayer();
 		npcLayer = new NPCLayer();
@@ -43,24 +47,47 @@ public class DatabaseController {
 		return playerLayer.getAllPlayers();
 	}
 	
-	public void loadPlayer(Player player) {
-		Location playerLocation = getPlayerLocation(player.getName());
-		player.setLocation(playerLocation);
+	public ArrayList<String> getAllPlayerNames(){
+		return playerLayer.getAllPlayerNames();
+	}
+	
+	public void loadGame(String playerName) {
+		Game game = gameLayer.getGameByPlayerName(playerName);
+		Player player = playerLayer.getPlayer(playerName);
+		
+		controller.setGame(game);
+		loadPlayer(player);
+	}
+	
+	private void loadPlayer(Player player) {
 		controller.setPlayer(player);
 		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
 		controller.addPlayerItemViewsToInventoryView();
 		controller.teleportPlayer(player.getLocation());
 	}
+//	public void loadPlayer(Player player) {
+//		Location playerLocation = getPlayerLocation(player.getName());
+//		player.setLocation(playerLocation);
+//		controller.setPlayer(player);
+//		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
+//		controller.addPlayerItemViewsToInventoryView();
+//		controller.teleportPlayer(player.getLocation());
+//	}
+	
+	private int createGame() {
+		return gameLayer.createGame().getId();
+	}
 	
 	public Player createPlayer(String name) {
-		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
+		int newGameId = createGame();
+		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name, newGameId);
 		playerLayer.saveNewPlayer(player);
 		controller.setPlayer(player);
 		return player;
 	}
 	
-	public void deletePlayer(Player player) {
-		playerLayer.deletePlayer(player);
+	public void deletePlayer(String playerName) {
+		playerLayer.deletePlayer(playerName);
 	}
 	
 	public boolean nameIsUnique(String name) {
@@ -70,6 +97,10 @@ public class DatabaseController {
 			}
 		}
 		return true;
+	}
+	
+	public Game getGame(int playerGameId) {
+		return gameLayer.getGame(playerGameId);
 	}
 	
 	public Location getOriginalNPCBuildingLocation(NPC npc) {

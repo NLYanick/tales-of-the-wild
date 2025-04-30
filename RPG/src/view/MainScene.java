@@ -122,11 +122,11 @@ public class MainScene extends Scene {
 	
 	public void createPlayer(String name) {
 		Player player = controller.createPlayer(name);
-		loadGame(player);
+		loadGame(player.getName());
 	}
 	
-	public void deletePlayer(Player player) {
-		controller.deletePlayer(player);
+	public void deletePlayer(String playerName) {
+		controller.deletePlayer(playerName);
 		addLoadGameView();
 	}
 	
@@ -134,15 +134,15 @@ public class MainScene extends Scene {
 		return controller.nameIsUnique(name);
 	}
 	
-	public ArrayList<Player> getAllPlayers(){
-		return controller.getAllPlayers();
+	public ArrayList<String> getAllPlayerNames(){
+		return controller.getAllPlayerNames();
 	}
 	
 	public Player getPlayer() {
 		return controller.getPlayer();
 	}
 	
-	public void loadGame(Player player) {
+	public void loadGame(String playerName) {
 		
 		gameHasLoaded = true;
 		
@@ -150,7 +150,7 @@ public class MainScene extends Scene {
 		
 		addBackground();
 		
-		controller.loadGame(player);
+		controller.loadGame(playerName);
 		
 		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
 		createPlayerView();

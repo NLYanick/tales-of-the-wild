@@ -21,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import model.Player;
 
 public class LoadGameView extends BorderPane {
 		
@@ -102,8 +101,8 @@ public class LoadGameView extends BorderPane {
 		int extraSpce = 5;
 		
 		VBox content = new VBox();
-		for(Player player : scene.getAllPlayers()) {
-			content.getChildren().add(getGamePane(player));
+		for(String playerName : scene.getAllPlayerNames()) {
+			content.getChildren().add(getGamePane(playerName));
 		}
 		
 		content.setMinWidth(width);
@@ -112,7 +111,7 @@ public class LoadGameView extends BorderPane {
 		return content;
 	}
 	
-	private BorderPane getGamePane(Player player) {
+	private BorderPane getGamePane(String playerName) {
 		int borderWidths = 5;
 		int fontSize = 24;
 		int padding = 15;
@@ -121,10 +120,10 @@ public class LoadGameView extends BorderPane {
 		gamePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidths))));
 		gamePane.setPadding(new Insets(padding, padding, padding, 0));
 		
-		Label nameLabel = new Label(player.getName());
+		Label nameLabel = new Label(playerName);
 		nameLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
 		
-		HBox buttons = getButtonsOfGamePane(player);
+		HBox buttons = getButtonsOfGamePane(playerName);
 		
 		BorderPane playerBox = new BorderPane();
 		playerBox.setCenter(nameLabel);
@@ -135,7 +134,7 @@ public class LoadGameView extends BorderPane {
 		return gamePane;
 	}
 	
-	private HBox getButtonsOfGamePane(Player player) {
+	private HBox getButtonsOfGamePane(String playerName) {
 		int spacing = 30;
 		
 		HBox buttons = new HBox();
@@ -143,13 +142,13 @@ public class LoadGameView extends BorderPane {
 		buttons.setSpacing(spacing);
 		
 		Button loadButton = getButton("Load");
-		loadButton.setOnAction(e -> scene.loadGame(player));
+		loadButton.setOnAction(e -> scene.loadGame(playerName));
 		loadButton.setPrefWidth(loadButton.getPrefWidth()/3 * 2);
 		loadButton.setPrefHeight(loadButton.getPrefHeight()/2);
 		loadButton.setStyle("-fx-background-color: forestgreen;");
 		
 		Button deleteButton = getButton("Delete");
-		deleteButton.setOnAction(e -> scene.deletePlayer(player));
+		deleteButton.setOnAction(e -> scene.deletePlayer(playerName));
 		deleteButton.setPrefWidth(deleteButton.getPrefWidth()/3 * 2);
 		deleteButton.setPrefHeight(deleteButton.getPrefHeight()/2);
 		deleteButton.setStyle("-fx-background-color: forestgreen;");

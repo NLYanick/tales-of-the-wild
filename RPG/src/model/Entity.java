@@ -7,10 +7,12 @@ public abstract class Entity {
 	protected Direction movingDirection;
 	protected String name;
 	protected boolean inBuilding;
+	protected int gameId;
 	
-	public Entity(String imageURL, String name) {
+	public Entity(String imageURL, String name, int gameId) {
 		this.imageURL = imageURL;
 		this.name = name;
+		this.gameId = gameId;
 		
 		location = new Location();
 		movingDirection = null;
@@ -77,6 +79,10 @@ public abstract class Entity {
 	
 	public void setInBuilding(boolean inBuilding) {
 		this.inBuilding = inBuilding;
+	}
+	
+	public int getGameId() {
+		return gameId;
 	}
 	
 }

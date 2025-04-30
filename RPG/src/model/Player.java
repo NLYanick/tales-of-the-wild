@@ -11,8 +11,8 @@ public class Player extends Entity {
 	
 	private Inventory inventory;
 	
-	public Player(String imgURL, Location location, String name) {
-		super(imgURL, name);
+	public Player(String imgURL, Location location, String name, int gameId) {
+		super(imgURL, name, gameId);
 		setX(location.getX());
 		setY(location.getY());
 		

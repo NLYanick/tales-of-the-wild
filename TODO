@@ -8,7 +8,9 @@ Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
+Vragen of je het zeker weet als je een player delete
 Database & Code performance
+(Alleen de games pakken van dit apparaat/device, als het kan)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
 
@@ -21,6 +23,7 @@ Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController
 Validatie op naam (bij aanmaken game)
 Dialogs en ItemDialogs mooi maken
+Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
 Met Tab kan je knoppen besturen :(
@@ -49,4 +52,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Laat eventueel de item zien in de dialog 
+Nu:

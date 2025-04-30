@@ -39,12 +39,13 @@ public class PlayerLayer {
 	}
 	
 	public void saveNewPlayer(Player player) {
-		String query = "INSERT INTO player (name, x, y) VALUES(?, ?, ?)";
+		String query = "INSERT INTO player (name, x, y, game_id) VALUES(?, ?, ?, ?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, player.getName());
 			stmt.setInt(2, player.getX());
 			stmt.setInt(3, player.getY());
+			stmt.setInt(4, player.getGameId());
 			stmt.execute();
 			
 			stmt.close();
@@ -77,7 +78,7 @@ public class PlayerLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				Player player = new Player(Player.DEFAULT_URL, location, rs.getString("name"));
+				Player player = new Player(Player.DEFAULT_URL, location, rs.getString("name"), rs.getInt("game_id"));
 				players.add(player);
 			}
 			rs.close();
@@ -106,17 +107,35 @@ public class PlayerLayer {
 		return playerNames;
 	}
 	
-	public void deletePlayer(Player player) {
+	public void deletePlayer(String playerName) {
 		String query = "DELETE FROM player WHERE name = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, player.getName());
+			stmt.setString(1, playerName);
 			stmt.execute();
 			
 			stmt.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Player getPlayer(String playerName) {
+		Player player = null;
+		String query = "SELECT * FROM player WHERE name = '" + playerName + "';";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
+				player = new Player(Player.DEFAULT_URL, location, rs.getString("name"), rs.getInt("game_id"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return player;
 	}
 	
 }

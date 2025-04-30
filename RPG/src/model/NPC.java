@@ -22,7 +22,7 @@ public class NPC extends Entity {
 	private ArrayList<Item> items;
 	
 	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, int buildingId, int id) {
-		super(imageURL, name);
+		super(imageURL, name, 0);
 				
 		location.setX(startLocation.getX());
 		location.setY(startLocation.getY());
@@ -40,7 +40,7 @@ public class NPC extends Entity {
 	}
 	
 	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId, int id) {
-		super(imageURL, name);
+		super(imageURL, name, 0);
 		this.startLocation = startLocation;
 		
 		location.setX(startLocation.getX());
