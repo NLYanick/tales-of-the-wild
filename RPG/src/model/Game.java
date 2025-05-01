@@ -181,7 +181,7 @@ public class Game {
 		}
 	}
 	
-	// ----- NPCs -----
+	// ---------- NPCs ----------
 	
 	private NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
@@ -271,7 +271,7 @@ public class Game {
 	}
 	
 	
-	// ----- Items -----
+	// ---------- Items ----------
 	
 	private Item getNearbyItem() {
 		for(Item item : items) {
@@ -296,7 +296,7 @@ public class Game {
 	}
 	
 	
-	// ----- Buildings -----
+	// ---------- Buildings ----------
 	
 	private Building getNearbyBuilding(Direction dir) {
 		int nextX = player.getX() + dir.getX();
@@ -339,7 +339,7 @@ public class Game {
 		buildingViewImages.add(image);
 	}
 	
-	// ----- Pass methods -----
+	// ---------- Pass methods ----------
 	
 	public void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
@@ -406,7 +406,7 @@ public class Game {
 	}
 	
 	
-	// ----- Set up -----
+	// ---------- Set up ----------
 	
 	public void setUpNPCs() {
 		npcs = controller.getAllNPCs();
@@ -471,7 +471,7 @@ public class Game {
 	}
 	
 	
-	// ----- Getters & Setters -----
+	// ---------- Getters & Setters ----------
 	
 	public int getId() {
 		return id;

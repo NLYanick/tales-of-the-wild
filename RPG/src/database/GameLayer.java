@@ -63,7 +63,8 @@ public class GameLayer {
 
 	public Game createGame() {
 		int newGameId = getLastGameId() + 1;
-		String query = "INSERT INTO game VALUES(?)";
+		String query = "INSERT INTO game VALUES(?);";
+		String queryTwo = "CALL InsertGameObjects(?);";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -71,6 +72,12 @@ public class GameLayer {
 			
 			stmt.execute();
 			stmt.close();
+			
+			PreparedStatement stmtTwo = conn.prepareStatement(queryTwo);
+			stmtTwo.setInt(1, newGameId);
+			
+			stmtTwo.execute();
+			stmtTwo.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
