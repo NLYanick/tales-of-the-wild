@@ -3,7 +3,6 @@ Background maken
 Inventory verbeteren
 Map toevoegen
 Items droppen
-Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
