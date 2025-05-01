@@ -2,7 +2,6 @@ Scene switcher met Startup & Game
 Background maken 
 Inventory verbeteren
 Map toevoegen
-Elke game moet eigen items en npcs en eigen player enz. hebben 
 Items droppen
 Items staan op 0,0 als ze worden opgepakt, maar bij andere spelers staat het dan ook op 0,0
 Audio toevoegen
@@ -53,5 +52,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Misschien View maken met alle tabellen die in een game zitten? | Alles moet uit de database gehaald worden voor 1 Game
-Als je een game aanmaakt, moeten de Buildings enzo ook aangemaakt worden (Stored Procedure) |
+Nu: Als je een game aanmaakt, moeten de Buildings enzo ook aangemaakt worden (Stored Procedure)
