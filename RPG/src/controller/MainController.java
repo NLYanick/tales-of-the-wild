@@ -24,13 +24,11 @@ import view.NPCView;
 
 @SuppressWarnings("static-access")
 public class MainController {
-
-	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350 ;
 	
-	private BackgroundLocation backgroundLocation;
+	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350;
+	
 	private Player player;
 	private Game game;
-	private Building currentBuilding;
 	
 	private ApplicationController appController;
 	private MovementController movementController;
@@ -39,93 +37,49 @@ public class MainController {
 	private MainScene scene;
 	private FileIO fileIO;
 	
-	private ArrayList<Building> buildings;
 	private ArrayList<Image> buildingViewImages;
-	private ArrayList<NPC> npcs;
 	private HashMap<NPC, NPCView> npcsWithViews;
-	private ArrayList<Item> items;
 	private HashMap<Item, ItemView> itemsWithViews;
-	
-	private boolean gameIsPaused;
 	
 	public MainController(ApplicationController appController, FileIO fileIO) {
 		
 		this.fileIO = fileIO;
 		scene = new MainScene(this);
 		
-		backgroundLocation = new BackgroundLocation(-Player.DEFAULT_LOCATION.getX() + BACKGROUND_PLAYER_DIFFERENCE, -Player.DEFAULT_LOCATION.getY() + BACKGROUND_PLAYER_DIFFERENCE);
-		
 		this.appController = appController;
 		movementController = new MovementController(this);
 		databaseController = new DatabaseController(this);
 		
-	}
-	
-	public void setUpNPCs() {
-		npcs = databaseController.getAllNPCs();
 		npcsWithViews = new HashMap<NPC, NPCView>();
-		int bgX = backgroundLocation.getX();
-		int bgY = backgroundLocation.getY();
-		
-		for(NPC npc : npcs) {
-			npc.setMainController(this);
-			
-			NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
-			npcView.fixImage();
-			npc.setViewLocation(new Location(bgX + (int) npcView.getLayoutX(), bgY + (int) npcView.getLayoutY()));
-			
-			scene.addNPCView(npcView);
-			npcsWithViews.put(npc, npcView);
-			if(npc.getMovingDirection() != null) {
-				npc.setUpThread();
-			}
-			
-			for(Item item : items) {
-				if(item.getNPCId() == npc.getId()) {
-					npc.addItem(item);
-				}
-			}
-		}
-		
-	}
-	
-	public void setUpItems() {
-		items = databaseController.getAllItems();
 		itemsWithViews = new HashMap<Item, ItemView>();
+	}
+	
+	public void startGame() {
+		game.startGame();
+	}
+	
+	public void setUpLists() {
+		buildingViewImages = game.getBuildingViewImages();
+	}
+	
+	public void addNPCView(NPC npc, int bgX, int bgY) {
+		NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
+		npcView.fixImage();
+		npc.setViewLocation(new Location(bgX + (int) npcView.getLayoutX(), bgY + (int) npcView.getLayoutY()));
 		
-		addItemsToGame();
+		scene.addNPCView(npcView);
+		npcsWithViews.put(npc, npcView);
 	}
 	
-	private void addItemsToGame() {
-		for(Item item : items) {
-			ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
-			itemsWithViews.put(item, itemView);
-			
-			scene.addItemView(itemView);
-			moveItemViewWithScreen(item);
-		}
+	public void addItemView(Item item) {
+		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
+		itemsWithViews.put(item, itemView);
+		
+		scene.addItemView(itemView);
+		moveItemViewWithScreen(item);
 	}
 	
-	public void setUpBuildings() {
-		buildings = databaseController.getAllBuildings();
-		buildingViewImages = new ArrayList<Image>();
-		for (Building building : buildings) {			
-			for (NPC npc : npcs) {
-				if(npc.getBuildingId() == building.getId()) {
-					npc.setLocation(Building.UNLOAD_LOCATION);
-					building.addNPC(npc);
-				}
-			}
-			for (Item item : items) {
-				if(item.getBuildingId() == building.getId()) {
-					item.setLocation(Building.UNLOAD_LOCATION);
-					building.addItem(item);
-				}
-			}
-		}
-	}
-	
-	public void addPlayerItemViewsToInventoryView() {
+	public void addPlayerItemViewsToInventoryView(ArrayList<Item> items) {
 		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
 		for(Item playerItem : player.getItemsOfInventory()) {
 			for(int i = 0; i < items.size(); i++) {
@@ -141,88 +95,33 @@ public class MainController {
 		scene.setItemViewsInInventory(itemViews);
 	}
 	
-	public void moveBackground(Direction dir) {
-		Direction oppositeDir = Direction.getOpposite(dir);
-		boolean inBuilding = player.isInBuilding();
-		if(canWalk(dir) || inBuilding) {
-			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
-				scene.moveBuildingView(dir);
-				moveBuildings(dir);
-				
-				moveAll(dir, oppositeDir);
-
-			} else if(!inBuilding) {
-				backgroundLocation.move(dir);
-				scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
-				
-				moveAll(dir, oppositeDir);
-			}
-		}
-		else if(getNearbyBuilding(oppositeDir) != null) {
-			enterBuilding(oppositeDir);
-		}
+	public void moveBuildingView(Direction dir) {
+		scene.moveBuildingView(dir);
+	}
+	public void moveBackground(int backgroundX, int backgroundY) {
+		scene.moveBackground(backgroundX, backgroundY, isFullScreen());
 	}
 	
-	private void moveAll(Direction dir, Direction oppositeDir) {
-		moveNPCs(dir);
-		moveItems(dir);
-		
-		player.move(oppositeDir);
+	public ArrayList<Image> getImagesInFile() {
+		return fileIO.getImagesInFile();
 	}
 	
-	private Building getNearbyBuilding(Direction dir) {
-		int nextX = player.getX() + dir.getX();
-		int nextY = player.getY() + dir.getY();
-		for (Building building : buildings) {
-			if(building.canPass() && building.getEntranceLocation() != null 
-					&& isBetweenBuildingEntranceWalls(building, new Location(nextX, nextY))) {
-				return building;
-			}
-		}
-		return null;
-	}
-	
-	private boolean isBetweenBuildingEntranceWalls(Building building, Location nextLocation) {
-		int entranceSize = 64;
-		return Location.isGreater(nextLocation, new Location(building.getEntranceX(), building.getEntranceY()))
-				&& Location.isLess(nextLocation,
-					new Location(building.getEntranceX() + entranceSize, building.getEntranceY() + entranceSize));
-	}
-	
-	private void enterBuilding(Direction dir) {
-		Building building = getNearbyBuilding(dir);
-		currentBuilding = building;
-		building.enter(player);
-	}
-	
-	private boolean canWalk(Direction dir) {
-		return playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC();
-	}
-	
-	private boolean nextStepForPlayerisNPC() {
-		Direction movingDirection = Direction.getOpposite(player.getMovingDirection());
-		for(NPC npc : npcs) {
-			if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
-				return true;
-			}
-		}
-		return false;
+	public void moveBackgroundAndPlayer(Direction dir) {
+		game.moveBackgroundAndPlayer(dir);
 	}
 	
 	public void teleportPlayer(Location location) {
-		player.setLocation(location);
-		
-		teleportImages();
+		game.teleportPlayer(location);
 	}
 	
 	public void teleportImages() {
-		backgroundLocation.setX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
-		backgroundLocation.setY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+		game.setBackgroundX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
+		game.setBackgroundY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
+		moveBackground(game.getBackgroundX(), game.getBackgroundY());
 		
-		int bgX = backgroundLocation.getX();
-		int bgY = backgroundLocation.getY();
-		for(NPC npc : npcs) {
+		int bgX = game.getBackgroundX();
+		int bgY = game.getBackgroundY();
+		for(NPC npc : game.getNPCs()) {
 			NPCView npcView = npcsWithViews.get(npc);
 			npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
 			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
@@ -230,36 +129,12 @@ public class MainController {
 			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
 			moveNPCViewWithScreen(npc);
 		}
-		for(Item item : items) {
+		for(Item item : game.getItems()) {
 			ItemView itemView = itemsWithViews.get(item);
 			item.setViewLocation(new Location(bgX + (int) item.getX(), bgY + (int) item.getY()));
 			itemView.move(item.getViewLocation());
 			moveItemViewWithScreen(item);
 		}
-	}
-	
-	private boolean playerCanWalk(Direction dir) {
-		ArrayList<Image> backgroundImages = fileIO.getImagesInFile();
-		
-		for(Image img : backgroundImages) {
-			if(nextStepIsOnImage(img, dir) && img.canWalkOn()) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private boolean nextStepIsOnImage(Image img, Direction dir) {
-		int extraSpace = 127;
-		Direction opposite = Direction.getOpposite(dir);
-		int nextStepX = player.getX() + opposite.getX();
-		int nextStepY = player.getY() + opposite.getY();
-		
-		return (nextStepX >= img.getX()
-				&& nextStepY >= img.getY())
-				&& (nextStepX <= img.getX() + extraSpace
-				&& nextStepY <= img.getY() + extraSpace);
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
@@ -273,41 +148,11 @@ public class MainController {
 	}
 	
 	public void stopNPCThreads() {
-		if(npcs != null && !(npcs.size() <= 0)) {			
-			for(NPC npc : npcs) {
-				npc.setThreadRunning(false);
-			}
-		}
+		game.stopNPCThreads();
 	}
 	
 	public void resumeNPCThreads() {
-		if(npcs != null && !(npcs.size() <= 0)) {			
-			for(NPC npc : npcs) {
-				npc.resumeThread();
-			}
-		}
-	}
-	
-	private void moveNPCs(Direction dir) {
-		for(NPC npc : npcs) {
-			npc.moveViewLocationWithBackground(dir);
-			moveNPCViewWithScreen(npc);			
-		}
-	}
-	
-	private void moveItems(Direction dir) {
-		for(Item item : items) {
-			item.moveViewLocation(dir);
-			moveItemViewWithScreen(item);
-		}
-	}
-	
-	private void moveBuildings(Direction dir) {
-		for(Building building : buildings) {
-			if(currentBuilding == building) {				
-				building.moveViewLocation(dir);
-			}
-		}
+		game.resumeNPCThreads();
 	}
 	
 	public void setFullScreen(boolean isFullScreen) {
@@ -328,26 +173,10 @@ public class MainController {
 	}
 	
 	public void resizeLocationsInView() {
-		scene.moveBackground(backgroundLocation.getX(), backgroundLocation.getY(), appController.isFullScreen());
+		scene.moveBackground(game.getBackgroundX(), game.getBackgroundY(), appController.isFullScreen());
 		scene.resizePlayerViewLocation();
 		
-		if(npcs != null) {
-			for(NPC npc : npcs) {
-				moveNPCViewWithScreen(npc);
-			}
-		}
-		if(items != null) {
-			for(Item item : items) {
-				moveItemViewWithScreen(item);
-			}
-		}	
-		if(buildings != null) {
-			for(Building building : buildings) {
-				if(currentBuilding == building) {					
-					moveBuildingViewWithScreen(building);
-				}
-			}
-		}	
+		game.resizeLocationsInView();
 	}
 	
 	public void moveNPCViewWithScreen(NPC npc) {
@@ -390,40 +219,19 @@ public class MainController {
 	}
 	
 	public void pauzeGame() {
-		gameIsPaused = true;
-		for(NPC npc : npcs) {
-			npc.pauzeThread();
-		}
+		game.pauzeGame();
 	}
 	
 	public void resumeGame() {
-		gameIsPaused = false;
-		for(NPC npc : npcs) {
-			if(!npc.isInDialog()) {
-				npc.resumeThread();
-			}
-		}
+		game.resumeGame();
 	}
 	
 	public void resumeNearbyNPCThread() {
-		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
-
-		if(nearbyNPC != null) {
-			nearbyNPC.setIsInDialog(false);
-			nearbyNPC.resumeThread();
-		}
+		game.resumeNearbyNPCThread();
 	}
 	
 	public void playerInteract() {
-		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
-		Item item = getNearbyItem();
-		
-		if(nearbyNPC != null) {	
-			scene.setAllKeyPressesFalse();
-			player.talkToNPC(nearbyNPC);
-		} else if(item != null) {
-			scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
-		}
+		game.playerInteract();
 	}
 	
 	public void addItemToPlayerInventory(Item item) {
@@ -435,101 +243,6 @@ public class MainController {
 	public void dropItem(Item item) {
 		// TODO
 		databaseController.setItemLocation(item, player.getLocation());
-	}
-	
-	private Item getNearbyItem() {
-		for(Item item : items) {
-			if(playerIsOnItem(item)) {
-				return item;
-			}
-		}
-		return null;
-	}
-	
-	private boolean playerIsOnItem(Item item) {
-		int extraSpace = 20;
-		return Location.isGreater(player.getLocation(), new Location(item.getX() - extraSpace, item.getY() - extraSpace)) 
-				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace * 3, item.getY() + extraSpace * 3));
-	}
-
-	private NPC getNearbyNPC(Direction direction) {
-		for(NPC npc : npcs) {
-			if(hasNPCNearby(npc, direction)) {
-				return npc;
-			}
-		}
-		return null;
-	}
-
-	private boolean hasNPCNearby(NPC npc, Direction movingDirection) {
-		
-		Direction direction = getGoodNPCCheckDirection(movingDirection);
-		Direction nextDirection = Direction.getNext(direction);
-
-		if(Direction.isHorizontal(movingDirection)) {
-			return hasNPCNearbyHorizontal(npc, direction, nextDirection);
-		} else if(Direction.isVertical(movingDirection)) {
-			return hasNPCNearbyVertical(npc, direction, nextDirection);
-		}
-		
-		return false;
-	}
-	
-	private Direction getGoodNPCCheckDirection(Direction dir) {
-		if((dir.equals(Direction.NORTH) || dir.equals(Direction.WEST))) {
-			dir = Direction.getOpposite(dir);
-		}
-		return dir;
-	}
-	
-	private boolean hasNPCNearbyHorizontal(NPC npc, Direction direction, Direction nextDirection) {
-		
-		int multiplier = 12;
-		boolean hasNearby = false;
-		Direction movingDirection = player.getMovingDirection();
-		
-		if(movingDirection == Direction.EAST) {
-			if((player.getX() >= npc.getX()) && (player.getX() <= npc.getX() + direction.getX() * multiplier)
-				&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
-				hasNearby = true;
-			}
-		} else if(movingDirection == Direction.WEST) {
-			if((player.getX() >= npc.getX() - direction.getX() * multiplier) && (player.getX() <= npc.getX())
-				&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
-				hasNearby = true;
-			}
-		}
-		return hasNearby;
-	}
-	
-	private boolean hasNPCNearbyVertical(NPC npc, Direction direction, Direction nextDirection) {
-		
-		int multiplier = 12;
-		boolean hasNearby = false;
-		Direction movingDirection = player.getMovingDirection();
-		
-		if(movingDirection == Direction.NORTH) {
-			if(((player.getY() >= npc.getY() - direction.getY() * (multiplier * 1.5)) && (player.getY() <= npc.getY()))
-					&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
-				hasNearby = true;
-			}
-		} else if(movingDirection == Direction.SOUTH) {
-			if((player.getY() >= npc.getY()) && (player.getY() <= npc.getY() + direction.getY() * multiplier)
-				&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
-				hasNearby = true;
-			}
-		}
-		return hasNearby;
-	}
-	
-	private boolean playerXIsNearNPCX(NPC npc, Direction nextDirection, int multiplier) {
-		return (player.getX() >= npc.getX() + nextDirection.getX() * multiplier) 
-		&& (player.getX() <= npc.getX() - nextDirection.getX() * multiplier);
-	}
-	
-	private boolean playerYIsNearNPCY(NPC npc, Direction nextDirection, int multiplier) {
-		return (player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
-				&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier);
 	}
 	
 	public void addDialogView(List<String> dialog, ArrayList<Item> items) {
@@ -557,7 +270,7 @@ public class MainController {
 				scene.addDialogView(text);
 				scene.addItemDialogView(item.getName(), text);
 				
-				scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
+				addItemViewToInventoryView(item);
 				item.setNPCId(0);
 			} else {
 				if(text.matches(".*" + skipText)) {
@@ -569,6 +282,10 @@ public class MainController {
 				scene.addDialogView(text);
 			}
 		}
+	}
+	
+	public void addItemViewToInventoryView(Item item) {
+		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
 	}
 	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
@@ -619,14 +336,14 @@ public class MainController {
 		buildingViewImages.add(image);
 	}
 	
+	public void setAllKeyPressesFalse() {
+		scene.setAllKeyPressesFalse();
+	}
+	
 	
 	// -------------------- Database --------------------
 	
 	public void loadGame(String playerName) {
-		setUpItems();
-		setUpNPCs();
-		setUpBuildings();
-		
 		if(playerName == null || playerName == "") {
 			throw new NullPointerException();
 		}
@@ -635,17 +352,10 @@ public class MainController {
 	
 	public void saveGame() {
 		if(scene.isInBuilding()) {
-			player.setLocation(currentBuilding.getLeaveLocation());
+			player.setLocation(game.getCurrentBuildingLeaveLocation());
 		}
 		databaseController.saveGame(player);
 	}
-	
-//	public void loadPlayer(Player player) {
-//		if(player == null) {
-//			throw new NullPointerException();
-//		}
-//		databaseController.loadPlayer(player);
-//	}
 	
 	public Player createPlayer(String name) {
 		return databaseController.createPlayer(name);
@@ -671,6 +381,18 @@ public class MainController {
 			return databaseController.getOriginalItemBuildingLocation(item);
 		}
 		return null;
+	}
+	
+	public ArrayList<NPC> getAllNPCs() {
+		return databaseController.getAllNPCs();
+	}
+	
+	public ArrayList<Item> getAllItems() {
+		return databaseController.getAllItems();
+	}
+	
+	public ArrayList<Building> getAllBuildings() {
+		return databaseController.getAllBuildings();
 	}
 	
 	// -------------------- Getters & Setters --------------------
@@ -720,7 +442,7 @@ public class MainController {
 	}
 	
 	public BackgroundLocation getBackgroundLocation() {
-		return backgroundLocation;
+		return game.getBackgroundLocation();
 	}
 	
 	public Location getPlayerLocation() {
@@ -742,6 +464,7 @@ public class MainController {
 
 	public void setGame(Game game) {
 		this.game = game; 
+		game.setMainController(this);
 	}
 	
 	public Game getGame() {

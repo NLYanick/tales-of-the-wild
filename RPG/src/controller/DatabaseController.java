@@ -55,24 +55,15 @@ public class DatabaseController {
 		Game game = gameLayer.getGameByPlayerName(playerName);
 		Player player = playerLayer.getPlayer(playerName);
 		
+		game.setPlayer(player);
 		controller.setGame(game);
-		loadPlayer(player);
-	}
-	
-	private void loadPlayer(Player player) {
+		
 		controller.setPlayer(player);
 		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
-		controller.addPlayerItemViewsToInventoryView();
+		
+		controller.startGame();
 		controller.teleportPlayer(player.getLocation());
 	}
-//	public void loadPlayer(Player player) {
-//		Location playerLocation = getPlayerLocation(player.getName());
-//		player.setLocation(playerLocation);
-//		controller.setPlayer(player);
-//		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
-//		controller.addPlayerItemViewsToInventoryView();
-//		controller.teleportPlayer(player.getLocation());
-//	}
 	
 	private int createGame() {
 		return gameLayer.createGame().getId();

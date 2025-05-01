@@ -31,28 +31,28 @@ public class MovementController {
 			
 			if(leftPressed.get()){
 				controller.setMovingDirection(Direction.EAST);
-				controller.moveBackground(Direction.EAST);
+				controller.moveBackgroundAndPlayer(Direction.EAST);
 				if(!player.getURL().equals("Images/Fox/FoxLeftRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					controller.setPlayerImage(Direction.EAST);
 				}
 			}
 			if(rightPressed.get()){
 				controller.setMovingDirection(Direction.WEST);
-				controller.moveBackground(Direction.WEST);
+				controller.moveBackgroundAndPlayer(Direction.WEST);
 				if(!player.getURL().equals("Images/Fox/FoxRightRunning.gif") && !(upPressed.get() || downPressed.get())) {
 					controller.setPlayerImage(Direction.WEST);
 				}
 			}
 			if(upPressed.get()) {
 				controller.setMovingDirection(Direction.SOUTH);
-				controller.moveBackground(Direction.SOUTH);
+				controller.moveBackgroundAndPlayer(Direction.SOUTH);
 				if(!player.getURL().equals("Images/Fox/FoxBackRunning.gif")) {
 					controller.setPlayerImage(Direction.SOUTH);
 				}
 			}
 			if(downPressed.get()){
 				controller.setMovingDirection(Direction.NORTH);
-				controller.moveBackground(Direction.NORTH);
+				controller.moveBackgroundAndPlayer(Direction.NORTH);
 				if(!player.getURL().equals("Images/Fox/FoxRunning.gif")) {
 					controller.setPlayerImage(Direction.NORTH);
 				}
