@@ -142,7 +142,9 @@ public class MainController {
 	}
 	
 	public void stopNPCThreads() {
-		game.stopNPCThreads();
+		if(game != null) {			
+			game.stopNPCThreads();
+		}
 	}
 	
 	public void resumeNPCThreads() {
@@ -167,6 +169,8 @@ public class MainController {
 	}
 	
 	public void resizeLocationsInView() {
+		if(game == null) return;
+		
 		scene.moveBackground(game.getBackgroundX(), game.getBackgroundY(), appController.isFullScreen());
 		scene.resizePlayerViewLocation();
 		
@@ -380,15 +384,15 @@ public class MainController {
 	}
 	
 	public ArrayList<NPC> getAllNPCs() {
-		return databaseController.getAllNPCs();
+		return databaseController.getAllNPCs(game.getId());
 	}
 	
 	public ArrayList<Item> getAllItems() {
-		return databaseController.getAllItems();
+		return databaseController.getAllItems(game.getId());
 	}
 	
 	public ArrayList<Building> getAllBuildings() {
-		return databaseController.getAllBuildings();
+		return databaseController.getAllBuildings(game.getId());
 	}
 	
 	// -------------------- Getters & Setters --------------------

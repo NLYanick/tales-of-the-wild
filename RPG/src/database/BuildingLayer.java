@@ -23,10 +23,10 @@ public class BuildingLayer {
 		this.controller = controller;
 	}
 	
-	public ArrayList<Building> getAllBuildings() {
+	public ArrayList<Building> getAllBuildings(int gameId) {
 		ArrayList<Building> buildings = new ArrayList<Building>();
 		
-		String query = "SELECT * FROM building";
+		String query = "SELECT * FROM building WHERE game_id = " + gameId + ";";
 		
 		try {
 			Statement stmt = conn.createStatement();			

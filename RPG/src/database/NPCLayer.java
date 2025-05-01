@@ -19,10 +19,10 @@ public class NPCLayer {
 		conn = DatabaseConnector.getConn();
 	}
 	
-	public ArrayList<NPC> getAllNPCs() {
+	public ArrayList<NPC> getAllNPCs(int gameId) {
 		ArrayList<NPC> npcs = new ArrayList<NPC>();
 		
-		String query = "SELECT * FROM npc";
+		String query = "SELECT * FROM npc WHERE game_id = " + gameId + ";";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);

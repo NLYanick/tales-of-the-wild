@@ -40,10 +40,10 @@ public class ItemLayer {
 		return items;
 	}
 	
-	public ArrayList<Item> getAllItems() {
+	public ArrayList<Item> getAllItems(int gameId) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		String query = "SELECT * FROM item";
+		String query = "SELECT * FROM item WHERE game_id = " + gameId + ";";
 		
 		try {
 			Statement stmt = conn.createStatement();			

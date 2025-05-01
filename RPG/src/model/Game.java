@@ -52,7 +52,7 @@ public class Game {
 	}
 	
 	public void stopNPCThreads() {
-		if(npcs != null && !(npcs.size() <= 0)) {			
+		if(npcs != null && npcs.size() > 0) {			
 			for(NPC npc : npcs) {
 				npc.setThreadRunning(false);
 			}
