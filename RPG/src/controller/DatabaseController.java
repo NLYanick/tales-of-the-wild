@@ -65,15 +65,19 @@ public class DatabaseController {
 		controller.teleportPlayer(player.getLocation());
 	}
 	
-	private int createGame() {
-		return gameLayer.createGame().getId();
+	private Game createGame() {
+		return gameLayer.createGame();
 	}
 	
 	public Player createPlayer(String name) {
-		int newGameId = createGame();
+		Game newGame = createGame();
+		int newGameId = newGame.getId();
+		
 		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name, newGameId);
 		playerLayer.saveNewPlayer(player);
+		controller.setGame(newGame);
 		controller.setPlayer(player);
+		
 		return player;
 	}
 	

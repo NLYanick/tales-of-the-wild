@@ -27,7 +27,6 @@ public class MainController {
 	
 	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350;
 	
-	private Player player;
 	private Game game;
 	
 	private ApplicationController appController;
@@ -37,7 +36,6 @@ public class MainController {
 	private MainScene scene;
 	private FileIO fileIO;
 	
-	private ArrayList<Image> buildingViewImages;
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private HashMap<Item, ItemView> itemsWithViews;
 	
@@ -57,11 +55,7 @@ public class MainController {
 	public void startGame() {
 		game.startGame();
 	}
-	
-	public void setUpLists() {
-		buildingViewImages = game.getBuildingViewImages();
-	}
-	
+		
 	public void addNPCView(NPC npc, int bgX, int bgY) {
 		NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
 		npcView.fixImage();
@@ -81,7 +75,7 @@ public class MainController {
 	
 	public void addPlayerItemViewsToInventoryView(ArrayList<Item> items) {
 		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
-		for(Item playerItem : player.getItemsOfInventory()) {
+		for(Item playerItem : game.getItemsOfPlayerInventory()) {
 			for(int i = 0; i < items.size(); i++) {
 				Item item = items.get(i);
 				if(playerItem.getId() == item.getId()) {
@@ -115,8 +109,8 @@ public class MainController {
 	}
 	
 	public void teleportImages() {
-		game.setBackgroundX(-player.getX() + BACKGROUND_PLAYER_DIFFERENCE);
-		game.setBackgroundY(-player.getY() + BACKGROUND_PLAYER_DIFFERENCE);
+		game.setBackgroundX(-game.getPlayerX() + BACKGROUND_PLAYER_DIFFERENCE);
+		game.setBackgroundY(-game.getPlayerY() + BACKGROUND_PLAYER_DIFFERENCE);
 		moveBackground(game.getBackgroundX(), game.getBackgroundY());
 		
 		int bgX = game.getBackgroundX();
@@ -138,12 +132,12 @@ public class MainController {
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
-		player.setStandingStillAnimation(dir);
+		game.setStandingStillAnimation(dir);
 		scene.changePlayerImage();
 	}
 	
 	public void setPlayerImage(Direction dir) {
-		player.setRunningImage(dir);
+		game.setRunningImage(dir);
 		scene.changePlayerImage();
 	}
 	
@@ -235,6 +229,7 @@ public class MainController {
 	}
 	
 	public void addItemToPlayerInventory(Item item) {
+		Player player = game.getPlayer();
 		player.addItemToInventory(item);
 		item.resetLocation();
 		databaseController.addItemToPlayer(item, player);
@@ -242,7 +237,7 @@ public class MainController {
 	
 	public void dropItem(Item item) {
 		// TODO
-		databaseController.setItemLocation(item, player.getLocation());
+		databaseController.setItemLocation(item, game.getPlayerLocation());
 	}
 	
 	public void addDialogView(List<String> dialog, ArrayList<Item> items) {
@@ -285,7 +280,7 @@ public class MainController {
 	}
 	
 	public void addItemViewToInventoryView(Item item) {
-		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), player.inventoryIsFull());
+		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), game.playerInventoryIsFull());
 	}
 	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
@@ -318,7 +313,7 @@ public class MainController {
 	}
 	
 	public void setBuildingView(Building building) {
-		buildingViewImages.clear();
+		game.clearBuildingViewImages();
 		scene.setBuildingView(building);
 	}
 	
@@ -333,7 +328,7 @@ public class MainController {
 	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
 		Image image = new Image(url, canWalkOn);
 		image.setLocation(location);
-		buildingViewImages.add(image);
+		game.addBuildingViewImage(image);
 	}
 	
 	public void setAllKeyPressesFalse() {
@@ -351,6 +346,7 @@ public class MainController {
 	}
 	
 	public void saveGame() {
+		Player player = game.getPlayer();
 		if(scene.isInBuilding()) {
 			player.setLocation(game.getCurrentBuildingLeaveLocation());
 		}
@@ -418,27 +414,23 @@ public class MainController {
 	}
 	
 	public Player getPlayer() {
-		return player;
+		return game.getPlayer();
 	}
 	
 	public String getPlayerURL() {
-		return player.getURL();
+		return game.getPlayerURL();
 	}
 	
 	public Background getBackground() {
 		return fileIO.getBackground();
 	}
 	
-	public FileIO getFileIO() {
-		return fileIO;
-	}
-	
 	public void setMovingDirection(Direction dir) {
-		player.setMovingDirection(dir);
+		game.setPlayerMovingDirection(dir);
 	}
 	
 	public Direction getMovingDirection() {
-		return player.getMovingDirection();
+		return game.getPlayerMovingDirection();
 	}
 	
 	public BackgroundLocation getBackgroundLocation() {
@@ -446,7 +438,7 @@ public class MainController {
 	}
 	
 	public Location getPlayerLocation() {
-		return player.getLocation();
+		return game.getPlayerLocation();
 	}
 	
 	public ArrayList<String> getAllPlayerNames() {
@@ -454,21 +446,17 @@ public class MainController {
 	}
 	
 	public void setPlayer(Player player) {
-		this.player = player;
+		game.setPlayer(player);
 		movementController.setPlayer(player);
 	}
 	
 	public ArrayList<Image> getBuildingViewImages() {
-		return buildingViewImages;
+		return game.getBuildingViewImages();
 	}
 
 	public void setGame(Game game) {
 		this.game = game; 
 		game.setMainController(this);
-	}
-	
-	public Game getGame() {
-		return game;
 	}
 	
 }

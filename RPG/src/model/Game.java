@@ -32,7 +32,6 @@ public class Game {
 		setUpNPCs();
 		setUpBuildings();
 		
-		controller.setUpLists();
 		controller.addPlayerItemViewsToInventoryView(items);
 	}
 	
@@ -184,8 +183,7 @@ public class Game {
 	
 	// ----- NPCs -----
 	
-	// private?
-	public NPC getNearbyNPC(Direction direction) {
+	private NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
 			if(hasNPCNearby(npc, direction)) {
 				return npc;
@@ -333,6 +331,14 @@ public class Game {
 		}
 	}
 	
+	public void clearBuildingViewImages() {
+		buildingViewImages.clear();
+	}
+
+	public void addBuildingViewImage(Image image) {
+		buildingViewImages.add(image);
+	}
+	
 	// ----- Pass methods -----
 	
 	public void moveBackground(Direction dir) {
@@ -357,6 +363,46 @@ public class Game {
 	
 	public Location getCurrentBuildingLeaveLocation() {
 		return currentBuilding.getLeaveLocation();
+	}
+	
+	public ArrayList<Item> getItemsOfPlayerInventory() {
+		return player.getItemsOfInventory();
+	}
+	
+	public int getPlayerX() {
+		return player.getX();
+	}
+	
+	public int getPlayerY() {
+		return player.getY();
+	}
+	
+	public Location getPlayerLocation() {
+		return player.getLocation();
+	}
+	
+	public boolean playerInventoryIsFull() {
+		return player.inventoryIsFull();
+	}
+	
+	public void setStandingStillAnimation(Direction dir) {
+		player.setStandingStillAnimation(dir);
+	}
+	
+	public void setRunningImage(Direction dir) {
+		player.setRunningImage(dir);
+	}
+	
+	public String getPlayerURL() {
+		return player.getURL();
+	}
+	
+	public Direction getPlayerMovingDirection() {
+		return player.getMovingDirection();
+	}
+	
+	public void setPlayerMovingDirection(Direction dir) {
+		player.setMovingDirection(dir);
 	}
 	
 	
@@ -470,4 +516,5 @@ public class Game {
 	public void setCurrentBuilding(Building currentBuilding) {
 		this.currentBuilding = currentBuilding;
 	}
+	
 }

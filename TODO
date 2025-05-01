@@ -21,6 +21,7 @@ Moving direction van player is reversed, moet niet reversed
 Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController & Game klasse opschonen
+MainScene klasse opschonen
 Validatie op naam (bij aanmaken game)
 Dialogs en ItemDialogs mooi maken
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
@@ -52,5 +53,5 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Misschien View maken met alle tabellen die in een game zitten? | 
+Nu: Misschien View maken met alle tabellen die in een game zitten? | Alles moet uit de database gehaald worden voor 1 Game
 Als je een game aanmaakt, moeten de Buildings enzo ook aangemaakt worden (Stored Procedure) |
