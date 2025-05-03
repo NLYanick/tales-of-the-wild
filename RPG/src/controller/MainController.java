@@ -69,8 +69,10 @@ public class MainController {
 		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 		itemsWithViews.put(item, itemView);
 		
-		scene.addItemView(itemView);
-		moveItemViewWithScreen(item);
+		if(item.getNPCId() == 0) {			
+			scene.addItemView(itemView);
+			moveItemViewWithScreen(item);
+		}
 	}
 	
 	public void addPlayerItemViewsToInventoryView(ArrayList<Item> items) {
@@ -264,13 +266,7 @@ public class MainController {
 					continue;
 				}
 				
-				text = text.replaceAll(compile, "");
-				
-				scene.addDialogView(text);
-				scene.addItemDialogView(item.getName(), text);
-				
-				addItemViewToInventoryView(item);
-				item.setNPCId(0);
+				addItemDialogView(text, item, compile);
 			} else {
 				if(text.matches(".*" + skipText)) {
 					text = text.replaceAll(skipText, "");
@@ -281,6 +277,16 @@ public class MainController {
 				scene.addDialogView(text);
 			}
 		}
+	}
+	
+	private void addItemDialogView(String text, Item item, String compile) {
+		text = text.replaceAll(compile, "");
+		
+		scene.addDialogView(text);
+		scene.addItemDialogView(item.getName(), text);
+		
+		addItemViewToInventoryView(item);
+		item.setNPCId(0);
 	}
 	
 	public void addItemViewToInventoryView(Item item) {
