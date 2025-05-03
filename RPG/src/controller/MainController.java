@@ -249,7 +249,7 @@ public class MainController {
 	public void addDialogView(List<String> dialog, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
-		String compile = " I([0-9])+";
+		String compile = " I([0-9]+)";
 		Pattern pattern = Pattern.compile(compile);
 		
 		String skipText = " /Skip/";
