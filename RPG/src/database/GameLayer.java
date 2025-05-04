@@ -38,46 +38,31 @@ public class GameLayer {
 
 		return null;
 	}
-
-	private int getLastGameId() {
-		String query = "SELECT * FROM game ORDER BY id DESC LIMIT 1;";
-
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-
-			int gameId = 0;
-			while (rs.next()) {
-				gameId = rs.getInt("id");
-			}
-
-			rs.close();
-			stmt.close();
-
-			return gameId;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-
+	
 	public Game createGame() {
-		int newGameId = getLastGameId() + 1;
-		String query = "INSERT INTO game VALUES(?);";
+		int newGameId = 0;
+		String query = "INSERT INTO game VALUES();";
 		String queryTwo = "CALL InsertGameObjects(?);";
 		
 		try {
-			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt(1, newGameId);
 			
-			stmt.execute();
+			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.executeUpdate(); 
+
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+			    newGameId = rs.getInt(1);
+			}
+			rs.close();
 			stmt.close();
+			
 			
 			PreparedStatement stmtTwo = conn.prepareStatement(queryTwo);
 			stmtTwo.setInt(1, newGameId);
 			
 			stmtTwo.execute();
 			stmtTwo.close();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

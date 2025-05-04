@@ -7,7 +7,7 @@ Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Vragen of je het zeker weet als je een player delete
-Database & Code performance
+Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
 (Alleen de games pakken van dit apparaat/device, als het kan)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -51,4 +51,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Alle Auto-Increments resetten
+Nu:
