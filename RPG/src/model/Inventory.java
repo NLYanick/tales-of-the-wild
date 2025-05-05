@@ -14,17 +14,28 @@ public class Inventory {
 	}
 	
 	public void addItem(Item item) {
-		items.add(item);
+		if(items.size() < SIZE)
+			items.add(item);
 		if(items.size() >= SIZE) {
 			isFull = true;
 		}
 	}
 	
 	public void removeItem(Item item) {
-		items.remove(item);
+		if(items.size() > 0)
+			items.remove(item);
 		if(items.size() < SIZE) {
 			isFull = false;
 		} 
+	}
+	
+	public Item getItemWithId(int id) {
+		for(Item item : items) {
+			if(item.getId() == id) {
+				return item;
+			}
+		}
+		return null;
 	}
 	
 	public boolean isFull() {

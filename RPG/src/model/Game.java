@@ -6,6 +6,8 @@ import controller.MainController;
 
 public class Game {
 
+	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350;
+	
 	private int id;
 	private boolean gameIsPaused;
 	
@@ -23,8 +25,8 @@ public class Game {
 	public Game(int id) {
 		this.id = id;
 		
-		backgroundLocation = new BackgroundLocation(-Player.DEFAULT_LOCATION.getX() + MainController.BACKGROUND_PLAYER_DIFFERENCE, 
-				-Player.DEFAULT_LOCATION.getY() + MainController.BACKGROUND_PLAYER_DIFFERENCE);
+		backgroundLocation = new BackgroundLocation(-Player.DEFAULT_LOCATION.getX() + BACKGROUND_PLAYER_DIFFERENCE, 
+				-Player.DEFAULT_LOCATION.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 	}
 	
 	public void startGame() {
@@ -90,6 +92,7 @@ public class Game {
 	public void moveBackgroundAndPlayer(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
+		
 		if(canWalk(dir) || inBuilding) {
 			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
 				controller.moveBuildingView(dir);
@@ -160,6 +163,12 @@ public class Game {
 		controller.teleportImages();
 	}
 	
+	public void setBackgroundLocation() {
+		setBackgroundX(-getPlayerX() + BACKGROUND_PLAYER_DIFFERENCE);
+		setBackgroundY(-getPlayerY() + BACKGROUND_PLAYER_DIFFERENCE);
+		controller.moveBackground(getBackgroundX(), getBackgroundY());
+	}
+	
 	public void resumeNearbyNPCThread() {
 		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
 
@@ -179,6 +188,11 @@ public class Game {
 		} else if(item != null) {
 			controller.addItemViewToInventoryView(item);
 		}
+	}
+	
+	public void addItemToPlayerInventory(Item item) {
+		player.addItemToInventory(item);
+		item.resetLocation();
 	}
 	
 	// ---------- NPCs ----------
@@ -403,6 +417,14 @@ public class Game {
 	
 	public void setPlayerMovingDirection(Direction dir) {
 		player.setMovingDirection(dir);
+	}
+	
+	public Item getPlayerInventoryItemWithId(int id) {
+		return player.getInventoryItemWithId(id);
+	}
+	
+	public void dropItemFromPlayerInventory(Item item) {
+		player.removeItemFromInventory(item);
 	}
 	
 	

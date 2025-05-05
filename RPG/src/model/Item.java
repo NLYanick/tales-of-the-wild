@@ -35,7 +35,7 @@ public class Item {
 	}
 	
 	public void setLocation(Location location) {
-		this.location = location;
+		this.location = new Location(location.getX(), location.getY());
 	}
 	
 	public Location getViewLocation() {

@@ -120,6 +120,10 @@ public class DatabaseController {
 	public void setItemLocation(Item item, Location location) {
 		itemLayer.setItemLocation(item, location);
 	}
+	
+	public void dropItem(Item item, Location location) {
+		itemLayer.dropItem(item, location);
+	}
 
 	public void addItemToPlayer(Item item, Player player) {
 		itemLayer.addItemToPlayer(item, player);

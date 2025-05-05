@@ -104,6 +104,14 @@ public class MainScene extends Scene {
 		root.setCenter(menusPane);
 	}
 	
+	public void reloadMenusPaneAndPlayerView() {
+		root.getChildren().remove(playerView);
+		root.getChildren().add(playerView);
+		
+		root.setCenter(null);
+		root.setCenter(menusPane);
+	}
+	
 	public void addLoadGameView() {
 		loadGameView = new LoadGameView(this);
 		root.setCenter(null);
@@ -170,6 +178,11 @@ public class MainScene extends Scene {
 	
 	public void removeItemView(ItemView itemView) {
 		root.getChildren().remove(itemView);
+	}
+	
+	public void dropItem(ItemView itemView) {
+		itemView.setOnMouseClicked(null);
+		controller.dropItem(itemView);
 	}
 	
 	public void openInventory() {
@@ -258,6 +271,10 @@ public class MainScene extends Scene {
 		} else {
 			addDialogView("Your Inventory is full");
 		}
+	}
+	
+	public void removeItemViewFromInventoryView(ItemView itemView) {		
+		inventoryView.removeItemView(itemView);
 	}
 	
 	public void saveGame() {

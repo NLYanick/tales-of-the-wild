@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -17,8 +19,8 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import model.Location;
 
 public class InventoryView extends BorderPane {
 	
@@ -80,7 +82,6 @@ public class InventoryView extends BorderPane {
 	
 	private void setUpInventorySlots() {
 		
-		
 		int rectSize = 64;
 		int rectStrokeWidth = 5;
 		int gapSize = 10;
@@ -95,11 +96,8 @@ public class InventoryView extends BorderPane {
 		
 		for(int x = 0; x < GRIDWIDTH; x++) {
 			for(int y = 0; y < GRIDHEIGHT; y++) {
-				Rectangle rect = new Rectangle(rectSize, rectSize);
-				rect.setFill(Color.TRANSPARENT);
-				rect.setStroke(Color.GRAY);
-				rect.setStrokeWidth(rectStrokeWidth);
-				inventorySlots.add(rect, x, y);
+				InventorySlot slot = new InventorySlot(new Location(x, y));
+				inventorySlots.add(slot, x, y);
 			}
 		}
 		
@@ -138,37 +136,96 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
+	private void remakeInventorySlots() {		
+		for(Node node : inventorySlots.getChildren()) {
+			InventorySlot slot = (InventorySlot) node;
+			slot.removeItemView();
+		}
+		
+		newX = 0; 
+		newY = 0;
+		addItemViewsToInventory();
+	}
+	
 	public void requestFocusForButton() {
 		close.requestFocus();
 	}
 	
 	public void addItemView(ItemView itemView) {
+		itemViews.add(itemView);
+		addItemViewToInventory(itemView);
+	}
+	
+	public void addItemViewToInventory(ItemView itemView) {
+		if(newY >= GRIDHEIGHT && newX >= GRIDWIDTH) {
+			return;
+		}
+		
 		if(newX >= GRIDWIDTH) {
 			newX = 0;
 			newY++;
 		}
 		
-		inventorySlots.add(itemView, newX, newY);
+		itemView.setOnMouseClicked(e -> selectItem(e, itemView));
+		InventorySlot slot = getInventorySlotByLocation();
+		slot.setItemView(itemView);
+		
 		newX++;
 		
 	}
 	
+	private void selectItem(MouseEvent e, ItemView itemView) {
+		dropItem(itemView);
+	}
+	
+	private void dropItem(ItemView itemView) {
+		scene.dropItem(itemView);
+		itemViews.remove(itemView);
+		remakeInventorySlots();
+	}
+	
+	private InventorySlot getInventorySlotByLocation() {
+		for(Node node : inventorySlots.getChildren()) {
+			InventorySlot slot = (InventorySlot) node;
+			if(slot.getX() == newX && slot.getY() == newY) {
+				return slot;
+			}
+		}
+		return null;
+	}
+	
+	private InventorySlot getInventorySlotWithItemView(ItemView itemView) {
+		for(Node node : inventorySlots.getChildren()) {
+			InventorySlot slot = (InventorySlot) node;
+			if(slot.getItemView() == itemView) {
+				return slot;
+			}
+		}
+		return null;
+	}
+	
 	public void removeItemView(ItemView itemView) {
-		inventorySlots.getChildren().remove(itemView);
+		getInventorySlotWithItemView(itemView).removeItemView();
+		
+		newX--;
+		if(newX < 0) {
+			newX = GRIDWIDTH - 1;
+			newY = newY <= 0 ? 0 : (newY - 1);
+		}
 	}
 	
 	public void setItemViews(ArrayList<ItemView> itemViews) {
 		this.itemViews = itemViews;
 		
-		addItemViews();
+		addItemViewsToInventory();
 	}
 	
-	private void addItemViews() {
+	private void addItemViewsToInventory() {
 		if(itemViews == null || itemViews.size() == 0) {
 			return;
 		}
-		for(ItemView itemView : itemViews) {
-			addItemView(itemView);
+		for(int i = 0; i < itemViews.size(); i++) { // Not foreach because ConcurrentModificationException
+			addItemViewToInventory(itemViews.get(i));
 		}
 	}
 	

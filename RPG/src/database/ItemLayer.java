@@ -91,7 +91,24 @@ public class ItemLayer {
 			stmt.setInt(2, location.getY());
 			stmt.setInt(3, item.getId());
 		    
-			stmt.execute();
+			stmt.executeUpdate();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void dropItem(Item item, Location location) {
+		
+		String query = "UPDATE item SET x = ?, y = ?, player_name = NULL WHERE id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, location.getX());
+			stmt.setInt(2, location.getY());
+			stmt.setInt(3, item.getId());
+		    
+			stmt.executeUpdate();
 			stmt.close();
 		} catch(SQLException e) {
 			e.printStackTrace();

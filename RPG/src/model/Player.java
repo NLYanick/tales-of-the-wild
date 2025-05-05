@@ -16,6 +16,8 @@ public class Player extends Entity {
 		setX(location.getX());
 		setY(location.getY());
 		
+		movingDirection = Direction.SOUTH;
+		
 		inventory = new Inventory();
 	}
 	
@@ -101,6 +103,10 @@ public class Player extends Entity {
 		for(Item item : items) {
 			addItemToInventory(item);
 		}
+	}
+	
+	public Item getInventoryItemWithId(int id) {
+		return inventory.getItemWithId(id);
 	}
 	
 	public ArrayList<Item> getItemsOfInventory() {

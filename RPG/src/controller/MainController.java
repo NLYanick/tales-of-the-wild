@@ -25,8 +25,6 @@ import view.NPCView;
 @SuppressWarnings("static-access")
 public class MainController {
 	
-	public static final int BACKGROUND_PLAYER_DIFFERENCE = 350;
-	
 	private Game game;
 	
 	private ApplicationController appController;
@@ -82,8 +80,8 @@ public class MainController {
 				Item item = items.get(i);
 				if(playerItem.getId() == item.getId()) {
 					ItemView itemView = itemsWithViews.get(item);
+					scene.removeItemView(itemView);
 					itemViews.add(itemView);
-					items.remove(item);
 				}
 			}
 		}
@@ -94,6 +92,7 @@ public class MainController {
 	public void moveBuildingView(Direction dir) {
 		scene.moveBuildingView(dir);
 	}
+	
 	public void moveBackground(int backgroundX, int backgroundY) {
 		scene.moveBackground(backgroundX, backgroundY, isFullScreen());
 	}
@@ -111,12 +110,18 @@ public class MainController {
 	}
 	
 	public void teleportImages() {
-		game.setBackgroundX(-game.getPlayerX() + BACKGROUND_PLAYER_DIFFERENCE);
-		game.setBackgroundY(-game.getPlayerY() + BACKGROUND_PLAYER_DIFFERENCE);
-		moveBackground(game.getBackgroundX(), game.getBackgroundY());
+		
+		game.setBackgroundLocation();
 		
 		int bgX = game.getBackgroundX();
 		int bgY = game.getBackgroundY();
+		
+		teleportNPCImages(bgX, bgY);
+		
+		teleportItemImages(bgX, bgY);
+	}
+	
+	private void teleportNPCImages(int bgX, int bgY) {
 		for(NPC npc : game.getNPCs()) {
 			NPCView npcView = npcsWithViews.get(npc);
 			npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
@@ -125,9 +130,12 @@ public class MainController {
 			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
 			moveNPCViewWithScreen(npc);
 		}
+	}
+	
+	private void teleportItemImages(int bgX, int bgY) {
 		for(Item item : game.getItems()) {
 			ItemView itemView = itemsWithViews.get(item);
-			item.setViewLocation(new Location(bgX + (int) item.getX(), bgY + (int) item.getY()));
+			item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
 			itemView.move(item.getViewLocation());
 			moveItemViewWithScreen(item);
 		}
@@ -235,15 +243,38 @@ public class MainController {
 	}
 	
 	public void addItemToPlayerInventory(Item item) {
-		Player player = game.getPlayer();
-		player.addItemToInventory(item);
-		item.resetLocation();
-		databaseController.addItemToPlayer(item, player);
+		game.addItemToPlayerInventory(item);
+		databaseController.addItemToPlayer(item, game.getPlayer());
 	}
 	
-	public void dropItem(Item item) {
-		// TODO
-		databaseController.setItemLocation(item, game.getPlayerLocation());
+	public void dropItem(ItemView itemView) {
+		Item item = getItemFromView(itemView);
+		
+		if(item != null) {
+			Location playerLocation = getPlayerLocation();
+			item.setLocation(playerLocation);
+			game.dropItemFromPlayerInventory(game.getPlayerInventoryItemWithId(item.getId()));
+			databaseController.dropItem(item, playerLocation);
+			
+			item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
+			itemView.move(item.getViewLocation());
+			
+			scene.removeItemViewFromInventoryView(itemView);
+			scene.addItemView(itemView);
+			
+			moveItemViewWithScreen(item);
+			
+			scene.reloadMenusPaneAndPlayerView();
+		}
+	}
+	
+	private Item getItemFromView(ItemView itemView) {
+		for(Item item : itemsWithViews.keySet()) {
+			if(itemsWithViews.get(item) == itemView) {
+				return item;
+			}
+		}
+		return null;
 	}
 	
 	public void addDialogView(List<String> dialog, ArrayList<Item> items) {

@@ -6,8 +6,11 @@ Items droppen
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
+Niet alleen NPC Dialogs met items moeten skipbaar kunnen zijn
 Vragen of je het zeker weet als je een player delete
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
+Mooie kleuren en designs
+Shops maken
 (Alleen de games pakken van dit apparaat/device, als het kan)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -36,6 +39,7 @@ In pauze en in-game menu de eerste pijl niet hardcoded maken
 In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
 Focus bij startview, loadgameview & newgameview
+Code verbeteren
 
 
 Kan mogelijk dingen breken:
@@ -51,4 +55,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu:
+Nu: De geselecteerde items droppen 
