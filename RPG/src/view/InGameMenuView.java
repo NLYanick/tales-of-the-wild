@@ -193,7 +193,9 @@ public class InGameMenuView extends BorderPane {
 	}
 	
 	private void handleKeyInput(KeyEvent e) {
-		switch(e.getCode()) {
+		KeyCode code = e.getCode();
+		
+		switch(code) {
 		case UP:
 			moveArrow("Up", e);
 			break;
@@ -201,6 +203,14 @@ public class InGameMenuView extends BorderPane {
 			moveArrow("Down", e);
 			break;
 			default: 
+		}
+		
+		if(code == KeyCode.TAB) {
+			if (e.isShiftDown()) {
+	            moveArrow("Up", e);
+	        } else {
+	            moveArrow("Down", e);
+	        }
 		}
 	}
 	
@@ -212,8 +222,8 @@ public class InGameMenuView extends BorderPane {
 	
 	private void moveArrow(String direction, KeyEvent event) {
 		
-		event.consume();
-		setButtonFocus(direction);
+//		event.consume();
+//		setButtonFocus(direction);
 		
 		int toRight = 10;
 		

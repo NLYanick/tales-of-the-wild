@@ -181,12 +181,12 @@ public class MainScene extends Scene {
 	}
 	
 	public void dropItem(ItemView itemView) {
-		itemView.setOnMouseClicked(null);
 		controller.dropItem(itemView);
 	}
 	
 	public void openInventory() {
 		menusPane.getChildren().add(inventoryView);
+		menusPane.getChildren().remove(inGameMenuView);
 		inventoryView.requestFocusForButton();
 		inventoryIsOpen = true;
 		setCursor(Cursor.DEFAULT);
@@ -194,6 +194,7 @@ public class MainScene extends Scene {
 	
 	public void removeInventoryView() {
 		menusPane.getChildren().remove(inventoryView);
+		menusPane.getChildren().add(inGameMenuView);
 		inGameMenuView.requestFocusForButtons();
 		inventoryIsOpen = false;
 		setCursor(Cursor.NONE);

@@ -61,8 +61,8 @@ public class MovementController {
 	};
 	
 	private void addKeyPressedListener() {
-		 keyPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
+		 keyPressed.addListener(((observableValue, oldValue, isPressed) -> {
+			 if(isPressed){
 				 timer.start();
 			 } else {	                
 				 controller.setPlayerStandingStillAnimation(controller.getMovingDirection());
@@ -70,23 +70,23 @@ public class MovementController {
 			 }
 		 }));
 		 
-		 upPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
+		 upPressed.addListener(((observableValue, oldValue, isPressed) -> {
+			 if(isPressed){
 				 controller.setPlayerImage(Direction.SOUTH);
 			 } 
 		 }));
-		 downPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
+		 downPressed.addListener(((observableValue, oldValue, isPressed) -> {
+			 if(isPressed){
 				 controller.setPlayerImage(Direction.NORTH);
 			 } 
 		 }));
-		 rightPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
+		 rightPressed.addListener(((observableValue, oldValue, isPressed) -> {
+			 if(isPressed){
 				 controller.setPlayerImage(Direction.WEST);
 			 } 
 		 }));
-		 leftPressed.addListener(((observableValue, isPressed, t1) -> {
-			 if(!isPressed){
+		 leftPressed.addListener(((observableValue, oldValue, isPressed) -> {
+			 if(isPressed){
 				 controller.setPlayerImage(Direction.EAST);
 			 } 
 		 }));

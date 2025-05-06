@@ -1,5 +1,7 @@
 package view;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -16,10 +18,11 @@ public class InventorySlot extends BorderPane {
 	private ItemView itemView;
 	
 	private Location location; 
-	private boolean selected;
+	private BooleanProperty selected;
 	
 	public InventorySlot(Location location) {
 		this.location = location;
+		selected = new SimpleBooleanProperty();
 		
 		setUpLayout();
 	}
@@ -32,6 +35,14 @@ public class InventorySlot extends BorderPane {
 		slot.setPrefSize(rectSize, rectSize);
 		slot.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		slot.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
+		
+		selected.addListener(((observableValue, oldValue, isSelected) -> {
+			if(isSelected) {
+				slot.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth)))); 
+			} else {
+				slot.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
+			}
+		}));
 		
 		setCenter(slot);
 	}
@@ -59,11 +70,11 @@ public class InventorySlot extends BorderPane {
 	}
 
 	public boolean isSelected() {
-		return selected;
+		return selected.get();
 	}
 
 	public void setSelected(boolean selected) {
-		this.selected = selected;
+		this.selected.set(selected);
 	}
 	
 }
