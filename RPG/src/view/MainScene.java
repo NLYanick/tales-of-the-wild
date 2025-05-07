@@ -72,6 +72,8 @@ public class MainScene extends Scene {
 		setUpStartUpView();
 		setUpListeners();
 		
+		getStylesheets().add("CSS/stylesheet.css");
+		
 		setRoot(root);
 	}
 	

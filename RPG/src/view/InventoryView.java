@@ -2,9 +2,7 @@ package view;
 
 import java.util.ArrayList;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -12,14 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import model.Location;
 
 public class InventoryView extends BorderPane {
@@ -87,17 +80,7 @@ public class InventoryView extends BorderPane {
 	
 	private void setUpInventorySlots() {
 		
-		int rectSize = 64;
-		int rectStrokeWidth = 5;
 		int gapSize = 10;
-		
-		int insets = 30;
-		int width = GRIDWIDTH * rectSize + (GRIDWIDTH - 1) * gapSize + GRIDWIDTH * rectStrokeWidth + insets * 2;
-		int height = GRIDHEIGHT * rectSize + (GRIDHEIGHT - 1) * gapSize + GRIDHEIGHT * rectStrokeWidth + insets * 2;
-		
-		inventorySlots.setMinSize(width, height);
-		inventorySlots.setMaxSize(width, height);
-		inventorySlots.setPadding(new Insets(insets));
 		
 		for(int x = 0; x < GRIDWIDTH; x++) {
 			for(int y = 0; y < GRIDHEIGHT; y++) {
@@ -109,38 +92,24 @@ public class InventoryView extends BorderPane {
 		
 		inventorySlots.setHgap(gapSize);
 		inventorySlots.setVgap(gapSize);
-		inventorySlots.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
-		inventorySlots.setBorder(new Border(new BorderStroke(Color.LIGHTSLATEGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
+		inventorySlots.getStyleClass().add("inventory-plate");
+		
+		inventorySlots.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+		inventorySlots.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+		inventorySlots.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 		
 		BorderPane.setAlignment(inventorySlots, Pos.CENTER);
 	}
 	
 	private Button getButton(String text) {
 		
-		int fontSize = 30;
-		int buttonWidth = 150;
-		int buttonHeight = buttonWidth/2;
-		int buttonBorderWidth = 3;
-		
 		Button button = new Button(text);
-		button.setMinSize(buttonWidth, buttonHeight);
 		
-		button.setFont(Font.font("Times New Roman", fontSize));
 		button.setTextFill(Color.WHITE);
-		button.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
-		button.setCursor(Cursor.HAND);
+		button.getStyleClass().add("menu-button");
 		
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
-		
-		button.focusedProperty().addListener((ob, o, isFocused) -> {
-			if(isFocused) {
-				button.setBorder(new Border(new BorderStroke(Color.DARKSLATEBLUE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
-			} else {
-				button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
-			}
-		});
-		
+				
 		return button;
 	}
 	

@@ -222,8 +222,8 @@ public class InGameMenuView extends BorderPane {
 	
 	private void moveArrow(String direction, KeyEvent event) {
 		
-//		event.consume();
-//		setButtonFocus(direction);
+		event.consume();
+		setButtonFocus(direction);
 		
 		int toRight = 10;
 		

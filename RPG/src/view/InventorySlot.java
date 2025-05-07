@@ -2,14 +2,7 @@ package view;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.paint.Color;
 import model.Location;
 
 public class InventorySlot extends BorderPane {
@@ -27,20 +20,17 @@ public class InventorySlot extends BorderPane {
 		setUpLayout();
 	}
 	
-	private void setUpLayout() {
-		int rectSize = 64;
-		int rectStrokeWidth = 5;
-		
+	private void setUpLayout() {		
 		slot = new BorderPane();
-		slot.setPrefSize(rectSize, rectSize);
-		slot.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
-		slot.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
+		slot.getStyleClass().add("inventory-slot");
 		
 		selected.addListener(((observableValue, oldValue, isSelected) -> {
 			if(isSelected) {
-				slot.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth)))); 
+				slot.getStyleClass().add("selected-inventory-slot");
+				slot.getStyleClass().remove("inventory-slot");
 			} else {
-				slot.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(rectStrokeWidth))));
+				slot.getStyleClass().add("inventory-slot");
+				slot.getStyleClass().remove("selected-inventory-slot");
 			}
 		}));
 		

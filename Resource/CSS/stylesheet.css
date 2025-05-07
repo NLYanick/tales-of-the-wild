@@ -1,0 +1,55 @@
+.menu-button {
+    -fx-border-color: #FFFFFF;
+}
+
+.menu-button:focused {
+    -fx-border-color: #483D8B ;
+}
+
+.menu-button {
+	-fx-background-color: #000000;
+	-fx-background-radius: 10;
+	-fx-border-radius: 10;
+    -fx-border-width: 3;
+    -fx-border-color: #FFFFFF;
+    
+    -fx-min-width: 150;
+    -fx-min-height: 75;
+    -fx-padding: 0 20px 0 20px;
+    
+    -fx-font-size: 30px;
+    -fx-font-family: "Times New Roman";
+    fx-text-fill: #FFFFFF;
+    
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+	-fx-background-color: #323232;
+}
+
+.inventory-plate {
+	-fx-background-color: #7AD534; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+}
+
+.inventory-slot {
+	-fx-border-color: gray;
+}
+
+.selected-inventory-slot {
+	-fx-border-color: #FFFFFF;
+}
+
+.inventory-slot, .selected-inventory-slot {
+	-fx-background-color: rgba(80, 90, 95, 0.5);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 3;
+    -fx-min-width: 64;
+    -fx-max-width: 64;
+    -fx-min-height: 64;
+    -fx-max-height: 64;
+}
