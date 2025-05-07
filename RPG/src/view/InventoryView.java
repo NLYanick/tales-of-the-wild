@@ -105,9 +105,7 @@ public class InventoryView extends BorderPane {
 		
 		Button button = new Button(text);
 		
-		button.setTextFill(Color.WHITE);
 		button.getStyleClass().add("menu-button");
-		
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
 				
 		return button;
