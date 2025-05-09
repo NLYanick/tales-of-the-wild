@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Location;
 
@@ -22,6 +26,7 @@ public class InventoryView extends BorderPane {
 	
 	private MainScene scene;
 	private GridPane inventorySlots;
+	private BorderPane infoBox;
 	
 	private Button close;
 	private Button dropAll;
@@ -37,21 +42,20 @@ public class InventoryView extends BorderPane {
 	}
 	
 	private void setUpLayout() {
-		inventorySlots = new GridPane();
-		setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
+		setBackground(new Background(new BackgroundImage(new Image("Images/Background/Grass/Grass.png"), null, null, null, null)));
 		
 		BorderPane leftPane = getLeftPane();
 		setLeft(leftPane);
-		
-		BorderPane rightPane = getRightPane();
-		setRight(rightPane);
-		
+				
 		setUpInventorySlots();
-		setCenter(inventorySlots);
+		setUpInfoBox();
+		HBox boxes = getInventoryBoxes();
+		setCenter(boxes);
 	}
 	
 	private BorderPane getLeftPane() {
 		int width = 300;
+		int spacing = 30;
 		
 		BorderPane leftPane = new BorderPane();
 		leftPane.setMinWidth(width);
@@ -59,26 +63,22 @@ public class InventoryView extends BorderPane {
 		
 		close = getButton("Close");
 		close.setOnAction(e -> scene.removeInventoryView());
-		leftPane.setCenter(close);
+		
+		dropAll = getButton("Drop Items");
+		dropAll.setOnAction(e -> dropAllSelectedItems());
+		
+		VBox buttonsPane = new VBox(close, dropAll);
+		buttonsPane.setSpacing(spacing);
+		buttonsPane.setAlignment(Pos.CENTER);
+		
+		leftPane.setCenter(buttonsPane);
 		
 		return leftPane;
 	}
 	
-	private BorderPane getRightPane() {
-		int width = 300;
-		
-		BorderPane rightPane = new BorderPane();
-		rightPane.setMinWidth(width);
-		rightPane.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
-		
-		dropAll = getButton("Drop Items");
-		dropAll.setOnAction(e -> dropAllSelectedItems());
-		rightPane.setCenter(dropAll);
-		
-		return rightPane;
-	}
-	
 	private void setUpInventorySlots() {
+		
+		inventorySlots = new GridPane();
 		
 		int gapSize = 10;
 		
@@ -92,13 +92,29 @@ public class InventoryView extends BorderPane {
 		
 		inventorySlots.setHgap(gapSize);
 		inventorySlots.setVgap(gapSize);
-		inventorySlots.getStyleClass().add("inventory-plate");
+		inventorySlots.getStyleClass().add("inventory-slots-box");
 		
 		inventorySlots.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
 		inventorySlots.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-		inventorySlots.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+		inventorySlots.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);		
+	}
+	
+	private void setUpInfoBox() {
+		infoBox = new BorderPane();
 		
-		BorderPane.setAlignment(inventorySlots, Pos.CENTER);
+		// TODO
+		
+		infoBox.getStyleClass().add("inventory-info-box");
+	}
+	
+	private HBox getInventoryBoxes() {
+		int spacing = 80;
+		
+		HBox boxes = new HBox(inventorySlots, infoBox);
+		boxes.setSpacing(spacing);
+		boxes.setAlignment(Pos.CENTER);
+		
+		return boxes;
 	}
 	
 	private Button getButton(String text) {

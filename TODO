@@ -18,6 +18,8 @@ Shops maken
 
 
 Minder Prioriteit:
+Images in Database
+Item oppakken geeft ItemViewDialog
 Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
 Building code fixen
@@ -29,6 +31,7 @@ Dialogs en ItemDialogs mooi maken
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
+Inventory responsive maken
 Met Tab kan je knoppen besturen :(
 Kijken naar naam lengte (sommige te lange namen gaan uit het frame)
 Plaatjes met z-volgorde (bovenste plaatje moet voorop)
@@ -47,6 +50,7 @@ Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
 In pauze en in-game menu is de eerste pijl hardcoded
 Pas in de controller worden items aan npcs geven, npcs in buldings stoppen, enz. gedaan
+Info Box (in InventoryView) grote is hardcoded
 
 
 TODO Images:
@@ -56,4 +60,5 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Items drag and drop | Styling, Design
+Nu: Items drag and drop | Styling, Design | 
+Met focus 1 item tegelijk selecteren en info in rechter pane zetten (focus in css voor border van slot)

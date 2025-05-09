@@ -3,7 +3,6 @@ package view;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,7 +34,6 @@ public class PauseMenuView extends BorderPane {
 	private BorderPane savedPane;
 	
 	private int buttonWidth = 150;
-	private int buttonHeight = buttonWidth/2;
 	private int buttonSpacing = 30;
 	private int buttonBorderWidth = 3;
 	
@@ -111,18 +109,9 @@ public class PauseMenuView extends BorderPane {
 	}
 	
 	private Button getButton(String text) {
-		
-		int fontSize = 24;
-		
+				
 		Button button = new Button(text);
-		button.setPrefSize(buttonWidth, buttonHeight);
-		
-		button.setFont(Font.font("Times New Roman", fontSize));
-		button.setTextFill(Color.WHITE);
-		button.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		button.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
-		button.setCursor(Cursor.HAND);
-		
+		button.getStyleClass().add("menu-button");
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
 		
 		return button;

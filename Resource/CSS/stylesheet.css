@@ -8,16 +8,16 @@
 
 .menu-button {
 	-fx-background-color: #000000;
-	-fx-background-radius: 10;
-	-fx-border-radius: 10;
-    -fx-border-width: 3;
+	-fx-background-radius: 10px;
+	-fx-border-radius: 8px;
+    -fx-border-width: 3px;
     -fx-border-color: #FFFFFF;
     
-    -fx-min-width: 150;
-    -fx-min-height: 75;
+    -fx-min-width: 150px;
+    -fx-min-height: 75px;
     -fx-padding: 0 20px 0 20px;
     
-    -fx-font-size: 30px;
+    -fx-font-size: 24px;
     -fx-font-family: "Times New Roman";
     -fx-text-fill: #FFFFFF;
     
@@ -28,11 +28,33 @@
 	-fx-background-color: #222222;
 }
 
-.inventory-plate {
+
+.inventory-title {
+	-fx-font-size: 44px;
+    -fx-font-family: "Times New Roman";
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 20px 0 20px;
+}
+
+.inventory-slots-box {
 	-fx-background-color: #7AD534; 
 	-fx-background-radius: 30px;
     -fx-padding: 50px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-max-height: 534px;
+}
+
+.inventory-info-box {
+	-fx-background-color: #7AD534; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-min-width: 534px;
+    -fx-max-width: 534px;
+    -fx-min-height: 534px;
+    -fx-max-height: 534px;
 }
 
 .inventory-slot {
@@ -45,11 +67,11 @@
 
 .inventory-slot, .selected-inventory-slot {
 	-fx-background-color: rgba(80, 90, 95, 0.5);
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-border-width: 3;
-    -fx-min-width: 64;
-    -fx-max-width: 64;
-    -fx-min-height: 64;
-    -fx-max-height: 64;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 3px;
+    -fx-min-width: 64px;
+    -fx-max-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-height: 64px;
 }
