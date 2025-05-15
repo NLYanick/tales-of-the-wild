@@ -7,8 +7,11 @@ import model.Location;
 
 public class ItemView extends BorderPane {
 
-	public ItemView(Location location, String url) {
+	private String name;
+	
+	public ItemView(Location location, String url, String name) {
 		setImage(url);
+		this.name = name;
 		move(location);
 	}
 	
@@ -22,6 +25,10 @@ public class ItemView extends BorderPane {
 	public void move(Location location) {
 		setLayoutX(location.getX());
 		setLayoutY(location.getY());
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 }

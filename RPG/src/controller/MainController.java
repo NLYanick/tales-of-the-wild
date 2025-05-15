@@ -64,7 +64,7 @@ public class MainController {
 	}
 	
 	public void addItemView(Item item) {
-		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
+		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl(), item.getName());
 		itemsWithViews.put(item, itemView);
 		
 		if(item.getNPCId() == 0) {			

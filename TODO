@@ -2,7 +2,6 @@ Scene switcher met Startup & Game
 Background maken 
 Inventory verbeteren
 Map toevoegen
-Items droppen
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
@@ -28,6 +27,7 @@ Meer Controllers | Minder in MainController & Game klasse opschonen
 MainScene klasse opschonen
 Validatie op naam (bij aanmaken game)
 Dialogs en ItemDialogs mooi maken
+Item plekken onthouden in Inventory
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
@@ -60,5 +60,6 @@ BrickHouse image fixen en voelt plat & binnenkant
 Misschien gaan de stilstaan animaties iets te laag
 
 
-Nu: Items drag and drop | Styling, Design | 
-Met focus 1 item tegelijk selecteren en info in rechter pane zetten (focus in css voor border van slot)
+Nu: Styling, Design | Focus van Pause menu mag niet overgaan naar andere dingen (bv inventory) | 
+Inventory titel moet knop knop alignment niet aanpassen Items moeten recht onder je droppen | 
+item moet een description | Pijl in PauseMenuView moet meegaan met TAB em SHIFT TAB |

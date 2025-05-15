@@ -239,8 +239,10 @@ public class PauseMenuView extends BorderPane {
 		Text textE = getText("E - Interact");
 		Text textEsc = getText("Esc - Toggle Pause Menu");
 		Text textI = getText("I - Toggle In Game Menu");
+		Text textQ = getText("Q - Drop Selected Item");
+		Text textAlt = getText("Alt - Toggle Button Focus (Only in some views)");
 		
-		textBoxOne.getChildren().addAll(textE, textEsc, textI);
+		textBoxOne.getChildren().addAll(textE, textEsc, textI, textQ, textAlt);
 		
 		VBox textBoxTwo = new VBox(textSpacing);
 		textBoxTwo.setAlignment(Pos.CENTER_LEFT);

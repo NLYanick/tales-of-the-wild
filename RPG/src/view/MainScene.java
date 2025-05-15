@@ -435,8 +435,8 @@ public class MainScene extends Scene {
 	
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
-		// TODO Remove 
 		case T:
+			// TODO Remove 
 			if(gameHasLoaded)
 				controller.teleportPlayer(new Location(5100, 3500));
 			break;
@@ -453,6 +453,11 @@ public class MainScene extends Scene {
 		case I:
 			if(gameHasLoaded && !pauseMenuIsOpen && !playerIsInDialog && !inventoryIsOpen) {
 				handleInGameMenu();
+			}
+			break;
+		case Q:
+			if(gameHasLoaded && !pauseMenuIsOpen && inventoryIsOpen) {
+				inventoryView.dropSelectedItem();
 			}
 			break;
 		case F11:

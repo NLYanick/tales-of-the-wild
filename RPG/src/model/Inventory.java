@@ -16,17 +16,15 @@ public class Inventory {
 	public void addItem(Item item) {
 		if(items.size() < SIZE)
 			items.add(item);
-		if(items.size() >= SIZE) {
+		else 
 			isFull = true;
-		}
 	}
 	
 	public void removeItem(Item item) {
 		if(items.size() > 0)
 			items.remove(item);
-		if(items.size() < SIZE) {
+		if(items.size() < SIZE)
 			isFull = false;
-		} 
 	}
 	
 	public Item getItemWithId(int id) {

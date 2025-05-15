@@ -11,11 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -97,11 +93,9 @@ public class InGameMenuView extends BorderPane {
 		
 		int width = 1000;
 		int height = 150;
-		int borderWidth = 10;
 		
 		BorderPane playerPane = new BorderPane();
-		playerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		playerPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
+		playerPane.getStyleClass().add("ingame-inventory-pane");
 		playerPane.setMinSize(width, height);
 		playerPane.setMaxSize(width, height);
 		
@@ -134,14 +128,12 @@ public class InGameMenuView extends BorderPane {
 
 	private BorderPane getButtonsMenu() {
 		
-		int borderWidth = 10;
 		int width = 400;
 		int height = 500;
 		
 		BorderPane buttonsMenu = new BorderPane();
 		
-		buttonsMenu.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		buttonsMenu.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidth))));
+		buttonsMenu.getStyleClass().add("ingame-inventory-pane");
 		buttonsMenu.setMinSize(width, height);
 		buttonsMenu.setMaxSize(width, height);
 		
