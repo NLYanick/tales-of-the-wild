@@ -1,7 +1,6 @@
 package view;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -38,17 +37,13 @@ public class PauseMenuView extends BorderPane {
 	private int buttonBorderWidth = 3;
 	
 	private int imageDifference = 4;
-	private int buttonCounter = 0;
-	
-	private Button[] buttons;
-	
+		
 	private ImageView arrowView;
 	
 	public PauseMenuView(MainScene scene) {
 		this.scene = scene;
 		
 		setUpLayout();
-		setOnKeyPressed(e -> handleKeyInput(e));
 	}
 	
 	private void setUpLayout() {
@@ -61,8 +56,6 @@ public class PauseMenuView extends BorderPane {
 		buttonsPane = createButtonsVBox();
 		controlsPane = createControlsPane();
 		
-		buttons = new Button[buttonsPane.getChildren().size()];
-		fillButtonsArray();
 		pauseMenu.setCenter(buttonsPane);
 		
 		arrowView = getArrow();
@@ -87,14 +80,6 @@ public class PauseMenuView extends BorderPane {
 		savedPane.setMinWidth(minWidth);
 		savedPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
 		
-	}
-	
-	private void fillButtonsArray() {
-		int i = 0;
-		for(Node node : buttonsPane.getChildren()) {
-			buttons[i] = (Button) node;
-			i++;
-		}
 	}
 	
 	private ImageView getArrow() {
@@ -129,15 +114,15 @@ public class PauseMenuView extends BorderPane {
 		
 		Button controlsButton = getButton("Controls");
 		controlsButton.setOnAction(e -> openControls());
-		addHoverListenerToButton(controlsButton);
+		addListenersToButton(controlsButton);
 		
 		Button saveButton = getButton("Save");
 		saveButton.setOnAction(e -> saveGame());
-		addHoverListenerToButton(saveButton);
+		addListenersToButton(saveButton);
 		
 		Button exitButton = getButton("Exit Game");
 		exitButton.setOnAction(e -> exit());
-		addHoverListenerToButton(exitButton);
+		addListenersToButton(exitButton);
 		
 		buttonsPane.getChildren().addAll(controlsButton, saveButton, exitButton);
 		
@@ -147,33 +132,23 @@ public class PauseMenuView extends BorderPane {
 		return buttonsPane;
 	}
 	
-	private void addHoverListenerToButton(Button button) {
-		SimpleBooleanProperty hoverBind = new SimpleBooleanProperty();
-		hoverBind.addListener(((observableValue, isNotHovered, isHovered) -> {
+	private void addListenersToButton(Button button) {
+		button.hoverProperty().addListener(((observableValue, isNotHovered, isHovered) -> {
 		 	if(isHovered) {
 	 			button.requestFocus();
-	 			
-				pauseMenu.getChildren().remove(arrowView);
-
-				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX()));
-				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-				pauseMenu.getChildren().add(arrowView);
-				
-				checkButton(button);
 		 	} 
 		}));
-		hoverBind.bind(button.hoverProperty());
-	}
-	
-	private void checkButton(Button button) {
-		int i = 0;
-		for(Button b: buttons) {
-			if(button == b) {
-				buttonCounter = i;
-				break;
-			}
-			i++;
-		}
+		button.focusedProperty().addListener(((observableValue, isNotFocused, isFocused) -> {
+		 	if(isFocused) {
+		 		double newX = (button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX());
+		 		if(newX > 0) {	 			
+		 			pauseMenu.getChildren().remove(arrowView);
+		 			arrowView.setLayoutX(newX);
+		 			arrowView.setLayoutY(button.getLayoutY() + imageDifference);
+		 			pauseMenu.getChildren().add(arrowView);
+		 		}
+		 	} 
+		}));
 	}
 	
 	private BorderPane createControlsPane() {
@@ -301,62 +276,16 @@ public class PauseMenuView extends BorderPane {
 		if(!pauseMenu.getChildren().contains(arrowView)) {
 			pauseMenu.getChildren().add(arrowView);
 		}
-		arrowView.setLayoutX(buttons[0].getLayoutX() - buttonWidth/2);
-		arrowView.setLayoutY(buttons[0].getLayoutY() + imageDifference);
 	}
-	
-	private void handleKeyInput(KeyEvent e) {
-		switch(e.getCode()) {
-		case UP:
-			moveArrow("Up", e);
-			break;
-		case DOWN:
-			moveArrow("Down", e);
-			break;
-			default: 
-		}
-	}
-	
+		
 	private void handleButtonKeyPressed(KeyEvent e, Button button) {
 		if(e.getCode().equals(KeyCode.ENTER) && button.isFocused()) {
 			button.fire();
 		}
 	}
 	
-	private void moveArrow(String direction, KeyEvent event) {
-		
-		event.consume();
-		setButtonFocus(direction);
-		
-		pauseMenu.getChildren().remove(arrowView);
-		for(Button button : buttons) {
-			if(button.isFocused()) {
-				arrowView.setLayoutX((button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX()));
-				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-				pauseMenu.getChildren().add(arrowView);
-				break;
-			}
-		}
-	}
-	
-	private void setButtonFocus(String direction) {
-		if(direction.toLowerCase().equals("up")) {
-			buttonCounter--;
-			if(buttonCounter < 0) {
-				buttonCounter = 0;
-			}
-		} else if(direction.toLowerCase().equals("down")) {
-			buttonCounter++;
-			if(buttonCounter >= buttons.length) {
-				buttonCounter = buttons.length - 1;
-			}
-		}
-		buttons[buttonCounter].requestFocus();
-	}
-
 	public void requestFocusForButtons() {
-		buttons[0].requestFocus();
-		buttonCounter = 0;
+		buttonsPane.getChildren().get(0).requestFocus();
 	}
 	
 	private void saveGame() {

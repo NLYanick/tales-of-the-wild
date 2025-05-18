@@ -422,7 +422,7 @@ public class MainScene extends Scene {
 		controller.setFullScreen(!controller.isFullScreen());
 		controller.resizeLocationsInView();
 		if(gameHasLoaded) {
-			if(controller.isFullScreen() && !pauseMenuIsOpen) {
+			if(controller.isFullScreen() && !pauseMenuIsOpen && !inventoryIsOpen) {
 				setCursor(Cursor.NONE);
 			} else {
 				setCursor(Cursor.DEFAULT);

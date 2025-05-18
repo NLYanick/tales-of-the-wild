@@ -20,6 +20,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Location;
 
@@ -76,6 +78,8 @@ public class InventoryView extends BorderPane {
 	
 	private BorderPane getLeftPane() {
 		int spacing = 30;
+		int rectWidth = 300;
+		int rectHeight = 104;
 		
 		BorderPane leftPane = new BorderPane();
 		leftPane.getStyleClass().add("inventory-buttons-pane");
@@ -92,6 +96,10 @@ public class InventoryView extends BorderPane {
 		
 		leftPane.setCenter(buttonsPane);
 		
+		Rectangle invisRect = new Rectangle(rectWidth, rectHeight);
+		invisRect.setFill(Color.TRANSPARENT);
+		leftPane.setBottom(invisRect);
+		
 		return leftPane;
 	}
 	
@@ -102,7 +110,7 @@ public class InventoryView extends BorderPane {
 		title.getStyleClass().add("inventory-title");
 		
 		VBox titleBox = new VBox(title);
-		titleBox.setPadding(new Insets(spacing, 0, spacing/3, 0));
+		titleBox.setPadding(new Insets(spacing, 0, 0, 0));
 		titleBox.setAlignment(Pos.TOP_CENTER);
 		
 		return titleBox;

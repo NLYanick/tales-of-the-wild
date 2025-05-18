@@ -51,6 +51,7 @@ EntityView --> imageView.setTranslateY(-30);
 In pauze en in-game menu is de eerste pijl hardcoded
 Pas in de controller worden items aan npcs geven, npcs in buldings stoppen, enz. gedaan
 Info Box (in InventoryView) grote is hardcoded
+Veel CSS dingen staan nu hardcoded
 
 
 TODO Images:
@@ -61,5 +62,4 @@ Misschien gaan de stilstaan animaties iets te laag
 
 
 Nu: Styling, Design | Focus van Pause menu mag niet overgaan naar andere dingen (bv inventory) | 
-Inventory titel moet knop knop alignment niet aanpassen Items moeten recht onder je droppen | 
-item moet een description | Pijl in PauseMenuView moet meegaan met TAB em SHIFT TAB |
+Items moeten recht onder je droppen | item moet een description
