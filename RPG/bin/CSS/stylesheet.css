@@ -85,7 +85,6 @@
 .inventory-info-box-description, .inventory-info-box-title {
     -fx-font-family: "Times New Roman";
     -fx-fill: #444444;
-    -fx-wrap-text: true;
 }
 
 .inventory-slot {

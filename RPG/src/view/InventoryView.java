@@ -187,18 +187,21 @@ public class InventoryView extends BorderPane {
 	
 	private VBox getInfoTexts() {
 		int spacing = 10;
+		int innerSpace = 434;
 		
 		Text name = new Text();
 		name.getStyleClass().add("inventory-info-box-title");
 		name.textProperty().bind(infoBoxName);
+		name.setWrappingWidth(innerSpace);
 		
-		Line separator = new Line(0, 0, 434, 0);
+		Line separator = new Line(0, 0, innerSpace, 0);
 		separator.getStyleClass().add("info-separator-line");
 		separator.visibleProperty().bind(slotIsFocused);
 		
 		Text description = new Text();
 		description.getStyleClass().add("inventory-info-box-description");
 		description.textProperty().bind(infoBoxDescription);
+		description.setWrappingWidth(innerSpace);
 		
 		VBox texts = new VBox(name, separator, description);
 		texts.setAlignment(Pos.TOP_LEFT);
