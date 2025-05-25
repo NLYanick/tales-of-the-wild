@@ -297,9 +297,10 @@ public class Game {
 	}
 	
 	private boolean playerIsOnItem(Item item) {
-		int extraSpace = 20;
+		int extraSpace = 10;
+		int itemWidth = Item.ITEMWIDTH;
 		return Location.isGreater(player.getLocation(), new Location(item.getX() - extraSpace, item.getY() - extraSpace)) 
-				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace * 3, item.getY() + extraSpace * 3));
+				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace + itemWidth, item.getY() + extraSpace + itemWidth));
 	}
 	
 	private void moveItems(Direction dir) {

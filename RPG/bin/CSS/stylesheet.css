@@ -3,7 +3,7 @@
 }
 
 .menu-button:focused {
-    -fx-border-color: #483D8B ;
+    -fx-border-color: #00ff40 ;
 }
 
 .menu-button {

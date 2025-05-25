@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import model.Item;
 import model.Location;
 
 public class InventoryView extends BorderPane {
@@ -159,7 +160,8 @@ public class InventoryView extends BorderPane {
 	
 	private void selectInventorySlot(InventorySlot slot) {
 		ItemView itemView = slot.getItemView();
-		infoBoxText.set(itemView != null ? itemView.getName() : "");
+		Item item = scene.getItemFromView(itemView);
+		infoBoxText.set(itemView != null ? item.getName() : "");
 	}
 	
 	private void setUpInfoBox() {

@@ -3,10 +3,11 @@ package view;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import model.Entity;
 
 public abstract class EntityView extends BorderPane {
 	
-	protected final static int IMAGESIZE = 96;
+	protected final static int IMAGESIZE = (int) (Entity.ENTITYWIDTH * 0.75);
 	
 	protected Image image;
 	protected ImageView imageView;

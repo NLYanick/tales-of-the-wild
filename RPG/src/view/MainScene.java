@@ -268,7 +268,7 @@ public class MainScene extends Scene {
 	public void addItemViewToInventoryView(Item item, ItemView itemView, boolean inventoryIsFull) {
 		if(!inventoryIsFull) {
 			controller.addItemToPlayerInventory(item);
-			
+			System.out.println(itemView.getWidth() + " " + itemView.getHeight());
 			removeItemView(itemView);
 			inventoryView.addItemView(itemView);
 		} else {
@@ -278,6 +278,10 @@ public class MainScene extends Scene {
 	
 	public void removeItemViewFromInventoryView(ItemView itemView) {		
 		inventoryView.removeItemView(itemView);
+	}
+	
+	public Item getItemFromView(ItemView itemView) {
+		return controller.getItemFromView(itemView);
 	}
 	
 	public void saveGame() {

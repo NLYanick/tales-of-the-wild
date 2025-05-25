@@ -2,6 +2,8 @@ package model;
 
 public class Item {
 
+	public final static int ITEMWIDTH = 32;
+	
 	private String imageUrl, name;
 	private Location location, viewLocation;
 	private int id, buildingId, npcId, gameId;

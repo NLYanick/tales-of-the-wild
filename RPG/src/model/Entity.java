@@ -1,6 +1,8 @@
 package model;
 
 public abstract class Entity {
+	
+	public final static int ENTITYWIDTH = 128;
 
 	protected Location location;
 	protected String imageURL;

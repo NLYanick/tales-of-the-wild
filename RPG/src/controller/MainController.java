@@ -64,7 +64,7 @@ public class MainController {
 	}
 	
 	public void addItemView(Item item) {
-		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl(), item.getName());
+		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 		itemsWithViews.put(item, itemView);
 		
 		if(item.getNPCId() == 0) {			
@@ -251,10 +251,12 @@ public class MainController {
 		Item item = getItemFromView(itemView);
 		
 		if(item != null) {
-			Location playerLocation = getPlayerLocation();
-			item.setLocation(playerLocation);
+			int diff = 32;
+			Location newLocation = new Location(getPlayerLocation().getX() - diff, getPlayerLocation().getY() - diff);
+			
+			item.setLocation(newLocation);
 			game.dropItemFromPlayerInventory(game.getPlayerInventoryItemWithId(item.getId()));
-			databaseController.dropItem(item, playerLocation);
+			databaseController.dropItem(item, newLocation);
 			
 			item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
 			itemView.move(item.getViewLocation());
@@ -268,7 +270,7 @@ public class MainController {
 		}
 	}
 	
-	private Item getItemFromView(ItemView itemView) {
+	public Item getItemFromView(ItemView itemView) {
 		for(Item item : itemsWithViews.keySet()) {
 			if(itemsWithViews.get(item) == itemView) {
 				return item;
