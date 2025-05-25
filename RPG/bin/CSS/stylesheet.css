@@ -71,8 +71,21 @@
 
 .inventory-info-box-title {
 	-fx-font-size: 28px;
+}
+
+.inventory-info-box-description {
+	-fx-font-size: 20px;
+}
+
+.info-separator-line {
+	-fx-stroke: #444444;
+    -fx-stroke-width: 2;
+}
+
+.inventory-info-box-description, .inventory-info-box-title {
     -fx-font-family: "Times New Roman";
     -fx-fill: #444444;
+    -fx-wrap-text: true;
 }
 
 .inventory-slot {

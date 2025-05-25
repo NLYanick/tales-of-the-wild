@@ -4,14 +4,15 @@ public class Item {
 
 	public final static int ITEMWIDTH = 32;
 	
-	private String imageUrl, name;
+	private String imageUrl, name, description;
 	private Location location, viewLocation;
 	private int id, buildingId, npcId, gameId;
 	
-	public Item(Location location, String name, String imageUrl, int buildingId, int id, int npcId, int gameId) {
+	public Item(Location location, String name, String imageUrl, String description, int buildingId, int id, int npcId, int gameId) {
 		this.location = location;
 		this.imageUrl = imageUrl;
 		this.name = name;
+		this.description = description;
 		this.gameId = gameId;
 		this.buildingId = buildingId;
 		this.id = id;
@@ -86,6 +87,10 @@ public class Item {
 	
 	public int getGameId() {
 		return gameId;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 }

@@ -2,6 +2,8 @@ package view;
 
 import java.util.ArrayList;
 
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
@@ -21,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Item;
@@ -37,7 +40,8 @@ public class InventoryView extends BorderPane {
 	
 	private Button close;
 	
-	private StringProperty infoBoxText;
+	private StringProperty infoBoxName, infoBoxDescription;
+	private BooleanBinding slotIsFocused;
 	
 	private ArrayList<ItemView> itemViews;
 	
@@ -122,7 +126,7 @@ public class InventoryView extends BorderPane {
 		inventorySlots = new GridPane();
 		
 		int gapSize = 10;
-		
+
 		for(int x = 0; x < GRIDWIDTH; x++) {
 			for(int y = 0; y < GRIDHEIGHT; y++) {
 				InventorySlot slot = new InventorySlot(new Location(x, y));
@@ -130,6 +134,7 @@ public class InventoryView extends BorderPane {
 				slot.focusedProperty().addListener(((observableValue, oldValue, isFocused) -> {
 					selectInventorySlot(slot);
 				}));
+				
 				handleDropEvent(slot);
 				inventorySlots.add(slot, x, y);
 			}
@@ -161,22 +166,45 @@ public class InventoryView extends BorderPane {
 	private void selectInventorySlot(InventorySlot slot) {
 		ItemView itemView = slot.getItemView();
 		Item item = scene.getItemFromView(itemView);
-		infoBoxText.set(itemView != null ? item.getName() : "");
+		infoBoxName.set(itemView != null ? item.getName() : "");
+		infoBoxDescription.set(itemView != null ? item.getDescription() : "");
 	}
 	
 	private void setUpInfoBox() {
 		infoBox = new BorderPane();
-		
-		infoBoxText = new SimpleStringProperty();
-		
-		Text text = new Text();
-		text.getStyleClass().add("inventory-info-box-title");
-		text.textProperty().bind(infoBoxText);
-		
-		infoBox.setTop(text);
-		BorderPane.setAlignment(text, Pos.TOP_LEFT);
-		
 		infoBox.getStyleClass().add("inventory-info-box");
+		
+		infoBoxName = new SimpleStringProperty();
+		infoBoxDescription = new SimpleStringProperty();
+		
+		slotIsFocused = new SimpleBooleanProperty(false).not();
+		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
+		
+		VBox texts = getInfoTexts();
+		
+		infoBox.setCenter(texts);
+	}
+	
+	private VBox getInfoTexts() {
+		int spacing = 10;
+		
+		Text name = new Text();
+		name.getStyleClass().add("inventory-info-box-title");
+		name.textProperty().bind(infoBoxName);
+		
+		Line separator = new Line(0, 0, 434, 0);
+		separator.getStyleClass().add("info-separator-line");
+		separator.visibleProperty().bind(slotIsFocused);
+		
+		Text description = new Text();
+		description.getStyleClass().add("inventory-info-box-description");
+		description.textProperty().bind(infoBoxDescription);
+		
+		VBox texts = new VBox(name, separator, description);
+		texts.setAlignment(Pos.TOP_LEFT);
+		texts.setSpacing(spacing);
+		
+		return texts;
 	}
 	
 	private HBox getInventoryBoxes() {

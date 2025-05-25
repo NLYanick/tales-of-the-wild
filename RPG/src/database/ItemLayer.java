@@ -29,7 +29,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
+						 rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -50,7 +50,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
+						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
 				items.add(item);
 			}
 			stmt.close();
