@@ -363,11 +363,13 @@ public class MainScene extends Scene {
 			menusPane.getChildren().add(pauseMenuView);
 			pauseMenuView.requestFocusForButtons();
 			setCursor(Cursor.DEFAULT);
+			toggleDisablePanes(true);
 		} else {
 			menusPane.getChildren().remove(pauseMenuView);
 			pauseMenuView.resetView();
 			setCursor(Cursor.NONE);
 			requestFocusForView();
+			toggleDisablePanes(false);
 		}
 	}
 	
@@ -387,6 +389,11 @@ public class MainScene extends Scene {
 		} 
 		
 		root.requestFocus();
+	}
+	
+	private void toggleDisablePanes(boolean disable) {
+		inGameMenuView.setDisable(disable);
+		inventoryView.setDisable(disable);
 	}
 	
 	private void pauzeOrResumeGame() {
