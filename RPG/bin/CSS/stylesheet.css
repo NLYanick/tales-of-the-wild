@@ -95,6 +95,10 @@
 	-fx-border-color: #FFFFFF;
 }
 
+.activated-inventory-slot {
+	-fx-border-color: #00FF00;
+}
+
 .inventory-slot, .selected-inventory-slot {
 	-fx-background-color: rgba(80, 90, 95, 0.5);
     -fx-background-radius: 10px;

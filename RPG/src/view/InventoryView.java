@@ -46,6 +46,7 @@ public class InventoryView extends BorderPane {
 	private ArrayList<ItemView> itemViews;
 	
 	private ItemView draggedItemView;
+	private InventorySlot activatedSlot;
 		
 	public InventoryView(MainScene scene) {
 		this.scene = scene;
@@ -130,12 +131,8 @@ public class InventoryView extends BorderPane {
 		for(int x = 0; x < GRIDWIDTH; x++) {
 			for(int y = 0; y < GRIDHEIGHT; y++) {
 				InventorySlot slot = new InventorySlot(new Location(x, y));
-				slot.setOnMouseClicked(e -> slot.requestFocus());
-				slot.focusedProperty().addListener(((observableValue, oldValue, isFocused) -> {
-					selectInventorySlot(slot);
-				}));
 				
-				handleDropEvent(slot);
+				handleEvents(slot);
 				inventorySlots.add(slot, x, y);
 			}
 		}
@@ -149,7 +146,12 @@ public class InventoryView extends BorderPane {
 		inventorySlots.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);		
 	}
 	
-	private void handleDropEvent(InventorySlot slot) {
+	private void handleEvents(InventorySlot slot) {
+		slot.setOnKeyPressed(e -> handleKeyPressedSlots(e, slot));
+		slot.focusedProperty().addListener(((observableValue, oldValue, isFocused) -> {
+			selectInventorySlot(slot);
+		}));
+		
 		slot.setOnDragDropped(e -> {
 			InventorySlot otherSlot = getInventorySlotWithItemView(draggedItemView);
 			BorderPane slotPane = (BorderPane) slot.getCenter();
@@ -161,6 +163,27 @@ public class InventoryView extends BorderPane {
 				draggedItemView = null;
 			}
 		});
+	}
+	
+	private void handleKeyPressedSlots(KeyEvent e, InventorySlot slot) {
+		if(e.getCode() == KeyCode.ENTER) {
+			moveItem(e, slot);
+		}
+	}
+	
+	private void moveItem(KeyEvent e, InventorySlot slot) {
+		deactivateSlots();
+		if(activatedSlot != null) {
+			InventorySlot target = (InventorySlot) e.getTarget();
+			if(target.getItemView() == null) {
+				target.setItemView(activatedSlot.getItemView());
+				activatedSlot.setItemView(null);
+			}
+			activatedSlot = null;
+		} else {				
+			activatedSlot = slot;
+			activatedSlot.switchActive();
+		}
 	}
 	
 	private void selectInventorySlot(InventorySlot slot) {
@@ -274,6 +297,15 @@ public class InventoryView extends BorderPane {
 			InventorySlot slot = (InventorySlot) node;
 			if(slot.isFocused() && slot.getItemView() != null) {
 				dropItem(slot.getItemView());
+			}
+		}
+	}
+	
+	private void deactivateSlots() {
+		for(Node node : inventorySlots.getChildren()) {
+			InventorySlot slot = (InventorySlot) node;
+			if(slot.isActive()) {
+				slot.switchActive();
 			}
 		}
 	}
