@@ -9,7 +9,7 @@ Vragen of je het zeker weet als je een player delete
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
 Mooie kleuren en designs
 Shops maken
-(Alleen de games pakken van dit apparaat/device, als het kan)
+(Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
 (Kijk voor meer inspiratie, je mist vast wel iets in bv. de inventory)
@@ -60,4 +60,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 De stilstaan animaties gaan iets te laag
 
 
-Nu: 
+Nu: Start, Controls pane | In-game Menu moet buttons met focus pijl krijgen (zie pausemenu view)

@@ -1,6 +1,5 @@
 package view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,15 +8,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
 public class InGameMenuView extends BorderPane {
 
@@ -90,14 +86,9 @@ public class InGameMenuView extends BorderPane {
 	}
 	
 	private BorderPane getPlayerPane() {
-		
-		int width = 1000;
-		int height = 150;
-		
+
 		BorderPane playerPane = new BorderPane();
-		playerPane.getStyleClass().add("ingame-inventory-pane");
-		playerPane.setMinSize(width, height);
-		playerPane.setMaxSize(width, height);
+		playerPane.getStyleClass().add("ingame-menu-playerpane");
 		
 		HBox playerText = getPlayerText();
 		
@@ -107,14 +98,12 @@ public class InGameMenuView extends BorderPane {
 	}
 	
 	private HBox getPlayerText() {
-		int fontSize = 40;
 		
 		HBox playerText = new HBox();
 		playerText.setAlignment(Pos.CENTER);
 		
 		Label playerName = new Label(scene.getPlayer().getName());
-		playerName.setFont(Font.font(MainScene.FONTNAME, fontSize));
-		playerName.setTextFill(Color.WHITE);
+		playerName.getStyleClass().add("ingame-menu-player-stats");
 		
 		playerText.getChildren().addAll(playerName);
 		
@@ -128,14 +117,8 @@ public class InGameMenuView extends BorderPane {
 
 	private BorderPane getButtonsMenu() {
 		
-		int width = 400;
-		int height = 500;
-		
 		BorderPane buttonsMenu = new BorderPane();
-		
-		buttonsMenu.getStyleClass().add("ingame-inventory-pane");
-		buttonsMenu.setMinSize(width, height);
-		buttonsMenu.setMaxSize(width, height);
+		buttonsMenu.getStyleClass().add("ingame-menu-buttonspane");
 		
 		VBox buttonsBox = getButtonsBox();
 		
@@ -169,15 +152,8 @@ public class InGameMenuView extends BorderPane {
 	}
 	
 	private Button getButton(String text) {
-		
-		int fontSize = 50;
-		
 		Button button = new Button(text);
-		button.setPadding(new Insets(0));
-		
-		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
-		button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
-		button.setTextFill(Color.WHITE);
+		button.getStyleClass().add("ingame-menu-button");
 			
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
 		
