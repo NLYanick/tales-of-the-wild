@@ -8,7 +8,11 @@ Niet alleen NPC Dialogs met items moeten skipbaar kunnen zijn
 Vragen of je het zeker weet als je een player delete
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
 Mooie kleuren en designs
+Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
+Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 Shops maken
+Interactieve Dialogues
+(Dialogues in database kan in JSON i.p.v. moeilijk doen)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -21,6 +25,7 @@ Item oppakken geeft ItemViewDialog
 Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
 Building code fixen
+Dialog strings fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController & Game klasse opschonen
 MainScene klasse opschonen
@@ -29,6 +34,7 @@ Dialogs en ItemDialogs mooi maken
 Item plekken onthouden in Inventory
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Models mogen geen viewlocation hebben
+Dialog --> Dialogue
 Menu's en LoadGameView responsive maken
 Inventory responsive maken
 Met Tab kan je knoppen besturen :(
