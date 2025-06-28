@@ -16,19 +16,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class PauseMenuView extends BorderPane {
 	
 	private MainScene scene;
 	private BorderPane pauseMenu;
 	
-	private BorderPane controlsPane;
+	private ControlsPane controlsPane;
 	private VBox buttonsPane;
 	private BorderPane savedPane;
 	
@@ -54,7 +51,7 @@ public class PauseMenuView extends BorderPane {
 		pauseMenu.setBackground(new Background(new BackgroundFill(color, null, null)));
 		
 		buttonsPane = createButtonsVBox();
-		controlsPane = createControlsPane();
+		controlsPane = new ControlsPane(this);
 		
 		pauseMenu.setCenter(buttonsPane);
 		
@@ -93,7 +90,7 @@ public class PauseMenuView extends BorderPane {
 		return arrowView;
 	}
 	
-	private Button getButton(String text) {
+	public Button getButton(String text) {
 				
 		Button button = new Button(text);
 		button.getStyleClass().add("menu-button");
@@ -151,102 +148,6 @@ public class PauseMenuView extends BorderPane {
 		}));
 	}
 	
-	private BorderPane createControlsPane() {
-		
-		int spacing = 100;
-		
-		BorderPane controlsPane = new BorderPane();
-		
-		VBox titleBox = getTitleBox();
-
-		HBox textVBoxes = getTextVBoxes();
-		textVBoxes.setSpacing(spacing);
-		
-		HBox buttonBox = getButtonBox();
-
-		controlsPane.setTop(titleBox);
-		controlsPane.setCenter(textVBoxes);
-		controlsPane.setBottom(buttonBox);
-		
-		return controlsPane;
-	}
-	
-	private VBox getTitleBox() {
-		int height = 200;
-		int fontSize = 64;
-		
-		VBox titleBox = new VBox();
-		Label title = new Label("Controls");
-		title.setFont(Font.font("Times New Roman", fontSize));
-		title.setTextFill(Color.WHITE);
-		
-		titleBox.setAlignment(Pos.CENTER);
-		titleBox.getChildren().add(title);
-		titleBox.setMinHeight(height);
-		
-		return titleBox;
-	}
-	
-	private HBox getButtonBox() {
-		int height = 200;
-		
-		HBox buttonBox = new HBox();
-		Button button = getButton("Go Back");
-		button.setOnAction(e -> goBack());
-		
-		buttonBox.setAlignment(Pos.TOP_CENTER);
-		buttonBox.getChildren().add(button);
-		buttonBox.setMinHeight(height);
-		
-		return buttonBox;
-	}
-	
-	private HBox getTextVBoxes() {
-		
-		int textSpacing = 20;
-		
-		HBox textVBoxes = new HBox();
-		textVBoxes.setAlignment(Pos.CENTER);
-		
-		VBox textBoxOne = new VBox(textSpacing);
-		textBoxOne.setAlignment(Pos.CENTER_LEFT);
-		
-		Text textE = getText("E - Interact");
-		Text textEsc = getText("Esc - Toggle Pause Menu");
-		Text textI = getText("I - Toggle In Game Menu");
-		Text textQ = getText("Q - Drop Selected Item");
-		Text textAlt = getText("Alt - Toggle Button Focus (Only in some views)");
-		
-		textBoxOne.getChildren().addAll(textE, textEsc, textI, textQ, textAlt);
-		
-		VBox textBoxTwo = new VBox(textSpacing);
-		textBoxTwo.setAlignment(Pos.CENTER_LEFT);
-		
-		Text textUp = getText("Arrow Up | W - Walk Up");
-		Text textLeft = getText("Arrow Left | A - Walk To Left");
-		Text textDown = getText("Arrow Down | S - Walk Down");
-		Text textRight = getText("Arrow Right | D - Walk To Right");
-		
-		textBoxTwo.getChildren().addAll(textUp, textLeft, textDown, textRight);
-		
-		textVBoxes.getChildren().addAll(textBoxOne, textBoxTwo);
-		
-		return textVBoxes;
-	}
-	
-	private Text getText(String string) {
-		
-		int fontSize = 28;
-		
-		Text text = new Text(string);
-		
-		text.setFont(Font.font("Times New Roman", fontSize));
-		text.setTextAlignment(TextAlignment.CENTER);
-		text.setFill(Color.WHITE);
-		
-		return text;
-	}
-	
 	private void openControls() {
 		pauseMenu.getChildren().remove(arrowView);
 		pauseMenu.getChildren().remove(savedPane);
@@ -259,7 +160,7 @@ public class PauseMenuView extends BorderPane {
 		}
 	}
 	
-	private void goBack() {
+	public void goBack() {
 		resetArrow();
 		pauseMenu.setCenter(buttonsPane);
 		requestFocusForButtons();

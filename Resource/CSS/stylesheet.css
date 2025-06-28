@@ -1,3 +1,8 @@
+.scroll-pane > .viewport  { 
+	-fx-background-color: transparent; 
+}
+
+
 .menu-button:focused {
     -fx-border-color: #00ff40 ;
 }
@@ -22,6 +27,57 @@
 
 .menu-button:hover {
 	-fx-background-color: #222222;
+}
+
+.controls-title {
+    -fx-font-family: "Times New Roman";
+    -fx-text-fill: #FFFFFF;
+	-fx-font-size: 56;
+	-fx-alignment: center;
+	-fx-text-alignment: center;
+	-fx-padding: 70 0 20 0;
+	
+	-fx-border-style: hidden hidden solid hidden;
+	-fx-border-width: 1px;
+	-fx-border-color: #C4C4C4;
+}
+
+.controls-text {
+    -fx-font-family: "Times New Roman";
+    -fx-fill: #EEEEEE;
+	-fx-font-size: 24px;
+}
+
+.controls-subtitle {
+    -fx-font-family: "Times New Roman";
+    -fx-fill: #CCCCCC;
+	-fx-font-size: 36px;
+}
+
+.controls-text-row {
+	-fx-border-style: hidden hidden solid hidden;
+	-fx-border-width: 1px;
+	-fx-border-color: #C4C4C4;
+	-fx-padding: 5px;
+}
+
+.controls-scroll-pane {
+	-fx-padding: 20 10;
+	-fx-background-color: transparent;
+}
+
+.controls-scroll-pane > .scroll-bar:vertical .thumb {
+    -fx-background-color : #BCBCBC;
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius : 2em;
+}
+
+.controls-scroll-pane > .scroll-bar,
+.controls-scroll-pane > .scroll-bar .increment-button,
+.controls-scroll-pane > .scroll-bar .increment-arrow,
+.controls-scroll-pane > .scroll-bar .decrement-button,
+.controls-scroll-pane > .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
 }
 
 

@@ -66,4 +66,5 @@ BrickHouse image fixen en voelt plat & binnenkant
 De stilstaan animaties gaan iets te laag
 
 
-Nu: Start, Controls pane | In-game Menu moet buttons met focus pijl krijgen (zie pausemenu view)
+Nu: Start, PauseMenuView (zie voorbeeld) | In-game Menu moet buttons met focus pijl krijgen (zie pausemenu view) (ook staat ze niet in het midden) |
+Scrollbar in ControlsPane moet met pijltjes te besturen zijn
