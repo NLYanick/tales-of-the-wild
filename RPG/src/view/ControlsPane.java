@@ -68,6 +68,7 @@ public class ControlsPane extends BorderPane {
 	
 	private ScrollPane getTextPane() {
 		
+		int textSpacing = 20;
 		int margin = 40;
 		double paneWidth = Screen.getPrimary().getBounds().getWidth() * 0.7;
 		
@@ -75,14 +76,17 @@ public class ControlsPane extends BorderPane {
 		textPane.getStyleClass().add("controls-scroll-pane");
 		textPane.setFitToWidth(true);
 		textPane.setFitToHeight(true);
+		textPane.setFocusTraversable(true);
 		textPane.setMaxWidth(paneWidth);
 		
-		VBox interactionTexts = getInteractionTexts();
-		VBox movementTexts = getMovementTexts();
+		VBox menusTexts = getMenusTexts(textSpacing);
+		VBox interactionTexts = getInteractionTexts(textSpacing);
+		VBox movementTexts = getMovementTexts(textSpacing);
 		
 		VBox textVBoxes = new VBox();
 		textVBoxes.setAlignment(Pos.CENTER);
-		textVBoxes.getChildren().addAll(interactionTexts, movementTexts);
+		textVBoxes.getChildren().addAll(menusTexts, interactionTexts, movementTexts);
+		VBox.setMargin(menusTexts, new Insets(0, 0, margin, 0));
 		VBox.setMargin(interactionTexts, new Insets(0, 0, margin, 0));
 		
 		textPane.setContent(textVBoxes);
@@ -90,28 +94,35 @@ public class ControlsPane extends BorderPane {
 		return textPane;
 	}
 	
-	private VBox getInteractionTexts() {
-		int textSpacing = 20;
+	private VBox getMenusTexts(int spacing) {
+		VBox menusTexts = new VBox(spacing);
+		menusTexts.setAlignment(Pos.CENTER_LEFT);
 		
-		VBox interactionTexts = new VBox(textSpacing);
+		Text interactionSubtitle = getSubTitle("Menus");
+		BorderPane textEsc = getTextRow("Esc", "Toggle Pause Menu");
+		BorderPane textI = getTextRow("I", "Toggle In Game Menu");
+		
+		menusTexts.getChildren().addAll(interactionSubtitle, textEsc, textI);
+		
+		return menusTexts;
+	}
+	
+	private VBox getInteractionTexts(int spacing) {
+		VBox interactionTexts = new VBox(spacing);
 		interactionTexts.setAlignment(Pos.CENTER_LEFT);
 		
 		Text interactionSubtitle = getSubTitle("Interaction");
 		BorderPane textE = getTextRow("E", "Interact");
-		BorderPane textEsc = getTextRow("Esc", "Toggle Pause Menu");
-		BorderPane textI = getTextRow("I", "Toggle In Game Menu");
 		BorderPane textQ = getTextRow("Q", "Drop Selected Item");
 		BorderPane textAlt = getTextRow("Alt", "Toggle Button Focus (Only in some views)");
 		
-		interactionTexts.getChildren().addAll(interactionSubtitle, textE, textEsc, textI, textQ, textAlt);
+		interactionTexts.getChildren().addAll(interactionSubtitle, textE, textQ, textAlt);
 		
 		return interactionTexts;
 	}
 	
-	private VBox getMovementTexts() {
-		int textSpacing = 20;
-		
-		VBox movementTexts = new VBox(textSpacing);
+	private VBox getMovementTexts(int spacing) {
+		VBox movementTexts = new VBox(spacing);
 		movementTexts.setAlignment(Pos.CENTER_LEFT);
 		
 		Text movementSubtitle = getSubTitle("Movement");
