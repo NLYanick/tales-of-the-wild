@@ -56,7 +56,7 @@ public class InGameMenuView extends BorderPane {
 				} else if(x == 1 && y == 2) {
 					menuPane.add(playerPane, x, y);
 				} else {
-					menuPane.add(new Rectangle(scene.getWidth()/5, scene.getHeight()/5, Color.TRANSPARENT), x, y);
+					menuPane.add(new Rectangle(scene.getWidth()/4.5, scene.getHeight()/5, Color.TRANSPARENT), x, y);
 				}
 			}
 		}
