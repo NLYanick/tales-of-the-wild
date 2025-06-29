@@ -9,16 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class PauseMenuView extends BorderPane {
 	
@@ -31,7 +23,6 @@ public class PauseMenuView extends BorderPane {
 	
 	private final int buttonWidth = 150;
 	private final int buttonSpacing = 30;
-	private final int buttonBorderWidth = 3;
 	
 	private final int imageDifference = 4;
 		
@@ -45,10 +36,8 @@ public class PauseMenuView extends BorderPane {
 	
 	private void setUpLayout() {
 		
-		Color color = new Color(0, 0, 0, 0.5);
-		
 		pauseMenu = new BorderPane();
-		pauseMenu.setBackground(new Background(new BackgroundFill(color, null, null)));
+		pauseMenu.getStyleClass().add("pause-menu");
 		
 		buttonsPane = createButtonsVBox();
 		controlsPane = new ControlsPane(this);
@@ -66,16 +55,12 @@ public class PauseMenuView extends BorderPane {
 	private void setUpSavedPane() {
 
 		String saved = "Saved";
-		int fontSize = 32;
-		int minWidth = 100;
 		
 		Label savedLabel = new Label(saved);
-		savedLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
-		savedLabel.setTextFill(Color.WHITE);
+		savedLabel.getStyleClass().add("saved-text");
 		
 		savedPane = new BorderPane(savedLabel);
-		savedPane.setMinWidth(minWidth);
-		savedPane.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(buttonBorderWidth))));
+		savedPane.getStyleClass().add("saved-text-pane");
 		
 	}
 	

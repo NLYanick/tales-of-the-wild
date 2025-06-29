@@ -29,6 +29,23 @@
 	-fx-background-color: #222222;
 }
 
+.pause-menu {
+	-fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.saved-text {
+	-fx-font-family: "Times New Roman";
+    -fx-text-fill: #FFFFFF;
+	-fx-font-size: 32;
+}
+
+.saved-text-pane {
+	-fx-border-style: solid;
+	-fx-border-width: 3px;
+	-fx-border-color: white;
+	-fx-min-width: 100px;
+}
+
 .controls-title {
     -fx-font-family: "Times New Roman";
     -fx-text-fill: #FFFFFF;
