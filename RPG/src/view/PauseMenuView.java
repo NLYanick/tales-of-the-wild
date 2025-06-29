@@ -29,11 +29,11 @@ public class PauseMenuView extends BorderPane {
 	private VBox buttonsPane;
 	private BorderPane savedPane;
 	
-	private int buttonWidth = 150;
-	private int buttonSpacing = 30;
-	private int buttonBorderWidth = 3;
+	private final int buttonWidth = 150;
+	private final int buttonSpacing = 30;
+	private final int buttonBorderWidth = 3;
 	
-	private int imageDifference = 4;
+	private final int imageDifference = 4;
 		
 	private ImageView arrowView;
 	

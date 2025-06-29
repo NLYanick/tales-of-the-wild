@@ -27,14 +27,12 @@ public class InGameMenuView extends BorderPane {
 	private Button[] buttons;
 	private ImageView arrowView;
 	
-	private int imageDifference = 4;
-	private int buttonCounter = 0;
+	private final int imageDifference = 14;
 	
 	public InGameMenuView(MainScene scene) {
 		this.scene = scene;
 		
 		setUpLayout();
-		setOnKeyPressed(e -> handleKeyInput(e));
 	}
 
 	private void setUpLayout() {
@@ -77,8 +75,8 @@ public class InGameMenuView extends BorderPane {
 	private ImageView getArrow() {
 		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
 		
-		int x = 20;
-		int y = 100 + imageDifference;
+		int x = 40;
+		int y = 88 + imageDifference;
 		
 		arrowView.setLayoutX(x);
 		arrowView.setLayoutY(y);
@@ -156,30 +154,25 @@ public class InGameMenuView extends BorderPane {
 		button.getStyleClass().add("ingame-menu-button");
 			
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
+		addListenersToButton(button);
 		
 		return button;
 	}
 	
-	private void handleKeyInput(KeyEvent e) {
-		KeyCode code = e.getCode();
+	private void addListenersToButton(Button button) {
+		int margin = 10;
 		
-		switch(code) {
-		case UP:
-			moveArrow("Up", e);
-			break;
-		case DOWN:
-			moveArrow("Down", e);
-			break;
-			default: 
-		}
-		
-		if(code == KeyCode.TAB) {
-			if (e.isShiftDown()) {
-	            moveArrow("Up", e);
-	        } else {
-	            moveArrow("Down", e);
-	        }
-		}
+		button.focusedProperty().addListener(((observableValue, isNotFocused, isFocused) -> {
+		 	if(isFocused) {
+		 		double newX = (button.getLayoutX() - button.getWidth()/4 + buttonsMenu.getCenter().getLayoutX()) - margin;
+		 		if(newX > 0) {
+		 			buttonsMenu.getChildren().remove(arrowView);
+		 			arrowView.setLayoutX(newX);
+		 			arrowView.setLayoutY(button.getLayoutY() + imageDifference);
+		 			buttonsMenu.getChildren().add(arrowView);
+		 		}
+		 	} 
+		}));
 	}
 	
 	private void handleButtonKeyPressed(KeyEvent e, Button button) {
@@ -188,56 +181,12 @@ public class InGameMenuView extends BorderPane {
 		}
 	}
 	
-	private void moveArrow(String direction, KeyEvent event) {
-		
-		event.consume();
-		setButtonFocus(direction);
-		
-		int toRight = 10;
-		
-		buttonsMenu.getChildren().remove(arrowView);
-		for(Button button : buttons) {
-			if(button.isFocused()) {
-				arrowView.setLayoutX(buttonsBox.getLayoutX() + toRight);
-				arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-				buttonsMenu.getChildren().add(arrowView);
-				break;
-			}
-		}
-	}
-	
-	private void setButtonFocus(String direction) {
-		if(direction.toLowerCase().equals("up")) {
-			buttonCounter--;
-			if(buttonCounter < 0) {
-				buttonCounter = 0;
-			}
-		} else if(direction.toLowerCase().equals("down")) {
-			buttonCounter++;
-			if(buttonCounter >= buttons.length) {
-				buttonCounter = buttons.length - 1;
-			}
-		}
-		buttons[buttonCounter].requestFocus();
-	}
-	
 	public void requestFocusForButtons() {
 		buttons[0].requestFocus();
-		buttonCounter = 0;
 	}
 	
 	public void resetView() {
-		resetArrow();
 		buttonsMenu.setCenter(buttonsBox);
-	}
-	
-	public void resetArrow() {
-		if(!buttonsMenu.getChildren().contains(arrowView)) {
-			buttonsMenu.getChildren().add(arrowView);
-		}
-		int toRight = 10;
-		arrowView.setLayoutX(buttonsBox.getLayoutX() + toRight);
-		arrowView.setLayoutY(buttons[0].getLayoutY() + imageDifference);
 	}
 	
 	private void openInventory() {
