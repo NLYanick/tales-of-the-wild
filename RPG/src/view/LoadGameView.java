@@ -1,26 +1,18 @@
 package view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class LoadGameView extends BorderPane {
 		
@@ -41,9 +33,6 @@ public class LoadGameView extends BorderPane {
 		setMinSize(MainScene.SCENEWIDTH, MainScene.SCENEHEIGHT);
 		
 		setUpLayout();
-		setUpTopText();
-		setUpGames();
-		setUpButton();
 		
 		setCenter(layout);
 		
@@ -56,19 +45,16 @@ public class LoadGameView extends BorderPane {
 		layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
 		layout.setSpacing(spacing);
+		
+		setUpTopText();
+		setUpGames();
+		setUpButton();
 	}
 	
 	private void setUpTopText() {
 		
-		int fontSize = 60;
-		
 		Label topText = new Label("Load Game");
-		topText.setFont(Font.font(MainScene.FONTNAME, FontWeight.BOLD, fontSize));
-		topText.setTextFill(Color.WHITE);
-		
-		topText.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(10))));
-		topText.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
-		topText.setPadding(new Insets(50));
+		topText.getStyleClass().add("start-title");
 		
 		HBox topPane = new HBox();
 		topPane.getChildren().add(topText);
@@ -79,15 +65,10 @@ public class LoadGameView extends BorderPane {
 	
 	private void setUpGames() {
 		
-		int height = 500;
-		
 		VBox content = getScrollBarContent();
 		
 		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, null, null)));
-		scrollPane.setMinSize(content.getMinWidth(), height);
-		scrollPane.setMaxSize(content.getMaxWidth(), height);
-		scrollPane.setStyle("-fx-background: #32CD32;\n -fx-border-color: #32CD32;");
+		scrollPane.getStyleClass().add("games-scrollpane");
 		
 		scrollPane.setContent(content);
 		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
@@ -97,31 +78,24 @@ public class LoadGameView extends BorderPane {
 	}
 	
 	private VBox getScrollBarContent() {
-		int width = 800;
-		int extraSpce = 5;
+		int spacing = 15;
 		
-		VBox content = new VBox();
+		VBox content = new VBox(spacing);
 		for(String playerName : scene.getAllPlayerNames()) {
 			content.getChildren().add(getGamePane(playerName));
 		}
-		
-		content.setMinWidth(width);
-		content.setMaxWidth(width + extraSpce);
+		content.getStyleClass().add("games-scrollpane-content");
 		
 		return content;
 	}
 	
 	private BorderPane getGamePane(String playerName) {
-		int borderWidths = 5;
-		int fontSize = 24;
-		int padding = 15;
 		
 		BorderPane gamePane = new BorderPane();
-		gamePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(borderWidths))));
-		gamePane.setPadding(new Insets(padding, padding, padding, 0));
+		gamePane.getStyleClass().add("game-pane");
 		
 		Label nameLabel = new Label(playerName);
-		nameLabel.setFont(Font.font(MainScene.FONTNAME, fontSize));
+		nameLabel.getStyleClass().add("game-pane-name");
 		
 		HBox buttons = getButtonsOfGamePane(playerName);
 		
@@ -141,17 +115,15 @@ public class LoadGameView extends BorderPane {
 		buttons.setAlignment(Pos.CENTER);
 		buttons.setSpacing(spacing);
 		
-		Button loadButton = getButton("Load");
+		Button loadButton = new Button("Load");
+		loadButton.getStyleClass().add("game-pane-button");
 		loadButton.setOnAction(e -> scene.loadGame(playerName));
-		loadButton.setPrefWidth(loadButton.getPrefWidth()/3 * 2);
-		loadButton.setPrefHeight(loadButton.getPrefHeight()/2);
-		loadButton.setStyle("-fx-background-color: forestgreen;");
+		loadButton.setOnKeyPressed(e -> handleButtonKeyPressed(e, loadButton));
 		
-		Button deleteButton = getButton("Delete");
+		Button deleteButton = new Button("Delete");
+		deleteButton.getStyleClass().add("game-pane-button");
 		deleteButton.setOnAction(e -> scene.deletePlayer(playerName));
-		deleteButton.setPrefWidth(deleteButton.getPrefWidth()/3 * 2);
-		deleteButton.setPrefHeight(deleteButton.getPrefHeight()/2);
-		deleteButton.setStyle("-fx-background-color: forestgreen;");
+		deleteButton.setOnKeyPressed(e -> handleButtonKeyPressed(e, deleteButton));
 		
 		buttons.getChildren().addAll(loadButton, deleteButton);
 		
@@ -159,28 +131,18 @@ public class LoadGameView extends BorderPane {
 	}
 	
 	private void setUpButton() {
-		
-		Button goBackButton = getButton("Go Back");
+		Button goBackButton = new Button("Go Back");
+		goBackButton.getStyleClass().add("startup-button");
 		goBackButton.setOnAction(e -> goBack());
+		goBackButton.setOnKeyPressed(e -> handleButtonKeyPressed(e, goBackButton));
 		
 		layout.getChildren().addAll(goBackButton);
 	}
 	
-	private Button getButton(String text) {
-		int buttonWidth = 200;
-		int buttonHeight= buttonWidth / 2;
-		int fontSize = 30;
-		
-		Button button = new Button(text);
-		button.setPrefSize(buttonWidth, buttonHeight);
-		
-		button.setFont(Font.font(MainScene.FONTNAME, fontSize));
-		button.setTextFill(Color.WHITE);
-		button.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, null, null)));
-		button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
-		button.setCursor(Cursor.HAND);
-		
-		return button;
+	private void handleButtonKeyPressed(KeyEvent e, Button button) {
+		if(e.getCode().equals(KeyCode.ENTER) && button.isFocused()) {
+			button.fire();
+		}
 	}
 	
 	private void goBack() {

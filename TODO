@@ -12,6 +12,7 @@ Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 Shops maken
 Interactieve Dialogues
+Startscreen verbeteren
 (Dialogues in database kan in JSON i.p.v. moeilijk doen)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
@@ -66,4 +67,4 @@ BrickHouse image fixen en voelt plat & binnenkant
 De stilstaan animaties gaan iets te laag
 
 
-Nu: Start, BuildingView (zie voorbeeld) 
+Nu: BuildingView (zie voorbeeld) 
