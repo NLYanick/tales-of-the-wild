@@ -261,6 +261,15 @@ public class NPC extends Entity {
 		items.add(item);
 	}
 	
+	public Direction getGoodDirection(Direction dir) {
+		if((dir.equals(Direction.NORTH) || dir.equals(Direction.WEST))) {
+			dir = Direction.getOpposite(dir);
+		}
+		return dir;
+	} 
+	
+	// ----- Getters & Setters -----
+	
 	public Location getStartLocation() {
 		return startLocation;
 	}

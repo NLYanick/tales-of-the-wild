@@ -80,12 +80,8 @@ public class Game {
 				controller.moveItemViewWithScreen(item);
 			}
 		}	
-		if(buildings != null) {
-			for(Building building : buildings) {
-				if(currentBuilding == building) {					
-					controller.moveBuildingViewWithScreen(building);
-				}
-			}
+		if(buildings != null && currentBuilding != null) {	
+			controller.moveBuildingViewWithScreen(currentBuilding);
 		}	
 	}
 	
@@ -93,30 +89,34 @@ public class Game {
 		Direction oppositeDir = Direction.getOpposite(dir);
 		boolean inBuilding = player.isInBuilding();
 		
-		if(canWalk(dir) || inBuilding) {
-			if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
-				controller.moveBuildingView(dir);
-				moveBuildings(dir);
-				
-				moveAll(dir, oppositeDir);
-
-			} else if(!inBuilding) {
-				moveBackground(dir);
-				controller.moveBackground(getBackgroundX(), getBackgroundY());
-				
-				moveAll(dir, oppositeDir);
-			}
+		if(canWalk(dir)) {
+			moveBackground(dir);
+			moveRest(dir, oppositeDir);
+		}
+		else if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
+			moveBuilding(dir);
+			moveRest(dir, oppositeDir);
 		}
 		else if(getNearbyBuilding(oppositeDir) != null) {
 			enterBuilding(oppositeDir);
 		}
 	}
 	
-	private void moveAll(Direction dir, Direction oppositeDir) {
+	private void moveRest(Direction dir, Direction oppositeDir) {
 		moveNPCs(dir);
 		moveItems(dir);
 		
 		player.move(oppositeDir);
+	}
+	
+	private void moveBackground(Direction dir) {
+		backgroundLocation.move(dir);
+		controller.moveBackground(getBackgroundX(), getBackgroundY());
+	}
+	
+	private void moveBuilding(Direction dir) {
+		currentBuilding.moveViewLocation(dir);
+		controller.moveBuildingView(dir);
 	}
 	
 	private boolean canWalk(Direction dir) {
@@ -190,11 +190,6 @@ public class Game {
 		}
 	}
 	
-	public void addItemToPlayerInventory(Item item) {
-		player.addItemToInventory(item);
-		item.resetLocation();
-	}
-	
 	// ---------- NPCs ----------
 	
 	private NPC getNearbyNPC(Direction direction) {
@@ -208,7 +203,7 @@ public class Game {
 
 	private boolean hasNPCNearby(NPC npc, Direction movingDirection) {
 		
-		Direction direction = getGoodNPCCheckDirection(movingDirection);
+		Direction direction = npc.getGoodDirection(movingDirection);
 		Direction nextDirection = Direction.getNext(direction);
 
 		if(Direction.isHorizontal(movingDirection)) {
@@ -220,13 +215,6 @@ public class Game {
 		return false;
 	}
 	
-	private Direction getGoodNPCCheckDirection(Direction dir) {
-		if((dir.equals(Direction.NORTH) || dir.equals(Direction.WEST))) {
-			dir = Direction.getOpposite(dir);
-		}
-		return dir;
-	}
-	
 	private boolean hasNPCNearbyHorizontal(NPC npc, Direction direction, Direction nextDirection) {
 		
 		int multiplier = 12;
@@ -235,12 +223,12 @@ public class Game {
 		
 		if(movingDirection == Direction.EAST) {
 			if((player.getX() >= npc.getX()) && (player.getX() <= npc.getX() + direction.getX() * multiplier)
-				&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
+				&& player.yIsNearNPCY(npc, nextDirection, multiplier)) {
 				hasNearby = true;
 			}
 		} else if(movingDirection == Direction.WEST) {
 			if((player.getX() >= npc.getX() - direction.getX() * multiplier) && (player.getX() <= npc.getX())
-				&& playerYIsNearNPCY(npc, nextDirection, multiplier)) {
+				&& player.yIsNearNPCY(npc, nextDirection, multiplier)) {
 				hasNearby = true;
 			}
 		}
@@ -255,26 +243,16 @@ public class Game {
 		
 		if(movingDirection == Direction.NORTH) {
 			if(((player.getY() >= npc.getY() - direction.getY() * (multiplier * 1.5)) && (player.getY() <= npc.getY()))
-					&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
+					&& player.xIsNearNPCX(npc, nextDirection, multiplier/2)) {
 				hasNearby = true;
 			}
 		} else if(movingDirection == Direction.SOUTH) {
 			if((player.getY() >= npc.getY()) && (player.getY() <= npc.getY() + direction.getY() * multiplier)
-				&& playerXIsNearNPCX(npc, nextDirection, multiplier/2)) {
+				&& player.xIsNearNPCX(npc, nextDirection, multiplier/2)) {
 				hasNearby = true;
 			}
 		}
 		return hasNearby;
-	}
-	
-	private boolean playerXIsNearNPCX(NPC npc, Direction nextDirection, int multiplier) {
-		return (player.getX() >= npc.getX() + nextDirection.getX() * multiplier) 
-		&& (player.getX() <= npc.getX() - nextDirection.getX() * multiplier);
-	}
-	
-	private boolean playerYIsNearNPCY(NPC npc, Direction nextDirection, int multiplier) {
-		return (player.getY() >= npc.getY() - nextDirection.getY() * multiplier) 
-				&& (player.getY() <= npc.getY() + nextDirection.getY() * multiplier);
 	}
 	
 	private void moveNPCs(Direction dir) {
@@ -289,18 +267,11 @@ public class Game {
 	
 	private Item getNearbyItem() {
 		for(Item item : items) {
-			if(playerIsOnItem(item)) {
+			if(player.isOnItem(item)) {
 				return item;
 			}
 		}
 		return null;
-	}
-	
-	private boolean playerIsOnItem(Item item) {
-		int extraSpace = 10;
-		int itemWidth = Item.ITEMWIDTH;
-		return Location.isGreater(player.getLocation(), new Location(item.getX() - extraSpace, item.getY() - extraSpace)) 
-				&& Location.isLess(player.getLocation(), new Location(item.getX() + extraSpace + itemWidth, item.getY() + extraSpace + itemWidth));
 	}
 	
 	private void moveItems(Direction dir) {
@@ -338,14 +309,6 @@ public class Game {
 		building.enter(player);
 	}
 	
-	private void moveBuildings(Direction dir) {
-		for(Building building : buildings) {
-			if(currentBuilding == building) {				
-				building.moveViewLocation(dir);
-			}
-		}
-	}
-	
 	public void clearBuildingViewImages() {
 		buildingViewImages.clear();
 	}
@@ -355,10 +318,6 @@ public class Game {
 	}
 	
 	// ---------- Pass methods ----------
-	
-	public void moveBackground(Direction dir) {
-		backgroundLocation.move(dir);
-	}
 	
 	public void setBackgroundX(int x) {
 		backgroundLocation.setX(x);
@@ -428,6 +387,9 @@ public class Game {
 		player.removeItemFromInventory(item);
 	}
 	
+	public void addItemToPlayerInventory(Item item) {
+		player.addItemToInventory(item);
+	}
 	
 	// ---------- Set up ----------
 	
