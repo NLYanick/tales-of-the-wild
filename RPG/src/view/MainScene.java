@@ -72,7 +72,7 @@ public class MainScene extends Scene {
 		setUpStartUpView();
 		setUpListeners();
 		
-		getStylesheets().add("CSS/stylesheet.css");
+		getStylesheets().addAll("CSS/stylesheet.css", "CSS/start.css", "CSS/pause-menu.css", "CSS/inventory.css");
 		
 		setRoot(root);
 	}

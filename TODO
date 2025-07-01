@@ -13,6 +13,7 @@ Als je een player verwijderd, moet je ook in de database de game (en alles wat e
 Shops maken
 Interactieve Dialogues
 Startscreen verbeteren
+Elke 5 minuten opslaan
 (Dialogues in database kan in JSON i.p.v. moeilijk doen)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
