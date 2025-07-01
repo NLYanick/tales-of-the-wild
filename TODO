@@ -7,7 +7,6 @@ NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Niet alleen NPC Dialogs met items moeten skipbaar kunnen zijn
 Vragen of je het zeker weet als je een player delete
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
-Mooie kleuren en designs
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 Shops maken
