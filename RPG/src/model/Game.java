@@ -185,8 +185,11 @@ public class Game {
 		if(nearbyNPC != null) {	
 			controller.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
-		} else if(item != null) {
+		} else if(item != null && !player.inventoryIsFull()) {
+			player.addItemToInventory(item);
 			controller.addItemViewToInventoryView(item);
+		} else if(player.inventoryIsFull()) {
+			controller.addSingleDialogView("Your Inventory is full");
 		}
 	}
 	

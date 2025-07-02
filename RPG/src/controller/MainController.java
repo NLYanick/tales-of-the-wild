@@ -241,11 +241,6 @@ public class MainController {
 		game.playerInteract();
 	}
 	
-	public void addItemToPlayerInventory(Item item) {
-		game.addItemToPlayerInventory(item);
-		databaseController.addItemToPlayer(item, game.getPlayer());
-	}
-	
 	public void dropItem(ItemView itemView) {
 		Item item = getItemFromView(itemView);
 		
@@ -305,15 +300,20 @@ public class MainController {
 	}
 	
 	private void addItemDialogView(String text, Item item) {
-		scene.addDialogView(text);
+		addSingleDialogView(text);
 		scene.addItemDialogView(item.getName(), text);
 		
+		game.addItemToPlayerInventory(item);
 		addItemViewToInventoryView(item);
 		item.setNPCId(0);
 	}
 	
 	public void addItemViewToInventoryView(Item item) {
 		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), game.playerInventoryIsFull());
+	}
+	
+	public void addSingleDialogView(String text) {
+		scene.addDialogView(text);
 	}
 	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {

@@ -266,9 +266,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void addItemViewToInventoryView(Item item, ItemView itemView, boolean inventoryIsFull) {
-		if(!inventoryIsFull) {
-			controller.addItemToPlayerInventory(item);
-			
+		if(!inventoryIsFull) {			
 			removeItemView(itemView);
 			inventoryView.addItemView(itemView);
 		} else {
