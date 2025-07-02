@@ -5,7 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import model.Direction;
 import model.Location;
@@ -52,9 +55,16 @@ public class NPCLayer {
 
 	private List<String> getDialog(String dialogData) {
 		List<String> dialog = new ArrayList<String>();
+	
+		JSONObject obj = new JSONObject(dialogData);
+		JSONObject dialogs = obj.getJSONObject("dialogs");
 		
-		for(String text : dialogData.split(" & ")) {
-			dialog.add(text);
+		ArrayList<String> sortedKeys = new ArrayList<>(dialogs.keySet());
+		Collections.sort(sortedKeys);
+		
+		for(String key : sortedKeys) {
+			JSONObject d = dialogs.getJSONObject(key);
+			dialog.add(d.getString("text"));
 		}
 		
 		return dialog;
