@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import model.Dialog;
 import model.Direction;
 import model.Location;
 import model.NPC;
@@ -31,7 +32,7 @@ public class NPCLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				List<String> dialog = getDialog(rs.getString("dialog"));
+				List<Dialog> dialog = getDialog(rs.getString("dialog"));
 				
 				String directionString = rs.getString("direction");
 				NPC npc = null;
@@ -53,21 +54,28 @@ public class NPCLayer {
 		return npcs;
 	}
 
-	private List<String> getDialog(String dialogData) {
-		List<String> dialog = new ArrayList<String>();
+	private List<Dialog> getDialog(String dialogData) {
+		List<Dialog> dialogs = new ArrayList<Dialog>();
 	
 		JSONObject obj = new JSONObject(dialogData);
-		JSONObject dialogs = obj.getJSONObject("dialogs");
+		JSONObject dialogsJSON = obj.getJSONObject("dialogs");
 		
-		ArrayList<String> sortedKeys = new ArrayList<>(dialogs.keySet());
+		ArrayList<String> sortedKeys = new ArrayList<>(dialogsJSON.keySet());
 		Collections.sort(sortedKeys);
 		
 		for(String key : sortedKeys) {
-			JSONObject d = dialogs.getJSONObject(key);
-			dialog.add(d.getString("text"));
+			JSONObject d = dialogsJSON.getJSONObject(key);
+			
+			Dialog dialog;
+			if(d.has("item")) {				
+				dialog = new Dialog(d.getString("text"), d.getBoolean("skip"), d.getInt("item"));
+			} else {				
+				dialog = new Dialog(d.getString("text"), d.getBoolean("skip"), -1);
+			}
+			dialogs.add(dialog);
 		}
 		
-		return dialog;
+		return dialogs;
 	}
 
 	public Location getOriginalNPCBuildingLocation(NPC npc) {

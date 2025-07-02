@@ -3,13 +3,12 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import model.BackgroundLocation;
 import model.Building;
+import model.Dialog;
 import model.Direction;
 import model.Game;
 import model.Image;
@@ -279,42 +278,33 @@ public class MainController {
 		return null;
 	}
 	
-	public void addDialogView(List<String> dialog, ArrayList<Item> items) {
+	public void addDialogView(List<Dialog> dialogs, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
-		String compile = " I([0-9]+)";
-		Pattern pattern = Pattern.compile(compile);
-		
-		String skipText = " /Skip/";
 		boolean skip = false;
 		
-		for(String text : dialog) {
-			Matcher matcher = pattern.matcher(text);
-			if(matcher.find()) {
-				int number = Integer.parseInt(matcher.group(1));
-				Item item = getDialogItem(items, number);
+		for(Dialog dia : dialogs) {
+			if(dia.getItemId() > 0) {
+				Item item = getDialogItem(items, dia.getItemId());
 				
 				if(item == null || item.getNPCId() <= 0) {
 					skip = true;
 					continue;
 				}
 				
-				addItemDialogView(text, item, compile);
+				addItemDialogView(dia.getText(), item);
 			} else {
-				if(text.matches(".*" + skipText)) {
-					text = text.replaceAll(skipText, "");
+				if(dia.shouldSkip()) {
 					if(skip) {
 						continue;
 					}
 				}
-				scene.addDialogView(text);
+				scene.addDialogView(dia.getText());
 			}
 		}
 	}
 	
-	private void addItemDialogView(String text, Item item, String compile) {
-		text = text.replaceAll(compile, "");
-		
+	private void addItemDialogView(String text, Item item) {
 		scene.addDialogView(text);
 		scene.addItemDialogView(item.getName(), text);
 		

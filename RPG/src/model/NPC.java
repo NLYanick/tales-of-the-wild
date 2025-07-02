@@ -18,10 +18,10 @@ public class NPC extends Entity {
 	
 	private Location viewLocation;
 	
-	private List<String> dialog;
+	private List<Dialog> dialogs;
 	private ArrayList<Item> items;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<String> dialog, 
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<Dialog> dialog, 
 			int buildingId, int id, int gameId) {
 		super(imageURL, name, gameId);
 				
@@ -31,7 +31,7 @@ public class NPC extends Entity {
 		this.startLocation = startLocation;
 		movingDirection = walkDirection;
 		
-		this.dialog = dialog;
+		this.dialogs = dialog;
 		this.buildingId = buildingId;
 		this.id = id;
 		
@@ -40,14 +40,14 @@ public class NPC extends Entity {
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, List<String> dialog, int buildingId, int id, int gameId) {
+	public NPC(String imageURL, Location startLocation, String name, List<Dialog> dialogs, int buildingId, int id, int gameId) {
 		super(imageURL, name, gameId);
 		this.startLocation = startLocation;
 		
 		location.setX(startLocation.getX());
 		location.setY(startLocation.getY());
 		
-		this.dialog = dialog;
+		this.dialogs = dialogs;
 		this.buildingId = buildingId;
 		this.id = id;
 		this.gameId = gameId;
@@ -240,7 +240,7 @@ public class NPC extends Entity {
 		pauzeThread();
 		setStandingStillAnimation(direction);
 		
-		controller.addDialogView(dialog, items);
+		controller.addDialogView(dialogs, items);
 		isInDialog = true;
 	}
 	
@@ -286,8 +286,8 @@ public class NPC extends Entity {
 		this.viewLocation = viewLocation;
 	}
 	
-	public List<String> getDialog(){
-		return dialog;
+	public List<Dialog> getDialog(){
+		return dialogs;
 	}
 	
 	public boolean isInDialog() {

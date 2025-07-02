@@ -13,7 +13,6 @@ Shops maken
 Interactieve Dialogues
 Startscreen verbeteren
 Elke 5 minuten opslaan
-(Dialogues in database kan in JSON i.p.v. moeilijk doen)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -26,7 +25,6 @@ Item oppakken geeft ItemViewDialog
 Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
 Building code fixen
-Dialog strings fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController & Game klasse opschonen
 MainScene klasse opschonen
