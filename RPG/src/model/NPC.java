@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import controller.MainController;
 
@@ -18,10 +17,10 @@ public class NPC extends Entity {
 	
 	private Location viewLocation;
 	
-	private List<Dialog> dialogs;
+	private ArrayList<Dialog> dialogs;
 	private ArrayList<Item> items;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, List<Dialog> dialog, 
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, 
 			int buildingId, int id, int gameId) {
 		super(imageURL, name, gameId);
 				
@@ -40,7 +39,7 @@ public class NPC extends Entity {
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, List<Dialog> dialogs, int buildingId, int id, int gameId) {
+	public NPC(String imageURL, Location startLocation, String name, ArrayList<Dialog> dialogs, int buildingId, int id, int gameId) {
 		super(imageURL, name, gameId);
 		this.startLocation = startLocation;
 		
@@ -286,7 +285,7 @@ public class NPC extends Entity {
 		this.viewLocation = viewLocation;
 	}
 	
-	public List<Dialog> getDialog(){
+	public ArrayList<Dialog> getDialog(){
 		return dialogs;
 	}
 	

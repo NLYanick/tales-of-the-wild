@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class NPCLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				List<Dialog> dialog = getDialog(rs.getString("dialog"));
+				ArrayList<Dialog> dialog = getDialog(rs.getString("dialog"));
 				
 				String directionString = rs.getString("direction");
 				NPC npc = null;
@@ -54,8 +53,8 @@ public class NPCLayer {
 		return npcs;
 	}
 
-	private List<Dialog> getDialog(String dialogData) {
-		List<Dialog> dialogs = new ArrayList<Dialog>();
+	private ArrayList<Dialog> getDialog(String dialogData) {
+		ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
 	
 		JSONObject obj = new JSONObject(dialogData);
 		JSONObject dialogsJSON = obj.getJSONObject("dialogs");

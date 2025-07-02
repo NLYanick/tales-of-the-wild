@@ -2,7 +2,6 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -273,7 +272,7 @@ public class MainController {
 		return null;
 	}
 	
-	public void addDialogView(List<Dialog> dialogs, ArrayList<Item> items) {
+	public void addDialogView(ArrayList<Dialog> dialogs, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
 		boolean skip = false;
@@ -289,10 +288,8 @@ public class MainController {
 				
 				addItemDialogView(dia.getText(), item);
 			} else {
-				if(dia.shouldSkip()) {
-					if(skip) {
-						continue;
-					}
+				if(dia.shouldSkip() && skip) {
+					continue;
 				}
 				scene.addDialogView(dia.getText());
 			}
