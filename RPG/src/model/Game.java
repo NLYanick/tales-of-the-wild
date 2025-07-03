@@ -188,6 +188,7 @@ public class Game {
 		} else if(item != null && !player.inventoryIsFull()) {
 			player.addItemToInventory(item);
 			controller.addItemViewToInventoryView(item);
+			controller.addSingleItemDialogView("You have picked up a(n) " + item.getName(), item);
 		} else if(player.inventoryIsFull()) {
 			controller.addSingleDialogView("Your Inventory is full");
 		}

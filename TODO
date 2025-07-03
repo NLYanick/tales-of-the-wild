@@ -22,7 +22,6 @@ Quests maken (Bij houden welke NPC het gevraagd heeft)
 
 Minder Prioriteit:
 Images in Database
-Item oppakken geeft ItemViewDialog
 Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
 Building code fixen

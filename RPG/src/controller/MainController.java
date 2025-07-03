@@ -259,10 +259,6 @@ public class MainController {
 		item.setNPCId(0);
 	}
 	
-	public void addSingleItemDialogView(String text, Item item) {
-		scene.addItemDialogView(item.getName(), text);
-	}
-	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
 		int j = list.size() - 1;
 		T temp;
@@ -308,9 +304,12 @@ public class MainController {
 	}
 	
 	public void endDialog() {
-		saveNPCDialog(game.getDialogNPC());
-		game.resumeNearbyNPCThread();
-		game.resetDialogNPC();
+		NPC npc = game.getDialogNPC();
+		if(npc != null) {			
+			saveNPCDialog(npc);
+			game.resumeNearbyNPCThread();
+			game.resetDialogNPC();
+		}
 	}
 	
 	
@@ -362,6 +361,10 @@ public class MainController {
 	
 	public void addSingleDialogView(String text) {
 		scene.addDialogView(text);
+	}
+	
+	public void addSingleItemDialogView(String text, Item item) {
+		scene.addItemDialogView(item.getName(), text);
 	}
 	
 	public void removeBuildingView() {
