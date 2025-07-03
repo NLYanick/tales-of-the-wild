@@ -252,7 +252,7 @@ public class MainController {
 	
 	private void addItemDialogView(String text, Item item) {
 		addSingleDialogView(text);
-		scene.addItemDialogView(item.getName(), text);
+		scene.addItemDialogView(item.getName());
 		
 		game.addItemToPlayerInventory(item);
 		addItemViewToInventoryView(item);
@@ -363,8 +363,8 @@ public class MainController {
 		scene.addDialogView(text);
 	}
 	
-	public void addSingleItemDialogView(String text, Item item) {
-		scene.addItemDialogView(item.getName(), text);
+	public void addSingleItemDialogView(Item item) {
+		scene.addItemDialogView(item.getName());
 	}
 	
 	public void removeBuildingView() {
@@ -420,6 +420,14 @@ public class MainController {
 	
 	public void saveNPCDialog(NPC npc) {
 		databaseController.saveNPCDialog(npc);
+	}
+	
+	public void addItemToPlayer(Item item) {
+		databaseController.addItemToPlayer(item, game.getPlayer());
+	}
+	
+	public void setItemLocation(Item item, Location location) {
+		databaseController.setItemLocation(item, location);
 	}
 	
 	public ArrayList<NPC> getAllNPCs() {

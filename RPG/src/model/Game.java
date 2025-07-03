@@ -186,12 +186,17 @@ public class Game {
 			player.talkToNPC(nearbyNPC);
 			dialogNPC = nearbyNPC;
 		} else if(item != null && !player.inventoryIsFull()) {
-			player.addItemToInventory(item);
+			addItemToPlayerInventory(item);
 			controller.addItemViewToInventoryView(item);
-			controller.addSingleItemDialogView("You have picked up a(n) " + item.getName(), item);
+			controller.addSingleItemDialogView(item);
 		} else if(player.inventoryIsFull()) {
 			controller.addSingleDialogView("Your Inventory is full");
 		}
+	}
+	
+	public void addItemToPlayerInventory(Item item) {
+		player.addItemToInventory(item);
+		controller.addItemToPlayer(item);
 	}
 	
 	// ---------- NPCs ----------
@@ -393,10 +398,6 @@ public class Game {
 	
 	public void dropItemFromPlayerInventory(Item item) {
 		player.removeItemFromInventory(item);
-	}
-	
-	public void addItemToPlayerInventory(Item item) {
-		player.addItemToInventory(item);
 	}
 	
 	// ---------- Set up ----------

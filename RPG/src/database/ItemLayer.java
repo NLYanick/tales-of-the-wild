@@ -62,7 +62,7 @@ public class ItemLayer {
 	}
 	
 	public void savePlayerItems(Player player, ArrayList<Item> items) {
-		String query = "UPDATE item SET player_name = ? WHERE id = ?";
+		String query = "UPDATE item SET player_name = ?, x = 0, y = 0 WHERE id = ?";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);

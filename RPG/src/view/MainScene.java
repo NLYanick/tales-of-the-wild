@@ -237,8 +237,8 @@ public class MainScene extends Scene {
 		dialogs.get(0).requestFocus();
 	}
 	
-	public void addItemDialogView(String itemName, String dialogText) {
-		dialogText = "You've collected a(n) " + itemName + "!";
+	public void addItemDialogView(String itemName) {
+		String dialogText = "You've collected a(n) " + itemName + "!";
 		
 		ItemDialogView dialogView = new ItemDialogView(dialogText, this);
 		menusPane.getChildren().add(0, dialogView);
