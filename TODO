@@ -4,15 +4,16 @@ Map toevoegen
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
-Niet alleen NPC Dialogs met items moeten skipbaar kunnen zijn
 Vragen of je het zeker weet als je een player delete
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
+De player moet states hebben (paused, in-dialog, in-inventory, enz.)
 Shops maken
 Interactieve Dialogues
 Startscreen verbeteren
 Elke 5 minuten opslaan
+Quests maken (Bij houden welke NPC het gevraagd heeft)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -29,11 +30,11 @@ Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController & Game klasse opschonen
 MainScene klasse opschonen
 Validatie op naam (bij aanmaken game)
+'a(n)' veranderen naar of 'a' of 'an' (ItemDialog)
 Dialogs en ItemDialogs mooi maken
 Item plekken onthouden in Inventory
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Models mogen geen viewlocation hebben
-Dialog --> Dialogue
 Menu's en LoadGameView responsive maken
 Inventory responsive maken
 Met Tab kan je knoppen besturen :(

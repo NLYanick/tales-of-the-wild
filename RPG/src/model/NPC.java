@@ -285,7 +285,7 @@ public class NPC extends Entity {
 		this.viewLocation = viewLocation;
 	}
 	
-	public ArrayList<Dialog> getDialog(){
+	public ArrayList<Dialog> getDialogs(){
 		return dialogs;
 	}
 	

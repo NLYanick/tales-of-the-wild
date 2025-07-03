@@ -14,9 +14,10 @@ public class Game {
 	private MainController controller;
 	private BackgroundLocation backgroundLocation;
 	
-	private Player player;
 	private Building currentBuilding;
+	private NPC dialogNPC;
 	
+	private Player player;
 	private ArrayList<NPC> npcs;
 	private ArrayList<Item> items;
 	private ArrayList<Building> buildings;
@@ -170,11 +171,9 @@ public class Game {
 	}
 	
 	public void resumeNearbyNPCThread() {
-		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
-
-		if(nearbyNPC != null) {
-			nearbyNPC.setIsInDialog(false);
-			nearbyNPC.resumeThread();
+		if(dialogNPC != null) {
+			dialogNPC.setIsInDialog(false);
+			dialogNPC.resumeThread();
 		}
 	}
 	
@@ -185,6 +184,7 @@ public class Game {
 		if(nearbyNPC != null) {	
 			controller.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
+			dialogNPC = nearbyNPC;
 		} else if(item != null && !player.inventoryIsFull()) {
 			player.addItemToInventory(item);
 			controller.addItemViewToInventoryView(item);
@@ -195,7 +195,7 @@ public class Game {
 	
 	// ---------- NPCs ----------
 	
-	private NPC getNearbyNPC(Direction direction) {
+	public NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
 			if(hasNPCNearby(npc, direction)) {
 				return npc;
@@ -263,6 +263,10 @@ public class Game {
 			npc.moveViewLocationWithBackground(dir);
 			controller.moveNPCViewWithScreen(npc);			
 		}
+	}
+	
+	public void resetDialogNPC() {
+		dialogNPC = null;
 	}
 	
 	
@@ -503,6 +507,10 @@ public class Game {
 
 	public void setCurrentBuilding(Building currentBuilding) {
 		this.currentBuilding = currentBuilding;
+	}
+	
+	public NPC getDialogNPC() {
+		return dialogNPC;
 	}
 	
 }

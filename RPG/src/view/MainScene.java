@@ -252,7 +252,7 @@ public class MainScene extends Scene {
 		dialogs.remove(dialogView);
 		if(dialogs.size() == 0) {
 			playerIsInDialog = false;
-			controller.resumeNearbyNPCThread();
+			controller.endDialog();
 			return;
 		}
 		dialogs.get(0).requestFocus();

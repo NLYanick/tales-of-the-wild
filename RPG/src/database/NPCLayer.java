@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -71,6 +72,9 @@ public class NPCLayer {
 			} else {				
 				dialog = new Dialog(d.getString("text"), d.getBoolean("skip"), -1);
 			}
+			
+			if(d.has("played")) dialog.setHasPlayed(d.getBoolean("played"));
+			
 			dialogs.add(dialog);
 		}
 		
@@ -97,6 +101,34 @@ public class NPCLayer {
 			s.printStackTrace();
 		}
 		return location;
+	}
+	
+	public void saveDialogs(NPC npc) {
+		String query = "UPDATE npc SET dialog = ? WHERE id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, getFullDialogString(npc.getDialogs()));
+			stmt.setInt(2, npc.getId());
+			stmt.execute();
+			
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String getFullDialogString(ArrayList<Dialog> dialogs) {
+		String fullString = "{\"dialogs\": { ";
+		int i = 1;
+		
+		for(Dialog dialog : dialogs) {
+			fullString += "\"dialog-" + i + "\": { " + dialog.toJSON() + " }, ";
+			i++;
+		}
+		fullString += " }}";
+		
+		return fullString;
 	}
 	
 }

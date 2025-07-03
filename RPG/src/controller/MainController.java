@@ -47,10 +47,6 @@ public class MainController {
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		itemsWithViews = new HashMap<Item, ItemView>();
 	}
-	
-	public void startGame() {
-		game.startGame();
-	}
 		
 	public void addNPCView(NPC npc, int bgX, int bgY) {
 		NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
@@ -87,24 +83,8 @@ public class MainController {
 		scene.setItemViewsInInventory(itemViews);
 	}
 	
-	public void moveBuildingView(Direction dir) {
-		scene.moveBuildingView(dir);
-	}
-	
-	public void moveBackground(int backgroundX, int backgroundY) {
-		scene.moveBackground(backgroundX, backgroundY, isFullScreen());
-	}
-	
 	public ArrayList<Image> getImagesInFile() {
 		return fileIO.getImagesInFile();
-	}
-	
-	public void moveBackgroundAndPlayer(Direction dir) {
-		game.moveBackgroundAndPlayer(dir);
-	}
-	
-	public void teleportPlayer(Location location) {
-		game.teleportPlayer(location);
 	}
 	
 	public void teleportImages() {
@@ -147,16 +127,6 @@ public class MainController {
 	public void setPlayerImage(Direction dir) {
 		game.setRunningImage(dir);
 		scene.changePlayerImage();
-	}
-	
-	public void stopNPCThreads() {
-		if(game != null) {			
-			game.stopNPCThreads();
-		}
-	}
-	
-	public void resumeNPCThreads() {
-		game.resumeNPCThreads();
 	}
 	
 	public void setFullScreen(boolean isFullScreen) {
@@ -224,22 +194,6 @@ public class MainController {
 		}
 	}
 	
-	public void pauzeGame() {
-		game.pauzeGame();
-	}
-	
-	public void resumeGame() {
-		game.resumeGame();
-	}
-	
-	public void resumeNearbyNPCThread() {
-		game.resumeNearbyNPCThread();
-	}
-	
-	public void playerInteract() {
-		game.playerInteract();
-	}
-	
 	public void dropItem(ItemView itemView) {
 		Item item = getItemFromView(itemView);
 		
@@ -275,24 +229,24 @@ public class MainController {
 	public void addDialogView(ArrayList<Dialog> dialogs, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
-		boolean skip = false;
-		
 		for(Dialog dia : dialogs) {
+			if(dia.shouldSkip() && dia.hasPlayed()) {
+				continue;
+			}
+			
 			if(dia.getItemId() > 0) {
 				Item item = getDialogItem(items, dia.getItemId());
 				
 				if(item == null || item.getNPCId() <= 0) {
-					skip = true;
 					continue;
 				}
 				
 				addItemDialogView(dia.getText(), item);
 			} else {
-				if(dia.shouldSkip() && skip) {
-					continue;
-				}
 				scene.addDialogView(dia.getText());
 			}
+			
+			dia.setHasPlayed(true);
 		}
 	}
 	
@@ -305,12 +259,8 @@ public class MainController {
 		item.setNPCId(0);
 	}
 	
-	public void addItemViewToInventoryView(Item item) {
-		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), game.playerInventoryIsFull());
-	}
-	
-	public void addSingleDialogView(String text) {
-		scene.addDialogView(text);
+	public void addSingleItemDialogView(String text, Item item) {
+		scene.addItemDialogView(item.getName(), text);
 	}
 	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
@@ -347,10 +297,6 @@ public class MainController {
 		scene.setBuildingView(building);
 	}
 	
-	public void removeBuildingView() {
-		scene.removeBuildingView();
-	}
-	
 	public String getImageUrlByIndex(int index) {
 		return fileIO.getImageUrlByIndex(index);
 	}
@@ -361,10 +307,70 @@ public class MainController {
 		game.addBuildingViewImage(image);
 	}
 	
+	public void endDialog() {
+		saveNPCDialog(game.getDialogNPC());
+		game.resumeNearbyNPCThread();
+		game.resetDialogNPC();
+	}
+	
+	
+	// -------------------- Pass Methodes --------------------
+	
+	public void startGame() {
+		game.startGame();
+	}
+	
+	public void moveBackgroundAndPlayer(Direction dir) {
+		game.moveBackgroundAndPlayer(dir);
+	}
+	
+	public void teleportPlayer(Location location) {
+		game.teleportPlayer(location);
+	}
+	
+	public void stopNPCThreads() {
+		if(game != null) game.stopNPCThreads();
+	}
+	
+	public void resumeNPCThreads() {
+		game.resumeNPCThreads();
+	}
+	
+	public void pauzeGame() {
+		game.pauzeGame();
+	}
+	
+	public void resumeGame() {
+		game.resumeGame();
+	}
+	
+	public void playerInteract() {
+		game.playerInteract();
+	}
+	
+	public void moveBuildingView(Direction dir) {
+		scene.moveBuildingView(dir);
+	}
+	
+	public void moveBackground(int backgroundX, int backgroundY) {
+		scene.moveBackground(backgroundX, backgroundY, isFullScreen());
+	}
+	
+	public void addItemViewToInventoryView(Item item) {
+		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), game.playerInventoryIsFull());
+	}
+	
+	public void addSingleDialogView(String text) {
+		scene.addDialogView(text);
+	}
+	
+	public void removeBuildingView() {
+		scene.removeBuildingView();
+	}
+	
 	public void setAllKeyPressesFalse() {
 		scene.setAllKeyPressesFalse();
 	}
-	
 	
 	// -------------------- Database --------------------
 	
@@ -409,6 +415,10 @@ public class MainController {
 		return null;
 	}
 	
+	public void saveNPCDialog(NPC npc) {
+		databaseController.saveNPCDialog(npc);
+	}
+	
 	public ArrayList<NPC> getAllNPCs() {
 		return databaseController.getAllNPCs(game.getId());
 	}
@@ -419,6 +429,10 @@ public class MainController {
 	
 	public ArrayList<Building> getAllBuildings() {
 		return databaseController.getAllBuildings(game.getId());
+	}
+	
+	public ArrayList<String> getAllPlayerNames() {
+		return databaseController.getAllPlayerNames();
 	}
 	
 	// -------------------- Getters & Setters --------------------
@@ -469,10 +483,6 @@ public class MainController {
 	
 	public Location getPlayerLocation() {
 		return game.getPlayerLocation();
-	}
-	
-	public ArrayList<String> getAllPlayerNames() {
-		return databaseController.getAllPlayerNames();
 	}
 	
 	public void setPlayer(Player player) {

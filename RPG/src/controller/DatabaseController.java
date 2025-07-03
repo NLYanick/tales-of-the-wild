@@ -129,4 +129,8 @@ public class DatabaseController {
 		itemLayer.addItemToPlayer(item, player);
 	}
 	
+	public void saveNPCDialog(NPC npc) {
+		npcLayer.saveDialogs(npc);
+	}
+	
 }
