@@ -230,35 +230,25 @@ public class MainScene extends Scene {
 		}
 	}
 	
-	// Maybe do something with these 4
 	public void addDialogView(String dialogText) {
-		DialogView dialogView = new DialogView(dialogText, this);
-		menusPane.getChildren().add(0, dialogView);
-		
-		dialogs.add(dialogView);
-		dialogs.get(0).requestFocus();
+		addDialog(new DialogView(dialogText, this));
 	}
 	
 	public void addItemDialogView(String itemName) {
 		String dialogText = "You've collected a(n) " + itemName + "!";
 		
-		ItemDialogView dialogView = new ItemDialogView(dialogText, this);
-		menusPane.getChildren().add(0, dialogView);
-		
-		dialogs.add(dialogView);
-		dialogs.get(0).requestFocus();
+		addDialog(new ItemDialogView(dialogText, this));
 	}
 	
 	public void addInteractiveDialogView(String dialogText, HashMap<Integer, String> options) {
-		InteractiveDialogView dialogView = new InteractiveDialogView(dialogText, this, options);
-		menusPane.getChildren().add(0, dialogView);
-		
-		dialogs.add(dialogView);
-		dialogs.get(0).requestFocus();
+		addDialog(new InteractiveDialogView(dialogText, this, options));
 	}
 	
 	public void addOptionDialogView(String dialogText, int optionChosen) {
-		OptionDialogView dialogView = new OptionDialogView(dialogText, this, optionChosen);
+		addDialog(new OptionDialogView(dialogText, this, optionChosen));
+	}
+	
+	private void addDialog(DialogView dialogView) {
 		menusPane.getChildren().add(0, dialogView);
 		
 		dialogs.add(dialogView);

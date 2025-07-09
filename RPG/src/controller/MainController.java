@@ -229,20 +229,18 @@ public class MainController {
 	public void addDialogView(ArrayList<Dialog> dialogs, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
-		// Do something please
 		for(Dialog dia : dialogs) {
-			if(dia.shouldSkip() && dia.hasPlayed()) {
+			if(dia.shouldSkip() && dia.hasPlayed()) 
 				continue;
-			}
 			
 			if(dia.getItemId() > 0) {
 				Item item = getDialogItem(items, dia.getItemId());
 				
-				if(item == null || item.getNPCId() <= 0) {
+				if(item == null || item.getNPCId() <= 0) 
 					continue;
-				}
 				
 				addItemDialogView(dia.getText(), item);
+				
 			} else if(dia.isInteractive()) {
 				scene.addInteractiveDialogView(dia.getText(), dia.getOptions());
 			} else if(dia.getOptionChosen() > 0) {
