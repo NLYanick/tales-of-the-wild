@@ -47,7 +47,6 @@ Schuin lopen moet 1 i.p.v. 1.41
 In pauze en in-game menu de eerste pijl niet hardcoded maken
 In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
-Focus bij startview, loadgameview & newgameview
 Code verbeteren
 
 
@@ -63,7 +62,7 @@ TODO Images:
 Huizen, NPC's
 BrickHouse image fixen en voelt plat & binnenkant
 De stilstaan animaties gaan iets te laag
-(Fox left en right staart & Fox running naar voren en naar achteren de voeten)
+(Fox left en right staart & Fox running naar voren en naar achteren de voeten & running frames niet beginnen met recht staan)
 
 
 Nu:

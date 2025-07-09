@@ -1,0 +1,24 @@
+
+NPC Dialog:
+{"dialogs": { "dialog-1": { "text": "Text 1", "skip": false, "interactive": false }, "dialog-2": { "text": "Text 2", "skip": false, "interactive": false }, "dialog-3": { "text": "Text 3", "skip": false, "interactive": true, "options": [ "option-1": "Yes", "options-2": "No" ] }, "dialog-4": { "text": "Text 4", "skip": false, "interactive": false, "option-chosen": 1 }, "dialog-5": { "text": "Text 5", "skip": false, "interactive": true, "option-chosen": 2 } }  }}
+{
+  "dialogs": {  
+    "dialog-1": {
+    	"text": "String",
+    	"skip": false,
+    	"item": 1, 
+    	"interactive": true, 
+    	"options": {	// Only if 'interactive' is true
+    		"option-1": "String",
+    		"option-2": "String",
+    		"option-3": "String"
+    	}
+    }, 
+    "dialog-2": {
+    	"text": "String",
+    	"skip": false,
+    	"interactive": false, 
+    	"option-chosen": 2	// Only if 'options' is used
+    }
+  }
+}

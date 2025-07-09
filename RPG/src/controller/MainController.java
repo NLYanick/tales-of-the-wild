@@ -229,6 +229,7 @@ public class MainController {
 	public void addDialogView(ArrayList<Dialog> dialogs, ArrayList<Item> items) {
 		scene.setPlayerIsInDialog(true);
 		
+		// Do something please
 		for(Dialog dia : dialogs) {
 			if(dia.shouldSkip() && dia.hasPlayed()) {
 				continue;
@@ -242,6 +243,10 @@ public class MainController {
 				}
 				
 				addItemDialogView(dia.getText(), item);
+			} else if(dia.isInteractive()) {
+				scene.addInteractiveDialogView(dia.getText(), dia.getOptions());
+			} else if(dia.getOptionChosen() > 0) {
+				scene.addOptionDialogView(dia.getText(), dia.getOptionChosen());
 			} else {
 				scene.addDialogView(dia.getText());
 			}

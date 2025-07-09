@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import controller.MainController;
 import javafx.scene.Cursor;
@@ -72,7 +73,7 @@ public class MainScene extends Scene {
 		setUpStartUpView();
 		setUpListeners();
 		
-		getStylesheets().addAll("CSS/stylesheet.css", "CSS/start.css", "CSS/pause-menu.css", "CSS/inventory.css");
+		getStylesheets().addAll("CSS/stylesheet.css", "CSS/start.css", "CSS/pause-menu.css", "CSS/inventory.css", "CSS/dialogs.css");
 		
 		setRoot(root);
 	}
@@ -229,6 +230,7 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	// Maybe do something with these 4
 	public void addDialogView(String dialogText) {
 		DialogView dialogView = new DialogView(dialogText, this);
 		menusPane.getChildren().add(0, dialogView);
@@ -247,6 +249,22 @@ public class MainScene extends Scene {
 		dialogs.get(0).requestFocus();
 	}
 	
+	public void addInteractiveDialogView(String dialogText, HashMap<Integer, String> options) {
+		InteractiveDialogView dialogView = new InteractiveDialogView(dialogText, this, options);
+		menusPane.getChildren().add(0, dialogView);
+		
+		dialogs.add(dialogView);
+		dialogs.get(0).requestFocus();
+	}
+	
+	public void addOptionDialogView(String dialogText, int optionChosen) {
+		OptionDialogView dialogView = new OptionDialogView(dialogText, this, optionChosen);
+		menusPane.getChildren().add(0, dialogView);
+		
+		dialogs.add(dialogView);
+		dialogs.get(0).requestFocus();
+	}
+	
 	public void removeDialog(DialogView dialogView) {
 		menusPane.getChildren().remove(dialogView);
 		dialogs.remove(dialogView);
@@ -256,6 +274,15 @@ public class MainScene extends Scene {
 			return;
 		}
 		dialogs.get(0).requestFocus();
+	}
+	
+	public void removeOptionDialogs(int number) {
+		for(int i = 0; i < dialogs.size(); i++) { // ConcurrentModificationException
+			DialogView dialogView = dialogs.get(i);
+			if(dialogView instanceof OptionDialogView && ((OptionDialogView) dialogView).getOptionChosen() != number) {
+				removeDialog(dialogView);
+			}
+		}
 	}
 	
 	public void resizePlayerViewLocation() {

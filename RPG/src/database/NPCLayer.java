@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -64,21 +65,40 @@ public class NPCLayer {
 		Collections.sort(sortedKeys);
 		
 		for(String key : sortedKeys) {
-			JSONObject d = dialogsJSON.getJSONObject(key);
+			JSONObject dialogJSON = dialogsJSON.getJSONObject(key);
 			
-			Dialog dialog;
-			if(d.has("item")) {				
-				dialog = new Dialog(d.getString("text"), d.getBoolean("skip"), d.getInt("item"));
-			} else {				
-				dialog = new Dialog(d.getString("text"), d.getBoolean("skip"), -1);
-			}
+			int item = -1;
+			int optionChosen = -1;
+			HashMap<Integer, String> options = new HashMap<Integer, String>();
 			
-			if(d.has("played")) dialog.setHasPlayed(d.getBoolean("played"));
+			if(dialogJSON.has("item")) item = dialogJSON.getInt("item");
+			if(dialogJSON.has("option-chosen")) optionChosen = dialogJSON.getInt("option-chosen");
+			if(dialogJSON.has("options")) options = getOptionsArray(dialogJSON.getJSONObject("options"));
+			
+			Dialog dialog = new Dialog(dialogJSON.getString("text"), dialogJSON.getBoolean("skip"), item, 
+					dialogJSON.getBoolean("interactive"), options, optionChosen);
+			
+			if(dialogJSON.has("played")) dialog.setHasPlayed(dialogJSON.getBoolean("played"));
 			
 			dialogs.add(dialog);
 		}
 		
 		return dialogs;
+	}
+	
+	private HashMap<Integer, String> getOptionsArray(JSONObject optionsJSON) {
+		HashMap<Integer, String> options = new HashMap<Integer, String>();
+		
+		ArrayList<String> sortedValues = new ArrayList<>(optionsJSON.keySet());
+		Collections.sort(sortedValues);
+		
+		int i = 1;
+		for(String key : sortedValues) {
+			options.put(i, optionsJSON.getString(key));
+			i++;
+		}
+		
+		return options;
 	}
 
 	public Location getOriginalNPCBuildingLocation(NPC npc) {
