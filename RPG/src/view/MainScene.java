@@ -417,6 +417,9 @@ public class MainScene extends Scene {
 	private void toggleDisablePanes(boolean disable) {
 		inGameMenuView.setDisable(disable);
 		inventoryView.setDisable(disable);
+		for(DialogView dialogView : dialogs) {
+			dialogView.setDisable(disable);
+		}
 	}
 	
 	private void pauzeOrResumeGame() {
