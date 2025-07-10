@@ -2,4 +2,6 @@
 	-fx-background-color: transparent; 
 }
 
-
+.label, .text {
+	-fx-font-family: "Times New Roman";
+}

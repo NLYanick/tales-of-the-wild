@@ -14,6 +14,7 @@ public class DialogView extends BorderPane {
 
 	protected MainScene scene;
 	protected BorderPane dialogPane;
+	protected HBox textBox;
 	
 	protected String dialogText;
 	
@@ -28,19 +29,18 @@ public class DialogView extends BorderPane {
 	
 	protected void setUpLayout() {
 		
-		int width = 500;
+		int width = 600;
 		int height = 300;
 		
 		dialogPane = new BorderPane();
-		dialogPane.setMinSize(width, height);
 		dialogPane.setMaxSize(width, height);
 		
-		HBox textBox = this.getTextBox();
+		textBox = this.getTextBox();
 		
 		dialogPane.setCenter(textBox);
 		
 		setCenter(dialogPane);
-		BorderPane.setAlignment(dialogPane, Pos.BOTTOM_CENTER);
+		setAlignment(dialogPane, Pos.BOTTOM_CENTER);
 		
 		setInvisableRectangleBottom();
 		

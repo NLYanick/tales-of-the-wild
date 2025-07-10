@@ -3,18 +3,23 @@ package view;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class InteractiveDialogView extends DialogView {
 	
 	private HashMap<Integer, String> options;
 	
 	private VBox optionPanes;
+	private HBox textAndOptions;
+	
+	private final int panesSpacing = 20;
 
 	public InteractiveDialogView(String dialogText, MainScene scene, HashMap<Integer, String> options) {
 		super(dialogText, scene);
@@ -38,22 +43,37 @@ public class InteractiveDialogView extends DialogView {
 			int number = entry.getKey();
 			String text = entry.getValue();
 			
-			BorderPane optionPane = new BorderPane();
-			optionPane.getStyleClass().add("interactive-dialog");
-			optionPane.setOnKeyPressed(e -> handleButtonKeyPressed(e, number));
-			optionPane.setOnMouseClicked(e -> next(number));
-			optionPane.setFocusTraversable(true);
+			BorderPane optionPane = getOption(number);
 			
-			Label optionLabel = new Label(text);
-			optionLabel.getStyleClass().add("dialog-text");
+			Text optionLabel = new Text(text);
+			optionLabel.getStyleClass().add("option-text");
 			
 			optionPane.setCenter(optionLabel);
 			optionPanes.getChildren().add(optionPane);
 		}
 	}
 	
-	public void addOptions() {
-		setRight(optionPanes);
+	private BorderPane getOption(int number) {
+		
+		BorderPane optionPane = new BorderPane();
+		optionPane.getStyleClass().add("option-pane");
+		optionPane.setOnKeyPressed(e -> handleButtonKeyPressed(e, number));
+		optionPane.setOnMouseClicked(e -> next(number));
+		optionPane.setFocusTraversable(true);
+		
+		return optionPane;
+	}
+		
+	public void addOptions() {	
+		int margin = 200;
+		
+		textAndOptions = new HBox(textBox, optionPanes);
+		textAndOptions.setAlignment(Pos.CENTER);
+		textAndOptions.setSpacing(panesSpacing);
+		
+		dialogPane.setCenter(textAndOptions);
+		BorderPane.setMargin(textAndOptions, new Insets(0, 0, 0, margin + panesSpacing));
+		
 		optionPanes.getChildren().get(0).requestFocus();
 	}
 	

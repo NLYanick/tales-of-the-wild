@@ -52,7 +52,7 @@ Code verbeteren
 
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
-In pauze en in-game menu is de eerste pijl hardcoded
+In overal is de eerste pijl hardcoded
 Pas in de controller worden items aan npcs geven, npcs in buldings stoppen, enz. gedaan
 Info Box (in InventoryView) grote is hardcoded
 Veel CSS dingen staan nu hardcoded
@@ -65,4 +65,4 @@ De stilstaan animaties gaan iets te laag
 (Fox left en right staart & Fox running naar voren en naar achteren de voeten & running frames niet beginnen met recht staan)
 
 
-Nu: InteractiveDialogView mooier maken 
+Nu: 
