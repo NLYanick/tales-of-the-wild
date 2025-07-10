@@ -7,6 +7,8 @@
 }
 
 .interactive-dialog {
+	-fx-background-color: #75D167;
+	
 	-fx-min-width: 200px;
     -fx-max-width: 200px;
     -fx-min-height: 100px;

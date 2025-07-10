@@ -12,7 +12,7 @@ De player moet states hebben (paused, in-dialog, in-inventory, enz.)
 Shops maken
 Interactieve Dialogues
 Startscreen verbeteren
-Elke 5 minuten opslaan
+Elke 5 minuten opslaan (met zo'n leuk icoontje)
 Quests maken (Bij houden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
@@ -65,4 +65,4 @@ De stilstaan animaties gaan iets te laag
 (Fox left en right staart & Fox running naar voren en naar achteren de voeten & running frames niet beginnen met recht staan)
 
 
-Nu: InteractiveDialogView fixen en mooier maken
+Nu: InteractiveDialogView mooier maken 

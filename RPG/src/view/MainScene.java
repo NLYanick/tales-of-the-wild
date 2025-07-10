@@ -263,7 +263,15 @@ public class MainScene extends Scene {
 			controller.endDialog();
 			return;
 		}
-		dialogs.get(0).requestFocus();
+		setFocusOnNextDialog();
+	}
+	
+	private void setFocusOnNextDialog() {
+		DialogView nextDialogView = dialogs.get(0);
+		nextDialogView.requestFocus();
+		if(nextDialogView instanceof InteractiveDialogView) {
+			((InteractiveDialogView) nextDialogView).addOptions();
+		}
 	}
 	
 	public void removeOptionDialogs(int number) {

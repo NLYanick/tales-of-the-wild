@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 public class InteractiveDialogView extends DialogView {
 	
 	private HashMap<Integer, String> options;
+	
+	private VBox optionPanes;
 
 	public InteractiveDialogView(String dialogText, MainScene scene, HashMap<Integer, String> options) {
 		super(dialogText, scene);
@@ -28,7 +30,7 @@ public class InteractiveDialogView extends DialogView {
 	private void setUpInteraction() {
 		int spacing = 20;
 		
-		VBox optionPanes = new VBox();
+		optionPanes = new VBox();
 		optionPanes.setSpacing(spacing);
 		optionPanes.setAlignment(Pos.CENTER);
 		
@@ -40,6 +42,7 @@ public class InteractiveDialogView extends DialogView {
 			optionPane.getStyleClass().add("interactive-dialog");
 			optionPane.setOnKeyPressed(e -> handleButtonKeyPressed(e, number));
 			optionPane.setOnMouseClicked(e -> next(number));
+			optionPane.setFocusTraversable(true);
 			
 			Label optionLabel = new Label(text);
 			optionLabel.getStyleClass().add("dialog-text");
@@ -47,8 +50,11 @@ public class InteractiveDialogView extends DialogView {
 			optionPane.setCenter(optionLabel);
 			optionPanes.getChildren().add(optionPane);
 		}
-		
-		dialogPane.setRight(optionPanes);
+	}
+	
+	public void addOptions() {
+		setRight(optionPanes);
+		optionPanes.getChildren().get(0).requestFocus();
 	}
 	
 	private void choose(int number) {
