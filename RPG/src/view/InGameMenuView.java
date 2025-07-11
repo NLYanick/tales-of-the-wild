@@ -27,6 +27,7 @@ public class InGameMenuView extends BorderPane {
 	private Button[] buttons;
 	private ImageView arrowView;
 	
+	private final int arrowMargin = 45;
 	private final int imageDifference = 14;
 	
 	public InGameMenuView(MainScene scene) {
@@ -71,18 +72,7 @@ public class InGameMenuView extends BorderPane {
 			i++;
 		}
 	}
-	
-	private ImageView getArrow() {
-		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
 		
-		int x = 40;
-		int y = 88 + imageDifference;
-		
-		arrowView.setLayoutX(x);
-		arrowView.setLayoutY(y);
-		return arrowView;
-	}
-	
 	private BorderPane getPlayerPane() {
 
 		BorderPane playerPane = new BorderPane();
@@ -122,7 +112,7 @@ public class InGameMenuView extends BorderPane {
 		
 		buttonsMenu.setCenter(buttonsBox);
 		
-		arrowView = getArrow();
+		arrowView = new ImageView(new Image("Images/SelectArrow.png"));;
 		buttonsMenu.getChildren().add(arrowView);
 		
 		return buttonsMenu;
@@ -159,18 +149,14 @@ public class InGameMenuView extends BorderPane {
 		return button;
 	}
 	
-	private void addListenersToButton(Button button) {
-		int margin = 10;
-		
+	private void addListenersToButton(Button button) {		
 		button.focusedProperty().addListener(((observableValue, isNotFocused, isFocused) -> {
 		 	if(isFocused) {
-		 		double newX = (button.getLayoutX() - button.getWidth()/4 + buttonsMenu.getCenter().getLayoutX()) - margin;
-		 		if(newX > 0) {
-		 			buttonsMenu.getChildren().remove(arrowView);
-		 			arrowView.setLayoutX(newX);
-		 			arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-		 			buttonsMenu.getChildren().add(arrowView);
-		 		}
+		 		arrowView.layoutXProperty().unbind();
+		        arrowView.layoutYProperty().unbind();
+		        
+		 		arrowView.layoutXProperty().bind(button.layoutXProperty().subtract(arrowMargin));
+				arrowView.layoutYProperty().bind(button.layoutYProperty().add(imageDifference));
 		 	} 
 		}));
 	}

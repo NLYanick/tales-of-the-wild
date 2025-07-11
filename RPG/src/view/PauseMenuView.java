@@ -21,9 +21,8 @@ public class PauseMenuView extends BorderPane {
 	private VBox buttonsPane;
 	private BorderPane savedPane;
 	
-	private final int buttonWidth = 150;
 	private final int buttonSpacing = 30;
-	
+	private final int arrowMargin = 75;
 	private final int imageDifference = 4;
 		
 	private ImageView arrowView;
@@ -39,13 +38,13 @@ public class PauseMenuView extends BorderPane {
 		pauseMenu = new BorderPane();
 		pauseMenu.getStyleClass().add("pause-menu");
 		
+		arrowView = new ImageView(new Image("Images/SelectArrow.png"));
+		pauseMenu.getChildren().add(arrowView);
+		
 		buttonsPane = createButtonsVBox();
 		controlsPane = new ControlsPane(this);
 		
 		pauseMenu.setCenter(buttonsPane);
-		
-		arrowView = getArrow();
-		pauseMenu.getChildren().add(arrowView);
 		
 		setCenter(pauseMenu);
 		
@@ -63,18 +62,7 @@ public class PauseMenuView extends BorderPane {
 		savedPane.getStyleClass().add("saved-text-pane");
 		
 	}
-	
-	private ImageView getArrow() {
-		ImageView arrowView = new ImageView(new Image("Images/SelectArrow.png"));
 		
-		int x = 810;
-		int y = 402 + imageDifference;
-		
-		arrowView.setLayoutX(x);
-		arrowView.setLayoutY(y);
-		return arrowView;
-	}
-	
 	public Button getButton(String text) {
 				
 		Button button = new Button(text);
@@ -122,13 +110,11 @@ public class PauseMenuView extends BorderPane {
 		}));
 		button.focusedProperty().addListener(((observableValue, isNotFocused, isFocused) -> {
 		 	if(isFocused) {
-		 		double newX = (button.getLayoutX() - buttonWidth/2 + pauseMenu.getCenter().getLayoutX());
-		 		if(newX > 0) {	 			
-		 			pauseMenu.getChildren().remove(arrowView);
-		 			arrowView.setLayoutX(newX);
-		 			arrowView.setLayoutY(button.getLayoutY() + imageDifference);
-		 			pauseMenu.getChildren().add(arrowView);
-		 		}
+	 			arrowView.layoutXProperty().unbind();
+	 			arrowView.layoutYProperty().unbind();
+	 			
+	 			arrowView.layoutXProperty().bind(button.layoutXProperty().subtract(arrowMargin));
+	 			arrowView.layoutYProperty().bind(button.layoutYProperty().add(imageDifference));
 		 	} 
 		}));
 	}
