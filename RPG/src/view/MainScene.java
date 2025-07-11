@@ -73,7 +73,7 @@ public class MainScene extends Scene {
 		setUpStartUpView();
 		setUpListeners();
 		
-		getStylesheets().addAll("CSS/stylesheet.css", "CSS/start.css", "CSS/pause-menu.css", "CSS/inventory.css", "CSS/dialogs.css");
+		getStylesheets().addAll("CSS/stylesheet.css", "CSS/start.css", "CSS/pause-menu.css", "CSS/in-game-inventory.css", "CSS/dialogs.css");
 		
 		setRoot(root);
 	}
