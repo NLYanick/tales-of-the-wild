@@ -33,6 +33,7 @@ public class DialogView extends BorderPane {
 		int height = 300;
 		
 		dialogPane = new BorderPane();
+		dialogPane.setMinHeight(height);
 		dialogPane.setMaxSize(width, height);
 		
 		textBox = this.getTextBox();

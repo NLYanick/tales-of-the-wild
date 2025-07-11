@@ -279,6 +279,7 @@ public class MainScene extends Scene {
 			DialogView dialogView = dialogs.get(i);
 			if(dialogView instanceof OptionDialogView && ((OptionDialogView) dialogView).getOptionChosen() != number) {
 				removeDialog(dialogView);
+				i--;
 			}
 		}
 	}

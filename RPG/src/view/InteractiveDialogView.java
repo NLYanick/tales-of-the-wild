@@ -45,10 +45,11 @@ public class InteractiveDialogView extends DialogView {
 			
 			BorderPane optionPane = getOption(number);
 			
-			Text optionLabel = new Text(text);
-			optionLabel.getStyleClass().add("option-text");
+			Text optionText = new Text(text);
+			optionText.getStyleClass().add("option-text");
+			optionText.wrappingWidthProperty().bind(optionPane.widthProperty().subtract(25));
 			
-			optionPane.setCenter(optionLabel);
+			optionPane.setCenter(optionText);
 			optionPanes.getChildren().add(optionPane);
 		}
 	}

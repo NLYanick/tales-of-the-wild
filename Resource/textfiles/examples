@@ -1,4 +1,17 @@
 
+NPC Naming:
+[name] = The name of NPC
+
+[name]Running
+[name]StandingStill
+[name]BackRunning
+[name]BackStandingStill
+[name]LeftRunning
+[name]LeftStandingStill
+[name]RightRunning
+[name]RightStandingStill
+
+
 NPC Dialog:
 {"dialogs": { "dialog-1": { "text": "Text 1", "skip": false, "interactive": false }, "dialog-2": { "text": "Text 2", "skip": false, "interactive": false }, "dialog-3": { "text": "Text 3", "skip": false, "interactive": true, "options": [ "option-1": "Yes", "options-2": "No" ] }, "dialog-4": { "text": "Text 4", "skip": false, "interactive": false, "option-chosen": 1 }, "dialog-5": { "text": "Text 5", "skip": false, "interactive": true, "option-chosen": 2 } }  }}
 {
@@ -12,6 +25,7 @@ NPC Dialog:
     		"option-1": "String",
     		"option-2": "String",
     		"option-3": "String"
+    		// Maximum of 4, otherwise the rest won't show
     	}
     }, 
     "dialog-2": {

@@ -44,7 +44,8 @@
 }
 
 .option-text {
-    -fx-font-size: 24px;
+    -fx-font-size: 22px;
+    -fx-text-alignment: center;
 }
 
 .dialog-text, .option-text {
