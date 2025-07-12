@@ -2,21 +2,16 @@ Scene switcher met Startup & Game
 Background maken 
 Map toevoegen
 Audio toevoegen
-Layout van binnenkant van building moeten aanpasbaar zijn
+Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
-Vragen of je het zeker weet als je een player delete
-Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
-Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
-Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
-De player moet states hebben (paused, in-dialog, in-inventory, enz.)
 Shops maken
-Interactieve Dialogues
 Startscreen verbeteren
 Elke 5 minuten opslaan (met zo'n leuk icoontje)
 Quests maken (Bij houden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen)
+Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Kijk nog eens naar bindings, voor responsive dingen
-In de inventory itemslot positie opslaan (slots opslaan in database bv)
+(Applicatie altijd fullscreen, dus sommige resize methodes kunnen weg)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
 (Animaties)
@@ -24,6 +19,12 @@ In de inventory itemslot positie opslaan (slots opslaan in database bv)
 
 
 Minder Prioriteit:
+Vragen of je het zeker weet als je een player delete
+Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
+Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
+In de inventory itemslot positie opslaan (slots opslaan in database bv)
+De player moet states hebben (paused, in-dialog, in-inventory, enz.)
+
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
 Moving direction van player is reversed, moet niet reversed
