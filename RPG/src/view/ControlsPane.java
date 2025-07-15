@@ -101,8 +101,9 @@ public class ControlsPane extends BorderPane {
 		Text interactionSubtitle = getSubTitle("Menus");
 		BorderPane textEsc = getTextRow("Esc", "Toggle Pause Menu");
 		BorderPane textI = getTextRow("I", "Toggle In Game Menu");
+		BorderPane textF11 = getTextRow("F11", "Toggle Fullscreen");
 		
-		menusTexts.getChildren().addAll(interactionSubtitle, textEsc, textI);
+		menusTexts.getChildren().addAll(interactionSubtitle, textEsc, textI, textF11);
 		
 		return menusTexts;
 	}

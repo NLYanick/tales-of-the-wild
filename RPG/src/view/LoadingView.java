@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 public class LoadingView extends BorderPane {
 
 	private Thread animation;
+	private volatile boolean running = true;
 	
 	public LoadingView() {
 		setUpLayout();
@@ -34,7 +35,7 @@ public class LoadingView extends BorderPane {
 		animation = new Thread(() -> {
 		    int i = 0;
 
-		    while (true) {
+		    while (running) {
 		        try {
 		            Thread.sleep(500);
 
@@ -60,7 +61,7 @@ public class LoadingView extends BorderPane {
 	}
 	
 	public void stopAnimation() {
-		animation.interrupt();
+		running = false;
 	}
 	
 }

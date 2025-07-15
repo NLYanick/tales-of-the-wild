@@ -72,4 +72,4 @@ Handige classes:
 Group => Een VBox, HBox, BorderPane, etc. voor als je geen automatische layout wilt
 ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de geselecteerde toggle pakken.
 
-Nu: Tijdens loadingview geen inputs
+Nu: 
