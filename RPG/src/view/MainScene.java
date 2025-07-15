@@ -188,6 +188,7 @@ public class MainScene extends Scene {
 
 	        @Override
 	        protected void succeeded() {
+	        	loadingView.stopAnimation();
 	        	Platform.runLater(() -> loadGame(playerName));
 	        }
 	    }).start();

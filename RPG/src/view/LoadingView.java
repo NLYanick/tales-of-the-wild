@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 
 public class LoadingView extends BorderPane {
 
+	private Thread animation;
+	
 	public LoadingView() {
 		setUpLayout();
 	}
@@ -29,7 +31,7 @@ public class LoadingView extends BorderPane {
 	}
 	
 	private void setAnimation(Label loadingText) {
-		Thread animation = new Thread(() -> {
+		animation = new Thread(() -> {
 		    int i = 0;
 
 		    while (true) {
@@ -55,6 +57,10 @@ public class LoadingView extends BorderPane {
 		});
 		animation.setDaemon(true);
 		animation.start();
+	}
+	
+	public void stopAnimation() {
+		animation.interrupt();
 	}
 	
 }
