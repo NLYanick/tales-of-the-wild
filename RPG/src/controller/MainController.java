@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,9 +36,9 @@ public class MainController {
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private HashMap<Item, ItemView> itemsWithViews;
 	
-	public MainController(ApplicationController appController, FileIO fileIO) {
+	public MainController(ApplicationController appController) {
 		
-		this.fileIO = fileIO;
+		fileIO = new FileIO();
 		scene = new MainScene(this);
 		
 		this.appController = appController;
@@ -313,6 +314,10 @@ public class MainController {
 			game.resumeNearbyNPCThread();
 			game.resetDialogNPC();
 		}
+	}
+	
+	public void loadBackground() {
+		fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
 	}
 	
 	

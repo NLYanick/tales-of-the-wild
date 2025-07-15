@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.sql.SQLException;
 
 import database.DatabaseConnector;
@@ -19,7 +18,6 @@ public class ApplicationController extends Application {
 	
 	private Stage stage;
 	
-	private FileIO fileIO;
 	private MainController controller;
 	private MainScene scene;
 	
@@ -37,7 +35,7 @@ public class ApplicationController extends Application {
 		
 		this.stage = stage;
 		
-		controller = new MainController(this, fileIO);
+		controller = new MainController(this);
 		scene = controller.getMainScene();
 		
 		stage.setTitle(APPLICATIONNAME);
@@ -78,10 +76,7 @@ public class ApplicationController extends Application {
     public void init() throws Exception {
         super.init();
         
-		dbConnector = new DatabaseConnector();
-        
-        fileIO = new FileIO();
-    	fileIO.readText(new File(FileIO.BACKGROUNDFILEPATH));
+		dbConnector = new DatabaseConnector();        
     }
 
 }

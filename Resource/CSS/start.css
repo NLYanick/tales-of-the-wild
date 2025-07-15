@@ -123,3 +123,19 @@
 	-fx-min-width: 800px;
     -fx-max-width: 800px;
 }
+
+.loading-view-text {
+	-fx-text-fill: white;
+	-fx-font-size: 40px;
+}
+
+.loading-view-text-pane {
+	-fx-max-width: 300px;
+	-fx-max-height: 120px;
+	
+	-fx-border-width: 10px;
+    -fx-border-color: forestgreen;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 20px;
+    -fx-background-color: limegreen;
+}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import controller.MainController;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -30,6 +32,7 @@ public class MainScene extends Scene {
 	
 	private MainController controller;
 	
+	private LoadingView loadingView;
 	private PlayerView playerView;
 	private Background background;
 	private StartUpView startUpView;
@@ -64,6 +67,7 @@ public class MainScene extends Scene {
 		root = new BorderPane();
 		menusPane = new StackPane();
 		
+		loadingView = new LoadingView();
 		pauseMenuView = new PauseMenuView(this);
 		inGameMenuView = new InGameMenuView(this);
 		inventoryView = new InventoryView(this);
@@ -120,6 +124,7 @@ public class MainScene extends Scene {
 		root.setCenter(null);
 		root.setCenter(loadGameView);
 	}
+	
 	public void addNewGameView() {
 		newGameView = new NewGameView(this);
 		root.setCenter(null);
@@ -133,7 +138,7 @@ public class MainScene extends Scene {
 	
 	public void createPlayer(String name) {
 		Player player = controller.createPlayer(name);
-		loadGame(player.getName());
+		setLoadingView(player.getName());
 	}
 	
 	public void deletePlayer(String playerName) {
@@ -154,7 +159,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void loadGame(String playerName) {
-		
+				
 		gameHasLoaded = true;
 		
 		root.setCenter(null);
@@ -169,6 +174,23 @@ public class MainScene extends Scene {
 		inGameMenuView.setPlayerPane();
 		
 		setCursor(Cursor.NONE);
+	}
+	
+	public void setLoadingView(String playerName) {
+		root.setCenter(loadingView);
+		
+		new Thread(new Task<Void>() {
+	        @Override
+	        protected Void call() {
+	    		controller.loadBackground();
+	            return null;
+	        }
+
+	        @Override
+	        protected void succeeded() {
+	        	Platform.runLater(() -> loadGame(playerName));
+	        }
+	    }).start();
 	}
 	
 	public void addNPCView(NPCView npcView) {

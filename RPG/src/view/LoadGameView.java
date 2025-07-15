@@ -117,7 +117,7 @@ public class LoadGameView extends BorderPane {
 		
 		Button loadButton = new Button("Load");
 		loadButton.getStyleClass().add("game-pane-button");
-		loadButton.setOnAction(e -> scene.loadGame(playerName));
+		loadButton.setOnAction(e -> scene.setLoadingView(playerName));
 		loadButton.setOnKeyPressed(e -> handleButtonKeyPressed(e, loadButton));
 		
 		Button deleteButton = new Button("Delete");
