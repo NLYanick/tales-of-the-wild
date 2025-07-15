@@ -8,21 +8,21 @@ public class Building {
 
 	public final static Location UNLOAD_LOCATION = new Location(-7000, -7000);
 	
-	private Location insideLocation, leaveLocation, entranceLocation, viewLocation;
+	protected Location insideLocation, leaveLocation, entranceLocation, viewLocation;
 	
-	private BuildingType type;
-	private Direction exit;
-	private boolean canPass;
-	private int id, gameId;
-	private Size size;
+	protected BuildingType type;
+	protected Direction exit;
+	protected boolean canPass;
+	protected int id;
+	protected Size size;
 	
-	private ArrayList<NPC> npcs;
-	private ArrayList<Item> items;
+	protected ArrayList<NPC> npcs;
+	protected ArrayList<Item> items;
 	
-	private MainController controller;
+	protected MainController controller;
 	
 	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, MainController controller, int id, Location entranceLocation, int gameId) {
+			Location leaveLocation, MainController controller, int id, Location entranceLocation) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation= entranceLocation; 
@@ -32,7 +32,6 @@ public class Building {
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
-		this.gameId = gameId;
 		
 		this.controller = controller;
 		npcs = new ArrayList<NPC>();
@@ -248,9 +247,5 @@ public class Building {
 	public int getId() {
 		return id;
 	}
-	
-	public int getGameId() {
-		return gameId;
-	}
-	
+		
 }

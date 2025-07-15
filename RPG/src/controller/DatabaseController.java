@@ -72,8 +72,8 @@ public class DatabaseController {
 	public Player createPlayer(String name) {
 		Game newGame = createGame();
 		
-		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name, newGame.getId());
-		playerLayer.saveNewPlayer(player);
+		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
+		playerLayer.saveNewPlayer(player, newGame.getId());
 		controller.setGame(newGame);
 		controller.setPlayer(player);
 		
@@ -115,6 +115,14 @@ public class DatabaseController {
 	
 	public ArrayList<Item> getAllItemsOfPlayer(Player player){
 		return itemLayer.getAllItemsOfPlayer(player);
+	}
+	
+	public ArrayList<Item> getNPCItems(NPC npc){
+		return itemLayer.getNPCItems(npc);
+	}
+	
+	public ArrayList<Item> getBuildingItems(Building building){
+		return itemLayer.getBuildingItems(building);
 	}
 	
 	public void setItemLocation(Item item, Location location) {

@@ -421,6 +421,7 @@ public class Game {
 	}
 	
 	private void addItemsToNPC(NPC npc) {
+		System.out.println(controller.getNPCItems(npc));
 		for(Item item : items) {
 			if(item.getNPCId() == npc.getId()) {
 				npc.addItem(item);
@@ -456,6 +457,7 @@ public class Game {
 	}
 	
 	private void addItemsToBuilding(Building building) {
+		System.out.println(controller.getBuildingItems(building));
 		for (Item item : items) {
 			if(item.getBuildingId() == building.getId()) {
 				item.setLocation(Building.UNLOAD_LOCATION);

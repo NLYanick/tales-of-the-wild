@@ -15,29 +15,6 @@ public class GameLayer {
 	public GameLayer() {
 		conn = DatabaseConnector.getConn();
 	}
-
-	public Game getGame(int playerGameId) {
-		String query = "SELECT * FROM game WHERE id = " + playerGameId + ";";
-
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-
-			Game game = null;
-			while (rs.next()) {
-				game = new Game(rs.getInt("id"));
-			}
-
-			rs.close();
-			stmt.close();
-
-			return game;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 	
 	public Game createGame() {
 		int newGameId = 0;

@@ -446,6 +446,14 @@ public class MainController {
 		return databaseController.getAllItems(game.getId());
 	}
 	
+	public ArrayList<Item> getNPCItems(NPC npc){
+		return databaseController.getNPCItems(npc);
+	}
+	
+	public ArrayList<Item> getBuildingItems(Building building) {
+		return databaseController.getBuildingItems(building);
+	}
+	
 	public ArrayList<Building> getAllBuildings() {
 		return databaseController.getAllBuildings(game.getId());
 	}

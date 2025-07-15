@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Building;
 import model.Item;
 import model.Location;
+import model.NPC;
 import model.Player;
 
 public class ItemLayer {
@@ -29,7 +31,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						 rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
+						 rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -50,7 +52,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"), rs.getInt("game_id"));
+						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -161,6 +163,48 @@ public class ItemLayer {
 			s.printStackTrace();
 		}
 		return location;
+	}
+	
+	public ArrayList<Item> getBuildingItems(Building building) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		String query = "SELECT * FROM item WHERE building_id = " + 0 + ";";
+		
+		try {
+			Statement stmt = conn.createStatement();			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
+						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+				items.add(item);
+			}
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
+	public ArrayList<Item> getNPCItems(NPC npc) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		String query = "SELECT * FROM item WHERE building_id = " + 0 + ";";
+		
+		try {
+			Statement stmt = conn.createStatement();			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
+						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+				items.add(item);
+			}
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return items;
 	}
 	
 }
