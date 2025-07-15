@@ -58,14 +58,17 @@ public class MainController {
 		npcsWithViews.put(npc, npcView);
 	}
 	
-	public void addItemView(Item item) {
+	public void addWorldItemView(Item item) {
 		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 		itemsWithViews.put(item, itemView);
 		
-		if(item.getNPCId() == 0) {			
-			scene.addItemView(itemView);
-			moveItemViewWithScreen(item);
-		}
+		scene.addItemView(itemView);
+		moveItemViewWithScreen(item);
+	}
+	
+	public void addItemView(Item item) {
+		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
+		itemsWithViews.put(item, itemView);
 	}
 	
 	public void addPlayerItemViewsToInventoryView(ArrayList<Item> items) {
@@ -227,20 +230,19 @@ public class MainController {
 		return null;
 	}
 	
-	public void addDialogView(ArrayList<Dialog> dialogs, ArrayList<Item> items) {
+	public void addDialogView(NPC npc) {
 		scene.setPlayerIsInDialog(true);
 		
-		for(Dialog dia : dialogs) {
+		for(Dialog dia : npc.getDialogs()) {
 			if(dia.shouldSkip() && dia.hasPlayed()) 
 				continue;
 			
 			if(dia.getItemId() > 0) {
-				Item item = getDialogItem(items, dia.getItemId());
+				Item item = getDialogItem(npc.getItems(), dia.getItemId());
 				
-				if(item == null || item.getNPCId() <= 0) 
-					continue;
+				if(item == null) continue;
 				
-				addItemDialogView(dia.getText(), item);
+				addItemDialogView(dia.getText(), item, npc);
 				
 			} else if(dia.isInteractive()) {
 				scene.addInteractiveDialogView(dia.getText(), dia.getOptions());
@@ -254,13 +256,14 @@ public class MainController {
 		}
 	}
 	
-	private void addItemDialogView(String text, Item item) {
+	private void addItemDialogView(String text, Item item, NPC npc) {
 		addSingleDialogView(text);
 		scene.addItemDialogView(item.getName());
 		
 		game.addItemToPlayerInventory(item);
 		addItemViewToInventoryView(item);
-		item.setNPCId(0);
+		npc.removeItem(item);
+		databaseController.removeItemFromNPC(item);
 	}
 	
 	public <T> ArrayList<T> reverseSort(ArrayList<T> list) {
@@ -412,16 +415,16 @@ public class MainController {
 		databaseController.deletePlayer(playerName);
 	}
 	
-	public Location getOriginalNPCBuildingLocation(NPC npc) {
-		if(npc.getBuildingId() > 0) {
-			return databaseController.getOriginalNPCBuildingLocation(npc);
+	public Location getOriginalNPCBuildingLocation(NPC npc, int buildingId) {
+		if(buildingId > 0) {
+			return databaseController.getOriginalNPCBuildingLocation(npc, buildingId);
 		}
 		return null;
 	}
 	
-	public Location getOriginalItemBuildingLocation(Item item) {
-		if(item.getBuildingId() > 0) {
-			return databaseController.getOriginalItemBuildingLocation(item);
+	public Location getOriginalItemBuildingLocation(Item item, int buildingId) {
+		if(buildingId > 0) {
+			return databaseController.getOriginalItemBuildingLocation(item, buildingId);
 		}
 		return null;
 	}
@@ -438,12 +441,16 @@ public class MainController {
 		databaseController.setItemLocation(item, location);
 	}
 	
+	public void removeItemFromBuilding(Item item) {
+		databaseController.removeItemFromBuilding(item);
+	}
+	
 	public ArrayList<NPC> getAllNPCs() {
 		return databaseController.getAllNPCs(game.getId());
 	}
 	
-	public ArrayList<Item> getAllItems() {
-		return databaseController.getAllItems(game.getId());
+	public ArrayList<Item> getAllWorldItems() {
+		return databaseController.getAllWorldItems(game.getId());
 	}
 	
 	public ArrayList<Item> getNPCItems(NPC npc){
@@ -452,6 +459,10 @@ public class MainController {
 	
 	public ArrayList<Item> getBuildingItems(Building building) {
 		return databaseController.getBuildingItems(building);
+	}
+	
+	public ArrayList<NPC> getBuildingNPCs(Building building) {
+		return databaseController.getBuildingNPCs(building);
 	}
 	
 	public ArrayList<Building> getAllBuildings() {

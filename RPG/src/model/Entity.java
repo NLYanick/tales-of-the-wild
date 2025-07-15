@@ -5,6 +5,8 @@ public abstract class Entity {
 	public final static int ENTITYWIDTH = 128;
 
 	protected Location location;
+	protected Inventory inventory;
+	
 	protected String imageURL;
 	protected Direction movingDirection;
 	protected String name;
@@ -15,12 +17,22 @@ public abstract class Entity {
 		this.name = name;
 		
 		location = new Location();
+		inventory = new Inventory();
 		movingDirection = null;
 	}
 	
 	public void move(Direction dir) {
 		location.setX(getX() + dir.getX()); 
 		location.setY(getY() + dir.getY()); 
+	}
+	
+	public void addItem(Item item) {
+		inventory.addItem(item);
+		item.resetLocation();
+	}
+	
+	public void removeItem(Item item) {
+		inventory.removeItem(item);
 	}
 	
 	public abstract void setRunningImage(Direction dir);

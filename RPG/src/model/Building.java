@@ -43,7 +43,7 @@ public class Building {
 			controller.setBuildingView(this);
 			
 			Location playerInsideLocation = getInsideLocation(true);
-						
+			
 			loadInside();
 			
 			player.setInBuilding(true);
@@ -74,6 +74,26 @@ public class Building {
 			case WEST:
 				return new Location(insideLocation.getX() + entranceSpacing, insideLocation.getY() + size.getHeight() / 2);
 			default: return new Location(insideLocation.getX(), insideLocation.getY());
+		}
+	}
+	
+	private void loadInside() {
+		for(NPC npc : npcs) {
+			Location originalLoc = controller.getOriginalNPCBuildingLocation(npc, id);
+			npc.setLocation(originalLoc);
+		}
+		for(Item item : items) {
+			Location originalLoc = controller.getOriginalItemBuildingLocation(item, id);
+			item.setLocation(originalLoc);
+		}
+	}
+	
+	private void unloadInside() {
+		for(NPC npc : npcs) {
+			npc.setLocation(UNLOAD_LOCATION);
+		}
+		for(Item item : items) {
+			item.setLocation(UNLOAD_LOCATION);
 		}
 	}
 	
@@ -169,32 +189,24 @@ public class Building {
 		return ((size.getHeight() / 128) % 2 == 0);
 	}
 	
-	private void loadInside() {
-		for(NPC npc : npcs) {
-			Location loc = controller.getOriginalNPCBuildingLocation(npc);
-			npc.setLocation(loc);
-		}
-		for(Item item : items) {
-			Location loc = controller.getOriginalItemBuildingLocation(item);
-			item.setLocation(loc);
-		}
-	}
-	
-	private void unloadInside() {
-		for(NPC npc : npcs) {
-			npc.setLocation(UNLOAD_LOCATION);
-		}
-		for(Item item : items) {
-			item.setLocation(UNLOAD_LOCATION);
-		}
-	}
-	
 	public void addNPC(NPC npc) {
 		npcs.add(npc);
 	}
 	
+	public void removeNPC(NPC npc) {
+		npcs.remove(npc);
+	}
+	
 	public void addItem(Item item) {
 		items.add(item);
+	}
+	
+	public void removeItem(Item item) {
+		items.remove(item);
+	}
+	
+	public boolean containsItem(Item item) {
+		return items.contains(item);
 	}
 	
 	

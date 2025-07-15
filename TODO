@@ -25,6 +25,7 @@ Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 In de inventory itemslot positie opslaan (slots opslaan in database bv)
 De player moet states hebben (paused, in-dialog, in-inventory, enz.)
+Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke getallen neerzetten (bv -1884, 1490))
 
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
@@ -72,4 +73,5 @@ Handige classes:
 Group => Een VBox, HBox, BorderPane, etc. voor als je geen automatische layout wilt
 ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de geselecteerde toggle pakken.
 
-Nu: 
+Nu: Als je een item dropt in een building, gaat de itemview kapot en staat in de database niet dat het in de building zit | 
+Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game |

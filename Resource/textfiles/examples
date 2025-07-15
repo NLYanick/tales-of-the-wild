@@ -1,4 +1,16 @@
 
+/* Here are examples for Database data, Images, etc. */
+
+
+Items and NPC's in Building (example):	// This must be in de NPC or Item table
+Building x (database): -1990
+Building y (database): -2384
+x (code): 250
+y (code): 300
+x (database): Building x (database) + x (code)
+y (database): Building y (database) + y (code)
+
+
 NPC Naming:
 [name] = The name of NPC
 

@@ -195,8 +195,19 @@ public class Game {
 	}
 	
 	public void addItemToPlayerInventory(Item item) {
-		player.addItemToInventory(item);
+		player.addItem(item);
 		controller.addItemToPlayer(item);
+		if(buildingContainsItem(item)) controller.removeItemFromBuilding(item);
+	}
+	
+	private boolean buildingContainsItem(Item item) {
+		for(Building building : buildings) {
+			if(building.containsItem(item)) {
+				building.removeItem(item);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// ---------- NPCs ----------
@@ -397,7 +408,7 @@ public class Game {
 	}
 	
 	public void dropItemFromPlayerInventory(Item item) {
-		player.removeItemFromInventory(item);
+		player.removeItem(item);
 	}
 	
 	// ---------- Set up ----------
@@ -421,19 +432,17 @@ public class Game {
 	}
 	
 	private void addItemsToNPC(NPC npc) {
-		System.out.println(controller.getNPCItems(npc));
-		for(Item item : items) {
-			if(item.getNPCId() == npc.getId()) {
-				npc.addItem(item);
-			}
+		for(Item item : controller.getNPCItems(npc)) {
+			npc.addItem(item);
+			controller.addItemView(item);
 		}
 	}
 	
 	public void setUpItems() {
-		items = controller.getAllItems();
+		items = controller.getAllWorldItems();
 		
 		for(Item item : items) {
-			controller.addItemView(item);
+			controller.addWorldItemView(item);
 		}
 	}
 	
@@ -448,21 +457,17 @@ public class Game {
 	}
 	
 	private void addNPCsToBuilding(Building building) {
-		for (NPC npc : npcs) {
-			if(npc.getBuildingId() == building.getId()) {
-				npc.setLocation(Building.UNLOAD_LOCATION);
-				building.addNPC(npc);
-			}
+		for (NPC npc : controller.getBuildingNPCs(building)) {
+			npc.setLocation(Building.UNLOAD_LOCATION);
+			building.addNPC(npc);
 		}
 	}
 	
 	private void addItemsToBuilding(Building building) {
-		System.out.println(controller.getBuildingItems(building));
-		for (Item item : items) {
-			if(item.getBuildingId() == building.getId()) {
-				item.setLocation(Building.UNLOAD_LOCATION);
-				building.addItem(item);
-			}
+		for (Item item : controller.getBuildingItems(building)) {
+			item.setLocation(Building.UNLOAD_LOCATION);
+			building.addItem(item);
+			controller.addItemView(item);
 		}
 	}
 	

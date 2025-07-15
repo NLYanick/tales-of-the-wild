@@ -13,15 +13,13 @@ public class NPC extends Entity {
 	private Location startLocation, endLocation;
 	
 	private boolean running, isPaused, isInDialog;
-	private int buildingId, id;
+	private int id;
 	
 	private Location viewLocation;
 	
 	private ArrayList<Dialog> dialogs;
-	private ArrayList<Item> items;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, 
-			int buildingId, int id) {
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, int id) {
 		super(imageURL, name);
 				
 		location.setX(startLocation.getX());
@@ -31,15 +29,12 @@ public class NPC extends Entity {
 		movingDirection = walkDirection;
 		
 		this.dialogs = dialog;
-		this.buildingId = buildingId;
 		this.id = id;
 		
-		items = new ArrayList<Item>();
-
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, ArrayList<Dialog> dialogs, int buildingId, int id) {
+	public NPC(String imageURL, Location startLocation, String name, ArrayList<Dialog> dialogs, int id) {
 		super(imageURL, name);
 		this.startLocation = startLocation;
 		
@@ -47,10 +42,9 @@ public class NPC extends Entity {
 		location.setY(startLocation.getY());
 		
 		this.dialogs = dialogs;
-		this.buildingId = buildingId;
 		this.id = id;
 		
-		items = new ArrayList<Item>();
+		inventory = new Inventory();
 	}
 	
 	private void setUpEndLocation(Direction direction) {
@@ -238,7 +232,7 @@ public class NPC extends Entity {
 		pauzeThread();
 		setStandingStillAnimation(direction);
 		
-		controller.addDialogView(dialogs, items);
+		controller.addDialogView(this);
 		isInDialog = true;
 	}
 	
@@ -254,11 +248,7 @@ public class NPC extends Entity {
 		this.running = running;
 		resumeThread();
 	}
-	
-	public void addItem(Item item) {
-		items.add(item);
-	}
-	
+		
 	public Direction getGoodDirection(Direction dir) {
 		if((dir.equals(Direction.NORTH) || dir.equals(Direction.WEST))) {
 			dir = Direction.getOpposite(dir);
@@ -299,13 +289,13 @@ public class NPC extends Entity {
 	public void setMainController(MainController controller) {
 		this.controller = controller;
 	}
-	
-	public int getBuildingId() {
-		return buildingId;
-	}
-	
+		
 	public int getId() {
 		return id;
+	}
+	
+	public ArrayList<Item> getItems() {
+		return inventory.getItems();
 	}
 
 }

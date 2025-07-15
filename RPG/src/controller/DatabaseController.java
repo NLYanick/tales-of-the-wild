@@ -93,16 +93,16 @@ public class DatabaseController {
 		return true;
 	}
 	
-	public Location getOriginalNPCBuildingLocation(NPC npc) {
-		return npcLayer.getOriginalNPCBuildingLocation(npc);
+	public Location getOriginalNPCBuildingLocation(NPC npc, int buildingId) {
+		return npcLayer.getOriginalNPCBuildingLocation(npc, buildingId);
 	}
 	
-	public Location getOriginalItemBuildingLocation(Item item) {
-		return itemLayer.getOriginalItemBuildingLocation(item);
+	public Location getOriginalItemBuildingLocation(Item item, int buildingId) {
+		return itemLayer.getOriginalItemBuildingLocation(item, buildingId);
 	}
 	
-	public ArrayList<Item> getAllItems(int gameId){
-		return itemLayer.getAllItems(gameId);
+	public ArrayList<Item> getAllWorldItems(int gameId){
+		return itemLayer.getAllWorldItems(gameId);
 	}
 	
 	public ArrayList<NPC> getAllNPCs(int gameId){
@@ -125,6 +125,10 @@ public class DatabaseController {
 		return itemLayer.getBuildingItems(building);
 	}
 	
+	public ArrayList<NPC> getBuildingNPCs(Building building) {
+		return npcLayer.getBuildingNPCs(building);
+	}
+	
 	public void setItemLocation(Item item, Location location) {
 		itemLayer.setItemLocation(item, location);
 	}
@@ -139,6 +143,14 @@ public class DatabaseController {
 	
 	public void saveNPCDialog(NPC npc) {
 		npcLayer.saveDialogs(npc);
+	}
+	
+	public void removeItemFromNPC(Item item) {
+		itemLayer.removeItemFromNPC(item);
+	}
+	
+	public void removeItemFromBuilding(Item item) {
+		itemLayer.removeItemFromBuilding(item);
 	}
 	
 }

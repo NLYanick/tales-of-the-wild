@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
+import model.Building;
 import model.Dialog;
 import model.Direction;
 import model.Location;
@@ -39,10 +40,9 @@ public class NPCLayer {
 				NPC npc = null;
 				if(directionString != null) {
 					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
-							rs.getInt("building_id"), rs.getInt("id"));					
+							rs.getInt("id"));					
 				} else {					
-					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("building_id"), 
-							rs.getInt("id"));
+					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"));
 				}
 				
 				npcs.add(npc);
@@ -101,8 +101,8 @@ public class NPCLayer {
 		return options;
 	}
 
-	public Location getOriginalNPCBuildingLocation(NPC npc) {
-		String query = "SELECT x, y FROM npc WHERE building_id = " + npc.getBuildingId() + ";";
+	public Location getOriginalNPCBuildingLocation(NPC npc, int buildingId) {
+		String query = "SELECT x, y FROM npc WHERE building_id = " + buildingId + ";";
 		
 		Location location = new Location();
 		try {			
@@ -149,6 +149,36 @@ public class NPCLayer {
 		fullString += " }}";
 		
 		return fullString;
+	}
+	
+	public ArrayList<NPC> getBuildingNPCs(Building building) {
+		ArrayList<NPC> npcs = new ArrayList<NPC>();
+		
+		String query = "SELECT * FROM npc WHERE building_id = " + building.getId() + ";";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
+				ArrayList<Dialog> dialog = getDialog(rs.getString("dialog"));
+				
+				String directionString = rs.getString("direction");
+				NPC npc = null;
+				if(directionString != null) {
+					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
+							rs.getInt("id"));					
+				} else {					
+					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"));
+				}
+				
+				npcs.add(npc);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return npcs;
 	}
 	
 }

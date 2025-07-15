@@ -25,6 +25,10 @@ public class Location {
 		return locationOne.getX() <= locationTwo.getX() && locationOne.getY() <= locationTwo.getY();
 	}
 	
+	public static boolean isDefault(Location location) {
+		return location.getX() == 0 && location.getY() == 0;
+	}
+	
 	public Location getNext(Direction direction) {
 		return new Location(x + direction.getX(), y + direction.getY());
 	}

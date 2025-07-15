@@ -8,17 +8,13 @@ public class Player extends Entity {
 
 	public final static String DEFAULT_URL = "Images/Fox/FoxStandingStill.gif";
 	public final static Location DEFAULT_LOCATION = new Location(MainScene.SCENEWIDTH/2, MainScene.SCENEHEIGHT/2);
-	
-	private Inventory inventory;
-	
+		
 	public Player(String imgURL, Location location, String name) {
 		super(imgURL, name);
 		setX(location.getX());
 		setY(location.getY());
 		
 		movingDirection = Direction.SOUTH;
-		
-		inventory = new Inventory();
 	}
 	
 	public void talkToNPC(NPC npc) {
@@ -27,22 +23,13 @@ public class Player extends Entity {
 		}
 	}
 
-	public void addItemToInventory(Item item) {
-		inventory.addItem(item);
-		item.resetLocation();
-	}
-	
-	public void removeItemFromInventory(Item item) {
-		inventory.removeItem(item);
-	}
-
 	public boolean inventoryIsFull() {
 		return inventory.isFull();
 	}
 	
 	public void addItemsToInventory(ArrayList<Item> items) {
 		for(Item item : items) {
-			addItemToInventory(item);
+			addItem(item);
 		}
 	}
 	

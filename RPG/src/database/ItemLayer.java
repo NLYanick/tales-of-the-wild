@@ -31,7 +31,7 @@ public class ItemLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						 rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						 rs.getString("description"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -42,17 +42,17 @@ public class ItemLayer {
 		return items;
 	}
 	
-	public ArrayList<Item> getAllItems(int gameId) {
+	public ArrayList<Item> getAllWorldItems(int gameId) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		String query = "SELECT * FROM item WHERE game_id = " + gameId + ";";
+		String query = "SELECT * FROM item WHERE game_id = " + gameId + " AND npc_id IS NULL AND building_id IS NULL;";
 		
 		try {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						rs.getString("description"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -118,16 +118,8 @@ public class ItemLayer {
 	}
 	
 	public void addItemToPlayer(Item item, Player player) {
-		
-		String added = "";
-		if(item.getNPCId() > 0) {
-			added += ", npc_id = NULL";
-		}
-		if(item.getBuildingId() > 0) {
-			added += ", building_id = NULL";
-		}
-		
-		String query = "UPDATE item SET x = ?, y = ?, player_name = ? " + added + " WHERE id = ?";
+				
+		String query = "UPDATE item SET x = ?, y = ?, player_name = ? WHERE id = ?";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -143,8 +135,38 @@ public class ItemLayer {
 		}
 	}
 	
-	public Location getOriginalItemBuildingLocation(Item item) {
-		String query = "SELECT x, y FROM item WHERE building_id = " + item.getBuildingId() + ";";
+	public void removeItemFromNPC(Item item) {
+				
+		String query = "UPDATE item SET npc_id = NULL WHERE id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, item.getId());
+			
+			stmt.execute();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeItemFromBuilding(Item item) {
+		
+		String query = "UPDATE item SET building_id = NULL WHERE id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, item.getId());
+			
+			stmt.execute();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Location getOriginalItemBuildingLocation(Item item, int buildingId) {
+		String query = "SELECT x, y FROM item WHERE building_id = " + buildingId + ";";
 		
 		Location location = new Location();
 		try {			
@@ -168,14 +190,14 @@ public class ItemLayer {
 	public ArrayList<Item> getBuildingItems(Building building) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		String query = "SELECT * FROM item WHERE building_id = " + 0 + ";";
+		String query = "SELECT * FROM item WHERE building_id = " + building.getId() + ";";
 		
 		try {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						rs.getString("description"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
@@ -189,14 +211,14 @@ public class ItemLayer {
 	public ArrayList<Item> getNPCItems(NPC npc) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		String query = "SELECT * FROM item WHERE building_id = " + 0 + ";";
+		String query = "SELECT * FROM item WHERE npc_id = " + npc.getId() + ";";
 		
 		try {
 			Statement stmt = conn.createStatement();			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"), rs.getString("image_url"), 
-						rs.getString("description"), rs.getInt("building_id"), rs.getInt("id"), rs.getInt("npc_id"));
+						rs.getString("description"), rs.getInt("id"));
 				items.add(item);
 			}
 			stmt.close();
