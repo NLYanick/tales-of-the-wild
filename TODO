@@ -1,11 +1,14 @@
 Background maken 
-Map toevoegen
+Map toevoegen (alleen laten zien wat je al ontdekt hebt (bv gebieden))
+Teleport points maken op de map die je eerst moet vinden
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
 Startscreen verbeteren
+Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen)
 Elke 5 minuten opslaan (met zo'n leuk icoontje)
+Signs maken
 Quests maken (Bij houden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
