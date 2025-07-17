@@ -10,14 +10,14 @@ Building borders fixen (Je kan de building plaatjes boven de player plaatjes doe
 Elke 5 minuten opslaan (met zo'n leuk icoontje)
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Signs maken
-Quests maken (Bij houden welke NPC het gevraagd heeft)
+Quests maken (Bijhouden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Kijk nog eens naar bindings, voor responsive dingen
 (Applicatie altijd fullscreen, dus sommige resize methodes kunnen weg)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
-(Animaties)
+(Cut scenes)
 (Kijk voor meer inspiratie, je mist vast wel iets in bv. de inventory)
 (Kleding voor player)
 (Player kan ook andere characters kiezen)
@@ -77,3 +77,5 @@ ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de ge
 Nu: Als je een item dropt in een building, gaat de itemview kapot en staat in de database niet dat het in de building zit | 
 Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
 De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen
+NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
+Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn

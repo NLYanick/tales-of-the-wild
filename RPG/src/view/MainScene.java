@@ -347,7 +347,6 @@ public class MainScene extends Scene {
 		
 		root.setBackground(new javafx.scene.layout.Background(new BackgroundFill(Color.CADETBLUE, null, null)));
 		
-		System.out.println(building.getType());
 		buildingView = getBuildingViewByType(building);
 		root.getChildren().add(buildingView);
 		buildingView.toBack();
