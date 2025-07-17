@@ -52,6 +52,7 @@ Geen ruimte tussen NPC en player als je er tegen aan loopt
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
+Database constraints maken (bv als een building type 'SHOP' is moet het een kleur hebben)
 In pauze en in-game menu de eerste pijl niet hardcoded maken
 In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
@@ -77,4 +78,5 @@ Group => Een VBox, HBox, BorderPane, etc. voor als je geen automatische layout w
 ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de geselecteerde toggle pakken.
 
 Nu: Als je een item dropt in een building, gaat de itemview kapot en staat in de database niet dat het in de building zit | 
-Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game |
+Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
+De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken

@@ -2,6 +2,6 @@ package model;
 
 public enum BuildingType {
 
-	BRICK
+	BRICK, SHOP
 	
 }

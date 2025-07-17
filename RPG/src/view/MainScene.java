@@ -20,9 +20,11 @@ import model.Image;
 import model.Item;
 import model.Location;
 import model.Player;
+import model.Shop;
 import model.Size;
 import view.Buildings.BrickBuildingView;
 import view.Buildings.BuildingView;
+import view.Buildings.ShopView;
 
 public class MainScene extends Scene {
 
@@ -345,6 +347,7 @@ public class MainScene extends Scene {
 		
 		root.setBackground(new javafx.scene.layout.Background(new BackgroundFill(Color.CADETBLUE, null, null)));
 		
+		System.out.println(building.getType());
 		buildingView = getBuildingViewByType(building);
 		root.getChildren().add(buildingView);
 		buildingView.toBack();
@@ -371,13 +374,16 @@ public class MainScene extends Scene {
 	}
 	
 	private BuildingView getBuildingViewByType(Building building) {
+		double newWidth = building.getWidth()/128.0;
+		double newHeight = building.getHeight()/128.0;
+		
 		switch(building.getType()) {
 			case BRICK:
-				double newWidth = building.getWidth()/128.0;
-				double newHeight = building.getHeight()/128.0;
 				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit());
+			case SHOP:
+				Shop shop = (Shop) building;
+				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getColor());
 			default: return null;
-		
 		}
 	}
 	

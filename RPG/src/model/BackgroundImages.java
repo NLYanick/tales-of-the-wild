@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 public class BackgroundImages {
 
+	@SuppressWarnings("unused")
 	private static final String PATH = "Images/Background/";
 	private static final String GRASSPATH = "Images/Background/Grass/";
 	private static final String WATERPATH = "Images/Background/Water/";
+	private static final String BUILDINGPATH = "Images/Background/Building/";
 	
-	public static final int MAXNUMBER = 56;
+	public static final int MAXNUMBER = 58;
 	
 	private HashMap<Integer, Image> images;
 	
@@ -79,9 +81,10 @@ public class BackgroundImages {
 		images.put(52, new Image(GRASSPATH.concat("ConcretePathT.png SOUTH"), true));
 		images.put(53, new Image(GRASSPATH.concat("ConcretePathT.png WEST"), true));
 		
-		images.put(54, new Image(PATH.concat("BlueTent.png"), false));
-		images.put(55, new Image(PATH.concat("BrickHouse.png"), false));
-		images.put(56, new Image(PATH.concat("Bricks.png"), false));
+		images.put(54, new Image(BUILDINGPATH.concat("BlueTent.png"), false));
+		images.put(55, new Image(BUILDINGPATH.concat("BrickHouse.png"), false));
+		images.put(56, new Image(BUILDINGPATH.concat("Bricks.png"), false));
+		images.put(57, new Image(BUILDINGPATH.concat("WhiteShop.png"), false));
 		
 	}
 	
