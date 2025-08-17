@@ -15,7 +15,7 @@ Quests maken (Bijhouden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Kijk nog eens naar bindings, voor responsive dingen
-Alles overzetten naar SQLite!
+(Alles overzetten naar SQLite, zodat alles in 1 pakket zit. Stored Procedure kan gewoon in code.)
 (Applicatie altijd fullscreen, dus sommige resize methodes kunnen weg)
 (Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
 (Als er meer stats zijn, laten zien in in-game menu)
