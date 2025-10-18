@@ -7,12 +7,13 @@ NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
 Biomes maken
 Startscreen verbeteren
+Alle dialogs in 1 JSON bestand zetten
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen)
-Elke 5 minuten opslaan (met zo'n leuk icoontje)
+Elke 5 minuten opslaan - met zo'n leuk icoontje (Misschien alleen elke 5 minuten opslaan, dus dan niet als je bijv. een item dropt)
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Signs maken
 Quests maken (Bijhouden welke NPC het gevraagd heeft)
-Verschillende Item klassen (en misschien NPC klassen)
+Verschillende Item klassen (en misschien NPC klassen) (Item is abstracte klasse)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Kijk nog eens naar bindings, voor responsive dingen
 (Alles overzetten naar SQLite, zodat alles in 1 pakket zit. Stored Procedure kan gewoon in code.)
@@ -43,6 +44,7 @@ MainScene klasse opschonen
 Validatie op naam (bij aanmaken game)
 'a(n)' veranderen naar of 'a' of 'an' (ItemDialog)
 Dialogs en ItemDialogs mooi maken
+Als je interact terwijl je loopt, blijf je doorlopen
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
 Inventory responsive maken
@@ -56,7 +58,7 @@ Schuin lopen moet 1 i.p.v. 1.41
 Database constraints maken (bv als een building type 'SHOP' is moet het een kleur hebben)
 In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
-Code verbeteren
+Code verbeteren (Interfaces) (Misschien simpel klassediagram maken voor overzicht)
 
 
 Kan mogelijk dingen breken:
@@ -81,7 +83,7 @@ Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 
 
-Nu: Als je een item dropt in een building, gaat de itemview kapot en staat in de database niet dat het in de building zit | 
+Nu: Als je een item dropt in een building en de game afsluit, gaat de itemview kapot | Alleen items van die building laten zien |
 Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
 De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen
 NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 

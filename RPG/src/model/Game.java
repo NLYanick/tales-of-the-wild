@@ -88,19 +88,22 @@ public class Game {
 	
 	public void moveBackgroundAndPlayer(Direction dir) {
 		Direction oppositeDir = Direction.getOpposite(dir);
-		boolean inBuilding = player.isInBuilding();
 		
 		if(canWalk(dir)) {
 			moveBackground(dir);
 			moveRest(dir, oppositeDir);
 		}
-		else if(inBuilding && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC()) {
+		else if(inBuilding(oppositeDir)) {
 			moveBuilding(dir);
 			moveRest(dir, oppositeDir);
 		}
 		else if(getNearbyBuilding(oppositeDir) != null) {
 			enterBuilding(oppositeDir);
 		}
+	}
+	
+	private boolean inBuilding(Direction oppositeDir) {
+		return player.isInBuilding() && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC();
 	}
 	
 	private void moveRest(Direction dir, Direction oppositeDir) {
@@ -159,7 +162,7 @@ public class Game {
 	}
 	
 	public void teleportPlayer(Location location) {
-		player.setLocation(location);
+		player.setLocation(Location.createNew(location));
 		
 		controller.teleportImages();
 	}
@@ -179,7 +182,11 @@ public class Game {
 	
 	public void playerInteract() {
 		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
-		Item item = getNearbyItem();
+		Item item;
+		if(currentBuilding != null) 
+			item = getNearbyItemInBuilding();
+		else
+			item = getNearbyItem();
 		
 		if(nearbyNPC != null) {	
 			controller.setAllKeyPressesFalse();
@@ -197,17 +204,11 @@ public class Game {
 	public void addItemToPlayerInventory(Item item) {
 		player.addItem(item);
 		controller.addItemToPlayer(item);
-		if(buildingContainsItem(item)) controller.removeItemFromBuilding(item);
-	}
-	
-	private boolean buildingContainsItem(Item item) {
-		for(Building building : buildings) {
-			if(building.containsItem(item)) {
-				building.removeItem(item);
-				return true;
-			}
+		
+		if(currentBuilding != null && currentBuilding.containsItem(item)) { 
+			currentBuilding.removeItem(item);
+			controller.removeItemFromBuilding(item);
 		}
-		return false;
 	}
 	
 	// ---------- NPCs ----------
@@ -298,6 +299,10 @@ public class Game {
 		return null;
 	}
 	
+	private Item getNearbyItemInBuilding() {
+		return currentBuilding.getNearbyItem(player);
+	}
+	
 	private void moveItems(Direction dir) {
 		for(Item item : items) {
 			item.moveViewLocation(dir);
@@ -339,6 +344,10 @@ public class Game {
 
 	public void addBuildingViewImage(Image image) {
 		buildingViewImages.add(image);
+	}
+	
+	public void removeCurrentBuilding() {
+		currentBuilding = null;
 	}
 	
 	// ---------- Pass methods ----------
@@ -442,7 +451,7 @@ public class Game {
 		items = controller.getAllWorldItems();
 		
 		for(Item item : items) {
-			controller.addWorldItemView(item);
+			controller.addItemViewToScene(item);
 		}
 	}
 	
@@ -450,21 +459,21 @@ public class Game {
 		buildings = controller.getAllBuildings();
 		buildingViewImages = new ArrayList<Image>();
 		
-		for (Building building : buildings) {			
+		for (Building building : buildings) {
 			addNPCsToBuilding(building);
 			addItemsToBuilding(building);
 		}
 	}
 	
 	private void addNPCsToBuilding(Building building) {
-		for (NPC npc : controller.getBuildingNPCs(building)) {
+		for (NPC npc : controller.getBuildingNPCs(building.getId())) {
 			npc.setLocation(Building.UNLOAD_LOCATION);
 			building.addNPC(npc);
 		}
 	}
 	
 	private void addItemsToBuilding(Building building) {
-		for (Item item : controller.getBuildingItems(building)) {
+		for (Item item : controller.getBuildingItems(building.getId())) {
 			item.setLocation(Building.UNLOAD_LOCATION);
 			building.addItem(item);
 			controller.addItemView(item);

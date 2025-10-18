@@ -70,7 +70,7 @@ public abstract class Entity {
 	}
 	
 	public void setLocation(Location location) {
-		this.location = location;
+		this.location = Location.createNew(location);
 	}
 	
 	public Direction getMovingDirection() {

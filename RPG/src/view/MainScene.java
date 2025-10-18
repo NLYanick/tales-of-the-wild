@@ -214,7 +214,7 @@ public class MainScene extends Scene {
 	
 	public void openInventory() {
 		menusPane.getChildren().add(inventoryView);
-		menusPane.getChildren().remove(inGameMenuView);
+		inGameMenuView.setDisable(true);
 		inventoryView.requestFocusForButton();
 		inventoryIsOpen = true;
 		setCursor(Cursor.DEFAULT);
@@ -222,7 +222,8 @@ public class MainScene extends Scene {
 	
 	public void removeInventoryView() {
 		menusPane.getChildren().remove(inventoryView);
-		menusPane.getChildren().add(inGameMenuView);
+		inventoryView.disableActiveSlot();
+		inGameMenuView.setDisable(false);
 		inGameMenuView.requestFocusForButtons();
 		inventoryIsOpen = false;
 		setCursor(Cursor.NONE);
@@ -278,6 +279,8 @@ public class MainScene extends Scene {
 		
 		dialogs.add(dialogView);
 		dialogs.get(0).requestFocus();
+		
+		playerIsInDialog = true;
 	}
 	
 	public void removeDialog(DialogView dialogView) {
@@ -499,6 +502,7 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	// TODO Clean up
 	private void handleInputKeyPressed(KeyEvent e) {
 		switch(e.getCode()) {
 		case T:
@@ -587,10 +591,6 @@ public class MainScene extends Scene {
 	
 	private boolean allIsClosed() {
 		return !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog && !inventoryIsOpen;
-	}
-	
-	public void setPlayerIsInDialog(boolean playerIsInDialog) {
-		this.playerIsInDialog = playerIsInDialog;
 	}
 
 }

@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-import model.Building;
 import model.Dialog;
 import model.Direction;
 import model.Location;
@@ -151,10 +150,10 @@ public class NPCLayer {
 		return fullString;
 	}
 	
-	public ArrayList<NPC> getBuildingNPCs(Building building) {
+	public ArrayList<NPC> getBuildingNPCs(int buildingId) {
 		ArrayList<NPC> npcs = new ArrayList<NPC>();
 		
-		String query = "SELECT * FROM npc WHERE building_id = " + building.getId() + ";";
+		String query = "SELECT * FROM npc WHERE building_id = " + buildingId + ";";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);

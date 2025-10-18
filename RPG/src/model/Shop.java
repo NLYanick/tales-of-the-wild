@@ -20,7 +20,7 @@ public class Shop extends Building {
 		
 	}
 	
-	public void addItem(Item item) {
+	public void addShopItem(Item item) {
 		inventory.addItem(item);
 	}
 	

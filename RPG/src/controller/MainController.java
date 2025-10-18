@@ -58,7 +58,7 @@ public class MainController {
 		npcsWithViews.put(npc, npcView);
 	}
 	
-	public void addWorldItemView(Item item) {
+	public void addItemViewToScene(Item item) {
 		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 		itemsWithViews.put(item, itemView);
 		
@@ -202,14 +202,24 @@ public class MainController {
 		Item item = getItemFromView(itemView);
 		
 		if(item != null) {
-			int diff = 32;
+			int diff = 16;
+			Building currentBuilding = game.getCurrentBuilding();
+			
 			Location newLocation = new Location(getPlayerLocation().getX() - diff, getPlayerLocation().getY() - diff);
 			
 			item.setLocation(newLocation);
 			game.dropItemFromPlayerInventory(game.getPlayerInventoryItemWithId(item.getId()));
-			databaseController.dropItem(item, newLocation);
 			
-			item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
+			if(currentBuilding != null && scene.isInBuilding()) {
+				currentBuilding.addItem(item);
+				databaseController.dropItemInBuilding(item, newLocation, currentBuilding.getId());
+				item.setViewLocation(new Location(currentBuilding.getViewLocation().getX() + -currentBuilding.getX() + item.getX(), 
+					currentBuilding.getViewLocation().getY() + -currentBuilding.getY() + item.getY()));
+			} else {
+				databaseController.dropItem(item, newLocation);
+				item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
+			}
+			
 			itemView.move(item.getViewLocation());
 			
 			scene.removeItemViewFromInventoryView(itemView);
@@ -231,8 +241,6 @@ public class MainController {
 	}
 	
 	public void addDialogView(NPC npc) {
-		scene.setPlayerIsInDialog(true);
-		
 		for(Dialog dia : npc.getDialogs()) {
 			if(dia.shouldSkip() && dia.hasPlayed()) 
 				continue;
@@ -326,16 +334,16 @@ public class MainController {
 	
 	// -------------------- Pass Methodes --------------------
 	
-	public void startGame() {
-		game.startGame();
-	}
-	
 	public void moveBackgroundAndPlayer(Direction dir) {
 		game.moveBackgroundAndPlayer(dir);
 	}
 	
 	public void teleportPlayer(Location location) {
 		game.teleportPlayer(location);
+	}
+	
+	public void removeCurrentBuilding() {
+		game.removeCurrentBuilding();
 	}
 	
 	public void stopNPCThreads() {
@@ -457,12 +465,12 @@ public class MainController {
 		return databaseController.getNPCItems(npc);
 	}
 	
-	public ArrayList<Item> getBuildingItems(Building building) {
-		return databaseController.getBuildingItems(building);
+	public ArrayList<Item> getBuildingItems(int buildingId) {
+		return databaseController.getBuildingItems(buildingId);
 	}
 	
-	public ArrayList<NPC> getBuildingNPCs(Building building) {
-		return databaseController.getBuildingNPCs(building);
+	public ArrayList<NPC> getBuildingNPCs(int buildingId) {
+		return databaseController.getBuildingNPCs(buildingId);
 	}
 	
 	public ArrayList<Building> getAllBuildings() {

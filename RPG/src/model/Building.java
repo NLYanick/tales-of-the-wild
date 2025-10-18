@@ -25,7 +25,7 @@ public class Building {
 			Location leaveLocation, MainController controller, int id, Location entranceLocation) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
-		this.entranceLocation= entranceLocation; 
+		this.entranceLocation = entranceLocation; 
 		
 		this.type = type;
 		this.exit = exit;
@@ -55,10 +55,11 @@ public class Building {
 		if(canPass) {
 			controller.removeBuildingView();
 			
-			controller.teleportPlayer(leaveLocation);
-			player.setInBuilding(false);
-			
 			unloadInside();
+			
+			player.setInBuilding(false);
+			controller.teleportPlayer(leaveLocation);
+			controller.removeCurrentBuilding();
 		}
 	}
 	
@@ -100,6 +101,15 @@ public class Building {
 	public void moveViewLocation(Direction dir) {
 		viewLocation.setX(viewLocation.getX() + dir.getX());
 		viewLocation.setY(viewLocation.getY() + dir.getY());
+	}
+	
+	public Item getNearbyItem(Player player) {
+		for(Item item : items) {
+			if(player.isOnItem(item)) {
+				return item;
+			}
+		}
+		return null;
 	}
 	
 	public boolean collidesWith(Player player, Direction dir) {
@@ -258,6 +268,14 @@ public class Building {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public int getX() {
+		return insideLocation.getX();
+	}
+	
+	public int getY() {
+		return insideLocation.getY();
 	}
 		
 }

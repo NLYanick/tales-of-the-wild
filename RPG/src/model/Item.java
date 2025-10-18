@@ -15,7 +15,7 @@ public class Item {
 		this.description = description;
 		this.id = id;
 		
-		viewLocation = new Location(location.getX(), location.getY());
+		viewLocation = Location.createNew(location);
 	}
 	
 	public void moveViewLocation(Direction dir) {
@@ -35,7 +35,7 @@ public class Item {
 	}
 	
 	public void setLocation(Location location) {
-		this.location = new Location(location.getX(), location.getY());
+		this.location = Location.createNew(location);
 	}
 	
 	public Location getViewLocation() {

@@ -310,6 +310,11 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
+	public void disableActiveSlot() {
+		deactivateSlots();
+		activatedSlot = null;
+	}
+	
 	private void dropItem(ItemView itemView) {
 		scene.dropItem(itemView);
 		itemViews.remove(itemView);

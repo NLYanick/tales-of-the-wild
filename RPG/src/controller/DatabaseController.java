@@ -61,7 +61,7 @@ public class DatabaseController {
 		controller.setPlayer(player);
 		player.addItemsToInventory(itemLayer.getAllItemsOfPlayer(player));
 		
-		controller.startGame();
+		game.startGame();
 		controller.teleportPlayer(player.getLocation());
 	}
 	
@@ -121,12 +121,12 @@ public class DatabaseController {
 		return itemLayer.getNPCItems(npc);
 	}
 	
-	public ArrayList<Item> getBuildingItems(Building building){
-		return itemLayer.getBuildingItems(building);
+	public ArrayList<Item> getBuildingItems(int buildingId){
+		return itemLayer.getBuildingItems(buildingId);
 	}
 	
-	public ArrayList<NPC> getBuildingNPCs(Building building) {
-		return npcLayer.getBuildingNPCs(building);
+	public ArrayList<NPC> getBuildingNPCs(int buildingId) {
+		return npcLayer.getBuildingNPCs(buildingId);
 	}
 	
 	public void setItemLocation(Item item, Location location) {
@@ -135,6 +135,10 @@ public class DatabaseController {
 	
 	public void dropItem(Item item, Location location) {
 		itemLayer.dropItem(item, location);
+	}
+	
+	public void dropItemInBuilding(Item item, Location location, int buildingId) {
+		itemLayer.dropItemInBuilding(item, location, buildingId);
 	}
 
 	public void addItemToPlayer(Item item, Player player) {

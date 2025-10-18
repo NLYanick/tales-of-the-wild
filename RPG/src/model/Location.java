@@ -29,6 +29,10 @@ public class Location {
 		return location.getX() == 0 && location.getY() == 0;
 	}
 	
+	public static Location createNew(Location location) {
+		return new Location(location.getX(), location.getY());
+	}
+	
 	public Location getNext(Direction direction) {
 		return new Location(x + direction.getX(), y + direction.getY());
 	}
