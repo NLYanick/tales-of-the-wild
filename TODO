@@ -32,7 +32,8 @@ Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 In de inventory itemslot positie opslaan (slots opslaan in database bv)
 De player moet states hebben (paused, in-dialog, in-inventory, enz.)
-Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke getallen neerzetten (bv -1884, 1490))
+Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke getallen neerzetten (bv -1884, 1490 i.p.v. 500, 700))
+In de inventory bij drag & drop het hoverslot en het beginslot een kleurtje geven
 
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
@@ -83,7 +84,8 @@ Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 
 
-Nu: Als je een item dropt in een building en de game afsluit, gaat de itemview kapot | Alleen items van die building laten zien |
+Nu: Als je een item dropt in een building en de game afsluit, gaat de itemview kapot | Alleen items van die building laten zien | 
+Als je een item dropt in een building en daarna de game afsluit, dan gaat een item droppen ook fout, zeker buiten (in database gaat het wel goed) |
 Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
 De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen
 NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 

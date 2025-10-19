@@ -103,7 +103,7 @@ public class Game {
 	}
 	
 	private boolean inBuilding(Direction oppositeDir) {
-		return player.isInBuilding() && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC();
+		return player.inBuilding() && !currentBuilding.collidesWith(player, oppositeDir) && !nextStepForPlayerisNPC();
 	}
 	
 	private void moveRest(Direction dir, Direction oppositeDir) {
@@ -184,7 +184,7 @@ public class Game {
 		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
 		Item item;
 		if(currentBuilding != null) 
-			item = getNearbyItemInBuilding();
+			item = currentBuilding.getNearbyItem(player);
 		else
 			item = getNearbyItem();
 		
@@ -297,10 +297,6 @@ public class Game {
 			}
 		}
 		return null;
-	}
-	
-	private Item getNearbyItemInBuilding() {
-		return currentBuilding.getNearbyItem(player);
 	}
 	
 	private void moveItems(Direction dir) {

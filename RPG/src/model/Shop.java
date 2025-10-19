@@ -16,8 +16,10 @@ public class Shop extends Building {
 		this.color = color;
 	}
 	
-	public void buy() {
-		
+	public void buy(Item item) {
+		// if(player.currency > item.cost)
+		inventory.removeItem(item);
+		// player.addItem(item)
 	}
 	
 	public void addShopItem(Item item) {

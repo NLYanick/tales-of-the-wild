@@ -8,6 +8,8 @@ public class Player extends Entity {
 
 	public final static String DEFAULT_URL = "Images/Fox/FoxStandingStill.gif";
 	public final static Location DEFAULT_LOCATION = new Location(MainScene.SCENEWIDTH/2, MainScene.SCENEHEIGHT/2);
+	
+	private boolean inBuilding;
 		
 	public Player(String imgURL, Location location, String name) {
 		super(imgURL, name);
@@ -118,6 +120,14 @@ public class Player extends Entity {
 	
 	public ArrayList<Item> getItemsOfInventory() {
 		return inventory.getItems();
+	}
+	
+	public boolean inBuilding() {
+		return inBuilding;
+	}
+	
+	public void setInBuilding(boolean inBuilding) {
+		this.inBuilding = inBuilding;
 	}
 	
 }

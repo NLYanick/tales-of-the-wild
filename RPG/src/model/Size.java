@@ -25,4 +25,8 @@ public class Size {
 		this.height = height;
 	}
 	
+	public int[] getSize() {
+		return new int[] {width, height};
+	}
+	
 }

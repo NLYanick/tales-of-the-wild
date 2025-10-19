@@ -355,11 +355,11 @@ public class MainScene extends Scene {
 		buildingView.toBack();
 		
 		inBuilding = true;
-		addViewLocation(building);
+		addBuildingViewLocation(building);
 		
 	}
 	
-	private void addViewLocation(Building building) {
+	private void addBuildingViewLocation(Building building) {
 		int screenXDiffernce = (int) getWidth()/2 - SCENEWIDTH/2;
 		int screenYDiffernce = (int) getHeight()/2 - SCENEHEIGHT/2;
 		building.setViewLocation(new Location((int) buildingView.getLayoutX() - screenXDiffernce, 
