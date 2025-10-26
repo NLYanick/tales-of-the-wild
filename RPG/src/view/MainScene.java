@@ -170,7 +170,8 @@ public class MainScene extends Scene {
 		
 		controller.loadGame(playerName);
 		
-		moveBackground(controller.getBackgroundLocation().getX(), controller.getBackgroundLocation().getY(), true);
+		Location bgLocation = controller.getBackgroundLocation();
+		moveBackground(bgLocation.getX(), bgLocation.getY(), true);
 		createPlayerView();
 		
 		inGameMenuView.setPlayerPane();

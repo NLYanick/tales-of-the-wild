@@ -35,6 +35,7 @@ In de inventory itemslot positie opslaan (slots opslaan in database bv)
 De player moet states hebben (paused, in-dialog, in-inventory, enz.)
 Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke getallen neerzetten (bv -1884, 1490 i.p.v. 500, 700))
 In de inventory bij drag & drop het hoverslot en het beginslot een kleurtje geven
+Alle width + height vervangen door Size klasse
 
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
@@ -85,8 +86,8 @@ Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 
 
-Nu: Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
-De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen
+Nu: In building, NPC en Shop mag geen controller, maar wel game | 
+De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen |
 NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
 Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn |
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |

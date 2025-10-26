@@ -12,7 +12,7 @@ public class Game {
 	private boolean gameIsPaused;
 	
 	private MainController controller;
-	private BackgroundLocation backgroundLocation;
+	private Location backgroundLocation;
 	
 	private Building currentBuilding;
 	private NPC dialogNPC;
@@ -26,7 +26,7 @@ public class Game {
 	public Game(int id) {
 		this.id = id;
 		
-		backgroundLocation = new BackgroundLocation(-Player.DEFAULT_LOCATION.getX() + BACKGROUND_PLAYER_DIFFERENCE, 
+		backgroundLocation = new Location(-Player.DEFAULT_LOCATION.getX() + BACKGROUND_PLAYER_DIFFERENCE, 
 				-Player.DEFAULT_LOCATION.getY() + BACKGROUND_PLAYER_DIFFERENCE);
 	}
 	
@@ -271,7 +271,7 @@ public class Game {
 	
 	private void moveNPCs(Direction dir) {
 		for(NPC npc : npcs) {
-			npc.moveViewLocationWithBackground(dir);
+			npc.moveViewLocation(dir);
 			controller.moveNPCViewWithScreen(npc);			
 		}
 	}
@@ -518,7 +518,7 @@ public class Game {
 		return buildingViewImages;
 	}
 	
-	public BackgroundLocation getBackgroundLocation() {
+	public Location getBackgroundLocation() {
 		return backgroundLocation;
 	}
 

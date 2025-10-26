@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import model.BackgroundLocation;
 import model.Building;
 import model.Dialog;
 import model.Direction;
@@ -523,7 +522,7 @@ public class MainController {
 		return game.getPlayerMovingDirection();
 	}
 	
-	public BackgroundLocation getBackgroundLocation() {
+	public Location getBackgroundLocation() {
 		return game.getBackgroundLocation();
 	}
 	

@@ -99,8 +99,7 @@ public class Building {
 	}
 	
 	public void moveViewLocation(Direction dir) {
-		viewLocation.setX(viewLocation.getX() + dir.getX());
-		viewLocation.setY(viewLocation.getY() + dir.getY());
+		viewLocation.move(dir);
 	}
 	
 	public Item getNearbyItem(Player player) {

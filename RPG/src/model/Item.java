@@ -19,15 +19,12 @@ public class Item {
 	}
 	
 	public void moveViewLocation(Direction dir) {
-		viewLocation.setX(viewLocation.getX() + dir.getX());
-		viewLocation.setY(viewLocation.getY() + dir.getY());
+		viewLocation.move(dir);
 	}
 	
 	public void resetLocation() {
-		location.setX(0);
-		location.setY(0);
-		viewLocation.setX(0);
-		viewLocation.setY(0);
+		location.moveTo(0, 0);
+		viewLocation.moveTo(0, 0);
 	}
 	
 	public void setViewLocation(Location location) {

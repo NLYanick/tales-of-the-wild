@@ -21,8 +21,7 @@ public abstract class Entity {
 	}
 	
 	public void move(Direction dir) {
-		location.setX(getX() + dir.getX()); 
-		location.setY(getY() + dir.getY()); 
+		location.move(dir);
 	}
 	
 	public void addItem(Item item) {

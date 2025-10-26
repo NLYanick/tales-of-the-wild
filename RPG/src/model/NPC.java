@@ -22,8 +22,7 @@ public class NPC extends Entity {
 	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, int id) {
 		super(imageURL, name);
 				
-		location.setX(startLocation.getX());
-		location.setY(startLocation.getY());
+		location.moveTo(startLocation.getX(), startLocation.getY());
 		
 		this.startLocation = startLocation;
 		movingDirection = walkDirection;
@@ -38,8 +37,7 @@ public class NPC extends Entity {
 		super(imageURL, name);
 		this.startLocation = startLocation;
 		
-		location.setX(startLocation.getX());
-		location.setY(startLocation.getY());
+		location.moveTo(startLocation.getX(), startLocation.getY());
 		
 		this.dialogs = dialogs;
 		this.id = id;
@@ -54,20 +52,16 @@ public class NPC extends Entity {
 
 		switch(direction) {
 		case NORTH:
-			endLocation.setX(x);
-			endLocation.setY(y - DISTANCE); 
+			endLocation.moveTo(x, y - DISTANCE); 
 			break;
 		case EAST:
-			endLocation.setX(x + DISTANCE);
-			endLocation.setY(y); 
+			endLocation.moveTo(x + DISTANCE, y);
 			break;
 		case SOUTH:
-			endLocation.setX(x);
-			endLocation.setY(y + DISTANCE); 
+			endLocation.moveTo(x, y + DISTANCE); 
 			break;
 		case WEST:
-			endLocation.setX(x - DISTANCE);
-			endLocation.setY(y); 
+			endLocation.moveTo(x - DISTANCE, y);
 			break;
 		}
 	}
@@ -153,20 +147,17 @@ public class NPC extends Entity {
 		return false;
 	}
 	
-	public void moveViewLocationWithBackground(Direction dir) {
-		viewLocation.setX(viewLocation.getX() + dir.getX());
-		viewLocation.setY(viewLocation.getY() + dir.getY());
+	public void moveViewLocation(Direction dir) {
+		viewLocation.move(dir);
 	}
 	
 	private void switchStartAndEndLocations() {
 		int tempX = startLocation.getX();
 		int tempY = startLocation.getY();
 		
-		startLocation.setX(endLocation.getX());
-		startLocation.setY(endLocation.getY());
+		startLocation.moveTo(endLocation.getX(), endLocation.getY());
 		
-		endLocation.setX(tempX);
-		endLocation.setY(tempY);
+		endLocation.moveTo(tempX, tempY);
 	}
 
 	private void moveInLine() {
@@ -179,11 +170,8 @@ public class NPC extends Entity {
 			switchStartAndEndLocations();
 			setRunningImage(movingDirection);
 		}
-		location.setX(getX() + movingDirection.getX()); 
-		location.setY(getY() + movingDirection.getY()); 
-		
-		viewLocation.setX(viewLocation.getX() + movingDirection.getX()); 
-		viewLocation.setY(viewLocation.getY() + movingDirection.getY()); 
+		location.move(movingDirection);
+		viewLocation.move(movingDirection);
 		
 		checkForCorrectImage();
 	}

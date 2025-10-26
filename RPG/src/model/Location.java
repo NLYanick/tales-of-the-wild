@@ -37,6 +37,16 @@ public class Location {
 		return new Location(x + direction.getX(), y + direction.getY());
 	}
 	
+	public void move(Direction direction) {
+		x += direction.getX();
+		y += direction.getY();
+	}
+	
+	public void moveTo(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getX() {
 		return x;
 	}
