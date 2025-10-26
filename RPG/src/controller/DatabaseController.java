@@ -36,7 +36,7 @@ public class DatabaseController {
 	
 	public void saveGame(Player player) {
 		playerLayer.saveLocation(player);
-		itemLayer.savePlayerItems(player, player.getItemsOfInventory());
+		itemLayer.savePlayerItems(player, player.getItems());
 	}
 	
 	public Location getPlayerLocation(String name) {
@@ -111,10 +111,6 @@ public class DatabaseController {
 	
 	public ArrayList<Building> getAllBuildings(int gameId){
 		return buildingLayer.getAllBuildings(gameId);
-	}
-	
-	public ArrayList<Item> getAllItemsOfPlayer(Player player){
-		return itemLayer.getAllItemsOfPlayer(player);
 	}
 	
 	public ArrayList<Item> getNPCItems(NPC npc){

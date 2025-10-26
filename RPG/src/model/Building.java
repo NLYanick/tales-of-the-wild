@@ -219,6 +219,10 @@ public class Building {
 		return items.contains(item);
 	}
 	
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+	
 	
 	/* Getters and Setters */
 	

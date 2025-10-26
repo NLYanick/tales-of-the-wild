@@ -84,8 +84,7 @@ Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 
 
-Nu: Als je een item dropt in een building en de game afsluit, gaat de itemview kapot | Alleen items van die building laten zien | 
-Als je een item dropt in een building en daarna de game afsluit, dan gaat een item droppen ook fout, zeker buiten (in database gaat het wel goed) |
+Nu: Alleen items van die building laten zien | 
 Na create game ook loadingview | In building (en andere models behalve Game) mag geen controller, maar wel game | 
 De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen
 NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 

@@ -19,7 +19,7 @@ public class Game {
 	
 	private Player player;
 	private ArrayList<NPC> npcs;
-	private ArrayList<Item> items;
+	private ArrayList<Item> worldItems;
 	private ArrayList<Building> buildings;
 	private ArrayList<Image> buildingViewImages;
 	
@@ -35,7 +35,7 @@ public class Game {
 		setUpNPCs();
 		setUpBuildings();
 		
-		controller.addPlayerItemViewsToInventoryView(items);
+		controller.addPlayerItemViewsToInventoryView();
 	}
 	
 	public void pauzeGame() {
@@ -61,23 +61,15 @@ public class Game {
 			}
 		}
 	}
-	
-	public void resumeNPCThreads() {
-		if(npcs != null && !(npcs.size() <= 0)) {			
-			for(NPC npc : npcs) {
-				npc.resumeThread();
-			}
-		}
-	}
-	
+		
 	public void resizeLocationsInView() {
 		if(npcs != null) {
 			for(NPC npc : npcs) {
 				controller.moveNPCViewWithScreen(npc);
 			}
 		}
-		if(items != null) {
-			for(Item item : items) {
+		if(worldItems != null) {
+			for(Item item : worldItems) {
 				controller.moveItemViewWithScreen(item);
 			}
 		}	
@@ -209,6 +201,7 @@ public class Game {
 			currentBuilding.removeItem(item);
 			controller.removeItemFromBuilding(item);
 		}
+		worldItems.remove(item);
 	}
 	
 	// ---------- NPCs ----------
@@ -291,7 +284,7 @@ public class Game {
 	// ---------- Items ----------
 	
 	private Item getNearbyItem() {
-		for(Item item : items) {
+		for(Item item : worldItems) {
 			if(player.isOnItem(item)) {
 				return item;
 			}
@@ -300,13 +293,18 @@ public class Game {
 	}
 	
 	private void moveItems(Direction dir) {
-		for(Item item : items) {
+		for(Item item : worldItems) {
 			item.moveViewLocation(dir);
 			controller.moveItemViewWithScreen(item);
 		}
+		moveBuildingItems(dir);
 	}
 	
+	public void addWorldItem(Item item) {
+		worldItems.add(item);
+	}
 	
+
 	// ---------- Buildings ----------
 	
 	private Building getNearbyBuilding(Direction dir) {
@@ -346,6 +344,15 @@ public class Game {
 		currentBuilding = null;
 	}
 	
+	private void moveBuildingItems(Direction dir) {
+		for(Building building : buildings) {
+			for(Item item : building.getItems()) {
+				item.moveViewLocation(dir);
+				controller.moveItemViewWithScreen(item);
+			}
+		}
+	}
+	
 	// ---------- Pass methods ----------
 	
 	public void setBackgroundX(int x) {
@@ -368,8 +375,8 @@ public class Game {
 		return currentBuilding.getLeaveLocation();
 	}
 	
-	public ArrayList<Item> getItemsOfPlayerInventory() {
-		return player.getItemsOfInventory();
+	public ArrayList<Item> getPlayerItems() {
+		return player.getItems();
 	}
 	
 	public int getPlayerX() {
@@ -444,10 +451,14 @@ public class Game {
 	}
 	
 	public void setUpItems() {
-		items = controller.getAllWorldItems();
+		worldItems = controller.getAllWorldItems();
+		ArrayList<Item> playerItems = player.getItems();
 		
-		for(Item item : items) {
+		for(Item item : worldItems) {
 			controller.addItemViewToScene(item);
+		}
+		for(Item item : playerItems) {
+			controller.addItemView(item);
 		}
 	}
 	
@@ -472,7 +483,7 @@ public class Game {
 		for (Item item : controller.getBuildingItems(building.getId())) {
 			item.setLocation(Building.UNLOAD_LOCATION);
 			building.addItem(item);
-			controller.addItemView(item);
+			controller.addItemViewToScene(item);
 		}
 	}
 	
@@ -495,8 +506,8 @@ public class Game {
 		return npcs;
 	}
 	
-	public ArrayList<Item> getItems() {
-		return items;
+	public ArrayList<Item> getWorldItems() {
+		return worldItems;
 	}
 	
 	public ArrayList<Building> getBuildings() {

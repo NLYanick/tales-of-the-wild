@@ -118,7 +118,7 @@ public class Player extends Entity {
 		return inventory.getItemWithId(id);
 	}
 	
-	public ArrayList<Item> getItemsOfInventory() {
+	public ArrayList<Item> getItems() {
 		return inventory.getItems();
 	}
 	

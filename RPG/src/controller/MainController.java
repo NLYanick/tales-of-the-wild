@@ -58,6 +58,11 @@ public class MainController {
 		npcsWithViews.put(npc, npcView);
 	}
 	
+	public void addItemView(Item item) {
+		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
+		itemsWithViews.put(item, itemView);
+	}
+	
 	public void addItemViewToScene(Item item) {
 		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
 		itemsWithViews.put(item, itemView);
@@ -65,23 +70,13 @@ public class MainController {
 		scene.addItemView(itemView);
 		moveItemViewWithScreen(item);
 	}
-	
-	public void addItemView(Item item) {
-		ItemView itemView = new ItemView(item.getLocation(), item.getImageUrl());
-		itemsWithViews.put(item, itemView);
-	}
-	
-	public void addPlayerItemViewsToInventoryView(ArrayList<Item> items) {
+		
+	public void addPlayerItemViewsToInventoryView() {
 		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
-		for(Item playerItem : game.getItemsOfPlayerInventory()) {
-			for(int i = 0; i < items.size(); i++) {
-				Item item = items.get(i);
-				if(playerItem.getId() == item.getId()) {
-					ItemView itemView = itemsWithViews.get(item);
-					scene.removeItemView(itemView);
-					itemViews.add(itemView);
-				}
-			}
+		for(Item playerItem : game.getPlayerItems()) {
+			ItemView itemView = itemsWithViews.get(playerItem);
+			scene.removeItemView(itemView);
+			itemViews.add(itemView);
 		}
 		
 		scene.setItemViewsInInventory(itemViews);
@@ -115,11 +110,19 @@ public class MainController {
 	}
 	
 	private void teleportItemImages(int bgX, int bgY) {
-		for(Item item : game.getItems()) {
+		for(Item item : game.getWorldItems()) {
 			ItemView itemView = itemsWithViews.get(item);
 			item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
 			itemView.move(item.getViewLocation());
 			moveItemViewWithScreen(item);
+		}
+		for(Building building : game.getBuildings()) {
+			for(Item item : building.getItems()) {
+				ItemView itemView = itemsWithViews.get(item);
+				item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
+				itemView.move(item.getViewLocation());
+				moveItemViewWithScreen(item);
+			}
 		}
 	}
 	
@@ -216,6 +219,7 @@ public class MainController {
 				item.setViewLocation(new Location(currentBuilding.getViewLocation().getX() + -currentBuilding.getX() + item.getX(), 
 					currentBuilding.getViewLocation().getY() + -currentBuilding.getY() + item.getY()));
 			} else {
+				game.addWorldItem(item);
 				databaseController.dropItem(item, newLocation);
 				item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
 			}
@@ -348,10 +352,6 @@ public class MainController {
 	
 	public void stopNPCThreads() {
 		if(game != null) game.stopNPCThreads();
-	}
-	
-	public void resumeNPCThreads() {
-		game.resumeNPCThreads();
 	}
 	
 	public void pauzeGame() {

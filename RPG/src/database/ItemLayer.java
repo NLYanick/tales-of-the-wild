@@ -44,7 +44,7 @@ public class ItemLayer {
 	public ArrayList<Item> getAllWorldItems(int gameId) {
 		ArrayList<Item> items = new ArrayList<Item>();
 
-		String query = "SELECT * FROM item WHERE game_id = " + gameId + " AND npc_id IS NULL AND building_id IS NULL;";
+		String query = "SELECT * FROM item WHERE game_id = " + gameId + " AND npc_id IS NULL AND building_id IS NULL AND player_name IS NULL;";
 
 		try {
 			Statement stmt = conn.createStatement();
