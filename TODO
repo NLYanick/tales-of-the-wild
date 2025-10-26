@@ -86,8 +86,7 @@ Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 
 
-Nu: In building, NPC en Shop mag geen controller, maar wel game | 
-De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen |
+Nu: De tent moet ook een building zijn waar je niet in kan | ShopView mooi maken | Muren maken voor shop binnen |
 NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
 Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn |
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |

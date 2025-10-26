@@ -47,6 +47,16 @@ public class MainController {
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		itemsWithViews = new HashMap<Item, ItemView>();
 	}
+	
+	public void setPlayer(Player player) {
+		game.setPlayer(player);
+		movementController.setPlayer(player);
+	}
+	
+	public void setGame(Game game) {
+		this.game = game; 
+		game.setMainController(this);
+	}
 		
 	public void addNPCView(NPC npc, int bgX, int bgY) {
 		NPCView npcView = new NPCView(npc.getURL(), npc.getStartLocation().getX(), npc.getStartLocation().getY());
@@ -345,10 +355,6 @@ public class MainController {
 		game.teleportPlayer(location);
 	}
 	
-	public void removeCurrentBuilding() {
-		game.removeCurrentBuilding();
-	}
-	
 	public void stopNPCThreads() {
 		if(game != null) game.stopNPCThreads();
 	}
@@ -530,18 +536,8 @@ public class MainController {
 		return game.getPlayerLocation();
 	}
 	
-	public void setPlayer(Player player) {
-		game.setPlayer(player);
-		movementController.setPlayer(player);
-	}
-	
 	public ArrayList<Image> getBuildingViewImages() {
 		return game.getBuildingViewImages();
 	}
 
-	public void setGame(Game game) {
-		this.game = game; 
-		game.setMainController(this);
-	}
-	
 }

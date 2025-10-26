@@ -353,6 +353,71 @@ public class Game {
 		}
 	}
 	
+	// ---------- Set up ----------
+	
+	public void setUpNPCs() {
+		npcs = controller.getAllNPCs();
+		
+		int bgX = backgroundLocation.getX();
+		int bgY = backgroundLocation.getY();
+		
+		for(NPC npc : npcs) {
+			npc.setGame(this);
+			
+			controller.addNPCView(npc, bgX, bgY);
+			if(npc.getMovingDirection() != null) {
+				npc.setUpThread();
+			}
+			
+			addItemsToNPC(npc);
+		}
+	}
+	
+	private void addItemsToNPC(NPC npc) {
+		for(Item item : controller.getNPCItems(npc)) {
+			npc.addItem(item);
+			controller.addItemView(item);
+		}
+	}
+	
+	public void setUpItems() {
+		worldItems = controller.getAllWorldItems();
+		ArrayList<Item> playerItems = player.getItems();
+		
+		for(Item item : worldItems) {
+			controller.addItemViewToScene(item);
+		}
+		for(Item item : playerItems) {
+			controller.addItemView(item);
+		}
+	}
+	
+	public void setUpBuildings() {
+		buildings = controller.getAllBuildings();
+		buildingViewImages = new ArrayList<Image>();
+		
+		for (Building building : buildings) {
+			building.setGame(this);
+			addNPCsToBuilding(building);
+			addItemsToBuilding(building);
+		}
+	}
+	
+	private void addNPCsToBuilding(Building building) {
+		for (NPC npc : controller.getBuildingNPCs(building.getId())) {
+			npc.setLocation(Building.UNLOAD_LOCATION);
+			building.addNPC(npc);
+		}
+	}
+	
+	private void addItemsToBuilding(Building building) {
+		for (Item item : controller.getBuildingItems(building.getId())) {
+			item.setLocation(Building.UNLOAD_LOCATION);
+			building.addItem(item);
+			controller.addItemViewToScene(item);
+		}
+	}
+	
 	// ---------- Pass methods ----------
 	
 	public void setBackgroundX(int x) {
@@ -423,70 +488,33 @@ public class Game {
 		player.removeItem(item);
 	}
 	
-	// ---------- Set up ----------
-	
-	public void setUpNPCs() {
-		npcs = controller.getAllNPCs();
-		
-		int bgX = backgroundLocation.getX();
-		int bgY = backgroundLocation.getY();
-		
-		for(NPC npc : npcs) {
-			npc.setMainController(controller);
-			
-			controller.addNPCView(npc, bgX, bgY);
-			if(npc.getMovingDirection() != null) {
-				npc.setUpThread();
-			}
-			
-			addItemsToNPC(npc);
-		}
+	public void addDialogView(NPC npc) {
+		controller.addDialogView(npc);
 	}
 	
-	private void addItemsToNPC(NPC npc) {
-		for(Item item : controller.getNPCItems(npc)) {
-			npc.addItem(item);
-			controller.addItemView(item);
-		}
+	public void moveNPCViewWithScreen(NPC npc) {
+		controller.moveNPCViewWithScreen(npc);
 	}
 	
-	public void setUpItems() {
-		worldItems = controller.getAllWorldItems();
-		ArrayList<Item> playerItems = player.getItems();
-		
-		for(Item item : worldItems) {
-			controller.addItemViewToScene(item);
-		}
-		for(Item item : playerItems) {
-			controller.addItemView(item);
-		}
+	public void switchNPCImage(NPC npc, String url) {
+		controller.switchNPCImage(npc, url);
 	}
 	
-	public void setUpBuildings() {
-		buildings = controller.getAllBuildings();
-		buildingViewImages = new ArrayList<Image>();
-		
-		for (Building building : buildings) {
-			addNPCsToBuilding(building);
-			addItemsToBuilding(building);
-		}
+	public void setBuildingView(Building building) {
+		controller.setBuildingView(building);
 	}
 	
-	private void addNPCsToBuilding(Building building) {
-		for (NPC npc : controller.getBuildingNPCs(building.getId())) {
-			npc.setLocation(Building.UNLOAD_LOCATION);
-			building.addNPC(npc);
-		}
+	public void removeBuildingView() {
+		controller.removeBuildingView();
 	}
 	
-	private void addItemsToBuilding(Building building) {
-		for (Item item : controller.getBuildingItems(building.getId())) {
-			item.setLocation(Building.UNLOAD_LOCATION);
-			building.addItem(item);
-			controller.addItemViewToScene(item);
-		}
+	public Location getOriginalNPCBuildingLocation(NPC npc, int buildingId) {
+		return controller.getOriginalNPCBuildingLocation(npc, buildingId);
 	}
 	
+	public Location getOriginalItemBuildingLocation(Item item, int buildingId) {
+		return controller.getOriginalItemBuildingLocation(item, buildingId);
+	}
 	
 	// ---------- Getters & Setters ----------
 	

@@ -31,7 +31,7 @@ public class DatabaseController {
 		playerLayer = new PlayerLayer();
 		itemLayer = new ItemLayer();
 		npcLayer = new NPCLayer();
-		buildingLayer = new BuildingLayer(controller);
+		buildingLayer = new BuildingLayer();
 	}
 	
 	public void saveGame(Player player) {

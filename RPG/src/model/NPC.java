@@ -2,13 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
-import controller.MainController;
-
 public class NPC extends Entity {
 
 	private final static int DISTANCE = 120;
 	
-	private MainController controller;
+	private Game game;
 	
 	private Location startLocation, endLocation;
 	
@@ -86,7 +84,7 @@ public class NPC extends Entity {
 			return;
 		}
 		imageURL = url;
-		controller.switchNPCImage(this, url);
+		game.switchNPCImage(this, url);
 	}
 
 	@Override
@@ -109,7 +107,7 @@ public class NPC extends Entity {
 			return;
 		}
 		imageURL = url;
-		controller.switchNPCImage(this, url);
+		game.switchNPCImage(this, url);
 	}
 	
 	private String getCorrectImage() {
@@ -161,7 +159,7 @@ public class NPC extends Entity {
 	}
 
 	private void moveInLine() {
-		if(controller.getPlayer() != null && nextStepIsPlayer(controller.getPlayerLocation(), movingDirection)) {
+		if(game.getPlayer() != null && nextStepIsPlayer(game.getPlayerLocation(), movingDirection)) {
 			return;
 		}
 		
@@ -204,7 +202,7 @@ public class NPC extends Entity {
 					}
 				}
 				moveInLine();
-				controller.moveNPCViewWithScreen(this);
+				game.moveNPCViewWithScreen(this);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -220,7 +218,7 @@ public class NPC extends Entity {
 		pauzeThread();
 		setStandingStillAnimation(direction);
 		
-		controller.addDialogView(this);
+		game.addDialogView(this);
 		isInDialog = true;
 	}
 	
@@ -273,9 +271,9 @@ public class NPC extends Entity {
 	public void setIsInDialog(boolean isInDialog) {
 		this.isInDialog = isInDialog;
 	}
-	
-	public void setMainController(MainController controller) {
-		this.controller = controller;
+		
+	public void setGame(Game game) {
+		this.game = game;
 	}
 		
 	public int getId() {

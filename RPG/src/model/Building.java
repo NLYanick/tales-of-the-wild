@@ -20,9 +20,10 @@ public class Building {
 	protected ArrayList<Item> items;
 	
 	protected MainController controller;
+	protected Game game;
 	
 	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, MainController controller, int id, Location entranceLocation) {
+			Location leaveLocation, int id, Location entranceLocation) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
@@ -33,33 +34,32 @@ public class Building {
 		this.size = size;
 		this.id = id;
 		
-		this.controller = controller;
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
 	}
 	
 	public void enter(Player player) {
 		if(canPass) {
-			controller.setBuildingView(this);
+			game.setBuildingView(this);
 			
 			Location playerInsideLocation = getInsideLocation(true);
 			
 			loadInside();
 			
 			player.setInBuilding(true);
-			controller.teleportPlayer(playerInsideLocation);
+			game.teleportPlayer(playerInsideLocation);
 		}
 	}
 	
 	public void leave(Player player) {
 		if(canPass) {
-			controller.removeBuildingView();
+			game.removeBuildingView();
 			
 			unloadInside();
 			
 			player.setInBuilding(false);
-			controller.teleportPlayer(leaveLocation);
-			controller.removeCurrentBuilding();
+			game.teleportPlayer(leaveLocation);
+			game.removeCurrentBuilding();
 		}
 	}
 	
@@ -80,11 +80,11 @@ public class Building {
 	
 	private void loadInside() {
 		for(NPC npc : npcs) {
-			Location originalLoc = controller.getOriginalNPCBuildingLocation(npc, id);
+			Location originalLoc = game.getOriginalNPCBuildingLocation(npc, id);
 			npc.setLocation(originalLoc);
 		}
 		for(Item item : items) {
-			Location originalLoc = controller.getOriginalItemBuildingLocation(item, id);
+			Location originalLoc = game.getOriginalItemBuildingLocation(item, id);
 			item.setLocation(originalLoc);
 		}
 	}
@@ -279,6 +279,10 @@ public class Building {
 	
 	public int getY() {
 		return insideLocation.getY();
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 		
 }

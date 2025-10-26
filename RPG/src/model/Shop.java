@@ -1,6 +1,5 @@
 package model;
 
-import controller.MainController;
 import javafx.scene.paint.Color;
 
 public class Shop extends Building {
@@ -9,8 +8,8 @@ public class Shop extends Building {
 	private Color color;
 	
 	public Shop(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, MainController controller, int id, Location entranceLocation, Color color) {
-		super(insideLocation, canPass, size, type, exit, leaveLocation, controller, id, entranceLocation);
+			Location leaveLocation, int id, Location entranceLocation, Color color) {
+		super(insideLocation, canPass, size, type, exit, leaveLocation, id, entranceLocation);
 		
 		inventory = new Inventory();
 		this.color = color;

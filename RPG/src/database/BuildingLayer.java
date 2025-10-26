@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import controller.MainController;
 import javafx.scene.paint.Color;
 import model.Building;
 import model.BuildingType;
@@ -18,11 +17,9 @@ import model.Size;
 public class BuildingLayer {
 
 	private Connection conn;
-	private MainController controller;
 	
-	public BuildingLayer(MainController controller) {
+	public BuildingLayer() {
 		conn = DatabaseConnector.getConn();
-		this.controller = controller;
 	}
 	
 	public ArrayList<Building> getAllBuildings(int gameId) {
@@ -54,14 +51,14 @@ public class BuildingLayer {
 		return new Shop(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
 				new Size(rs.getInt("width"), rs.getInt("height")), BuildingType.valueOf(rs.getString("type")), 
 				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				controller, rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), Color.valueOf(rs.getString("color")));
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), Color.valueOf(rs.getString("color")));
 	}
 	
 	private Building makeBuilding(ResultSet rs) throws SQLException {
 		return new Building(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
 				new Size(rs.getInt("width"), rs.getInt("height")), BuildingType.valueOf(rs.getString("type")), 
 				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				controller, rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")));
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")));
 	}
 	
 }
