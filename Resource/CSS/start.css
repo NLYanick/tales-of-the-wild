@@ -31,21 +31,6 @@
 	-fx-border-width: 4px;
 }
 
-.start-title {
-	-fx-font-size: 54px;
-    -fx-font-family: "Times New Roman";
-    -fx-text-fill: #FFFFFF;
-    -fx-font-weight: bold;
-    
-    -fx-border-width: 15px;
-    -fx-border-color: forestgreen;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 20px;
-    -fx-background-color: limegreen;
-    
-    -fx-padding: 70 60 70 60;
-}
-
 .name-field:focused {
     -fx-border-color: #00F100;
 }

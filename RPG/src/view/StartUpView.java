@@ -1,10 +1,8 @@
 package view;
 
-import controller.ApplicationController;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -52,11 +50,16 @@ public class StartUpView extends BorderPane {
 	}
 	
 	private void setUpTopText() {
+		double titleWidth = 384;
+		double titleHeight = 288;
 		
-		Label welcomeText = new Label(ApplicationController.APPLICATIONNAME);
-		welcomeText.getStyleClass().add("start-title");
+		Image image = new Image("Images/TalesOfTheWildTitle.png");
+		ImageView imageView = new ImageView(image);
 		
-		HBox topPane = new HBox(welcomeText);
+		imageView.setFitWidth(titleWidth);
+		imageView.setFitHeight(titleHeight);
+		
+		HBox topPane = new HBox(imageView);
 		topPane.setAlignment(Pos.CENTER);
 		
 		layout.getChildren().add(topPane);
@@ -69,7 +72,7 @@ public class StartUpView extends BorderPane {
 		newGameButton.setOnAction(e -> makeNewGame());
 		
 		HBox buttons = new HBox(continueButton, newGameButton);
-		buttons.setSpacing(SPACING);
+		buttons.setSpacing(SPACING * 0.75);
 		buttons.setAlignment(Pos.CENTER);
 		
 		Button exitButton = getButton("Exit");
