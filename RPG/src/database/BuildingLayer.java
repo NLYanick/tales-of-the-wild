@@ -55,10 +55,12 @@ public class BuildingLayer {
 	}
 	
 	private Building makeBuilding(ResultSet rs) throws SQLException {
+		String colorString = rs.getString("Color");
+		if(colorString == null) colorString = "TRANSPARENT";
 		return new Building(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
 				new Size(rs.getInt("width"), rs.getInt("height")), BuildingType.valueOf(rs.getString("type")), 
 				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")));
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), Color.valueOf(colorString));
 	}
 	
 }

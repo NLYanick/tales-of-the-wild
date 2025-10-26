@@ -25,6 +25,7 @@ import model.Size;
 import view.Buildings.BrickBuildingView;
 import view.Buildings.BuildingView;
 import view.Buildings.ShopView;
+import view.Buildings.TentView;
 
 public class MainScene extends Scene {
 
@@ -386,6 +387,8 @@ public class MainScene extends Scene {
 			case SHOP:
 				Shop shop = (Shop) building;
 				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getColor());
+			case TENT:
+				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getColor());
 			default: return null;
 		}
 	}

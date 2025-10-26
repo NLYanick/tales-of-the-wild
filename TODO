@@ -1,13 +1,13 @@
 Background maken 
+Biomes maken
 Map toevoegen (alleen laten zien wat je al ontdekt hebt (bv gebieden))
 Teleport points maken op de map die je eerst moet vinden
 Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
-Biomes maken
 Startscreen verbeteren
-Alle dialogs in 1 JSON bestand zetten
+Alle dialogs in 1 JSON bestand zetten (Met bv. FileIO uitlezen)
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen)
 Elke 5 minuten opslaan - met zo'n leuk icoontje (Misschien alleen elke 5 minuten opslaan, dus dan niet als je bijv. een item dropt)
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
@@ -29,6 +29,7 @@ Maak een README
 
 Minder Prioriteit:
 Vragen of je het zeker weet als je een player delete
+Sommige buildings moeten een sleutel hebben om naar binnen te mogen (canPass = false op het begin)
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
 Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
 In de inventory itemslot positie opslaan (slots opslaan in database bv)
@@ -66,15 +67,14 @@ Code verbeteren (Interfaces) (Misschien simpel klassediagram maken voor overzich
 
 Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
-Pas in de controller worden items aan npcs geven, npcs in buildings stoppen, enz. gedaan
 Info Box (in InventoryView) grote is hardcoded
 Veel CSS dingen staan nu hardcoded
 
 
 TODO Images:
-Huizen, NPC's
+Huizen, NPC's (bv. colored building)
 BrickHouse image fixen en voelt plat & binnenkant
-(Fox left en right staart & Fox running naar voren en naar achteren de voeten & running frames niet beginnen met recht staan)
+(Fox left en right staart & Fox running naar voren en naar achteren de voeten)
 
 
 Handige classes:

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import controller.MainController;
+import javafx.scene.paint.Color;
 
 public class Building {
 
@@ -15,6 +16,7 @@ public class Building {
 	protected boolean canPass;
 	protected int id;
 	protected Size size;
+	protected Color color; // TRANSPARENT is default (null)
 	
 	protected ArrayList<NPC> npcs;
 	protected ArrayList<Item> items;
@@ -23,7 +25,7 @@ public class Building {
 	protected Game game;
 	
 	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, int id, Location entranceLocation) {
+			Location leaveLocation, int id, Location entranceLocation, Color color) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
@@ -33,6 +35,7 @@ public class Building {
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
+		this.color = color;
 		
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
@@ -283,6 +286,10 @@ public class Building {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 		
 }
