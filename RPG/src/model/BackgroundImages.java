@@ -85,7 +85,9 @@ public class BackgroundImages {
 		images.put(55, new Image(BUILDINGPATH.concat("BrickHouse.png"), false));
 		images.put(56, new Image(BUILDINGPATH.concat("Bricks.png"), false));
 		images.put(57, new Image(BUILDINGPATH.concat("ShopFloor.png"), false));
-		images.put(58, new Image(BUILDINGPATH.concat("WhiteShop.png"), false));
+		images.put(58, new Image(BUILDINGPATH.concat("ShopFloor2.png"), false));
+		images.put(59, new Image(BUILDINGPATH.concat("ShopFloor3.png"), false));
+		images.put(60, new Image(BUILDINGPATH.concat("WhiteShop.png"), false));
 		
 	}
 	

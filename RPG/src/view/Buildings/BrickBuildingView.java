@@ -11,9 +11,6 @@ import view.MainScene;
 
 public class BrickBuildingView extends BuildingView {
 	
-	private final static int INSIDE_SPAWN_X = -2000;
-	private final static int INSIDE_SPAWN_Y = -1000;
-	
 	public BrickBuildingView(Size size, MainScene scene, Direction exit) {
 		super(size, scene, exit);
 		

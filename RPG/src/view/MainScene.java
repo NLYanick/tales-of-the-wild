@@ -388,7 +388,7 @@ public class MainScene extends Scene {
 				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit());
 			case SHOP:
 				Shop shop = (Shop) building;
-				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getColor());
+				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getColor(), shop.getFloorPattern());
 			case TENT:
 				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getColor());
 			default: return null;

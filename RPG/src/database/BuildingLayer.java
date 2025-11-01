@@ -51,7 +51,8 @@ public class BuildingLayer {
 		return new Shop(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
 				new Size(rs.getInt("width"), rs.getInt("height")), BuildingType.valueOf(rs.getString("type")), 
 				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), Color.valueOf(rs.getString("color")));
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), 
+				Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
 	}
 	
 	private Building makeBuilding(ResultSet rs) throws SQLException {

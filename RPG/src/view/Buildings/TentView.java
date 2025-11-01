@@ -11,9 +11,6 @@ import view.MainScene;
 
 public class TentView extends BuildingView {
 
-	private final static int INSIDE_SPAWN_X = -2000;
-	private final static int INSIDE_SPAWN_Y = -1000;
-	
 	private Color color;
 	
 	public TentView(Size size, MainScene scene, Direction exit, Color color) {

@@ -5,11 +5,14 @@ import javafx.scene.paint.Color;
 public class Shop extends Building {
 
 	private Inventory inventory;
+	private int floorPattern;
 	
 	public Shop(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, int id, Location entranceLocation, Color color) {
+			Location leaveLocation, int id, Location entranceLocation, Color color, int floorPattern) {
 		super(insideLocation, canPass, size, type, exit, leaveLocation, id, entranceLocation, color);
 		
+		this.floorPattern = floorPattern;
+
 		inventory = new Inventory();
 	}
 	
@@ -21,6 +24,10 @@ public class Shop extends Building {
 	
 	public void addShopItem(Item item) {
 		inventory.addItem(item);
+	}
+	
+	public int getFloorPattern() {
+		return floorPattern;
 	}
 	
 }

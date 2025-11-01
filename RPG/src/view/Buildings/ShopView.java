@@ -11,19 +11,21 @@ import view.MainScene;
 
 public class ShopView extends BuildingView {
 
-	private final static int INSIDE_SPAWN_X = -2000;
-	private final static int INSIDE_SPAWN_Y = -1000;
-	
 	private Color color;
+	private int floorPattern;
 	
-	public ShopView(Size size, MainScene scene, Direction exit, Color color) {
+	public ShopView(Size size, MainScene scene, Direction exit, Color color, int floorPattern) {
 		super(size, scene, exit);
 		this.color = color;
+		this.floorPattern = floorPattern;
 		
 		setUpLayout();
 	}
 	
 	private void setUpLayout() {
+//		size.setSize(size.getWidth() * 2, size.getHeight() * 2);
+//		setPrefSize(size.getWidth() * MainScene.STANDARD_IMAGE_SIZE, size.getHeight() * MainScene.STANDARD_IMAGE_SIZE);
+				
 		for(int x = 0; x < size.getWidth(); x++) {
 			for(int y = 0; y < size.getHeight(); y++) { 
 				if(isWall(x, y) && isOnExit(x, y)) {
@@ -46,7 +48,7 @@ public class ShopView extends BuildingView {
 			layout.add(wall, location.getX(), location.getY());
 			wall.toBack();
 		} else if(type.equals("Floor")) {
-			String url = scene.getImageUrlByIndex(57);
+			String url = scene.getImageUrlByIndex(57 + floorPattern);
 			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
 			Image image = new Image(url);
 			

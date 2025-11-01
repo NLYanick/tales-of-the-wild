@@ -14,6 +14,9 @@ import view.NPCView;
 
 public abstract class BuildingView extends BorderPane {
 		
+	protected final static int INSIDE_SPAWN_X = -2000;
+	protected final static int INSIDE_SPAWN_Y = -1000;
+	
 	protected Size size;
 	protected Direction exit;
 	
