@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import controller.FileIO;
 import controller.MainController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -32,6 +33,7 @@ public class MainScene extends Scene {
 	public final static int SCENEWIDTH = 700;
 	public final static int SCENEHEIGHT = 700;
 	public final static String FONTNAME = "Times New Roman";
+	public final static int STANDARD_IMAGE_SIZE = FileIO.STANDARD_IMAGE_SIZE;
 	
 	private MainController controller;
 	
@@ -378,8 +380,8 @@ public class MainScene extends Scene {
 	}
 	
 	private BuildingView getBuildingViewByType(Building building) {
-		double newWidth = building.getWidth()/128.0;
-		double newHeight = building.getHeight()/128.0;
+		double newWidth = building.getWidth()/(double) MainScene.STANDARD_IMAGE_SIZE;
+		double newHeight = building.getHeight()/(double) MainScene.STANDARD_IMAGE_SIZE;
 		
 		switch(building.getType()) {
 			case BRICK:

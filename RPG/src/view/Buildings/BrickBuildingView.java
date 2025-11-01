@@ -21,8 +21,6 @@ public class BrickBuildingView extends BuildingView {
 	}
 
 	private void setUpLayout() {
-		setPrefSize(size.getWidth() * 128, size.getHeight() * 128);
-				
 		for(int x = 0; x < size.getWidth(); x++) {
 			for(int y = 0; y < size.getHeight(); y++) { 
 				if(isWall(x, y) && isOnExit(x, y)) {
@@ -36,8 +34,8 @@ public class BrickBuildingView extends BuildingView {
 		}
 	}
 	
-	private void createImage(String type, Location location) {
-		int imgSize = 128;
+	protected void createImage(String type, Location location) {
+		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		int buildingX = -INSIDE_SPAWN_X;
 		int buildingY = -INSIDE_SPAWN_Y;
 		if(type.equals("Wall")) {

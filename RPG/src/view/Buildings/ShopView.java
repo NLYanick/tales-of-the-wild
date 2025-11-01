@@ -24,8 +24,6 @@ public class ShopView extends BuildingView {
 	}
 	
 	private void setUpLayout() {
-		setPrefSize(size.getWidth() * 128, size.getHeight() * 128);
-				
 		for(int x = 0; x < size.getWidth(); x++) {
 			for(int y = 0; y < size.getHeight(); y++) { 
 				if(isWall(x, y) && isOnExit(x, y)) {
@@ -39,26 +37,23 @@ public class ShopView extends BuildingView {
 		}
 	}
 	
-	private void createImage(String type, Location location) {
-		int imgSize = 128;
-//		int buildingX = -INSIDE_SPAWN_X;
-//		int buildingY = -INSIDE_SPAWN_Y;
+	protected void createImage(String type, Location location) {
+		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
+		int buildingX = -INSIDE_SPAWN_X;
+		int buildingY = -INSIDE_SPAWN_Y;
 		if(type.equals("Wall")) {
-//			String url = scene.getImageUrlByIndex(56);
-//			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-//			Image image = new Image(url);
-//			
-//			ImageView imageView = new ImageView(image);
-//			imagesWithType.put(imageView, type);
-//			layout.add(imageView, location.getX(), location.getY());
-//			imageView.toBack();
-			Rectangle wall = new Rectangle(imgSize, imgSize, Color.MEDIUMPURPLE);
+			Rectangle wall = new Rectangle(imgSize, imgSize, color);
 			layout.add(wall, location.getX(), location.getY());
 			wall.toBack();
 		} else if(type.equals("Floor")) {
-			Rectangle floor = new Rectangle(imgSize, imgSize, color);
-			layout.add(floor, location.getX(), location.getY());
-			floor.toBack();
+			String url = scene.getImageUrlByIndex(57);
+			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
+			Image image = new Image(url);
+			
+			ImageView imageView = new ImageView(image);
+			imagesWithType.put(imageView, type);
+			layout.add(imageView, location.getX(), location.getY());
+			imageView.toBack();
 		}
 	}
 

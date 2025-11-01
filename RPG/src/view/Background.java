@@ -38,13 +38,13 @@ public class Background extends Pane {
 	}
 	
 	public void setSize(int width, int height) {
-		int imgSize = 128;
+		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		setWidth(width * imgSize);
 		setHeight(height * imgSize);
 	}
 	
 	private ImageView makeImageView(int x, int y, String url) {
-		int standardImageSize = 128;
+		int standardImageSize = MainScene.STANDARD_IMAGE_SIZE;
 		
 		Image img = new Image(url);
 		ImageView imgView = new ImageView(img);

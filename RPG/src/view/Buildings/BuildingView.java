@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.Direction;
+import model.Location;
 import model.Size;
 import view.MainScene;
 import view.NPCView;
@@ -37,10 +38,12 @@ public abstract class BuildingView extends BorderPane {
 		}
 		
 		setCenter(layout);
+		
+		setPrefSize(size.getWidth() * MainScene.STANDARD_IMAGE_SIZE, size.getHeight() * MainScene.STANDARD_IMAGE_SIZE);
 	}
 	
 	private void setLocation() {
-		int imgSize = 128;
+		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		int entranceSpacing = 64;
 		switch(exit) { 
 		case NORTH: 
@@ -102,5 +105,7 @@ public abstract class BuildingView extends BorderPane {
 			default: return false;
 		}
 	}
+	
+	protected abstract void createImage(String type, Location location);
 	
 }

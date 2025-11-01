@@ -6,10 +6,6 @@ public class Image {
 	private boolean canWalkOn;
 	private Location location;
 	
-	public Image() {
-		
-	}
-	
 	public Image(String url, boolean canWalkOn) {
 		this.url = url;
 		this.canWalkOn = canWalkOn;

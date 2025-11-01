@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.FileIO;
 import controller.MainController;
 import javafx.scene.paint.Color;
 
@@ -132,7 +133,7 @@ public class Building {
 	}
 	
 	private boolean nextStepIsInBuilding(Location nextLocation) {
-		int wallSize = 128;
+		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
 		
 		switch(exit) {
 			case NORTH: 
@@ -194,11 +195,11 @@ public class Building {
 	}
 	
 	private boolean widthIsEven() {
-		return ((size.getWidth() / 128) % 2 == 0);
+		return ((size.getWidth() / FileIO.STANDARD_IMAGE_SIZE) % 2 == 0);
 	}
 	
 	private boolean heightIsEven() {
-		return ((size.getHeight() / 128) % 2 == 0);
+		return ((size.getHeight() / FileIO.STANDARD_IMAGE_SIZE) % 2 == 0);
 	}
 	
 	public void addNPC(NPC npc) {

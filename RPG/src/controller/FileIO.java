@@ -17,6 +17,7 @@ import view.Background;
 public class FileIO {
 
 	public final static String BACKGROUNDFILEPATH = "./Resource/textfiles/background.txt";
+	public final static int STANDARD_IMAGE_SIZE = 128;
 	
 	private Background background;
 	private BackgroundImages backgroundImages;
@@ -100,9 +101,8 @@ public class FileIO {
 	}
 	
 	private void setImageLocation(Image image, int xLocation) {
-		int standardImageSize = 128;
-		int y = standardImageSize * layer;
-		int x = standardImageSize * xLocation;
+		int y = STANDARD_IMAGE_SIZE * layer;
+		int x = STANDARD_IMAGE_SIZE * xLocation;
 
 		image.setLocation(new Location(x, y));
 	}
