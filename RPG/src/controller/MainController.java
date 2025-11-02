@@ -103,36 +103,49 @@ public class MainController {
 		int bgY = game.getBackgroundY();
 		
 		teleportNPCImages(bgX, bgY);
-		
-		teleportItemImages(bgX, bgY);
+		teleportWorldItemImages(bgX, bgY);
+		teleportBuildingImages(bgX, bgY);
 	}
 	
 	private void teleportNPCImages(int bgX, int bgY) {
 		for(NPC npc : game.getNPCs()) {
-			NPCView npcView = npcsWithViews.get(npc);
-			npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
-			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
-			npcView.fixImage();
-			npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
-			moveNPCViewWithScreen(npc);
+			teleportNPCView(bgX, bgY, npc);
 		}
 	}
 	
-	private void teleportItemImages(int bgX, int bgY) {
+	private void teleportWorldItemImages(int bgX, int bgY) {
 		for(Item item : game.getWorldItems()) {
-			ItemView itemView = itemsWithViews.get(item);
-			item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
-			itemView.move(item.getViewLocation());
-			moveItemViewWithScreen(item);
+			teleportItemView(bgX, bgY, item);
 		}
+	}
+	
+	private void teleportBuildingImages(int bgX, int bgY) {
 		for(Building building : game.getBuildings()) {
 			for(Item item : building.getItems()) {
-				ItemView itemView = itemsWithViews.get(item);
-				item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
-				itemView.move(item.getViewLocation());
-				moveItemViewWithScreen(item);
+				teleportItemView(bgX, bgY, item);
+			}
+			for(NPC npc : building.getNPCs()) {
+				teleportNPCView(bgX, bgY, npc);
 			}
 		}
+	}
+	
+	private void teleportItemView(int bgX, int bgY, Item item) {
+		ItemView itemView = itemsWithViews.get(item);
+		item.setViewLocation(new Location(bgX + item.getX(), bgY + item.getY()));
+		itemView.move(item.getViewLocation());
+		moveItemViewWithScreen(item);
+	}
+	
+	private void teleportNPCView(int bgX, int bgY, NPC npc) {
+		NPCView npcView = npcsWithViews.get(npc);
+		npc.setViewLocation(new Location(bgX + (int) npc.getX(), bgY + (int) npc.getY()));
+		Location viewLoc = npc.getViewLocation();
+		
+		npcView.move(viewLoc.getX(), viewLoc.getY());
+		npcView.fixImage();
+		npc.setViewLocation(new Location((int) npcView.getLayoutX(), (int) npcView.getLayoutY()));
+		moveNPCViewWithScreen(npc);
 	}
 	
 	public void setPlayerStandingStillAnimation(Direction dir) {
@@ -176,10 +189,11 @@ public class MainController {
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 				
 		NPCView npcView = npcsWithViews.get(npc);
+		Location viewLoc = npc.getViewLocation();
 		if(appController.isFullScreen()) {
-			npcView.move(npc.getViewLocation().getX() + screenXDiffernce, npc.getViewLocation().getY() + screenYDiffernce);
+			npcView.move(viewLoc.getX() + screenXDiffernce, viewLoc.getY() + screenYDiffernce);
 		} else {
-			npcView.move(npc.getViewLocation().getX(), npc.getViewLocation().getY());
+			npcView.move(viewLoc.getX(), viewLoc.getY());
 		}
 	}
 	
@@ -275,6 +289,7 @@ public class MainController {
 			
 			dia.setHasPlayed(true);
 		}
+		scene.addOptionsForInteractiveDialog();
 	}
 	
 	private void addItemDialogView(String text, Item item, NPC npc) {

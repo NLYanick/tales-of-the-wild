@@ -43,6 +43,11 @@ public class Game {
 		for(NPC npc : npcs) {
 			npc.pauzeThread();
 		}
+		if(currentBuilding != null) {
+			for(NPC npc : currentBuilding.getNPCs()) {
+				npc.pauzeThread();
+			}
+		}
 	}
 	
 	public void resumeGame() {
@@ -52,11 +57,24 @@ public class Game {
 				npc.resumeThread();
 			}
 		}
+		if(currentBuilding != null) {
+			for(NPC npc : currentBuilding.getNPCs()) {
+				if(!npc.isInDialog()) {
+					npc.resumeThread();
+				}
+			}
+		}
 	}
 	
 	public void stopNPCThreads() {
 		if(npcs != null && npcs.size() > 0) {			
 			for(NPC npc : npcs) {
+				npc.setThreadRunning(false);
+			}
+		}
+		if(currentBuilding != null) {
+			for(NPC npc : currentBuilding.getNPCs()) {
+				controller.moveNPCViewWithScreen(npc);
 				npc.setThreadRunning(false);
 			}
 		}
@@ -75,6 +93,12 @@ public class Game {
 		}	
 		if(buildings != null && currentBuilding != null) {	
 			controller.moveBuildingViewWithScreen(currentBuilding);
+			for(NPC npc : currentBuilding.getNPCs()) {
+				controller.moveNPCViewWithScreen(npc);
+			}
+			for(Item item : currentBuilding.getItems()) {
+				controller.moveItemViewWithScreen(item);
+			}
 		}	
 	}
 	
@@ -101,6 +125,7 @@ public class Game {
 	private void moveRest(Direction dir, Direction oppositeDir) {
 		moveNPCs(dir);
 		moveItems(dir);
+		moveBuildingContent(dir);
 		
 		player.move(oppositeDir);
 	}
@@ -124,6 +149,13 @@ public class Game {
 		for(NPC npc : npcs) {
 			if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
 				return true;
+			}
+		}
+		if(currentBuilding != null) {			
+			for(NPC npc : currentBuilding.getNPCs()) {
+				if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -173,12 +205,16 @@ public class Game {
 	}
 	
 	public void playerInteract() {
-		NPC nearbyNPC = getNearbyNPC(player.getMovingDirection());
+		NPC nearbyNPC;
 		Item item;
-		if(currentBuilding != null) 
+		
+		if(currentBuilding != null) {
 			item = currentBuilding.getNearbyItem(player);
-		else
+		 	nearbyNPC = currentBuilding.getNearbyNPC(player.getMovingDirection());
+		} else {
 			item = getNearbyItem();
+		 	nearbyNPC = getNearbyNPC(player.getMovingDirection());
+		}
 		
 		if(nearbyNPC != null) {	
 			controller.setAllKeyPressesFalse();
@@ -206,7 +242,7 @@ public class Game {
 	
 	// ---------- NPCs ----------
 	
-	public NPC getNearbyNPC(Direction direction) {
+	private NPC getNearbyNPC(Direction direction) {
 		for(NPC npc : npcs) {
 			if(hasNPCNearby(npc, direction)) {
 				return npc;
@@ -215,7 +251,7 @@ public class Game {
 		return null;
 	}
 
-	private boolean hasNPCNearby(NPC npc, Direction movingDirection) {
+	public boolean hasNPCNearby(NPC npc, Direction movingDirection) {
 		
 		Direction direction = npc.getGoodDirection(movingDirection);
 		Direction nextDirection = Direction.getNext(direction);
@@ -297,7 +333,6 @@ public class Game {
 			item.moveViewLocation(dir);
 			controller.moveItemViewWithScreen(item);
 		}
-		moveBuildingItems(dir);
 	}
 	
 	public void addWorldItem(Item item) {
@@ -344,11 +379,15 @@ public class Game {
 		currentBuilding = null;
 	}
 	
-	private void moveBuildingItems(Direction dir) {
-		for(Building building : buildings) {
-			for(Item item : building.getItems()) {
+	private void moveBuildingContent(Direction dir) {
+		if(currentBuilding != null) {
+			for(Item item : currentBuilding.getItems()) {
 				item.moveViewLocation(dir);
 				controller.moveItemViewWithScreen(item);
+			}
+			for(NPC npc : currentBuilding.getNPCs()) {
+				npc.moveViewLocation(dir);
+				controller.moveNPCViewWithScreen(npc);
 			}
 		}
 	}
@@ -362,15 +401,19 @@ public class Game {
 		int bgY = backgroundLocation.getY();
 		
 		for(NPC npc : npcs) {
-			npc.setGame(this);
-			
-			controller.addNPCView(npc, bgX, bgY);
-			if(npc.getMovingDirection() != null) {
-				npc.setUpThread();
-			}
-			
-			addItemsToNPC(npc);
+			setUpNPC(npc, bgX, bgY);
 		}
+	}
+	
+	private void setUpNPC(NPC npc, int bgX, int bgY) {
+		npc.setGame(this);
+		
+		controller.addNPCView(npc, bgX, bgY);
+		if(npc.getMovingDirection() != null) {
+			npc.setUpThread();
+		}
+		
+		addItemsToNPC(npc);
 	}
 	
 	private void addItemsToNPC(NPC npc) {
@@ -405,7 +448,7 @@ public class Game {
 	
 	private void addNPCsToBuilding(Building building) {
 		for (NPC npc : controller.getBuildingNPCs(building.getId())) {
-			npc.setLocation(Building.UNLOAD_LOCATION);
+			setUpNPC(npc, building.getX(), building.getY());
 			building.addNPC(npc);
 		}
 	}

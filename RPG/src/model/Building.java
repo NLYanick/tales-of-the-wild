@@ -85,7 +85,7 @@ public class Building {
 	private void loadInside() {
 		for(NPC npc : npcs) {
 			Location originalLoc = game.getOriginalNPCBuildingLocation(npc, id);
-			npc.setLocation(originalLoc);
+			npc.setLocation(new Location(originalLoc.getX() + insideLocation.getX(), originalLoc.getY() + insideLocation.getY()));
 		}
 		for(Item item : items) {
 			Location originalLoc = game.getOriginalItemBuildingLocation(item, id);
@@ -110,6 +110,15 @@ public class Building {
 		for(Item item : items) {
 			if(player.isOnItem(item)) {
 				return item;
+			}
+		}
+		return null;
+	}
+	
+	public NPC getNearbyNPC(Direction movingDirection) {
+		for(NPC npc: npcs) {
+			if(game.hasNPCNearby(npc, movingDirection)) {
+				return npc;
 			}
 		}
 		return null;
@@ -222,10 +231,6 @@ public class Building {
 		return items.contains(item);
 	}
 	
-	public ArrayList<Item> getItems() {
-		return items;
-	}
-	
 	
 	/* Getters and Setters */
 	
@@ -291,6 +296,14 @@ public class Building {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+	
+	public ArrayList<NPC> getNPCs() {
+		return npcs;
 	}
 		
 }

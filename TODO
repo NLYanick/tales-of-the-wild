@@ -37,6 +37,7 @@ De player moet states hebben (paused, in-dialog, in-inventory, enz.)
 Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke getallen neerzetten (bv -1884, 1490 i.p.v. 500, 700))
 In de inventory bij drag & drop het hoverslot en het beginslot een kleurtje geven
 Alle width + height vervangen door Size klasse
+Alle tekst in een JSON zetten en zo uitlezen, voor multi-language
 
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
@@ -45,6 +46,7 @@ Building code fixen
 Menu's moeten resizen (als je klein start glitcht het)
 Meer Controllers | Minder in MainController & Game klasse opschonen
 MainScene klasse opschonen
+NPC Borders fixen
 Validatie op naam (bij aanmaken game)
 'a(n)' veranderen naar of 'a' of 'an' (ItemDialog)
 Dialogs en ItemDialogs mooi maken
@@ -59,7 +61,7 @@ Geen ruimte tussen NPC en player als je er tegen aan loopt
 NPC plaatjes mogen niet mee gaan
 NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
 Schuin lopen moet 1 i.p.v. 1.41
-Database constraints maken (bv als een building type 'SHOP' is moet het een kleur hebben)
+Database constraints maken (bv als een building type 'SHOP' is moet het een kleur en een npc hebben)
 In pauzemenu is soms de hover focus weg
 Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
 Code verbeteren (Interfaces) (Misschien simpel klassediagram maken voor overzicht)
@@ -84,8 +86,11 @@ ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de ge
 
 Tips:
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
+Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: NPC in shop (miss ook in code) | Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
+Nu: Item db getallen fixen zoals bij NPC | Dialog JSON fixen | Shop Seller NPC in shop (voeg toe aan Stored Procedure) | 
+Inventory openen van shop na dialog npc (npc in db een boolean met shop_employee) | Items kopen in ShopInventory | 
 Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn |
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |
+Er moeten ook NPCs zonder Dialog kunnen zijn | Shop muren dunner maken en niet zo fel maken

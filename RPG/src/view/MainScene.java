@@ -306,6 +306,12 @@ public class MainScene extends Scene {
 		}
 	}
 	
+	public void addOptionsForInteractiveDialog() {
+		if(getFocusOwner() instanceof InteractiveDialogView) {
+			((InteractiveDialogView) getFocusOwner()).addOptions();
+		}
+	}
+	
 	public void removeOptionDialogs(int number) {
 		for(int i = 0; i < dialogs.size(); i++) { // ConcurrentModificationException
 			DialogView dialogView = dialogs.get(i);

@@ -12,12 +12,13 @@ public class NPC extends Entity {
 	
 	private boolean running, isPaused, isInDialog;
 	private int id;
+	private boolean shopSeller;
 	
 	private Location viewLocation;
 	
 	private ArrayList<Dialog> dialogs;
 	
-	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, int id) {
+	public NPC(String imageURL, Location startLocation, Direction walkDirection, String name, ArrayList<Dialog> dialog, int id, boolean shopSeller) {
 		super(imageURL, name);
 				
 		location.moveTo(startLocation.getX(), startLocation.getY());
@@ -27,11 +28,12 @@ public class NPC extends Entity {
 		
 		this.dialogs = dialog;
 		this.id = id;
+		this.shopSeller = shopSeller;
 		
 		setUpEndLocation(walkDirection);
 	}
 	
-	public NPC(String imageURL, Location startLocation, String name, ArrayList<Dialog> dialogs, int id) {
+	public NPC(String imageURL, Location startLocation, String name, ArrayList<Dialog> dialogs, int id, boolean shopSeller) {
 		super(imageURL, name);
 		this.startLocation = startLocation;
 		
@@ -39,6 +41,7 @@ public class NPC extends Entity {
 		
 		this.dialogs = dialogs;
 		this.id = id;
+		this.shopSeller = shopSeller;
 		
 		inventory = new Inventory();
 	}
@@ -282,6 +285,10 @@ public class NPC extends Entity {
 	
 	public ArrayList<Item> getItems() {
 		return inventory.getItems();
+	}
+
+	public boolean isShopSeller() {
+		return shopSeller;
 	}
 
 }

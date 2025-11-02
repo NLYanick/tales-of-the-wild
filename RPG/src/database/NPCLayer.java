@@ -24,27 +24,53 @@ public class NPCLayer {
 		conn = DatabaseConnector.getConn();
 	}
 	
-	public ArrayList<NPC> getAllNPCs(int gameId) {
+	public ArrayList<NPC> getBuildingNPCs(int buildingId) {
 		ArrayList<NPC> npcs = new ArrayList<NPC>();
 		
-		String query = "SELECT * FROM npc WHERE game_id = " + gameId + ";";
+		String query = "SELECT * FROM npc WHERE building_id = " + buildingId + ";";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				ArrayList<Dialog> dialog = getDialog(rs.getString("dialog"));
-				
-				String directionString = rs.getString("direction");
-				NPC npc = null;
-				if(directionString != null) {
-					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
-							rs.getInt("id"));					
-				} else {					
-					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"));
-				}
-				
-				npcs.add(npc);
+				npcs.add(makeNPC(rs));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return npcs;
+	}
+	
+	private NPC makeNPC(ResultSet rs) {
+		NPC npc = null;
+		try {
+			Location location = new Location(rs.getInt("x"), rs.getInt("y"));
+			ArrayList<Dialog> dialog = getDialog(rs.getString("dialog"));
+			
+			String directionString = rs.getString("direction");
+			
+			if(directionString != null) {
+				npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
+						rs.getInt("id"), rs.getBoolean("shop_seller"));
+			} else {
+				npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"), rs.getBoolean("shop_seller"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return npc;
+	}
+	
+	public ArrayList<NPC> getAllNPCs(int gameId) {
+		ArrayList<NPC> npcs = new ArrayList<NPC>();
+		
+		String query = "SELECT * FROM npc WHERE game_id = " + gameId + " AND building_id IS NULL;";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				npcs.add(makeNPC(rs));
 			}
 			rs.close();
 			stmt.close();
@@ -148,36 +174,6 @@ public class NPCLayer {
 		fullString += " }}";
 		
 		return fullString;
-	}
-	
-	public ArrayList<NPC> getBuildingNPCs(int buildingId) {
-		ArrayList<NPC> npcs = new ArrayList<NPC>();
-		
-		String query = "SELECT * FROM npc WHERE building_id = " + buildingId + ";";
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()) {
-				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				ArrayList<Dialog> dialog = getDialog(rs.getString("dialog"));
-				
-				String directionString = rs.getString("direction");
-				NPC npc = null;
-				if(directionString != null) {
-					npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
-							rs.getInt("id"));					
-				} else {					
-					npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"));
-				}
-				
-				npcs.add(npc);
-			}
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return npcs;
 	}
 	
 }
