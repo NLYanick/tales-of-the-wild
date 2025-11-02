@@ -89,7 +89,7 @@ public class Building {
 		}
 		for(Item item : items) {
 			Location originalLoc = game.getOriginalItemBuildingLocation(item, id);
-			item.setLocation(originalLoc);
+			item.setLocation(new Location(originalLoc.getX() + insideLocation.getX(), originalLoc.getY() + insideLocation.getY()));
 		}
 	}
 	

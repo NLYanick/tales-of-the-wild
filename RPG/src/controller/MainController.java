@@ -238,7 +238,8 @@ public class MainController {
 			
 			if(currentBuilding != null && scene.isInBuilding()) {
 				currentBuilding.addItem(item);
-				databaseController.dropItemInBuilding(item, newLocation, currentBuilding.getId());
+				databaseController.dropItemInBuilding(item, 
+					new Location(item.getX() + -currentBuilding.getX(), item.getY() + -currentBuilding.getY()), currentBuilding.getId());
 				item.setViewLocation(new Location(currentBuilding.getViewLocation().getX() + -currentBuilding.getX() + item.getX(), 
 					currentBuilding.getViewLocation().getY() + -currentBuilding.getY() + item.getY()));
 			} else {
