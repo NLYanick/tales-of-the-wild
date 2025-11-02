@@ -6,7 +6,6 @@ Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
-Moet de building view wel zo ver weg staan (-2000, -2000), want je kan toch alleen in de building bewegen en het wordt er toch bovenop geplakt?
 Startscreen verbeteren
 Alle dialogs in 1 JSON bestand zetten (Met bv. FileIO uitlezen)
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen)
@@ -39,6 +38,7 @@ Code van NPC's en Items in Building fixen (je moet in de database nu moeilijke g
 In de inventory bij drag & drop het hoverslot en het beginslot een kleurtje geven
 Alle width + height vervangen door Size klasse
 Alle tekst in een JSON zetten en zo uitlezen, voor multi-language
+Building view moet niet zo ver weg staan (-2000, -2000)
 
 Images in Database
 Al die id's fixen (buildingId, itemId, enz.)
@@ -75,6 +75,7 @@ Veel CSS dingen staan nu hardcoded
 
 
 TODO Images:
+Fox pickup animatie
 Huizen, NPC's (bv. colored building)
 BrickHouse image fixen en voelt plat & binnenkant
 (Fox left en right staart & Fox running naar voren en naar achteren de voeten)
@@ -90,8 +91,8 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Item db getallen fixen zoals bij NPC | Dialog JSON fixen | Shop Seller NPC in shop (voeg toe aan Stored Procedure) | 
-Inventory openen van shop na dialog npc (npc in db een boolean met shop_employee) | Items kopen in ShopInventory | 
+Nu: Shop Seller NPC in shop (voeg toe aan Stored Procedure) | 
+Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
 Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn |
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |
 Er moeten ook NPCs zonder Dialog kunnen zijn | Shop muren dunner maken en niet zo fel maken

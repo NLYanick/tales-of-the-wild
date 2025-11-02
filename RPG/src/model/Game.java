@@ -450,6 +450,7 @@ public class Game {
 		for (NPC npc : controller.getBuildingNPCs(building.getId())) {
 			setUpNPC(npc, building.getX(), building.getY());
 			building.addNPC(npc);
+			npc.setLocation(Building.UNLOAD_LOCATION);
 		}
 	}
 	

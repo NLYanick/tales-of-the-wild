@@ -36,13 +36,12 @@ public class Dialog {
 	
 	private String getOptionsString() {
 		if(options.size() > 0) {
-			String optionsString = ", \"options\": { ";
+			String optionsString = ", \"options\": [ ";
 			for (Entry<Integer, String> entry : options.entrySet()) {
-				int number = entry.getKey();
 				String text = entry.getValue();
-				optionsString += "\"option-" + number + "\": \"" + text + "\", ";
+				optionsString += "\"" + text + "\", ";
 			}
-			optionsString += " }";
+			optionsString += " ]";
 			
 			return optionsString;
 		}

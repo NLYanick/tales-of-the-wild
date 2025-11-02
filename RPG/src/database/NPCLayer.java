@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import model.Dialog;
@@ -84,13 +84,10 @@ public class NPCLayer {
 		ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
 	
 		JSONObject obj = new JSONObject(dialogData);
-		JSONObject dialogsJSON = obj.getJSONObject("dialogs");
+		JSONArray dialogArray = obj.getJSONArray("dialogs");
 		
-		ArrayList<String> sortedKeys = new ArrayList<>(dialogsJSON.keySet());
-		Collections.sort(sortedKeys);
-		
-		for(String key : sortedKeys) {
-			JSONObject dialogJSON = dialogsJSON.getJSONObject(key);
+		for(Object dialogObj : dialogArray) {
+			JSONObject dialogJSON = new JSONObject(dialogObj.toString());
 			
 			int item = -1;
 			int optionChosen = -1;
@@ -98,7 +95,7 @@ public class NPCLayer {
 			
 			if(dialogJSON.has("item")) item = dialogJSON.getInt("item");
 			if(dialogJSON.has("option-chosen")) optionChosen = dialogJSON.getInt("option-chosen");
-			if(dialogJSON.has("options")) options = getOptionsArray(dialogJSON.getJSONObject("options"));
+			if(dialogJSON.has("options")) options = getOptionsArray(dialogJSON.getJSONArray("options"));
 			
 			Dialog dialog = new Dialog(dialogJSON.getString("text"), dialogJSON.getBoolean("skip"), item, 
 					dialogJSON.getBoolean("interactive"), options, optionChosen);
@@ -111,15 +108,14 @@ public class NPCLayer {
 		return dialogs;
 	}
 	
-	private HashMap<Integer, String> getOptionsArray(JSONObject optionsJSON) {
+	private HashMap<Integer, String> getOptionsArray(JSONArray optionsJSON) {
+		if(optionsJSON.length() > 4) return null;
+		
 		HashMap<Integer, String> options = new HashMap<Integer, String>();
 		
-		ArrayList<String> sortedValues = new ArrayList<>(optionsJSON.keySet());
-		Collections.sort(sortedValues);
-		
 		int i = 1;
-		for(String key : sortedValues) {
-			options.put(i, optionsJSON.getString(key));
+		for(Object key : optionsJSON) {
+			options.put(i, key.toString());
 			i++;
 		}
 		
@@ -164,14 +160,12 @@ public class NPCLayer {
 	}
 	
 	private String getFullDialogString(ArrayList<Dialog> dialogs) {
-		String fullString = "{\"dialogs\": { ";
-		int i = 1;
+		String fullString = "{\"dialogs\": [ ";
 		
 		for(Dialog dialog : dialogs) {
-			fullString += "\"dialog-" + i + "\": { " + dialog.toJSON() + " }, ";
-			i++;
+			fullString += "{ " + dialog.toJSON() + " }, ";
 		}
-		fullString += " }}";
+		fullString += "] }";
 		
 		return fullString;
 	}
