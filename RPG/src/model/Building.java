@@ -43,8 +43,7 @@ public class Building {
 		this.size = size;
 		this.id = id;
 		this.tiles = tiles;
-//		this.tileSettings = tileSettings;
-		this.tileSettings = new HashMap<String, String>();
+		this.tileSettings = tileSettings;
 		this.color = color;
 		
 		npcs = new ArrayList<NPC>();

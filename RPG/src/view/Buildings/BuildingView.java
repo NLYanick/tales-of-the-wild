@@ -80,36 +80,6 @@ public abstract class BuildingView extends BorderPane {
 		setLayoutY(y);
 	}
 	
-	protected boolean isWall(int x, int y) {
-		return x == 0 || y == 0 || x == size.getWidth() - 1 || y == size.getHeight() - 1;
-	}
-	
-	protected boolean isXMiddle(int x) {
-		int width = size.getWidth();
-		return (width % 2 != 0 && x + 1 == width/2 + 1) ||
-			   (width % 2 == 0 && (x + 1 == width/2 || x + 1 == width/2 + 1));
-	}
-	
-	protected boolean isYMiddle(int y) {
-		int height = size.getHeight();
-		return (height % 2 != 0 && y + 1 == height/2 + 1) ||
-			   (height % 2 == 0 && (y + 1 == height/2 || y + 1 == height/2 + 1));
-	}
-	
-	protected boolean isOnExit(int x, int y) {
-		switch(exit) {
-			case NORTH: 
-				return isXMiddle(x) && y == 0;
-			case EAST: 
-				return isYMiddle(y) && x == size.getWidth() - 1;
-			case SOUTH: 
-				return isXMiddle(x) && y == size.getHeight() - 1;
-			case WEST: 
-				return isYMiddle(y) && x == 0;
-			default: return false;
-		}
-	}
-	
 	protected void loadTiles() {
 		for(BuildingTile tile : tiles) {
 			createImage(tile.getType(), new Location(tile.getX(), tile.getY()));

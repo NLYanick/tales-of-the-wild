@@ -22,23 +22,9 @@ public class TentView extends BuildingView {
 		super(size, scene, exit, tiles, tileSettings);
 		this.color = color;
 		
-		setUpLayout();
+		loadTiles();
 	}
-	
-	private void setUpLayout() {
-		for(int x = 0; x < size.getWidth(); x++) {
-			for(int y = 0; y < size.getHeight(); y++) { 
-				if(isWall(x, y) && isOnExit(x, y)) {
-					createImage(BuildingTileType.FLOOR, new Location(x, y));
-				} else if(isWall(x, y)) {
-					createImage(BuildingTileType.WALL, new Location(x, y));
-				} else {
-					createImage(BuildingTileType.FLOOR, new Location(x, y));
-				}
-			}
-		}
-	}
-	
+		
 	protected void createImage(BuildingTileType type, Location location) {
 		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		int buildingX = -INSIDE_SPAWN_X;

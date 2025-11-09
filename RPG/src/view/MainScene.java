@@ -394,7 +394,7 @@ public class MainScene extends Scene {
 						building.getTileSettings());
 			case SHOP:
 				Shop shop = (Shop) building;
-				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), building.getTiles(), building.getTileSettings(),
+				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getTiles(), shop.getTileSettings(),
 						shop.getColor(), shop.getFloorPattern());
 			case TENT:
 				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getColor(), building.getTiles(), 
