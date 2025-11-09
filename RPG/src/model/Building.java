@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import controller.FileIO;
 import controller.MainController;
@@ -17,7 +19,10 @@ public class Building {
 	protected boolean canPass;
 	protected int id;
 	protected Size size;
+	protected ArrayList<BuildingTile> tiles;
+	protected HashMap<String, String> tileSettings;
 	protected Color color; // TRANSPARENT is default (null)
+	protected boolean wallsHalfWidth, wallsHalfHeight;
 	
 	protected ArrayList<NPC> npcs;
 	protected ArrayList<Item> items;
@@ -26,7 +31,8 @@ public class Building {
 	protected Game game;
 	
 	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, int id, Location entranceLocation, Color color) {
+			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
+			HashMap<String, String> tileSettings, Color color) {
 		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
@@ -36,17 +42,35 @@ public class Building {
 		this.canPass = canPass;
 		this.size = size;
 		this.id = id;
+		this.tiles = tiles;
+//		this.tileSettings = tileSettings;
+		this.tileSettings = new HashMap<String, String>();
 		this.color = color;
 		
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
+		
+		setUp();
+	}
+	
+	private void setUp() {
+		if(tileSettings.size() == 0) {
+			tileSettings.put("width", "full");
+			tileSettings.put("height", "full");
+		}
+		wallsHalfWidth = tileSettings.get("width").equals("half");
+		wallsHalfHeight = tileSettings.get("height").equals("half");
+	}
+	
+	protected ArrayList<BuildingTile> getTilesOfType(BuildingTileType type) {
+		return new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.getType() == type).collect(Collectors.toList()));
 	}
 	
 	public void enter(Player player) {
 		if(canPass) {
 			game.setBuildingView(this);
 			
-			Location playerInsideLocation = getInsideLocation(true);
+			Location playerInsideLocation = getSpawnLocation();
 			
 			loadInside();
 			
@@ -67,18 +91,30 @@ public class Building {
 		}
 	}
 	
-	private Location getInsideLocation(boolean spawning) {
-		int entranceSpacing = spawning ? 64 : 0;
+	private Location getSpawnLocation() {
+		ArrayList<BuildingTile> spawnTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.isSpawn()).collect(Collectors.toList()));
+		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
+		double avgX = 0, avgY = 0;
+		
+		for (BuildingTile tile : spawnTiles) {
+			avgX += tile.getX();
+			avgY += tile.getY();
+		}
+		
+		avgX = avgX / spawnTiles.size() * wallSize + insideLocation.getX();
+		avgY = avgY / spawnTiles.size() * wallSize + insideLocation.getY();
+		
+		int x = (int) avgX;
+		int y = (int) avgY;
+		
+		int entranceSpacing = 64;
+		
 		switch(exit) {
-			case NORTH:
-				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + entranceSpacing);
-			case EAST:
-				return new Location(insideLocation.getX() + size.getWidth() - entranceSpacing, insideLocation.getY() + size.getHeight() / 2);
-			case SOUTH:
-				return new Location(insideLocation.getX() + size.getWidth() / 2, insideLocation.getY() + size.getHeight() - entranceSpacing);
-			case WEST:
-				return new Location(insideLocation.getX() + entranceSpacing, insideLocation.getY() + size.getHeight() / 2);
-			default: return new Location(insideLocation.getX(), insideLocation.getY());
+			case NORTH: return new Location(x, y - entranceSpacing);
+			case EAST: return new Location(x + entranceSpacing, y);
+			case SOUTH: return new Location(x, y + entranceSpacing);
+			case WEST: return new Location(x - entranceSpacing, y);
+			default: return new Location(x, y);
 		}
 	}
 	
@@ -128,12 +164,12 @@ public class Building {
 		
 		int multiplier = 2;
 		Location playerLocation = player.getLocation();
-		int nextX = playerLocation.getX() + dir.getX() * multiplier;
-		int nextY = playerLocation.getY() + dir.getY() * multiplier;
+		int nextX = playerLocation.getX() + (dir.getX() * multiplier) - insideLocation.getX();
+		int nextY = playerLocation.getY() + (dir.getY() * multiplier) - insideLocation.getY();
 		
-		if(nextStepIsInBuilding(new Location(nextX, nextY))) {
+		if(isInBuilding(new Location(nextX, nextY))) {
 			return false;
-		} else if(dir == exit && nextStepIsOnExit(nextX, nextY)) {
+		} else if(dir == exit && isOnExit(nextX, nextY)) {
 			leave(player);
 			return true;
 		}
@@ -141,76 +177,41 @@ public class Building {
 		return true;
 	}
 	
-	private boolean nextStepIsInBuilding(Location nextLocation) {
+	private boolean isInBuilding(Location nextLocation) {
+		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
+		int wallWidth = wallsHalfWidth ? wallSize/2 : wallSize;
+		int wallHeight = wallsHalfHeight ? wallSize/2 : wallSize;
+		
+		ArrayList<BuildingTile> walkTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.getType() == BuildingTileType.FLOOR 
+				|| t.getType() == BuildingTileType.EXIT).collect(Collectors.toList()));
+		for (BuildingTile tile : walkTiles) {
+			if(Location.isGreater(nextLocation, new Location(tile.getX() * wallWidth, tile.getY() * wallHeight)) && 
+					Location.isLess(nextLocation, new Location((tile.getX() + 1) * wallWidth, (tile.getY() + 1) * wallHeight))) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isOnExit(int nextX, int nextY) {
 		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
 		
-		switch(exit) {
-			case NORTH: 
-				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY())) 
-						&& Location.isLess(nextLocation, 
-							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight() - wallSize))
-						&& !nextStepIsOnExitSideWall(nextLocation, wallSize); 
-			case EAST: 
-				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY() + wallSize)) 
-						&& Location.isLess(nextLocation, 
-							new Location(insideLocation.getX() + size.getWidth(), insideLocation.getY() + size.getHeight() - wallSize))
-						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
-			case SOUTH: 
-				return Location.isGreater(nextLocation, new Location(insideLocation.getX() + wallSize, insideLocation.getY() + wallSize)) 
-						&& Location.isLess(nextLocation, 
-							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight()))
-						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
-			case WEST: 
-				return Location.isGreater(nextLocation, new Location(insideLocation.getX(), insideLocation.getY() + wallSize)) 
-						&& Location.isLess(nextLocation, 
-							new Location(insideLocation.getX() + size.getWidth() - wallSize, insideLocation.getY() + size.getHeight() - wallSize))
-						&& !nextStepIsOnExitSideWall(nextLocation, wallSize);
-			default: return false;
+		for (BuildingTile tile : getTilesOfType(BuildingTileType.EXIT)) {
+			switch(exit) {
+				case NORTH: if (nextY <= tile.getY() * wallSize) return true; 
+					break;
+	            case EAST: if (nextX >= tile.getX() * wallSize + wallSize) return true; 
+	            	break;
+	            case SOUTH: if (nextY >= tile.getY() * wallSize + wallSize) return true; 
+	            	break;
+	            case WEST: if (nextX <= tile.getX() * wallSize) return true; 
+	            	break;
+			} 
 		}
-	}
-	
-	private boolean nextStepIsOnExit(int nextX, int nextY) {
 		
-		switch(exit) {
-			case NORTH: 
-				return nextY <= insideLocation.getY();
-			case EAST: 
-				return nextX >= insideLocation.getX() + size.getWidth();
-			case SOUTH: 
-				return nextY >= insideLocation.getY() + size.getHeight();
-			case WEST: 
-				return nextX <= insideLocation.getX();
-			default: return false;
-		}
+		return false;
 	}
-	
-	private boolean nextStepIsOnExitSideWall(Location nextLocation, int wallSize) {
-		Location playerInLoc = getInsideLocation(false);
-		switch(exit) {
-			case NORTH:
-			case SOUTH:
-				return nextLocation.getY() > playerInLoc.getY() - wallSize 
-						&& nextLocation.getY() < playerInLoc.getY() + wallSize
-						&& (nextLocation.getX() > playerInLoc.getX() + (widthIsEven() ? wallSize : wallSize/2) 
-								|| nextLocation.getX() < playerInLoc.getX() - (widthIsEven() ? wallSize : wallSize/2));
-			case EAST:
-			case WEST:
-				return nextLocation.getX() > playerInLoc.getX() - wallSize
-						&& nextLocation.getX() < playerInLoc.getX() + wallSize
-						&& (nextLocation.getY() > playerInLoc.getY() + (heightIsEven() ? wallSize : wallSize/2)
-								|| nextLocation.getY() < playerInLoc.getY() - (heightIsEven() ? wallSize : wallSize/2));
-			default: return true;
-		}
-	}
-	
-	private boolean widthIsEven() {
-		return ((size.getWidth() / FileIO.STANDARD_IMAGE_SIZE) % 2 == 0);
-	}
-	
-	private boolean heightIsEven() {
-		return ((size.getHeight() / FileIO.STANDARD_IMAGE_SIZE) % 2 == 0);
-	}
-	
+		
 	public void addNPC(NPC npc) {
 		npcs.add(npc);
 	}
@@ -304,6 +305,14 @@ public class Building {
 	
 	public ArrayList<NPC> getNPCs() {
 		return npcs;
+	}
+	
+	public ArrayList<BuildingTile> getTiles() {
+		return tiles;
+	}
+	
+	public HashMap<String, String> getTileSettings() {
+		return tileSettings;
 	}
 		
 }

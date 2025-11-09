@@ -17,7 +17,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import model.Building;
 import model.Direction;
-import model.Image;
 import model.Item;
 import model.Location;
 import model.Player;
@@ -391,12 +390,15 @@ public class MainScene extends Scene {
 		
 		switch(building.getType()) {
 			case BRICK:
-				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit());
+				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getTiles(), 
+						building.getTileSettings());
 			case SHOP:
 				Shop shop = (Shop) building;
-				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), shop.getColor(), shop.getFloorPattern());
+				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getExit(), building.getTiles(), building.getTileSettings(),
+						shop.getColor(), shop.getFloorPattern());
 			case TENT:
-				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getColor());
+				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getExit(), building.getColor(), building.getTiles(), 
+						building.getTileSettings());
 			default: return null;
 		}
 	}
@@ -418,11 +420,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
-		controller.addBuildingViewImage(url, canWalkOn, location);
-	}
-	
-	public ArrayList<Image> getBuildingViewImages() {
-		return controller.getBuildingViewImages();
+		controller.addBuildingViewTile(url, canWalkOn, location);
 	}
 
 	private void togglePauseMenu() {

@@ -1,13 +1,18 @@
 package model;
 
-public class Image {
+public class Tile {
 
-	private String url;
-	private boolean canWalkOn;
-	private Location location;
+	protected String url;
+	protected boolean canWalkOn;
+	protected Location location;
 	
-	public Image(String url, boolean canWalkOn) {
+	public Tile(String url, boolean canWalkOn) {
 		this.url = url;
+		this.canWalkOn = canWalkOn;
+	}
+	
+	public Tile(Location location, boolean canWalkOn) {
+		this.location = location;
 		this.canWalkOn = canWalkOn;
 	}
 

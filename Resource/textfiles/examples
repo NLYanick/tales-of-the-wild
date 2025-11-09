@@ -2,12 +2,12 @@
 /* Here are examples for Database data, Images, etc. */
 
 
-Items and NPC's in Building (example):	// This must be in de NPC or Item table
+## Items and NPC's in Building (example):	// This must be in de NPC or Item table
 x: 250
 y: 300
 
 
-NPC Naming:
+## NPC Naming:
 [name] = The name of NPC
 
 [name]Running
@@ -20,7 +20,7 @@ NPC Naming:
 [name]RightStandingStill
 
 
-NPC Dialog:
+## NPC Dialog:
 {"dialogs": [ { "text": "Text 1", "skip": false, "interactive": false }, { "text": "Text 2", "skip": false, "interactive": false }, { "text": "Text 3", "skip": false, "interactive": true, "options": [ "Yes", "No" ] }, { "text": "Text 4", "skip": false, "interactive": false, "option-chosen": 1 }, { "text": "Text 5", "skip": false, "interactive": true, "option-chosen": 2 } ] }
 {
   "dialogs": [ 
@@ -43,4 +43,37 @@ NPC Dialog:
     	"option-chosen": 2	// Only if 'options' is used
     }
   ]
+}
+
+
+## Building Layout:
+{ "tiles": [ { "type": "wall" , "x": 0, "y": 0 }, { "type": "wall" , "x": 1, "y": 0 }, { "type": "wall" , "x": 0, "y": 1 }, { "type": "wall" , "x": 1, "y": 1 } ] }
+{
+  "tiles": [
+    {
+      "type": "wall", // Types are: wall, floor, counter, exit
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "exit",
+      "x": 1,
+      "y": 0,
+      "spawn": true // Only if type is 'exit'
+    },
+    {
+      "type": "wall",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "type": "wall",
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "settings": {
+  	"width": "full", // Options: full, half
+  	"height": "full",
+  }
 }

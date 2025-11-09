@@ -3,9 +3,10 @@ package view.Buildings;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import model.BuildingTile;
+import model.BuildingTileType;
 import model.Direction;
 import model.Location;
 import model.Size;
@@ -20,19 +21,19 @@ public abstract class BuildingView extends BorderPane {
 	protected Size size;
 	protected Direction exit;
 	
-	protected HashMap<ImageView, String> imagesWithType;
 	protected ArrayList<NPCView> npcViews;
+	protected ArrayList<BuildingTile> tiles;
 	
 	protected MainScene scene;
 	protected GridPane layout;
 	
-	public BuildingView(Size size, MainScene scene, Direction exit) {
+	public BuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) {
 		this.size = size;
 		this.exit = exit;
+		this.tiles = tiles;
 		
 		this.scene = scene;
 		this.layout = new GridPane();
-		imagesWithType = new HashMap<ImageView, String>();
 		
 		setLocation();
 		
@@ -109,6 +110,12 @@ public abstract class BuildingView extends BorderPane {
 		}
 	}
 	
-	protected abstract void createImage(String type, Location location);
+	protected void loadTiles() {
+		for(BuildingTile tile : tiles) {
+			createImage(tile.getType(), new Location(tile.getX(), tile.getY()));
+		}
+	}
+	
+	protected abstract void createImage(BuildingTileType type, Location location);
 	
 }

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javafx.scene.paint.Color;
 
 public class Shop extends Building {
@@ -8,8 +11,10 @@ public class Shop extends Building {
 	private int floorPattern;
 	
 	public Shop(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
-			Location leaveLocation, int id, Location entranceLocation, Color color, int floorPattern) {
-		super(insideLocation, canPass, size, type, exit, leaveLocation, id, entranceLocation, color);
+			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
+			HashMap<String, String> tileSettings, Color color, int floorPattern) {
+		super(insideLocation, canPass, size, type, exit, leaveLocation, id, entranceLocation, tiles, 
+				tileSettings, color);
 		
 		this.floorPattern = floorPattern;
 

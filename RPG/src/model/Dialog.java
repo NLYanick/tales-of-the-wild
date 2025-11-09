@@ -41,6 +41,11 @@ public class Dialog {
 				String text = entry.getValue();
 				optionsString += "\"" + text + "\", ";
 			}
+			
+			String suffix = ", ";
+			if (optionsString.endsWith(suffix))
+				optionsString = optionsString.substring(0, optionsString.length() - suffix.length());
+			
 			optionsString += " ]";
 			
 			return optionsString;

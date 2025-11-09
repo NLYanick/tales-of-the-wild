@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import model.BackgroundImages;
 import model.Direction;
-import model.Image;
+import model.Tile;
 import model.Location;
 import view.Background;
 
@@ -26,12 +26,12 @@ public class FileIO {
 	private int layer;
 	private int imagesToLeft;
 	
-	private ArrayList<Image> imagesInFile;
+	private ArrayList<Tile> imagesInFile;
 	
 	public FileIO() {
 		background = new Background();
 		backgroundImages = new BackgroundImages();
-		imagesInFile = new ArrayList<Image>();
+		imagesInFile = new ArrayList<Tile>();
 	}
 	
 	public void readText(File file) {
@@ -80,8 +80,8 @@ public class FileIO {
 	private void loadBackground(String[] line, int i) {
 		if(!line[i].equals("-1")) {
 			int xLocation = i - imagesToLeft;
-			Image bgImage = makeNewImage(backgroundImages.getImage(Integer.parseInt(line[i])));
-			String[] imageUrl = bgImage.getUrl().split(" ");
+			Tile bgTile = makeNewTile(backgroundImages.getTile(Integer.parseInt(line[i])));
+			String[] imageUrl = bgTile.getUrl().split(" ");
 			
 			if(imageUrl.length > 1) {
 				background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
@@ -89,18 +89,18 @@ public class FileIO {
 				background.placeBackground(xLocation, layer, imageUrl[0]);
 			}
 			
-			setImageLocation(bgImage, xLocation);
-			imagesInFile.add(bgImage);
+			setImageLocation(bgTile, xLocation);
+			imagesInFile.add(bgTile);
 		}
 	}
 	
-	private Image makeNewImage(Image image) {
-		Image newImage = new Image(image.getUrl(), image.canWalkOn());
-		newImage.setLocation(image.getLocation());
-		return newImage;
+	private Tile makeNewTile(Tile image) {
+		Tile newTile = new Tile(image.getUrl(), image.canWalkOn());
+		newTile.setLocation(image.getLocation());
+		return newTile;
 	}
 	
-	private void setImageLocation(Image image, int xLocation) {
+	private void setImageLocation(Tile image, int xLocation) {
 		int y = STANDARD_IMAGE_SIZE * layer;
 		int x = STANDARD_IMAGE_SIZE * xLocation;
 
@@ -108,14 +108,14 @@ public class FileIO {
 	}
 	
 	public String getImageUrlByIndex(int index) {
-		return backgroundImages.getImage(index).getUrl();
+		return backgroundImages.getTile(index).getUrl();
 	}
 	
-	public HashMap<Integer, Image> getAllBackgroundImages() {
-		return backgroundImages.getAllImages();
+	public HashMap<Integer, Tile> getAllBackgroundImages() {
+		return backgroundImages.getAllTiles();
 	}
 	
-	public ArrayList<Image> getImagesInFile() {
+	public ArrayList<Tile> getImagesInFile() {
 		return imagesInFile;
 	}
 

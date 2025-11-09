@@ -165,6 +165,11 @@ public class NPCLayer {
 		for(Dialog dialog : dialogs) {
 			fullString += "{ " + dialog.toJSON() + " }, ";
 		}
+		
+		String suffix = ", ";
+		if (fullString.endsWith(suffix))
+			fullString = fullString.substring(0, fullString.length() - suffix.length());
+		
 		fullString += "] }";
 		
 		return fullString;

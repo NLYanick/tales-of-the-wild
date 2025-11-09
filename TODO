@@ -91,8 +91,9 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Shop Seller NPC in shop (voeg toe aan Stored Procedure) | 
-Inventory openen van shop na dialog npc | Items kopen in ShopInventory | 
-Binnenkant shop moet een toonbank | Layout van binnenkant van building moeten aanpasbaar zijn |
+Nu: Layout van binnenkant van building moeten aanpasbaar zijn (exit gaat over wall heen) | BuildingView is niet goed meer na spawn fix
+Toonbank image maken | Muren moeten smaller kunnen | 
+TileType Enum & Tile class & Building has Tiles ArrayList | Binnenkant shop moet een toonbank | (NPCs in layout JSON?) |
+Shop Seller NPC in shop (voeg toe aan Stored Procedure) | Items kopen in ShopInventory | Inventory openen van shop na dialog npc | 
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |
 Er moeten ook NPCs zonder Dialog kunnen zijn | Shop muren dunner maken en niet zo fel maken

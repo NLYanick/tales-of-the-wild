@@ -10,7 +10,7 @@ import model.Building;
 import model.Dialog;
 import model.Direction;
 import model.Game;
-import model.Image;
+import model.Tile;
 import model.Item;
 import model.Location;
 import model.NPC;
@@ -91,7 +91,7 @@ public class MainController {
 		scene.setItemViewsInInventory(itemViews);
 	}
 	
-	public ArrayList<Image> getImagesInFile() {
+	public ArrayList<Tile> getImagesInFile() {
 		return fileIO.getImagesInFile();
 	}
 	
@@ -341,10 +341,10 @@ public class MainController {
 		return fileIO.getImageUrlByIndex(index);
 	}
 	
-	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
-		Image image = new Image(url, canWalkOn);
-		image.setLocation(location);
-		game.addBuildingViewImage(image);
+	public void addBuildingViewTile(String url, boolean canWalkOn, Location location) {
+		Tile tile = new Tile(url, canWalkOn);
+		tile.setLocation(location);
+		game.addBuildingViewImage(tile);
 	}
 	
 	public void endDialog() {
@@ -550,10 +550,6 @@ public class MainController {
 	
 	public Location getPlayerLocation() {
 		return game.getPlayerLocation();
-	}
-	
-	public ArrayList<Image> getBuildingViewImages() {
-		return game.getBuildingViewImages();
 	}
 
 }

@@ -21,7 +21,7 @@ public class Game {
 	private ArrayList<NPC> npcs;
 	private ArrayList<Item> worldItems;
 	private ArrayList<Building> buildings;
-	private ArrayList<Image> buildingViewImages;
+	private ArrayList<Tile> buildingViewImages;
 	
 	public Game(int id) {
 		this.id = id;
@@ -162,9 +162,9 @@ public class Game {
 	}
 	
 	private boolean playerCanWalk(Direction dir) {
-		ArrayList<Image> backgroundImages = controller.getImagesInFile();
+		ArrayList<Tile> backgroundImages = controller.getImagesInFile();
 		
-		for(Image img : backgroundImages) {
+		for(Tile img : backgroundImages) {
 			if(nextStepIsOnImage(img, dir) && img.canWalkOn()) {
 				return true;
 			}
@@ -173,7 +173,7 @@ public class Game {
 		return false;
 	}
 	
-	private boolean nextStepIsOnImage(Image img, Direction dir) {
+	private boolean nextStepIsOnImage(Tile img, Direction dir) {
 		int extraSpace = 127;
 		Direction opposite = Direction.getOpposite(dir);
 		int nextStepX = player.getX() + opposite.getX();
@@ -371,7 +371,7 @@ public class Game {
 		buildingViewImages.clear();
 	}
 
-	public void addBuildingViewImage(Image image) {
+	public void addBuildingViewImage(Tile image) {
 		buildingViewImages.add(image);
 	}
 	
@@ -437,7 +437,7 @@ public class Game {
 	
 	public void setUpBuildings() {
 		buildings = controller.getAllBuildings();
-		buildingViewImages = new ArrayList<Image>();
+		buildingViewImages = new ArrayList<Tile>();
 		
 		for (Building building : buildings) {
 			building.setGame(this);
@@ -584,10 +584,6 @@ public class Game {
 	
 	public ArrayList<Building> getBuildings() {
 		return buildings;
-	}
-	
-	public ArrayList<Image> getBuildingViewImages() {
-		return buildingViewImages;
 	}
 	
 	public Location getBackgroundLocation() {
