@@ -37,10 +37,6 @@ public abstract class BuildingView extends BorderPane {
 		
 		setLocation();
 		
-		if(size.getHeight() % 2 != 0) {
-			setLayoutY(getLayoutY() - 64);
-		}
-		
 		setCenter(layout);
 		
 		setPrefSize(size.getWidth() * MainScene.STANDARD_IMAGE_SIZE, size.getHeight() * MainScene.STANDARD_IMAGE_SIZE);
@@ -48,25 +44,29 @@ public abstract class BuildingView extends BorderPane {
 	
 	private void setLocation() {
 		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
-		int entranceSpacing = 64;
+		
 		switch(exit) { 
-		case NORTH: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-			setLayoutY(scene.getHeight()/2 - entranceSpacing);
-			break;
-		case EAST: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize) + entranceSpacing);
-			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
-			break;
-		case SOUTH: 
-			setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-			setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize) + entranceSpacing);
-			break;
-		case WEST: 
-			setLayoutX(scene.getWidth()/2 - entranceSpacing);
-			setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
-			break;
-			default: return;
+			case NORTH: 
+				setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
+				setLayoutY(scene.getHeight()/2);
+				break;
+			case EAST: 
+				setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize));
+				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
+				break;
+			case SOUTH: 
+				setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
+				setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize));
+				break;
+			case WEST: 
+				setLayoutX(scene.getWidth()/2);
+				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
+				break;
+			default: break;
+		}
+		
+		if(size.getHeight() % 2 != 0) {
+			setLayoutY(getLayoutY() - 64);
 		}
 	}
 	

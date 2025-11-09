@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class Building {
 	protected MainController controller;
 	protected Game game;
 	
-	public Building(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
+	public Building(Location insideLocation, boolean canPass, BuildingType type, Direction exit,
 			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
 			HashMap<String, String> tileSettings, Color color) {
 		this.insideLocation = insideLocation;
@@ -40,18 +41,25 @@ public class Building {
 		this.type = type;
 		this.exit = exit;
 		this.canPass = canPass;
-		this.size = size;
 		this.id = id;
 		this.tiles = tiles;
-		this.tileSettings = tileSettings;
+//		this.tileSettings = tileSettings;
+		this.tileSettings = new HashMap<String, String>();
 		this.color = color;
 		
+		this.size = getNewSize();
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
 		
 		setUp();
 	}
 	
+	private Size getNewSize() {
+		int imgSize = FileIO.STANDARD_IMAGE_SIZE;
+		BuildingTile maxTile = tiles.stream().max(Comparator.comparingInt(Tile::getX).thenComparingInt(Tile::getY)).orElse(null);
+		return new Size(maxTile.getX() * imgSize, maxTile.getY() * imgSize);
+	}
+
 	private void setUp() {
 		if(tileSettings.size() == 0) {
 			tileSettings.put("width", "full");

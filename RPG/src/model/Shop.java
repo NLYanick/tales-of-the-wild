@@ -10,10 +10,10 @@ public class Shop extends Building {
 	private Inventory inventory;
 	private int floorPattern;
 	
-	public Shop(Location insideLocation, boolean canPass, Size size, BuildingType type, Direction exit,
+	public Shop(Location insideLocation, boolean canPass, BuildingType type, Direction exit,
 			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
 			HashMap<String, String> tileSettings, Color color, int floorPattern) {
-		super(insideLocation, canPass, size, type, exit, leaveLocation, id, entranceLocation, tiles, 
+		super(insideLocation, canPass, type, exit, leaveLocation, id, entranceLocation, tiles, 
 				tileSettings, color);
 		
 		this.floorPattern = floorPattern;
