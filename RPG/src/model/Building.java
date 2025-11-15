@@ -12,8 +12,9 @@ import javafx.scene.paint.Color;
 public class Building {
 
 	public final static Location UNLOAD_LOCATION = new Location(-7000, -7000);
+	public final static Location INSIDE_LOCATION = new Location(-3000, -3000);
 	
-	protected Location insideLocation, leaveLocation, entranceLocation, viewLocation;
+	protected Location leaveLocation, entranceLocation, viewLocation, spawnLocation;
 	
 	protected BuildingType type;
 	protected Direction exit;
@@ -31,10 +32,9 @@ public class Building {
 	protected MainController controller;
 	protected Game game;
 	
-	public Building(Location insideLocation, boolean canPass, BuildingType type, Direction exit,
+	public Building(boolean canPass, BuildingType type, Direction exit,
 			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
 			HashMap<String, String> tileSettings, Color color) {
-		this.insideLocation = insideLocation;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
 		
@@ -75,11 +75,11 @@ public class Building {
 	
 	public void enter(Player player) {
 		if(canPass) {
-			game.setBuildingView(this);
-			
-			Location playerInsideLocation = getSpawnLocation();
+			spawnLocation = calculateSpawnLocation();
+			Location playerInsideLocation = spawnLocation;
 			
 			loadInside();
+			game.setBuildingView(this);
 			
 			player.setInBuilding(true);
 			game.teleportPlayer(playerInsideLocation);
@@ -98,7 +98,7 @@ public class Building {
 		}
 	}
 	
-	private Location getSpawnLocation() {
+	private Location calculateSpawnLocation() {
 		ArrayList<BuildingTile> spawnTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.isSpawn()).collect(Collectors.toList()));
 		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
 		double avgX = 0, avgY = 0;
@@ -108,8 +108,8 @@ public class Building {
 			avgY += tile.getY();
 		}
 		
-		avgX = avgX / spawnTiles.size() * wallSize + insideLocation.getX();
-		avgY = avgY / spawnTiles.size() * wallSize + insideLocation.getY();
+		avgX = (avgX + 1) / spawnTiles.size() * wallSize + INSIDE_LOCATION.getX();
+		avgY = avgY / spawnTiles.size() * wallSize + INSIDE_LOCATION.getY();
 		
 		int x = (int) avgX;
 		int y = (int) avgY;
@@ -128,11 +128,11 @@ public class Building {
 	private void loadInside() {
 		for(NPC npc : npcs) {
 			Location originalLoc = game.getOriginalNPCBuildingLocation(npc, id);
-			npc.setLocation(new Location(originalLoc.getX() + insideLocation.getX(), originalLoc.getY() + insideLocation.getY()));
+			npc.setLocation(new Location(originalLoc.getX() + INSIDE_LOCATION.getX(), originalLoc.getY() + INSIDE_LOCATION.getY()));
 		}
 		for(Item item : items) {
 			Location originalLoc = game.getOriginalItemBuildingLocation(item, id);
-			item.setLocation(new Location(originalLoc.getX() + insideLocation.getX(), originalLoc.getY() + insideLocation.getY()));
+			item.setLocation(new Location(originalLoc.getX() + INSIDE_LOCATION.getX(), originalLoc.getY() + INSIDE_LOCATION.getY()));
 		}
 	}
 	
@@ -171,8 +171,8 @@ public class Building {
 		
 		int multiplier = 2;
 		Location playerLocation = player.getLocation();
-		int nextX = playerLocation.getX() + (dir.getX() * multiplier) - insideLocation.getX();
-		int nextY = playerLocation.getY() + (dir.getY() * multiplier) - insideLocation.getY();
+		int nextX = playerLocation.getX() + (dir.getX() * multiplier) - INSIDE_LOCATION.getX();
+		int nextY = playerLocation.getY() + (dir.getY() * multiplier) - INSIDE_LOCATION.getY();
 		
 		if(isInBuilding(new Location(nextX, nextY))) {
 			return false;
@@ -291,11 +291,11 @@ public class Building {
 	}
 	
 	public int getX() {
-		return insideLocation.getX();
+		return INSIDE_LOCATION.getX();
 	}
 	
 	public int getY() {
-		return insideLocation.getY();
+		return INSIDE_LOCATION.getY();
 	}
 
 	public void setGame(Game game) {
@@ -321,5 +321,8 @@ public class Building {
 	public HashMap<String, String> getTileSettings() {
 		return tileSettings;
 	}
-		
+	
+	public Location getSpawnLocation() {
+		return spawnLocation;
+	}
 }

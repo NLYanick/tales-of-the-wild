@@ -18,8 +18,9 @@ public class TentView extends BuildingView {
 
 	private Color color;
 	
-	public TentView(Size size, MainScene scene, Direction exit, Color color, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) {
-		super(size, scene, exit, tiles, tileSettings);
+	public TentView(Size size, MainScene scene, Direction exit, Color color, ArrayList<BuildingTile> tiles, 
+			HashMap<String, String> tileSettings, Location spawnLocation) {
+		super(size, scene, exit, tiles, tileSettings, spawnLocation);
 		this.color = color;
 		
 		loadTiles();

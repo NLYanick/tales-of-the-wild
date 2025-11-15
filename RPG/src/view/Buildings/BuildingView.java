@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import model.Building;
 import model.BuildingTile;
 import model.BuildingTileType;
 import model.Direction;
@@ -20,6 +21,7 @@ public abstract class BuildingView extends BorderPane {
 	
 	protected Size size;
 	protected Direction exit;
+	protected Location spawnLocation;
 	
 	protected ArrayList<NPCView> npcViews;
 	protected ArrayList<BuildingTile> tiles;
@@ -27,10 +29,11 @@ public abstract class BuildingView extends BorderPane {
 	protected MainScene scene;
 	protected GridPane layout;
 	
-	public BuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) {
+	public BuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Location spawnLocation) {
 		this.size = size;
 		this.exit = exit;
 		this.tiles = tiles;
+		this.spawnLocation = spawnLocation;
 		
 		this.scene = scene;
 		this.layout = new GridPane();
@@ -44,6 +47,7 @@ public abstract class BuildingView extends BorderPane {
 	
 	private void setLocation() {
 		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
+		Location startLocation = Building.INSIDE_LOCATION;
 		
 		switch(exit) { 
 			case NORTH: 
@@ -55,18 +59,14 @@ public abstract class BuildingView extends BorderPane {
 				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 				break;
 			case SOUTH: 
-				setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-				setLayoutY(scene.getHeight()/2 - (size.getHeight() * imgSize));
+				setLayoutX(scene.getWidth()/2 + (startLocation.getX() - spawnLocation.getX()));
+				setLayoutY(scene.getHeight()/2 + (startLocation.getY() - spawnLocation.getY()));
 				break;
 			case WEST: 
 				setLayoutX(scene.getWidth()/2);
 				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
 				break;
 			default: break;
-		}
-		
-		if(size.getHeight() % 2 != 0) {
-			setLayoutY(getLayoutY() - 64);
 		}
 	}
 	

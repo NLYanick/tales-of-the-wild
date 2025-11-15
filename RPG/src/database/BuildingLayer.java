@@ -58,20 +58,18 @@ public class BuildingLayer {
 	}
 	
 	private Shop makeShop(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
-		return new Shop(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
-				BuildingType.valueOf(rs.getString("type")), Direction.valueOf(rs.getString("exit")), 
-				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), 
-				new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
+		return new Shop(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
+				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
 				Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
 	}
 	
 	private Building makeBuilding(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
 		String colorString = rs.getString("Color");
 		if(colorString == null) colorString = "TRANSPARENT";
-		return new Building(new Location(rs.getInt("x"), rs.getInt("y")), rs.getBoolean("canPass"), 
-				BuildingType.valueOf(rs.getString("type")), Direction.valueOf(rs.getString("exit")), 
-				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), 
-				new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
+		return new Building(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
+				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
+				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
 				Color.valueOf(colorString));
 	}
 	

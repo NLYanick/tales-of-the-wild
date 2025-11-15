@@ -19,8 +19,9 @@ public class ShopView extends BuildingView {
 	private Color color;
 	private int floorPattern;
 	
-	public ShopView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Color color, int floorPattern) {
-		super(size, scene, exit, tiles, tileSettings);
+	public ShopView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Color color, 
+			int floorPattern, Location spawnLocation) {
+		super(size, scene, exit, tiles, tileSettings, spawnLocation);
 		this.color = color;
 		this.floorPattern = floorPattern;
 		

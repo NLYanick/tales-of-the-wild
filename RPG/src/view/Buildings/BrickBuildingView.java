@@ -16,8 +16,9 @@ import view.MainScene;
 
 public class BrickBuildingView extends BuildingView {
 	
-	public BrickBuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) {
-		super(size, scene, exit, tiles, tileSettings);
+	public BrickBuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, 
+			HashMap<String, String> tileSettings, Location spawnLocation) {
+		super(size, scene, exit, tiles, tileSettings, spawnLocation);
 		
 		loadTiles();
 	}
