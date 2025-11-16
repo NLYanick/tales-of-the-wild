@@ -391,14 +391,14 @@ public class MainScene extends Scene {
 		switch(building.getType()) {
 			case BRICK:
 				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getTiles(), 
-						building.getTileSettings(), building.getSpawnLocation());
+						building.getTileSize(), building.getSpawnLocation());
 			case SHOP:
 				Shop shop = (Shop) building;
-				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getTiles(), shop.getTileSettings(),
+				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getTiles(), shop.getTileSize(),
 						shop.getColor(), shop.getFloorPattern(), building.getSpawnLocation());
 			case TENT:
 				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getColor(), building.getTiles(), 
-						building.getTileSettings(), building.getSpawnLocation());
+						building.getTileSize(), building.getSpawnLocation());
 			default: return null;
 		}
 	}

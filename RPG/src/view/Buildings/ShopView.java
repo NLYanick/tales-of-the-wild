@@ -1,7 +1,6 @@
 package view.Buildings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,9 +17,8 @@ public class ShopView extends BuildingView {
 	private Color color;
 	private int floorPattern;
 	
-	public ShopView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Color color, 
-			int floorPattern, Location spawnLocation) {
-		super(size, scene, tiles, tileSettings, spawnLocation);
+	public ShopView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Color color, int floorPattern, Location spawnLocation) {
+		super(size, scene, tiles, tileSize, spawnLocation);
 		this.color = color;
 		this.floorPattern = floorPattern;
 		
@@ -28,7 +26,7 @@ public class ShopView extends BuildingView {
 	}
 	
 	protected void createTile(BuildingTileType type, Location location) {
-		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
+		int imgSize = tileSize;
 		int buildingX = -INSIDE_SPAWN_X;
 		int buildingY = -INSIDE_SPAWN_Y;
 		
@@ -45,6 +43,8 @@ public class ShopView extends BuildingView {
 			Image floor = new Image(floorUrl);
 			
 			ImageView floorView = new ImageView(floor);
+			floorView.setFitWidth(imgSize);
+			floorView.setFitHeight(imgSize);
 			layout.add(floorView, location.getX(), location.getY());
 			floorView.toBack();
 			break;
@@ -57,6 +57,8 @@ public class ShopView extends BuildingView {
 			Image counter = new Image(counterUrl);
 			
 			ImageView counterView = new ImageView(counter);
+			counterView.setFitWidth(imgSize);
+			counterView.setFitHeight(imgSize);
 			layout.add(counterView, location.getX(), location.getY());
 			counterView.toBack();
 			break;

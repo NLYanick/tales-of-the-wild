@@ -1,7 +1,6 @@
 package view.Buildings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -21,6 +20,7 @@ public abstract class BuildingView extends BorderPane {
 	
 	protected Size size;
 	protected Location spawnLocation;
+	protected int tileSize;
 	
 	protected ArrayList<NPCView> npcViews;
 	protected ArrayList<BuildingTile> tiles;
@@ -28,9 +28,10 @@ public abstract class BuildingView extends BorderPane {
 	protected MainScene scene;
 	protected GridPane layout;
 	
-	public BuildingView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Location spawnLocation) {
+	public BuildingView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
 		this.size = size;
 		this.tiles = tiles;
+		this.tileSize = tileSize;
 		this.spawnLocation = spawnLocation;
 		
 		this.scene = scene;
@@ -39,7 +40,7 @@ public abstract class BuildingView extends BorderPane {
 		setLocation();
 		
 		setCenter(layout);
-		setPrefSize(size.getWidth() * MainScene.STANDARD_IMAGE_SIZE, size.getHeight() * MainScene.STANDARD_IMAGE_SIZE);
+		setPrefSize(size.getWidth() * tileSize, size.getHeight() * tileSize);
 	}
 	
 	private void setLocation() {

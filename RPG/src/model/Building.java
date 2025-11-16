@@ -24,7 +24,7 @@ public class Building {
 	protected ArrayList<BuildingTile> tiles;
 	protected HashMap<String, String> tileSettings;
 	protected Color color; // TRANSPARENT is default (null)
-	protected boolean wallsHalfWidth, wallsHalfHeight;
+	protected int tileSize;
 	
 	protected ArrayList<NPC> npcs;
 	protected ArrayList<Item> items;
@@ -43,30 +43,32 @@ public class Building {
 		this.canPass = canPass;
 		this.id = id;
 		this.tiles = tiles;
-//		this.tileSettings = tileSettings;
-		this.tileSettings = new HashMap<String, String>();
+		this.tileSettings = tileSettings;
 		this.color = color;
 		
-		this.size = getNewSize();
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
 		
 		setUp();
+		
+		this.size = getNewSize();
 	}
 	
 	private Size getNewSize() {
-		int imgSize = FileIO.STANDARD_IMAGE_SIZE;
+		int imgSize = tileSize;
 		BuildingTile maxTile = tiles.stream().max(Comparator.comparingInt(Tile::getX).thenComparingInt(Tile::getY)).orElse(null);
 		return new Size(maxTile.getX() * imgSize, maxTile.getY() * imgSize);
 	}
 
 	private void setUp() {
 		if(tileSettings.size() == 0) {
-			tileSettings.put("width", "full");
-			tileSettings.put("height", "full");
+			tileSettings.put("size", "big");
 		}
-		wallsHalfWidth = tileSettings.get("width").equals("half");
-		wallsHalfHeight = tileSettings.get("height").equals("half");
+		
+		switch(tileSettings.get("size")) {
+			case "small": tileSize = (int) (FileIO.STANDARD_IMAGE_SIZE * 0.75); break;
+			case "big": tileSize = FileIO.STANDARD_IMAGE_SIZE; break;
+		}
 	}
 	
 	protected ArrayList<BuildingTile> getTilesOfType(BuildingTileType type) {
@@ -100,7 +102,7 @@ public class Building {
 	
 	private Location calculateSpawnLocation() {
 		ArrayList<BuildingTile> spawnTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.isSpawn()).collect(Collectors.toList()));
-		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
+		int wallSize = tileSize;
 		double sumX = 0, sumY = 0;
 		
 		for (BuildingTile tile : spawnTiles) {
@@ -174,15 +176,12 @@ public class Building {
 	}
 	
 	private boolean canWalkInBuilding(Location nextLocation) {
-		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
-		int wallWidth = wallsHalfWidth ? wallSize/2 : wallSize;
-		int wallHeight = wallsHalfHeight ? wallSize/2 : wallSize;
+		int wallSize = tileSize;
 		
-		ArrayList<BuildingTile> walkTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.getType() == BuildingTileType.FLOOR 
-				|| t.getType() == BuildingTileType.EXIT).collect(Collectors.toList()));
+		ArrayList<BuildingTile> walkTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.canWalkOn()).collect(Collectors.toList()));
 		for (BuildingTile tile : walkTiles) {
-			if(Location.isGreater(nextLocation, new Location(tile.getX() * wallWidth, tile.getY() * wallHeight)) && 
-					Location.isLess(nextLocation, new Location((tile.getX() + 1) * wallWidth, (tile.getY() + 1) * wallHeight))) {
+			if(Location.isGreater(nextLocation, new Location(tile.getX() * wallSize, tile.getY() * wallSize)) && 
+					Location.isLess(nextLocation, new Location((tile.getX() + 1) * wallSize, (tile.getY() + 1) * wallSize))) {
 				return true;
 			}
 		}
@@ -190,7 +189,7 @@ public class Building {
 	}
 	
 	private boolean isOnExit(int nextX, int nextY) {
-		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
+		int wallSize = tileSize;
 		
 		for (BuildingTile tile : getTilesOfType(BuildingTileType.EXIT)) {
 			switch(exit) {
@@ -307,11 +306,11 @@ public class Building {
 		return tiles;
 	}
 	
-	public HashMap<String, String> getTileSettings() {
-		return tileSettings;
-	}
-	
 	public Location getSpawnLocation() {
 		return spawnLocation;
+	}
+	
+	public int getTileSize() {
+		return tileSize;
 	}
 }

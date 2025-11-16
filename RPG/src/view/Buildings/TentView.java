@@ -1,7 +1,6 @@
 package view.Buildings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,29 +14,30 @@ public class TentView extends BuildingView {
 
 	private Color color;
 	
-	public TentView(Size size, MainScene scene, Color color, ArrayList<BuildingTile> tiles, 
-			HashMap<String, String> tileSettings, Location spawnLocation) {
-		super(size, scene, tiles, tileSettings, spawnLocation);
+	public TentView(Size size, MainScene scene, Color color, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
+		super(size, scene, tiles, tileSize, spawnLocation);
 		this.color = color;
 		
 		loadTiles();
 	}
 		
 	protected void createTile(BuildingTileType type, Location location) {
-		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
+		int imgSize = tileSize;
 		int buildingX = -INSIDE_SPAWN_X;
 		int buildingY = -INSIDE_SPAWN_Y;
 		
 		switch (type) {
 		case WALL:
-//			String url = scene.getImageUrlByIndex(56);
-//			scene.addBuildingViewImage(url, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-//			Image image = new Image(url);
+//			String wallUrl = scene.getImageUrlByIndex(56);
+//			scene.addBuildingViewImage(wallUrl, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
+//			Image wall = new Image(wallUrl);
 //			
-//			ImageView imageView = new ImageView(image);
-//			imagesWithType.put(imageView, type);
-//			layout.add(imageView, location.getX(), location.getY());
-//			imageView.toBack();
+//			ImageView wallView = new ImageView(wall);
+//			imagesWithType.put(wallView, type);
+//			wallView.setFitWidth(imgSize);
+//			wallView.setFitHeight(imgSize);
+//			layout.add(wallView, location.getX(), location.getY());
+//			wallView.toBack();
 			Rectangle wall = new Rectangle(imgSize, imgSize, Color.DODGERBLUE);
 			layout.add(wall, location.getX(), location.getY());
 			wall.toBack();

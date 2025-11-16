@@ -74,7 +74,6 @@ y: 300
     }
   ],
   "settings": {
-  	"width": "full", // Options: full, half
-  	"height": "full",
+  	"size": "full" // Options: small, big
   }
 }
