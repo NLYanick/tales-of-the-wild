@@ -101,28 +101,17 @@ public class Building {
 	private Location calculateSpawnLocation() {
 		ArrayList<BuildingTile> spawnTiles = new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.isSpawn()).collect(Collectors.toList()));
 		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
-		double avgX = 0, avgY = 0;
+		double sumX = 0, sumY = 0;
 		
 		for (BuildingTile tile : spawnTiles) {
-			avgX += tile.getX();
-			avgY += tile.getY();
+			sumX += tile.getX() * wallSize + (wallSize / 2);
+			sumY += tile.getY() * wallSize + (wallSize / 2);
 		}
 		
-		avgX = (avgX + 1) / spawnTiles.size() * wallSize + INSIDE_LOCATION.getX();
-		avgY = avgY / spawnTiles.size() * wallSize + INSIDE_LOCATION.getY();
+		int x = (int) (sumX / spawnTiles.size() + INSIDE_LOCATION.getX());
+		int y = (int) (sumY / spawnTiles.size() + INSIDE_LOCATION.getY());
 		
-		int x = (int) avgX;
-		int y = (int) avgY;
-		
-		int entranceSpacing = 64;
-		
-		switch(exit) {
-			case NORTH: return new Location(x, y - entranceSpacing);
-			case EAST: return new Location(x + entranceSpacing, y);
-			case SOUTH: return new Location(x, y + entranceSpacing);
-			case WEST: return new Location(x - entranceSpacing, y);
-			default: return new Location(x, y);
-		}
+		return new Location(x, y);
 	}
 	
 	private void loadInside() {
