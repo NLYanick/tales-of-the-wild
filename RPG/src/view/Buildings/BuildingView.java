@@ -82,10 +82,10 @@ public abstract class BuildingView extends BorderPane {
 	
 	protected void loadTiles() {
 		for(BuildingTile tile : tiles) {
-			createImage(tile.getType(), new Location(tile.getX(), tile.getY()));
+			createTile(tile.getType(), new Location(tile.getX(), tile.getY()));
 		}
 	}
 	
-	protected abstract void createImage(BuildingTileType type, Location location);
+	protected abstract void createTile(BuildingTileType type, Location location);
 	
 }

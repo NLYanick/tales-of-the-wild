@@ -26,7 +26,7 @@ public class TentView extends BuildingView {
 		loadTiles();
 	}
 		
-	protected void createImage(BuildingTileType type, Location location) {
+	protected void createTile(BuildingTileType type, Location location) {
 		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		int buildingX = -INSIDE_SPAWN_X;
 		int buildingY = -INSIDE_SPAWN_Y;
@@ -52,7 +52,7 @@ public class TentView extends BuildingView {
 			break;
 			
 		default:
-			createImage(BuildingTileType.FLOOR, location);
+			createTile(BuildingTileType.FLOOR, location);
 		}
 	}
 

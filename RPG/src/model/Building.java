@@ -174,7 +174,7 @@ public class Building {
 		int nextX = playerLocation.getX() + (dir.getX() * multiplier) - INSIDE_LOCATION.getX();
 		int nextY = playerLocation.getY() + (dir.getY() * multiplier) - INSIDE_LOCATION.getY();
 		
-		if(isInBuilding(new Location(nextX, nextY))) {
+		if(canWalkInBuilding(new Location(nextX, nextY))) {
 			return false;
 		} else if(dir == exit && isOnExit(nextX, nextY)) {
 			leave(player);
@@ -184,7 +184,7 @@ public class Building {
 		return true;
 	}
 	
-	private boolean isInBuilding(Location nextLocation) {
+	private boolean canWalkInBuilding(Location nextLocation) {
 		int wallSize = FileIO.STANDARD_IMAGE_SIZE;
 		int wallWidth = wallsHalfWidth ? wallSize/2 : wallSize;
 		int wallHeight = wallsHalfHeight ? wallSize/2 : wallSize;

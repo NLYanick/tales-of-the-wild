@@ -47,7 +47,8 @@ y: 300
 
 
 ## Building Layout:
-{ "tiles": [ { "type": "wall" , "x": 0, "y": 0 }, { "type": "wall" , "x": 1, "y": 0 }, { "type": "wall" , "x": 0, "y": 1 }, { "type": "wall" , "x": 1, "y": 1 } ] }
+// Make sure that there aren't multiple tiles on the same location!
+{ "tiles": [ { "type": "wall" , "x": 0, "y": 0 }, { "type": "exit" , "x": 1, "y": 0, "spawn": true }, { "type": "wall" , "x": 0, "y": 1 }, { "type": "wall" , "x": 1, "y": 1 } ] }
 {
   "tiles": [
     {

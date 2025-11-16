@@ -28,7 +28,7 @@ public class ShopView extends BuildingView {
 		loadTiles();
 	}
 	
-	protected void createImage(BuildingTileType type, Location location) {
+	protected void createTile(BuildingTileType type, Location location) {
 		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		int buildingX = -INSIDE_SPAWN_X;
 		int buildingY = -INSIDE_SPAWN_Y;
@@ -41,21 +41,28 @@ public class ShopView extends BuildingView {
 			break;
 		case EXIT:
 		case FLOOR:
-			String url = scene.getImageUrlByIndex(57 + floorPattern);
-			scene.addBuildingViewImage(url, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-			Image image = new Image(url);
+			String floorUrl = scene.getImageUrlByIndex(57 + floorPattern);
+			scene.addBuildingViewImage(floorUrl, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
+			Image floor = new Image(floorUrl);
 			
-			ImageView imageView = new ImageView(image);
-			layout.add(imageView, location.getX(), location.getY());
-			imageView.toBack();
+			ImageView floorView = new ImageView(floor);
+			layout.add(floorView, location.getX(), location.getY());
+			floorView.toBack();
 			break;
 		case COUNTER:
-			Rectangle counter = new Rectangle(imgSize, imgSize, Color.BLACK);
-			layout.add(counter, location.getX(), location.getY());
-			counter.toBack();
+//			Rectangle counter = new Rectangle(imgSize, imgSize, Color.BLACK);
+//			layout.add(counter, location.getX(), location.getY());
+//			counter.toBack();
+			String counterUrl = "Images/Background/Building/TempCounter.png";
+			scene.addBuildingViewImage(counterUrl, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
+			Image counter = new Image(counterUrl);
+			
+			ImageView counterView = new ImageView(counter);
+			layout.add(counterView, location.getX(), location.getY());
+			counterView.toBack();
 			break;
 		default:
-			createImage(BuildingTileType.FLOOR, location);
+			createTile(BuildingTileType.FLOOR, location);
 		}
 	}
 
