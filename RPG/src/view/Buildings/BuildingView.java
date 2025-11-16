@@ -20,7 +20,6 @@ public abstract class BuildingView extends BorderPane {
 	protected final static int INSIDE_SPAWN_Y = -1000;
 	
 	protected Size size;
-	protected Direction exit;
 	protected Location spawnLocation;
 	
 	protected ArrayList<NPCView> npcViews;
@@ -29,9 +28,8 @@ public abstract class BuildingView extends BorderPane {
 	protected MainScene scene;
 	protected GridPane layout;
 	
-	public BuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Location spawnLocation) {
+	public BuildingView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Location spawnLocation) {
 		this.size = size;
-		this.exit = exit;
 		this.tiles = tiles;
 		this.spawnLocation = spawnLocation;
 		
@@ -41,33 +39,14 @@ public abstract class BuildingView extends BorderPane {
 		setLocation();
 		
 		setCenter(layout);
-		
 		setPrefSize(size.getWidth() * MainScene.STANDARD_IMAGE_SIZE, size.getHeight() * MainScene.STANDARD_IMAGE_SIZE);
 	}
 	
 	private void setLocation() {
-		int imgSize = MainScene.STANDARD_IMAGE_SIZE;
 		Location startLocation = Building.INSIDE_LOCATION;
 		
-		switch(exit) { 
-			case NORTH: 
-				setLayoutX(scene.getWidth()/2 - (size.getWidth()/2 * imgSize));
-				setLayoutY(scene.getHeight()/2);
-				break;
-			case EAST: 
-				setLayoutX(scene.getWidth()/2 - (size.getWidth() * imgSize));
-				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
-				break;
-			case SOUTH: 
-				setLayoutX(scene.getWidth()/2 + (startLocation.getX() - spawnLocation.getX()));
-				setLayoutY(scene.getHeight()/2 + (startLocation.getY() - spawnLocation.getY()));
-				break;
-			case WEST: 
-				setLayoutX(scene.getWidth()/2);
-				setLayoutY(scene.getHeight()/2 - (size.getHeight()/2 * imgSize));
-				break;
-			default: break;
-		}
+		setLayoutX(scene.getWidth()/2 + (startLocation.getX() - spawnLocation.getX()));
+		setLayoutY(scene.getHeight()/2 + (startLocation.getY() - spawnLocation.getY()));
 	}
 	
 	public void move(Direction dir) {

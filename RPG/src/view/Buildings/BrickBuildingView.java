@@ -9,16 +9,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.BuildingTile;
 import model.BuildingTileType;
-import model.Direction;
 import model.Location;
 import model.Size;
 import view.MainScene;
 
 public class BrickBuildingView extends BuildingView {
 	
-	public BrickBuildingView(Size size, MainScene scene, Direction exit, ArrayList<BuildingTile> tiles, 
+	public BrickBuildingView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, 
 			HashMap<String, String> tileSettings, Location spawnLocation) {
-		super(size, scene, exit, tiles, tileSettings, spawnLocation);
+		super(size, scene, tiles, tileSettings, spawnLocation);
 		
 		loadTiles();
 	}

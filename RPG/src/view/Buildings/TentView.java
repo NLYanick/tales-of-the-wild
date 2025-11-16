@@ -3,13 +3,10 @@ package view.Buildings;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.BuildingTile;
 import model.BuildingTileType;
-import model.Direction;
 import model.Location;
 import model.Size;
 import view.MainScene;
@@ -18,9 +15,9 @@ public class TentView extends BuildingView {
 
 	private Color color;
 	
-	public TentView(Size size, MainScene scene, Direction exit, Color color, ArrayList<BuildingTile> tiles, 
+	public TentView(Size size, MainScene scene, Color color, ArrayList<BuildingTile> tiles, 
 			HashMap<String, String> tileSettings, Location spawnLocation) {
-		super(size, scene, exit, tiles, tileSettings, spawnLocation);
+		super(size, scene, tiles, tileSettings, spawnLocation);
 		this.color = color;
 		
 		loadTiles();
