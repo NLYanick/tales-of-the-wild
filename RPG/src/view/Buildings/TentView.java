@@ -7,15 +7,14 @@ import javafx.scene.shape.Rectangle;
 import model.BuildingTile;
 import model.BuildingTileType;
 import model.Location;
-import model.Size;
 import view.MainScene;
 
 public class TentView extends BuildingView {
 
 	private Color color;
 	
-	public TentView(Size size, MainScene scene, Color color, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
-		super(size, scene, tiles, tileSize, spawnLocation);
+	public TentView(MainScene scene, Color color, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
+		super(scene, tiles, tileSize, spawnLocation);
 		this.color = color;
 		
 		loadTiles();

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -20,7 +19,6 @@ public class Building {
 	protected Direction exit;
 	protected boolean canPass;
 	protected int id;
-	protected Size size;
 	protected ArrayList<BuildingTile> tiles;
 	protected HashMap<String, String> tileSettings;
 	protected Color color; // TRANSPARENT is default (null)
@@ -32,9 +30,8 @@ public class Building {
 	protected MainController controller;
 	protected Game game;
 	
-	public Building(boolean canPass, BuildingType type, Direction exit,
-			Location leaveLocation, int id, Location entranceLocation, ArrayList<BuildingTile> tiles, 
-			HashMap<String, String> tileSettings, Color color) {
+	public Building(boolean canPass, BuildingType type, Direction exit, Location leaveLocation, int id, 
+			Location entranceLocation, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Color color) {
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
 		
@@ -50,14 +47,6 @@ public class Building {
 		items = new ArrayList<Item>();
 		
 		setUp();
-		
-		this.size = getNewSize();
-	}
-	
-	private Size getNewSize() {
-		int imgSize = tileSize;
-		BuildingTile maxTile = tiles.stream().max(Comparator.comparingInt(Tile::getX).thenComparingInt(Tile::getY)).orElse(null);
-		return new Size(maxTile.getX() * imgSize, maxTile.getY() * imgSize);
 	}
 
 	private void setUp() {
@@ -233,15 +222,7 @@ public class Building {
 	public boolean canPass() {
 		return canPass;
 	}
-	
-	public int getWidth() {
-		return size.getWidth();
-	}
-	
-	public int getHeight() {
-		return size.getHeight();
-	}
-	
+		
 	public int getEntranceX() {
 		return entranceLocation.getX();
 	}
@@ -260,10 +241,6 @@ public class Building {
 	
 	public Location getLeaveLocation() {
 		return leaveLocation;
-	}
-	
-	public Direction getExit() {
-		return exit;
 	}
 	
 	public void setViewLocation(Location location) {

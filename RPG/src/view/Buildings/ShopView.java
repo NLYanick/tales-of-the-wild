@@ -9,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 import model.BuildingTile;
 import model.BuildingTileType;
 import model.Location;
-import model.Size;
 import view.MainScene;
 
 public class ShopView extends BuildingView {
@@ -17,8 +16,8 @@ public class ShopView extends BuildingView {
 	private Color color;
 	private int floorPattern;
 	
-	public ShopView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Color color, int floorPattern, Location spawnLocation) {
-		super(size, scene, tiles, tileSize, spawnLocation);
+	public ShopView(MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Color color, int floorPattern, Location spawnLocation) {
+		super(scene, tiles, tileSize, spawnLocation);
 		this.color = color;
 		this.floorPattern = floorPattern;
 		

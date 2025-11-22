@@ -362,9 +362,8 @@ public class Game {
 	}
 	
 	private void enterBuilding(Direction dir) {
-		Building building = getNearbyBuilding(dir);
-		currentBuilding = building;
-		building.enter(player);
+		currentBuilding = getNearbyBuilding(dir);
+		currentBuilding.enter(player);
 	}
 	
 	public void clearBuildingViewImages() {

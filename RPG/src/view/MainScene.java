@@ -21,7 +21,6 @@ import model.Item;
 import model.Location;
 import model.Player;
 import model.Shop;
-import model.Size;
 import view.Buildings.BrickBuildingView;
 import view.Buildings.BuildingView;
 import view.Buildings.ShopView;
@@ -385,20 +384,15 @@ public class MainScene extends Scene {
 	}
 	
 	private BuildingView getBuildingViewByType(Building building) {
-		double newWidth = building.getWidth()/(double) MainScene.STANDARD_IMAGE_SIZE;
-		double newHeight = building.getHeight()/(double) MainScene.STANDARD_IMAGE_SIZE;
-		
 		switch(building.getType()) {
 			case BRICK:
-				return new BrickBuildingView(new Size((int) newWidth, (int) newHeight), this, building.getTiles(), 
-						building.getTileSize(), building.getSpawnLocation());
+				return new BrickBuildingView(this, building.getTiles(), building.getTileSize(), building.getSpawnLocation());
 			case SHOP:
 				Shop shop = (Shop) building;
-				return new ShopView(new Size((int) newWidth, (int) newHeight), this, shop.getTiles(), shop.getTileSize(),
-						shop.getColor(), shop.getFloorPattern(), building.getSpawnLocation());
+				return new ShopView(this, shop.getTiles(), shop.getTileSize(), shop.getColor(), shop.getFloorPattern(), 
+						building.getSpawnLocation());
 			case TENT:
-				return new TentView(new Size((int) newWidth, (int) newHeight), this, building.getColor(), building.getTiles(), 
-						building.getTileSize(), building.getSpawnLocation());
+				return new TentView(this, building.getColor(), building.getTiles(), building.getTileSize(), building.getSpawnLocation());
 			default: return null;
 		}
 	}

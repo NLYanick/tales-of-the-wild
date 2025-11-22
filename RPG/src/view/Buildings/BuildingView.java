@@ -9,7 +9,6 @@ import model.BuildingTile;
 import model.BuildingTileType;
 import model.Direction;
 import model.Location;
-import model.Size;
 import view.MainScene;
 import view.NPCView;
 
@@ -18,7 +17,6 @@ public abstract class BuildingView extends BorderPane {
 	protected final static int INSIDE_SPAWN_X = -2000;
 	protected final static int INSIDE_SPAWN_Y = -1000;
 	
-	protected Size size;
 	protected Location spawnLocation;
 	protected int tileSize;
 	
@@ -28,8 +26,7 @@ public abstract class BuildingView extends BorderPane {
 	protected MainScene scene;
 	protected GridPane layout;
 	
-	public BuildingView(Size size, MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
-		this.size = size;
+	public BuildingView(MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Location spawnLocation) {
 		this.tiles = tiles;
 		this.tileSize = tileSize;
 		this.spawnLocation = spawnLocation;
@@ -40,7 +37,6 @@ public abstract class BuildingView extends BorderPane {
 		setLocation();
 		
 		setCenter(layout);
-		setPrefSize(size.getWidth() * tileSize, size.getHeight() * tileSize);
 	}
 	
 	private void setLocation() {
