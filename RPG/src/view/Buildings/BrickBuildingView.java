@@ -26,15 +26,10 @@ public class BrickBuildingView extends BuildingView {
 		
 		switch (type) {
 		case WALL:
-			String wallUrl = scene.getImageUrlByIndex(56);
+			String wallUrl = scene.getImageUrlByIndex(57);
 			scene.addBuildingViewImage(wallUrl, false, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-			Image wall = new Image(wallUrl);
 			
-			ImageView wallView = new ImageView(wall);
-			wallView.setFitWidth(imgSize);
-			wallView.setFitHeight(imgSize);
-			layout.add(wallView, location.getX(), location.getY());
-			wallView.toBack();
+			createImage(wallUrl, location);
 			break;
 		case EXIT:
 		case FLOOR:
@@ -45,6 +40,19 @@ public class BrickBuildingView extends BuildingView {
 		default:
 			createTile(BuildingTileType.FLOOR, location);
 		}
+	}
+	
+	private ImageView createImage(String url, Location location) {
+		Image image = new Image(url);
+		
+		ImageView imageView = new ImageView(image);
+		imageView.setFitWidth(tileSize);
+		imageView.setFitHeight(tileSize);
+		
+		layout.add(imageView, location.getX(), location.getY());
+		imageView.toBack();
+		
+		return imageView;
 	}
 	
 }

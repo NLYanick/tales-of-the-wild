@@ -37,33 +37,39 @@ public class ShopView extends BuildingView {
 			break;
 		case EXIT:
 		case FLOOR:
-			String floorUrl = scene.getImageUrlByIndex(57 + floorPattern);
+			String floorUrl = scene.getImageUrlByIndex(58 + floorPattern);
 			scene.addBuildingViewImage(floorUrl, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-			Image floor = new Image(floorUrl);
 			
-			ImageView floorView = new ImageView(floor);
-			floorView.setFitWidth(imgSize);
-			floorView.setFitHeight(imgSize);
-			layout.add(floorView, location.getX(), location.getY());
-			floorView.toBack();
+			createImage(floorUrl, location);
 			break;
 		case COUNTER:
-//			Rectangle counter = new Rectangle(imgSize, imgSize, Color.BLACK);
-//			layout.add(counter, location.getX(), location.getY());
-//			counter.toBack();
-			String counterUrl = "Images/Background/Building/TempCounter.png";
+			String counterUrl = scene.getImageUrlByIndex(61);
 			scene.addBuildingViewImage(counterUrl, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
-			Image counter = new Image(counterUrl);
 			
-			ImageView counterView = new ImageView(counter);
-			counterView.setFitWidth(imgSize);
-			counterView.setFitHeight(imgSize);
-			layout.add(counterView, location.getX(), location.getY());
-			counterView.toBack();
+			createImage(counterUrl, location);
+			
+			// Put a floor beneath it
+			String floorUnderUrl = scene.getImageUrlByIndex(58 + floorPattern);
+			scene.addBuildingViewImage(floorUnderUrl, true, new Location(location.getX() * imgSize - buildingX, location.getY() * imgSize - buildingY));
+			
+			createImage(floorUnderUrl, location);
 			break;
 		default:
 			createTile(BuildingTileType.FLOOR, location);
 		}
+	}
+	
+	private ImageView createImage(String url, Location location) {
+		Image image = new Image(url);
+		
+		ImageView imageView = new ImageView(image);
+		imageView.setFitWidth(tileSize);
+		imageView.setFitHeight(tileSize);
+		
+		layout.add(imageView, location.getX(), location.getY());
+		imageView.toBack();
+		
+		return imageView;
 	}
 
 }
