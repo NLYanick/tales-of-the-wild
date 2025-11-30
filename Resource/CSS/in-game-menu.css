@@ -79,7 +79,7 @@
 	-fx-font-size: 20px;
 }
 
-.info-separator-line {
+.inventory-info-box-separator-line {
 	-fx-stroke: #444444;
     -fx-stroke-width: 2;
 }
@@ -111,3 +111,57 @@
     -fx-min-height: 64px;
     -fx-max-height: 64px;
 }
+
+
+.shop-inventory-button {
+	-fx-background-color: #D8B13C;
+	-fx-background-radius: 12px;
+	-fx-border-radius: 8px;
+    -fx-border-width: 5px;
+    -fx-border-color: #DDBA51;
+    
+    -fx-min-width: 150px;
+    -fx-min-height: 75px;
+    -fx-padding: 0 20px 0 20px;
+    
+    -fx-font-size: 24px;
+    -fx-font-family: "Times New Roman";
+    -fx-text-fill: #333;
+    
+    -fx-cursor: hand;
+}
+
+.shop-inventory-button:focused {
+    -fx-border-color: #E6CC7D;
+}
+
+.shop-inventory-button:hover {
+	-fx-background-color: #E1C266;
+}
+
+.shop-inventory-buttons-pane {
+	-fx-background-color: #D7BF75;
+	-fx-min-width: 300px;
+}
+
+.shop-inventory-slots-box {
+	-fx-background-color: #E5CA7A; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-max-height: 534px;
+}
+
+.shop-inventory-info-box {
+	-fx-background-color: #E5CA7A; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-min-width: 534px;
+    -fx-max-width: 534px;
+    -fx-min-height: 534px;
+    -fx-max-height: 534px;
+}
+

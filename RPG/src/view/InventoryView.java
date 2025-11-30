@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,22 +32,25 @@ import model.Location;
 
 public class InventoryView extends BorderPane {
 	
-	private final static int GRIDWIDTH = 10;
-	private final static int GRIDHEIGHT = 6;
+	protected final static int GRIDWIDTH = 10;
+	protected final static int GRIDHEIGHT = 6;
 	
-	private MainScene scene;
-	private GridPane inventorySlots;
-	private BorderPane infoBox;
+	protected MainScene scene;
+	protected GridPane inventorySlots;
+	protected BorderPane infoBox;
 	
-	private Button close;
+	protected Button close;
 	
-	private StringProperty infoBoxName, infoBoxDescription;
-	private BooleanBinding slotIsFocused;
+	protected StringProperty infoBoxName, infoBoxDescription;
+	protected BooleanBinding slotIsFocused;
 	
-	private ArrayList<ItemView> itemViews;
+	protected ArrayList<ItemView> itemViews;
 	
-	private ItemView draggedItemView;
-	private InventorySlot activatedSlot;
+	protected HashMap<String, String> styling;
+	protected HashMap<String, String> texts;
+	
+	protected ItemView draggedItemView;
+	protected InventorySlot activatedSlot;
 		
 	public InventoryView(MainScene scene) {
 		this.scene = scene;
@@ -55,7 +59,12 @@ public class InventoryView extends BorderPane {
 	}
 	
 	private void setUpLayout() {
-		setBackground(new Background(new BackgroundImage(new Image("Images/Background/Grass/Grass.png"), null, null, null, null)));
+		styling = new HashMap<String, String>();
+		texts = new HashMap<String, String>();
+		setUpStyling();
+		setUpTexts();
+		
+		setBackground(new Background(new BackgroundImage(new Image(styling.get("background")), null, null, null, null)));
 		
 		BorderPane leftPane = getLeftPane();
 		setLeft(leftPane);
@@ -67,6 +76,24 @@ public class InventoryView extends BorderPane {
 		setCenter(boxes);
 		
 		setOnKeyPressed(e -> handleKeyPressed(e));
+	}
+	
+	protected void setUpStyling() {
+		styling.put("background", "Images/Background/Grass/Grass.png");
+		
+		styling.put("buttons-pane", "inventory-buttons-pane");
+		styling.put("title", "inventory-title");
+		styling.put("slots-box", "inventory-slots-box");
+		styling.put("info-box", "inventory-info-box");
+		styling.put("info-box-title", "inventory-info-box-title");
+		styling.put("info-box-separator-line", "inventory-info-box-separator-line");
+		styling.put("info-box-description", "inventory-info-box-description");
+		styling.put("button", "menu-button");
+	}
+	
+	protected void setUpTexts() {
+		texts.put("title", "Inventory");
+		texts.put("button-1", "Close");
 	}
 	
 	private void handleKeyPressed(KeyEvent e) {
@@ -88,12 +115,12 @@ public class InventoryView extends BorderPane {
 		int rectHeight = 104;
 		
 		BorderPane leftPane = new BorderPane();
-		leftPane.getStyleClass().add("inventory-buttons-pane");
+		leftPane.getStyleClass().add(styling.get("buttons-pane"));
 		
 		VBox titleBox = getTitleBox();
 		leftPane.setTop(titleBox);
 		
-		close = getButton("Close");
+		close = getButton(texts.get("button-1"));
 		close.setOnAction(e -> scene.removeInventoryView());
 		
 		VBox buttonsPane = new VBox(close);
@@ -112,8 +139,8 @@ public class InventoryView extends BorderPane {
 	private VBox getTitleBox() {
 		int spacing = 60;
 		
-		Text title = new Text("Inventory");
-		title.getStyleClass().add("inventory-title");
+		Text title = new Text(texts.get("title"));
+		title.getStyleClass().add(styling.get("title"));
 		
 		VBox titleBox = new VBox(title);
 		titleBox.setPadding(new Insets(spacing, 0, 0, 0));
@@ -139,7 +166,7 @@ public class InventoryView extends BorderPane {
 		
 		inventorySlots.setHgap(gapSize);
 		inventorySlots.setVgap(gapSize);
-		inventorySlots.getStyleClass().add("inventory-slots-box");
+		inventorySlots.getStyleClass().add(styling.get("slots-box"));
 		
 		inventorySlots.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
 		inventorySlots.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
@@ -195,7 +222,7 @@ public class InventoryView extends BorderPane {
 	
 	private void setUpInfoBox() {
 		infoBox = new BorderPane();
-		infoBox.getStyleClass().add("inventory-info-box");
+		infoBox.getStyleClass().add(styling.get("info-box"));
 		
 		infoBoxName = new SimpleStringProperty();
 		infoBoxDescription = new SimpleStringProperty();
@@ -213,16 +240,16 @@ public class InventoryView extends BorderPane {
 		int innerSpace = 434;
 		
 		Text name = new Text();
-		name.getStyleClass().add("inventory-info-box-title");
+		name.getStyleClass().add(styling.get("info-box-title"));
 		name.textProperty().bind(infoBoxName);
 		name.setWrappingWidth(innerSpace);
 		
 		Line separator = new Line(0, 0, innerSpace, 0);
-		separator.getStyleClass().add("info-separator-line");
+		separator.getStyleClass().add(styling.get("info-box-separator-line"));
 		separator.visibleProperty().bind(slotIsFocused);
 		
 		Text description = new Text();
-		description.getStyleClass().add("inventory-info-box-description");
+		description.getStyleClass().add(styling.get("info-box-description"));
 		description.textProperty().bind(infoBoxDescription);
 		description.setWrappingWidth(innerSpace);
 		
@@ -247,7 +274,7 @@ public class InventoryView extends BorderPane {
 		
 		Button button = new Button(text);
 		
-		button.getStyleClass().add("menu-button");
+		button.getStyleClass().add(styling.get("button"));
 		button.setOnKeyPressed(e -> handleButtonKeyPressed(e, button));
 				
 		return button;

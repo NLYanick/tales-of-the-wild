@@ -55,6 +55,7 @@ NPC Borders fixen
 Validatie op naam (bij aanmaken game)
 'a(n)' veranderen naar of 'a' of 'an' (ItemDialog)
 Dialogs en ItemDialogs mooi maken
+Shop inventory's styling verschillend laten zijn (bv. in dezelfde manier als de layout JSON)
 Als je interact terwijl je loopt, blijf je doorlopen
 Models mogen geen viewlocation hebben
 Menu's en LoadGameView responsive maken
@@ -97,6 +98,6 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Shop Seller NPC in shop (voeg toe aan Stored Procedure) | Items kopen in ShopInventory | Inventory openen van shop na dialog npc | 
+Nu: Items kopen in ShopInventory | Inventory openen van shop na dialog npc | 
 Building borders buiten fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |
 Er moeten ook NPCs zonder Dialog kunnen zijn | Shop muren niet zo fel maken
