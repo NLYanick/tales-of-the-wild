@@ -19,10 +19,10 @@ public class Shop extends Building {
 		inventory = new Inventory();
 	}
 	
-	public void buy(Item item) {
+	public void buy(Item item, Player player) {
 		// if(player.currency > item.cost)
 		inventory.removeItem(item);
-		// player.addItem(item)
+		player.addItem(item);
 	}
 	
 	public void addShopItem(Item item) {

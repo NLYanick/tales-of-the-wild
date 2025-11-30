@@ -1,8 +1,10 @@
 package model;
 
+import java.awt.Rectangle;
+
 public abstract class Entity {
 	
-	public final static int ENTITYWIDTH = 128;
+	public final static int ENTITY_WIDTH = 128;
 
 	protected Location location;
 	protected Inventory inventory;
@@ -31,6 +33,10 @@ public abstract class Entity {
 	
 	public void removeItem(Item item) {
 		inventory.removeItem(item);
+	}
+
+	public Rectangle getBounds() {
+	    return new Rectangle(location.getX(), location.getY(), Entity.ENTITY_WIDTH, Entity.ENTITY_WIDTH);
 	}
 	
 	public abstract void setRunningImage(Direction dir);

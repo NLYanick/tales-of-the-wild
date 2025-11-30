@@ -30,6 +30,7 @@ Maak een README
 
 Minder Prioriteit:
 Vragen of je het zeker weet als je een player delete
+Zo veel mogelijk (zoek) for-loops vervangen door 'list.stream().filter(n -> true).findFirst().orElse(null)'
 Als de player loopt en een item oppakt, blijft hij door rennen
 Sommige buildings moeten een sleutel hebben om naar binnen te mogen (canPass = false op het begin)
 Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
@@ -76,6 +77,7 @@ Kan mogelijk dingen breken:
 EntityView --> imageView.setTranslateY(-30);
 Info Box (in InventoryView) grote is hardcoded
 Veel CSS dingen staan nu hardcoded
+'list.stream().filter(n -> true).findFirst().orElse(null)' is ietsje trager dan een for-loop (maar zou niet veel moeten doen)
 
 
 TODO Images:

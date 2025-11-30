@@ -139,12 +139,7 @@ public class Building {
 	}
 	
 	public NPC getNearbyNPC(Direction movingDirection) {
-		for(NPC npc: npcs) {
-			if(game.hasNPCNearby(npc, movingDirection)) {
-				return npc;
-			}
-		}
-		return null;
+		return npcs.stream().filter(n -> game.hasNPCNearby(n, movingDirection)).findFirst().orElse(null);
 	}
 	
 	public boolean collidesWith(Player player, Direction dir) {
@@ -290,4 +285,5 @@ public class Building {
 	public int getTileSize() {
 		return tileSize;
 	}
+
 }

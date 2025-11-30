@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import controller.MainController;
@@ -250,61 +251,25 @@ public class Game {
 		}
 		return null;
 	}
-
+	
 	public boolean hasNPCNearby(NPC npc, Direction movingDirection) {
+		Direction direction = Direction.getOpposite(movingDirection);
+		double divider = 6 * (npc.isShopSeller() ? 0.8 : 5); // The Direction gives 6, not 1 (6) & the interaction direction is too large (5)
 		
-		Direction direction = npc.getGoodDirection(movingDirection);
-		Direction nextDirection = Direction.getNext(direction);
+	    int centerX = player.getX() + (Entity.ENTITY_WIDTH / 2);
+	    int centerY = player.getY() + (Entity.ENTITY_WIDTH / 2);
 
-		if(Direction.isHorizontal(movingDirection)) {
-			return hasNPCNearbyHorizontal(npc, direction, nextDirection);
-		} else if(Direction.isVertical(movingDirection)) {
-			return hasNPCNearbyVertical(npc, direction, nextDirection);
-		}
-		
-		return false;
+	    double reachDistance = (Entity.ENTITY_WIDTH / 2) * (direction.isHorizontal() ? 1.5 : 1.5);
+	    
+	    double sensorX = centerX + (direction.getX() * reachDistance / divider);
+	    double sensorY = centerY + (direction.getY() * reachDistance / divider);
+	    if(direction == Direction.SOUTH) sensorY += 20;
+
+	    Rectangle npcBounds = npc.getBounds();
+
+	    return npcBounds.contains(sensorX, sensorY);
 	}
-	
-	private boolean hasNPCNearbyHorizontal(NPC npc, Direction direction, Direction nextDirection) {
-		
-		int multiplier = 12;
-		boolean hasNearby = false;
-		Direction movingDirection = player.getMovingDirection();
-		
-		if(movingDirection == Direction.EAST) {
-			if((player.getX() >= npc.getX()) && (player.getX() <= npc.getX() + direction.getX() * multiplier)
-				&& player.yIsNearNPCY(npc, nextDirection, multiplier)) {
-				hasNearby = true;
-			}
-		} else if(movingDirection == Direction.WEST) {
-			if((player.getX() >= npc.getX() - direction.getX() * multiplier) && (player.getX() <= npc.getX())
-				&& player.yIsNearNPCY(npc, nextDirection, multiplier)) {
-				hasNearby = true;
-			}
-		}
-		return hasNearby;
-	}
-	
-	private boolean hasNPCNearbyVertical(NPC npc, Direction direction, Direction nextDirection) {
-		
-		int multiplier = 12;
-		boolean hasNearby = false;
-		Direction movingDirection = player.getMovingDirection();
-		
-		if(movingDirection == Direction.NORTH) {
-			if(((player.getY() >= npc.getY() - direction.getY() * (multiplier * 1.5)) && (player.getY() <= npc.getY()))
-					&& player.xIsNearNPCX(npc, nextDirection, multiplier/2)) {
-				hasNearby = true;
-			}
-		} else if(movingDirection == Direction.SOUTH) {
-			if((player.getY() >= npc.getY()) && (player.getY() <= npc.getY() + direction.getY() * multiplier)
-				&& player.xIsNearNPCX(npc, nextDirection, multiplier/2)) {
-				hasNearby = true;
-			}
-		}
-		return hasNearby;
-	}
-	
+
 	private void moveNPCs(Direction dir) {
 		for(NPC npc : npcs) {
 			npc.moveViewLocation(dir);

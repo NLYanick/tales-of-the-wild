@@ -17,6 +17,14 @@ public enum Direction {
 		return location.getY();
 	}
 	
+	public boolean isHorizontal() {
+		return this == EAST || this == WEST;
+	}
+	
+	public boolean isVertical() {
+		return this == NORTH || this == SOUTH;
+	}
+	
 	public static Direction getOpposite(Direction direction) {
 		switch(direction) {
 			case NORTH: 
@@ -43,14 +51,6 @@ public enum Direction {
 				return NORTH;
 			default: return direction;
 		}
-	}
-	
-	public static boolean isHorizontal(Direction dir) {
-		return dir == EAST || dir == WEST;
-	}
-	
-	public static boolean isVertical(Direction dir) {
-		return dir == NORTH || dir == SOUTH;
 	}
 	
 	public static int getAmount() {
