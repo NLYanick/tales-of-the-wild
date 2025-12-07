@@ -162,7 +162,6 @@ public class MainScene extends Scene {
 	}
 	
 	public void loadGame(String playerName) {
-				
 		gameHasLoaded = true;
 		
 		root.setCenter(null);

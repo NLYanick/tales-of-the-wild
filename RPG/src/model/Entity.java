@@ -4,7 +4,8 @@ import java.awt.Rectangle;
 
 public abstract class Entity {
 	
-	public final static int ENTITY_WIDTH = 128;
+	public final static int ENTITY_HEIGHT = 96;
+	public final static int ENTITY_WIDTH = ENTITY_HEIGHT / 2;
 
 	protected Location location;
 	protected Inventory inventory;
@@ -36,7 +37,7 @@ public abstract class Entity {
 	}
 
 	public Rectangle getBounds() {
-	    return new Rectangle(location.getX(), location.getY(), Entity.ENTITY_WIDTH, Entity.ENTITY_WIDTH);
+	    return new Rectangle(location.getX(), location.getY(), ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public abstract void setRunningImage(Direction dir);

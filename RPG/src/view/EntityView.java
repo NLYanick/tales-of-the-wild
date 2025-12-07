@@ -7,7 +7,7 @@ import model.Entity;
 
 public abstract class EntityView extends BorderPane {
 	
-	protected final static int IMAGESIZE = (int) (Entity.ENTITY_WIDTH * 0.75);
+	protected final static int IMAGESIZE = Entity.ENTITY_HEIGHT;
 	
 	protected Image image;
 	protected ImageView imageView;

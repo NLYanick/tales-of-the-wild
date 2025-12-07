@@ -254,20 +254,21 @@ public class Game {
 	
 	public boolean hasNPCNearby(NPC npc, Direction movingDirection) {
 		Direction direction = Direction.getOpposite(movingDirection);
-		double divider = 6 * (npc.isShopSeller() ? 0.8 : 5); // The Direction gives 6, not 1 (6) & the interaction direction is too large (5)
+		double divider = 6 * (npc.isShopSeller() ? 0.15 : 0.5); // The Direction gives 6, not 1
 		
-	    int centerX = player.getX() + (Entity.ENTITY_WIDTH / 2);
-	    int centerY = player.getY() + (Entity.ENTITY_WIDTH / 2);
+	    double centerX = player.getX() + Entity.ENTITY_WIDTH / 2;
+	    double centerY = player.getY() + Entity.ENTITY_HEIGHT / 2 + Entity.ENTITY_HEIGHT / 8;
 
-	    double reachDistance = (Entity.ENTITY_WIDTH / 2) * (direction.isHorizontal() ? 1.5 : 1.5);
+	    double reachDistance = 24;
 	    
 	    double sensorX = centerX + (direction.getX() * reachDistance / divider);
 	    double sensorY = centerY + (direction.getY() * reachDistance / divider);
-	    if(direction == Direction.SOUTH) sensorY += 20;
-
+	    
 	    Rectangle npcBounds = npc.getBounds();
-
-	    return npcBounds.contains(sensorX, sensorY);
+	    Rectangle checkedBounds = new Rectangle(npc.getX(), (int) (npc.getY() + npcBounds.getHeight() / 8), 
+	    		(int) npcBounds.getWidth(), (int) (npcBounds.getHeight() * 0.75));
+	    
+	    return checkedBounds.contains(sensorX, sensorY); 
 	}
 
 	private void moveNPCs(Direction dir) {

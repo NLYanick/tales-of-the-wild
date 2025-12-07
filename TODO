@@ -6,6 +6,7 @@ Audio toevoegen
 Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
+Je mag niet op NPCs kunnen staan (Als je ervoor staat moet het npc plaatje boven je, anders player plaatje boven)
 Startscreen verbeteren
 Alle dialogs in 1 JSON bestand zetten (Met bv. FileIO uitlezen)
 Building borders fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen)
