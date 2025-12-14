@@ -171,7 +171,7 @@ public class NPC extends Entity {
 			switchStartAndEndLocations();
 			setRunningImage(movingDirection);
 		}
-		location.move(movingDirection);
+		move(movingDirection);
 		viewLocation.move(movingDirection);
 		
 		checkForCorrectImage();

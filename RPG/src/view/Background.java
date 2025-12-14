@@ -55,6 +55,8 @@ public class Background extends Pane {
 		imgView.setLayoutX(standardImageSize * x);
 		imgView.setLayoutY(standardImageSize * y);
 		
+		imgView.setTranslateY(EntityView.IMAGE_SIZE/3); // So the entity images don't go into other images
+		
 		return imgView;
 	}
 	

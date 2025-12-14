@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import view.MainScene;
@@ -35,24 +36,19 @@ public class Player extends Entity {
 		}
 	}
 	
-	public boolean nextStepIsNPC(Location npcLocation, Direction dir) {
-		int lessVerticalPersonalSpace = 20;
-		int lessHorizontalPersonalSpace = 10;
-		int multi = 3;
+	public boolean nextStepIsNPC(Rectangle npcBounds, Direction dir) {
+		int extraVerticalSpace = 20;
+		int extraHorizontalSpace = 20;
 		
-		int width = 32;
-		int height = 80;
-				
-		if(Location.isGreater(new Location(location.getX() + dir.getX(), location.getY() + dir.getY()), 
-				new Location(npcLocation.getX() - lessHorizontalPersonalSpace - width, 
-				npcLocation.getY() - lessVerticalPersonalSpace * multi))
-			&& Location.isLess(new Location(location.getX() + dir.getX(), location.getY() + dir.getY()), 
-				new Location(npcLocation.getX() + (int) (width * 1.5) - lessHorizontalPersonalSpace, 
-				npcLocation.getY() + height - lessVerticalPersonalSpace * multi))) {
-			return true;
-		}
+		double checkX = location.getX() + dir.getX();
+		double checkY = location.getY() + dir.getY();
 		
-		return false;
+		Rectangle checkRectangle = new Rectangle((int) npcBounds.getX() - extraHorizontalSpace, 
+				(int) npcBounds.getY() - extraVerticalSpace, 
+				(int) npcBounds.getWidth() + extraHorizontalSpace * 2, 
+				(int) npcBounds.getHeight());
+		
+		return checkRectangle.contains(checkX, checkY);
 	}
 	
 	public boolean isOnItem(Item item) {

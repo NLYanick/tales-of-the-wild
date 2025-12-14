@@ -7,7 +7,7 @@ import model.Entity;
 
 public abstract class EntityView extends BorderPane {
 	
-	protected final static int IMAGESIZE = Entity.ENTITY_HEIGHT;
+	public final static int IMAGE_SIZE = Entity.ENTITY_HEIGHT;
 	
 	protected Image image;
 	protected ImageView imageView;
@@ -24,10 +24,8 @@ public abstract class EntityView extends BorderPane {
 		image = new Image(imageURL);
 		imageView = new ImageView(image);
 		
-		imageView.setFitWidth(IMAGESIZE);
-		imageView.setFitHeight(IMAGESIZE);
-		
-		imageView.setTranslateY(-IMAGESIZE/3);
+		imageView.setFitWidth(IMAGE_SIZE);
+		imageView.setFitHeight(IMAGE_SIZE);
 		
 		setCenter(imageView);
 	}

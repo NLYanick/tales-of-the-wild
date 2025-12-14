@@ -9,6 +9,7 @@ import model.BuildingTile;
 import model.BuildingTileType;
 import model.Direction;
 import model.Location;
+import view.EntityView;
 import view.MainScene;
 import view.NPCView;
 
@@ -35,6 +36,7 @@ public abstract class BuildingView extends BorderPane {
 		this.layout = new GridPane();
 		
 		setLocation();
+		setTranslateY(EntityView.IMAGE_SIZE/3); // So the entity images don't go into other images
 		
 		setCenter(layout);
 	}

@@ -27,7 +27,7 @@ public abstract class Entity {
 	
 	public void move(Direction dir) {
 		location.move(dir);
-		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
+		bounds.setBounds(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public void addItem(Item item) {
@@ -40,7 +40,7 @@ public abstract class Entity {
 	}
 
 	public Rectangle getBounds() {
-		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
+		bounds.setBounds(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	    return bounds;
 	}
 	
@@ -80,7 +80,7 @@ public abstract class Entity {
 	
 	public void setLocation(Location location) {
 		this.location = Location.createNew(location);
-		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
+		bounds.setBounds(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public Direction getMovingDirection() {

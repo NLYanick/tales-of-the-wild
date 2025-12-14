@@ -147,16 +147,16 @@ public class Game {
 	
 	private boolean nextStepForPlayerisNPC() {
 		Direction movingDirection = Direction.getOpposite(player.getMovingDirection());
-		for(NPC npc : npcs) {
-			if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
-				return true;
-			}
-		}
 		if(currentBuilding != null) {			
 			for(NPC npc : currentBuilding.getNPCs()) {
-				if(npc != null && player.nextStepIsNPC(npc.getLocation(), movingDirection)) {
+				if(npc != null && player.nextStepIsNPC(npc.getBounds(), movingDirection)) {
 					return true;
 				}
+			}
+		}
+		for(NPC npc : npcs) {
+			if(npc != null && player.nextStepIsNPC(npc.getBounds(), movingDirection)) {
+				return true;
 			}
 		}
 		return false;
