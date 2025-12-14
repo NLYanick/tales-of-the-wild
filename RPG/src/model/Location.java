@@ -13,6 +13,11 @@ public class Location {
 		this.y = y;
 	}
 	
+	@Override
+	public String toString() {
+		return "X: " + x + " Y: " + y;
+	}
+	
 	public static boolean isSame(Location locationOne, Location locationTwo) {
 		return locationOne.getX() == locationTwo.getX() && locationOne.getY() == locationTwo.getY();
 	}

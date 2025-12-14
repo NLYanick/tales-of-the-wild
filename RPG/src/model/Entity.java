@@ -9,6 +9,7 @@ public abstract class Entity {
 
 	protected Location location;
 	protected Inventory inventory;
+	protected Rectangle bounds;
 	
 	protected String imageURL;
 	protected Direction movingDirection;
@@ -21,10 +22,12 @@ public abstract class Entity {
 		location = new Location();
 		inventory = new Inventory();
 		movingDirection = null;
+		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public void move(Direction dir) {
 		location.move(dir);
+		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public void addItem(Item item) {
@@ -37,7 +40,8 @@ public abstract class Entity {
 	}
 
 	public Rectangle getBounds() {
-	    return new Rectangle(location.getX(), location.getY(), ENTITY_WIDTH, ENTITY_HEIGHT);
+		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
+	    return bounds;
 	}
 	
 	public abstract void setRunningImage(Direction dir);
@@ -76,6 +80,7 @@ public abstract class Entity {
 	
 	public void setLocation(Location location) {
 		this.location = Location.createNew(location);
+		bounds = new Rectangle(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	}
 	
 	public Direction getMovingDirection() {

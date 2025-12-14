@@ -14,8 +14,6 @@ public abstract class EntityView extends BorderPane {
 		
 	protected String imageURL;
 	
-	protected int yUp = 30;
-	
 	public EntityView(String imageURL) {
 		this.imageURL = imageURL;
 		
@@ -29,7 +27,7 @@ public abstract class EntityView extends BorderPane {
 		imageView.setFitWidth(IMAGESIZE);
 		imageView.setFitHeight(IMAGESIZE);
 		
-		imageView.setTranslateY(-yUp);
+		imageView.setTranslateY(-IMAGESIZE/3);
 		
 		setCenter(imageView);
 	}
@@ -46,11 +44,11 @@ public abstract class EntityView extends BorderPane {
 	public void refreshImage() {
 		image = new Image(imageURL);
 		imageView.setImage(image);
-		
-		setCenter(null);
-		setCenter(imageView);
 	}
 	
+	/**
+	 * Centers the image to the screen
+	 */
 	public void fixImage() {
 		int fixX = (int) (getLayoutX() - imageView.getFitWidth()/2);
 		int fixY = (int) (getLayoutY() - imageView.getFitHeight()/2);

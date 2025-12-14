@@ -124,18 +124,15 @@ public class MainScene extends Scene {
 	
 	public void addLoadGameView() {
 		loadGameView = new LoadGameView(this);
-		root.setCenter(null);
 		root.setCenter(loadGameView);
 	}
 	
 	public void addNewGameView() {
 		newGameView = new NewGameView(this);
-		root.setCenter(null);
 		root.setCenter(newGameView);
 	}
 	
 	public void goBackToStartUpView() {
-		root.setCenter(null);
 		root.setCenter(startUpView);
 	}
 	
