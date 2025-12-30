@@ -142,7 +142,20 @@ public class Game {
 	}
 	
 	private boolean canWalk(Direction dir) {
-		return playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC();
+		return playerCanWalk(dir) && !gameIsPaused && !nextStepForPlayerisNPC() && !collidesWithBuilding(player.getLocation(), Direction.getOpposite(dir));
+	}
+	
+	private boolean collidesWithBuilding(Location playerLocation, Direction dir) {
+		int nextX = playerLocation.getX() + dir.getX();
+		int nextY = playerLocation.getY() + dir.getY();
+		
+		for (Building building : buildings) {
+			if(building.collidesWithOutside(new Location(nextX, nextY))) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private boolean nextStepForPlayerisNPC() {
@@ -174,16 +187,15 @@ public class Game {
 		return false;
 	}
 	
-	private boolean nextStepIsOnImage(Tile img, Direction dir) {
-		int extraSpace = 127;
+	public boolean nextStepIsOnImage(Tile img, Direction dir) {
+		int restOfImgSize = 127;
 		Direction opposite = Direction.getOpposite(dir);
 		int nextStepX = player.getX() + opposite.getX();
 		int nextStepY = player.getY() + opposite.getY();
 		
-		return (nextStepX >= img.getX()
-				&& nextStepY >= img.getY())
-				&& (nextStepX <= img.getX() + extraSpace
-				&& nextStepY <= img.getY() + extraSpace);
+		return Location.isGreater(new Location(nextStepX, nextStepY), new Location(img.getX(), img.getY())) && 
+				Location.isLess(new Location(nextStepX, nextStepY), 
+						new Location(img.getX() + restOfImgSize, img.getY() + restOfImgSize));
 	}
 	
 	public void teleportPlayer(Location location) {

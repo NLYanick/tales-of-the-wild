@@ -91,10 +91,6 @@ public class MainController {
 		scene.setItemViewsInInventory(itemViews);
 	}
 	
-	public ArrayList<Tile> getImagesInFile() {
-		return fileIO.getImagesInFile();
-	}
-	
 	public void teleportImages() {
 		
 		game.setBackgroundLocation();
@@ -255,7 +251,7 @@ public class MainController {
 			
 			moveItemViewWithScreen(item);
 			
-			scene.reloadMenusPaneAndPlayerView();
+			scene.reloadTopViews();
 		}
 	}
 	
@@ -530,6 +526,14 @@ public class MainController {
 	
 	public String getPlayerURL() {
 		return game.getPlayerURL();
+	}
+	
+	public ArrayList<Tile> getImagesInFile() {
+		return fileIO.getImagesInFile();
+	}
+	
+	public ArrayList<Tile> getBuildingImages() {
+		return fileIO.getBuildingImages();
 	}
 	
 	public Background getBackground() {

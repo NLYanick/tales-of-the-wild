@@ -14,6 +14,7 @@ Elke 5 minuten opslaan - met zo'n leuk icoontje (Misschien alleen elke 5 minuten
 Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
 Een background/map moet een spawnlocatie meegeven (Spawntile, bijv. -3, of een x, y). Dan kan je meerdere mappen
 Signs maken
+Grotten maken (misschien iets met building?)
 Quests maken (Bijhouden welke NPC het gevraagd heeft)
 Verschillende Item klassen (en misschien NPC klassen) (Item is abstracte klasse)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
@@ -80,6 +81,7 @@ EntityView --> imageView.setTranslateY(-30);
 Info Box (in InventoryView) grote is hardcoded
 Veel CSS dingen staan nu hardcoded
 'list.stream().filter(n -> true).findFirst().orElse(null)' is ietsje trager dan een for-loop (maar zou niet veel moeten doen)
+De player-locatie is iets boven zijn voeten op dit moment.
 
 
 TODO Images:
@@ -95,11 +97,11 @@ ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de ge
 
 
 Tips:
-De player-locatie is iets boven zijn voeten op dit moment.
 Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON is goed)
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Items kopen in ShopInventory | Inventory openen van shop na dialog npc | 
-Building borders buiten fixen (Je kan de building plaatjes boven de player plaatjes doen en dat je achter het dak langs kan lopen) |
+Nu: Entrance altijd in het midden (Is minder foutgevoelig) | 
+Building plaatjes boven player plaatjes zetten (dan kan je achter het dak lopen) | Items kopen in ShopInventory | 
+Inventory openen van shop na dialog npc | Misschien per type een nieuwe building klasse? | 
 Er moeten ook NPCs zonder Dialog kunnen zijn | Shop muren niet zo fel maken

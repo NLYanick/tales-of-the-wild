@@ -59,22 +59,24 @@ public class BuildingLayer {
 	
 	private Shop makeShop(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
 		return new Shop(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
-				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
-				Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
+				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("x"), rs.getInt("y")),
+				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), new Location(rs.getInt("entranceX"), 
+				rs.getInt("entranceY")), tiles, tileSettings, Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
 	}
 	
 	private Building makeBuilding(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
 		String colorString = rs.getString("Color");
 		if(colorString == null) colorString = "TRANSPARENT";
 		return new Building(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
-				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), 
-				rs.getInt("id"), new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings, 
-				Color.valueOf(colorString));
+				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("x"), rs.getInt("y")), 
+				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), new Location(rs.getInt("entranceX"), 
+				rs.getInt("entranceY")), tiles, tileSettings, Color.valueOf(colorString));
 	}
 	
 	private ArrayList<BuildingTile> getTiles(String layout) {
 		ArrayList<BuildingTile> tiles = new ArrayList<BuildingTile>();
+		
+		if(layout == null) return tiles;
 		
 		JSONObject json = new JSONObject(layout);
 		JSONArray tilesArray = json.getJSONArray("tiles");
@@ -97,6 +99,8 @@ public class BuildingLayer {
 	
 	private HashMap<String, String> getSettings(String layout) {
 		HashMap<String, String> settings = new HashMap<String, String>();
+		
+		if(layout == null) return settings;
 		
 		JSONObject json = new JSONObject(layout);
 		

@@ -21,6 +21,7 @@ import model.Item;
 import model.Location;
 import model.Player;
 import model.Shop;
+import model.Tile;
 import view.Buildings.BrickBuildingView;
 import view.Buildings.BuildingView;
 import view.Buildings.ShopView;
@@ -114,9 +115,11 @@ public class MainScene extends Scene {
 		root.setCenter(menusPane);
 	}
 	
-	public void reloadMenusPaneAndPlayerView() {
+	public void reloadTopViews() {
 		root.getChildren().remove(playerView);
 		root.getChildren().add(playerView);
+		
+		reloadBuildingImages();
 		
 		root.setCenter(null);
 		root.setCenter(menusPane);
@@ -158,6 +161,15 @@ public class MainScene extends Scene {
 		return controller.getPlayer();
 	}
 	
+	private void reloadBuildingImages() {
+		ArrayList<Tile> buildingImages = controller.getBuildingImages();
+		
+		// TODO Remove the old tile
+		for (Tile tile : buildingImages) {
+			background.placeBackground(tile.getX(), tile.getY(), tile.getUrl());
+		}
+	}
+	
 	public void loadGame(String playerName) {
 		gameHasLoaded = true;
 		
@@ -170,6 +182,8 @@ public class MainScene extends Scene {
 		Location bgLocation = controller.getBackgroundLocation();
 		moveBackground(bgLocation.getX(), bgLocation.getY(), true);
 		createPlayerView();
+		
+		reloadBuildingImages();
 		
 		inGameMenuView.setPlayerPane();
 		

@@ -81,13 +81,13 @@ public class BackgroundImages {
 		tiles.put(52, new Tile(GRASSPATH.concat("ConcretePathT.png SOUTH"), true));
 		tiles.put(53, new Tile(GRASSPATH.concat("ConcretePathT.png WEST"), true));
 		
-		tiles.put(54, new Tile(BUILDINGPATH.concat("BlueTent.png"), false));
-		tiles.put(55, new Tile(BUILDINGPATH.concat("BrickHouse.png"), false));
-		tiles.put(56, new Tile(BUILDINGPATH.concat("WhiteShop.png"), false));
+		tiles.put(54, new Tile(BUILDINGPATH.concat("BlueTent.png"), true));
+		tiles.put(55, new Tile(BUILDINGPATH.concat("BrickHouse.png"), true));
+		tiles.put(56, new Tile(BUILDINGPATH.concat("WhiteShop.png"), true));
 		tiles.put(57, new Tile(BUILDINGPATH.concat("Bricks.png"), false));
-		tiles.put(58, new Tile(BUILDINGPATH.concat("ShopFloor.png"), false));
-		tiles.put(59, new Tile(BUILDINGPATH.concat("ShopFloor2.png"), false));
-		tiles.put(60, new Tile(BUILDINGPATH.concat("ShopFloor3.png"), false));
+		tiles.put(58, new Tile(BUILDINGPATH.concat("ShopFloor.png"), true));
+		tiles.put(59, new Tile(BUILDINGPATH.concat("ShopFloor2.png"), true));
+		tiles.put(60, new Tile(BUILDINGPATH.concat("ShopFloor3.png"), true));
 		tiles.put(61, new Tile(BUILDINGPATH.concat("Counter.png"), false));
 		
 	}

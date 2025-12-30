@@ -27,11 +27,13 @@ public class FileIO {
 	private int imagesToLeft;
 	
 	private ArrayList<Tile> imagesInFile;
+	private ArrayList<Tile> buildingImages;
 	
 	public FileIO() {
 		background = new Background();
 		backgroundImages = new BackgroundImages();
 		imagesInFile = new ArrayList<Tile>();
+		buildingImages = new ArrayList<Tile>();
 	}
 	
 	public void readText(File file) {
@@ -80,17 +82,27 @@ public class FileIO {
 	private void loadBackground(String[] line, int i) {
 		if(!line[i].equals("-1")) {
 			int xLocation = i - imagesToLeft;
-			Tile bgTile = makeNewTile(backgroundImages.getTile(Integer.parseInt(line[i])));
-			String[] imageUrl = bgTile.getUrl().split(" ");
 			
-			if(imageUrl.length > 1) {
-				background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
+			if(!line[i].equals("-2")) {
+				Tile bgTile = makeNewTile(backgroundImages.getTile(Integer.parseInt(line[i])));
+				String[] imageUrl = bgTile.getUrl().split(" ");
+				
+				if(imageUrl.length > 1) {
+					background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
+				} else {
+					background.placeBackground(xLocation, layer, imageUrl[0]);
+				}
+				
+				setImageLocation(bgTile, xLocation);
+				imagesInFile.add(bgTile);
+				
+				if(imageUrl[0].contains("/Background/Building/")) buildingImages.add(bgTile);
 			} else {
-				background.placeBackground(xLocation, layer, imageUrl[0]);
+				Tile bgTile = new Tile("", true);
+				
+				setImageLocation(bgTile, xLocation);
+				imagesInFile.add(bgTile);
 			}
-			
-			setImageLocation(bgTile, xLocation);
-			imagesInFile.add(bgTile);
 		}
 	}
 	
@@ -117,6 +129,10 @@ public class FileIO {
 	
 	public ArrayList<Tile> getImagesInFile() {
 		return imagesInFile;
+	}
+	
+	public ArrayList<Tile> getBuildingImages() {
+		return buildingImages;
 	}
 
 	public Background getBackground() {

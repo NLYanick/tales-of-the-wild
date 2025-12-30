@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -13,7 +16,7 @@ public class Building {
 	public final static Location UNLOAD_LOCATION = new Location(-7000, -7000);
 	public final static Location INSIDE_LOCATION = new Location(-3000, -3000);
 	
-	protected Location leaveLocation, entranceLocation, viewLocation, spawnLocation;
+	protected Location location, leaveLocation, entranceLocation, viewLocation, spawnLocation;
 	
 	protected BuildingType type;
 	protected Direction exit;
@@ -23,6 +26,7 @@ public class Building {
 	protected HashMap<String, String> tileSettings;
 	protected Color color; // TRANSPARENT is default (null)
 	protected int tileSize;
+	protected Shape outsideBounds;
 	
 	protected ArrayList<NPC> npcs;
 	protected ArrayList<Item> items;
@@ -30,8 +34,9 @@ public class Building {
 	protected MainController controller;
 	protected Game game;
 	
-	public Building(boolean canPass, BuildingType type, Direction exit, Location leaveLocation, int id, 
+	public Building(boolean canPass, BuildingType type, Direction exit, Location location, Location leaveLocation, int id, 
 			Location entranceLocation, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings, Color color) {
+		this.location = location;
 		this.leaveLocation = leaveLocation;
 		this.entranceLocation = entranceLocation; 
 		
@@ -45,8 +50,48 @@ public class Building {
 		
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
+		setOutsideBounds();
 		
 		setUp();
+	}
+	
+	private void setOutsideBounds() {
+		int tileSize = FileIO.STANDARD_IMAGE_SIZE;
+		
+		// The type determines what the borders are
+		switch (type) {
+		case BRICK:
+			outsideBounds = createBounds(location.getX(), location.getY() + tileSize, 3, 3, tileSize, 0, 0);
+			break;
+		case SHOP:
+			int xWalkSpace = 16;
+			outsideBounds = createBounds(location.getX(), location.getY() + tileSize, 4, 2, tileSize, xWalkSpace, 0);
+			break;
+		case TENT:
+			outsideBounds = createBounds(location.getX(), location.getY(), 2, 2, tileSize, 0, 0);
+			break;
+		default:
+			outsideBounds = createBounds(location.getX(), location.getY(), 2, 2, tileSize, 0, 0);
+			break;
+		}
+	}
+	
+	private Path2D createBounds(int x, int y, double tilesWidth, double tilesHeight, int tileSize, int xWalkSpace, int yWalkSpace) {
+		double width = tilesWidth * tileSize - xWalkSpace * 2; // * 2 because otherwise only 1 side shifts
+		double height = tilesHeight * tileSize - yWalkSpace * 2;
+		
+		x += xWalkSpace;
+		y += yWalkSpace;
+	    
+	    Path2D.Double path = new Path2D.Double();
+	    
+	    path.moveTo(x, y);
+	    path.lineTo(x + width, y);
+	    path.lineTo(x + width, y + height);
+	    path.lineTo(x, y + height);
+	    path.closePath();
+	    
+	    return path;
 	}
 
 	private void setUp() {
@@ -63,7 +108,7 @@ public class Building {
 	protected ArrayList<BuildingTile> getTilesOfType(BuildingTileType type) {
 		return new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.getType() == type).collect(Collectors.toList()));
 	}
-	
+		
 	public void enter(Player player) {
 		if(canPass) {
 			spawnLocation = calculateSpawnLocation();
@@ -143,7 +188,7 @@ public class Building {
 	}
 	
 	public boolean collidesWith(Player player, Direction dir) {
-		
+
 		int multiplier = 2;
 		Location playerLocation = player.getLocation();
 		int nextX = playerLocation.getX() + (dir.getX() * multiplier) - INSIDE_LOCATION.getX();
@@ -157,6 +202,10 @@ public class Building {
 		}
 		
 		return true;
+	}
+	
+	public boolean collidesWithOutside(Location nextStep) {
+		return outsideBounds.contains(nextStep.getX(), nextStep.getY());
 	}
 	
 	private boolean canWalkInBuilding(Location nextLocation) {
