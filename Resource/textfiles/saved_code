@@ -1,0 +1,40 @@
+=======================
+Building Bounds Polygon
+=======================
+
+@SuppressWarnings("unused")
+private double[][] getPolygonPoints(int tileSize) {
+	double[][] points;
+	
+	int xWalkSpace, yWalkSpace, tilesWidth, tilesHeight;
+	switch (type) {
+	default:
+		points = new double[3][2];
+		
+		xWalkSpace = yWalkSpace = 16;
+		tilesWidth = tilesHeight = 2;
+		
+		points[0] = new double[] {xWalkSpace, tilesHeight * tileSize};
+		points[1] = new double[] {tilesWidth/2 * tileSize,yWalkSpace};
+		points[2] = new double[] {tilesWidth * tileSize - xWalkSpace * 2, tilesHeight * tileSize};
+		break;
+	}
+	
+	return points;
+}
+
+@SuppressWarnings("unused")
+private Path2D createPolygonBounds(double x, double y, double[][] points) {
+    if (points.length == 0) return null;
+
+    Path2D path = new Path2D.Double();
+    
+    path.moveTo(x + points[0][0], y + points[0][1]);
+
+    for (int i = 1; i < points.length; i++) {
+        path.lineTo(x + points[i][0], y + points[i][1]);
+    }
+
+    path.closePath();
+    return path;
+}

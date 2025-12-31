@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +77,6 @@ public class Building {
 		}
 	}
 	
-	// This is lighter than Path2D, so for rectangle please use this method
 	private Rectangle2D createRectBounds(double x, double y, double tilesWidth, double tilesHeight, int tileSize, int xWalkSpace, int yWalkSpace) {
 		double width = tilesWidth * tileSize - xWalkSpace * 2; // * 2 because otherwise only 1 side shifts
 		double height = tilesHeight * tileSize - yWalkSpace * 2;
@@ -89,43 +87,6 @@ public class Building {
 		Rectangle2D rect = new Rectangle2D.Double(x, y, width, height);
 	    
 	    return rect;
-	}
-	
-	@SuppressWarnings("unused")
-	private double[][] getPolygonPoints(int tileSize) {
-		double[][] points;
-		
-		int xWalkSpace, yWalkSpace, tilesWidth, tilesHeight;
-		switch (type) {
-		default:
-			points = new double[3][2];
-			
-			xWalkSpace = yWalkSpace = 16;
-			tilesWidth = tilesHeight = 2;
-			
-			points[0] = new double[] {xWalkSpace, tilesHeight * tileSize};
-			points[1] = new double[] {tilesWidth/2 * tileSize,yWalkSpace};
-			points[2] = new double[] {tilesWidth * tileSize - xWalkSpace * 2, tilesHeight * tileSize};
-			break;
-		}
-		
-		return points;
-	}
-	
-	@SuppressWarnings("unused")
-	private Path2D createPolygonBounds(double x, double y, double[][] points) {
-	    if (points.length == 0) return null;
-
-	    Path2D path = new Path2D.Double();
-	    
-	    path.moveTo(x + points[0][0], y + points[0][1]);
-
-	    for (int i = 1; i < points.length; i++) {
-	        path.lineTo(x + points[i][0], y + points[i][1]);
-	    }
-
-	    path.closePath();
-	    return path;
 	}
 
 	private void setUp() {
