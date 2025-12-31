@@ -58,39 +58,73 @@ public class Building {
 	private void setOutsideBounds() {
 		int tileSize = FileIO.STANDARD_IMAGE_SIZE;
 		
+		int xWalkSpace;
 		// The type determines what the borders are
 		switch (type) {
 		case BRICK:
-			outsideBounds = createBounds(location.getX(), location.getY() + tileSize, 3, 3, tileSize, 0, 0);
+			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize, 3, 3, tileSize, 0, 0);
 			break;
 		case SHOP:
-			int xWalkSpace = 16;
-			outsideBounds = createBounds(location.getX(), location.getY() + tileSize, 4, 2, tileSize, xWalkSpace, 0);
+			xWalkSpace = 16;
+			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize, 4, 2, tileSize, xWalkSpace, 0);
 			break;
 		case TENT:
-			outsideBounds = createBounds(location.getX(), location.getY(), 2, 2, tileSize, 0, 0);
+			xWalkSpace = 20;
+			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize * 0.8, 2, 1.2, tileSize, xWalkSpace, 0);
 			break;
 		default:
-			outsideBounds = createBounds(location.getX(), location.getY(), 2, 2, tileSize, 0, 0);
+			outsideBounds = createRectBounds(location.getX(), location.getY(), 2, 2, tileSize, 0, 0);
 			break;
 		}
 	}
 	
-	private Path2D createBounds(int x, int y, double tilesWidth, double tilesHeight, int tileSize, int xWalkSpace, int yWalkSpace) {
+	// This is lighter than Path2D, so for rectangle please use this method
+	private Rectangle2D createRectBounds(double x, double y, double tilesWidth, double tilesHeight, int tileSize, int xWalkSpace, int yWalkSpace) {
 		double width = tilesWidth * tileSize - xWalkSpace * 2; // * 2 because otherwise only 1 side shifts
 		double height = tilesHeight * tileSize - yWalkSpace * 2;
 		
 		x += xWalkSpace;
 		y += yWalkSpace;
+		
+		Rectangle2D rect = new Rectangle2D.Double(x, y, width, height);
 	    
-	    Path2D.Double path = new Path2D.Double();
+	    return rect;
+	}
+	
+	@SuppressWarnings("unused")
+	private double[][] getPolygonPoints(int tileSize) {
+		double[][] points;
+		
+		int xWalkSpace, yWalkSpace, tilesWidth, tilesHeight;
+		switch (type) {
+		default:
+			points = new double[3][2];
+			
+			xWalkSpace = yWalkSpace = 16;
+			tilesWidth = tilesHeight = 2;
+			
+			points[0] = new double[] {xWalkSpace, tilesHeight * tileSize};
+			points[1] = new double[] {tilesWidth/2 * tileSize,yWalkSpace};
+			points[2] = new double[] {tilesWidth * tileSize - xWalkSpace * 2, tilesHeight * tileSize};
+			break;
+		}
+		
+		return points;
+	}
+	
+	@SuppressWarnings("unused")
+	private Path2D createPolygonBounds(double x, double y, double[][] points) {
+	    if (points.length == 0) return null;
+
+	    Path2D path = new Path2D.Double();
 	    
-	    path.moveTo(x, y);
-	    path.lineTo(x + width, y);
-	    path.lineTo(x + width, y + height);
-	    path.lineTo(x, y + height);
+	    path.moveTo(x + points[0][0], y + points[0][1]);
+
+	    for (int i = 1; i < points.length; i++) {
+	        path.lineTo(x + points[i][0], y + points[i][1]);
+	    }
+
 	    path.closePath();
-	    
 	    return path;
 	}
 
