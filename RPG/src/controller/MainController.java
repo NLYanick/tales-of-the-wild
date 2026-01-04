@@ -6,15 +6,16 @@ import java.util.HashMap;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.scene.image.ImageView;
 import model.Building;
 import model.Dialog;
 import model.Direction;
 import model.Game;
-import model.Tile;
 import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.Tile;
 import view.Background;
 import view.ItemView;
 import view.MainScene;
@@ -34,6 +35,7 @@ public class MainController {
 	
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private HashMap<Item, ItemView> itemsWithViews;
+	private HashMap<Tile, ImageView> buildingsWithViews;
 	
 	public MainController(ApplicationController appController) {
 		
@@ -46,6 +48,7 @@ public class MainController {
 		
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		itemsWithViews = new HashMap<Item, ItemView>();
+		buildingsWithViews = new HashMap<Tile, ImageView>();
 	}
 	
 	public void setPlayer(Player player) {
@@ -90,7 +93,7 @@ public class MainController {
 		
 		scene.setItemViewsInInventory(itemViews);
 	}
-	
+
 	public void teleportImages() {
 		
 		game.setBackgroundLocation();
@@ -217,6 +220,44 @@ public class MainController {
 					building.getViewLocation().getY() + screenYDiffernce));
 		} else {
 			scene.moveBuildingView(building.getViewLocation());
+		}
+	}
+	
+	public void moveBgBuildingsWithScreen(int backgroundX, int backgroundY) {
+		ArrayList<Tile> buildingImages = getBuildingImages();
+		
+		for (Tile tile : buildingImages) {
+			moveBgBuildingWithScreen(tile, backgroundX, backgroundY);
+		}
+	}
+	
+	public void moveBgBuildingWithScreen(Tile tile, int backgroundX, int backgroundY) {	
+		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
+		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
+		
+		ImageView imageView = buildingsWithViews.get(tile);
+		Location location = tile.getLocation();
+		int x = location.getX() + backgroundX;
+		int y = location.getY() + backgroundY;
+		
+		if(appController.isFullScreen()) {
+			imageView.setLayoutX(x + screenXDiffernce);
+			imageView.setLayoutY(y + screenYDiffernce);
+		} else {
+			imageView.setLayoutX(x);
+			imageView.setLayoutY(y);
+		}
+	}
+	
+	public void putBgBuilding(Tile tile, ImageView buildingView) {
+		buildingsWithViews.put(tile, buildingView);
+	}
+	
+	public void loadBuildingsLayer() {
+		ArrayList<Tile> buildingImages = getBuildingImages();
+
+		for (Tile tile : buildingImages) {
+			scene.addBgBuilding(tile);
 		}
 	}
 	

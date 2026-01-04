@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -50,7 +51,7 @@ public class MainScene extends Scene {
 	private PlayerView playerView;
 	private StackPane menusPane;
 	private BuildingView buildingView;
-	private BuildingsLayer buildingsLayer;
+	private EntityLayer entityLayer;
 
 	private boolean gameHasLoaded;
 	private boolean pauseMenuIsOpen;
@@ -71,9 +72,9 @@ public class MainScene extends Scene {
 
 	private void setUpRoot() {
 		root = new BorderPane();
-		menusPane = new StackPane();
-		buildingsLayer = new BuildingsLayer();
-
+		menusPane = new StackPane();		
+		entityLayer = new EntityLayer();
+		
 		loadingView = new LoadingView();
 		pauseMenuView = new PauseMenuView(this);
 		inGameMenuView = new InGameMenuView(this);
@@ -115,34 +116,30 @@ public class MainScene extends Scene {
 		playerView.setLayoutY(getHeight() / 2);
 		playerView.fixImage();
 
-		root.getChildren().add(playerView);
+		entityLayer.getChildren().add(playerView);
+		root.getChildren().add(entityLayer);
 		root.setCenter(menusPane);
 	}
 
 	public void reloadTopViews() {
-		root.getChildren().remove(playerView);
-		root.getChildren().add(playerView);
-
-		root.getChildren().remove(buildingsLayer);
-		root.getChildren().add(buildingsLayer);
+		root.getChildren().remove(entityLayer);
+		root.getChildren().add(entityLayer);
 
 		root.setCenter(null);
 		root.setCenter(menusPane);
 	}
 
 	public void updateLayersPositions() {
-		ArrayList<Node> sortedNodes = new ArrayList<>(root.getChildren());
+		ArrayList<Node> sortedNodes = new ArrayList<>(entityLayer.getChildren());
 
-		sortedNodes.remove(background);
 		sortedNodes.sort((node1, node2) -> {
 			double y1 = node1.getBoundsInParent().getMaxY();
 			double y2 = node2.getBoundsInParent().getMaxY();
 
 			return Double.compare(y1, y2);
 		});
-		sortedNodes.add(0, background);
 
-		root.getChildren().setAll(sortedNodes);
+		entityLayer.getChildren().setAll(sortedNodes);
 	}
 
 	public void addLoadGameView() {
@@ -180,14 +177,10 @@ public class MainScene extends Scene {
 	public Player getPlayer() {
 		return controller.getPlayer();
 	}
-
-	private void loadBuildingsLayer() {
-		ArrayList<Tile> buildingImages = controller.getBuildingImages();
-
-		for (Tile tile : buildingImages) {
-			Location originalLocation = tile.getOriginalLocation();
-			buildingsLayer.placeBuilding(originalLocation.getX(), originalLocation.getY(), tile.getUrl());
-		}
+	
+	public void addBgBuilding(Tile tile) {
+		ImageView buildingView = entityLayer.addBuilding(tile.getX(), tile.getY(), tile.getUrl());
+		controller.putBgBuilding(tile, buildingView);
 	}
 
 	public void loadGame(String playerName) {
@@ -196,8 +189,8 @@ public class MainScene extends Scene {
 		root.setCenter(null);
 
 		addBackground();
-		loadBuildingsLayer();
-
+		controller.loadBuildingsLayer();
+		
 		controller.loadGame(playerName);
 
 		Location bgLocation = controller.getBackgroundLocation();
@@ -229,15 +222,19 @@ public class MainScene extends Scene {
 	}
 
 	public void addNPCView(NPCView npcView) {
-		root.getChildren().add(npcView);
+		entityLayer.getChildren().add(npcView);
 	}
 
 	public void addItemView(ItemView itemView) {
-		root.getChildren().add(itemView);
+		entityLayer.getChildren().add(itemView);
+	}
+	
+	public void addBuildingView(Building building) {
+		entityLayer.addBuilding(building.getViewLocation().getX(), building.getViewLocation().getY(), "");
 	}
 
 	public void removeItemView(ItemView itemView) {
-		root.getChildren().remove(itemView);
+		entityLayer.getChildren().remove(itemView);
 	}
 
 	public void dropItem(ItemView itemView) {
@@ -287,15 +284,10 @@ public class MainScene extends Scene {
 			else
 				background.move(x, y);
 		}
-		if (buildingsLayer != null) {
-			if (isFullScreen)
-				buildingsLayer.move((int) (x + getWidth() / 2 - SCENEWIDTH / 2),
-						(int) (y + getHeight() / 2 - SCENEHEIGHT / 2));
-			else
-				buildingsLayer.move(x, y);
-		}
+		
+		controller.moveBgBuildingsWithScreen(x, y);
 	}
-
+	
 	public void addDialogView(String dialogText) {
 		addDialog(new DialogView(dialogText, this));
 	}
