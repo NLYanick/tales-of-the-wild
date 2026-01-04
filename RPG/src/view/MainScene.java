@@ -121,14 +121,6 @@ public class MainScene extends Scene {
 		root.setCenter(menusPane);
 	}
 
-	public void reloadTopViews() {
-		root.getChildren().remove(entityLayer);
-		root.getChildren().add(entityLayer);
-
-		root.setCenter(null);
-		root.setCenter(menusPane);
-	}
-
 	public void updateLayersPositions() {
 		ArrayList<Node> sortedNodes = new ArrayList<>(entityLayer.getChildren());
 
@@ -198,7 +190,6 @@ public class MainScene extends Scene {
 		createPlayerView();
 
 		inGameMenuView.setPlayerPane();
-		reloadTopViews();
 
 		setCursor(Cursor.NONE);
 	}

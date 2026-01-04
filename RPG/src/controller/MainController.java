@@ -285,15 +285,19 @@ public class MainController {
 				item.setViewLocation(new Location(game.getBackgroundX() + item.getX(), game.getBackgroundY() + item.getY()));
 			}
 			
-			itemView.move(item.getViewLocation());
-			
-			scene.removeItemViewFromInventoryView(itemView);
-			scene.addItemView(itemView);
-			
-			moveItemViewWithScreen(item);
-			
-			scene.reloadTopViews();
+			moveDroppedItemView(itemView, item);
 		}
+	}
+	
+	private void moveDroppedItemView(ItemView itemView, Item item) {
+		itemView.move(item.getViewLocation());
+		
+		scene.removeItemViewFromInventoryView(itemView);
+		scene.addItemView(itemView);
+		
+		moveItemViewWithScreen(item);
+		
+		scene.updateLayersPositions();
 	}
 	
 	public Item getItemFromView(ItemView itemView) {
