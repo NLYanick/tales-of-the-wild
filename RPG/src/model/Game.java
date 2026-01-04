@@ -134,6 +134,7 @@ public class Game {
 	private void moveBackground(Direction dir) {
 		backgroundLocation.move(dir);
 		controller.moveBackground(getBackgroundX(), getBackgroundY());
+		controller.updateLayersPositions();
 	}
 	
 	private void moveBuilding(Direction dir) {

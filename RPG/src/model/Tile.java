@@ -4,7 +4,7 @@ public class Tile {
 
 	protected String url;
 	protected boolean canWalkOn;
-	protected Location location;
+	protected Location location, originalLocation;
 	
 	public Tile(String url, boolean canWalkOn) {
 		this.url = url;
@@ -38,6 +38,14 @@ public class Tile {
 	
 	public Location getLocation() {
 		return location;
+	}
+	
+	public void setOriginalLocation(Location originalLocation) {
+		this.originalLocation = originalLocation;
+	}
+	
+	public Location getOriginalLocation() {
+		return originalLocation;
 	}
 	
 }

@@ -22,6 +22,7 @@ public class Background extends Pane {
 	
 	public void placeBackground(int x, int y, String url, Direction dir) {
 		ImageView imgView = makeImageView(x, y, url);
+		imgView.setUserData(url);
 		
 		int degrees = getDegrees(dir);
 		imgView.setRotate(degrees);
@@ -32,6 +33,7 @@ public class Background extends Pane {
 	
 	public void placeBackground(int x, int y, String url) {
 		ImageView imgView = makeImageView(x, y, url);
+		imgView.setUserData(url);
 		
 		imageViews.add(imgView);
 		getChildren().add(imgView);

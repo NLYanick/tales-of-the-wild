@@ -411,6 +411,10 @@ public class MainController {
 		scene.setAllKeyPressesFalse();
 	}
 	
+	public void updateLayersPositions() {
+	    scene.updateLayersPositions();
+	}
+	
 	// -------------------- Database --------------------
 	
 	public void loadGame(String playerName) {

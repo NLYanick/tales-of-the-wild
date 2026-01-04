@@ -61,7 +61,8 @@ public class Building {
 		// The type determines what the borders are
 		switch (type) {
 		case BRICK:
-			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize, 3, 3, tileSize, 0, 0);
+			xWalkSpace = -8;
+			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize, 3, 3, tileSize, xWalkSpace, 0);
 			break;
 		case SHOP:
 			xWalkSpace = 16;

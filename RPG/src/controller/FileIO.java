@@ -83,25 +83,30 @@ public class FileIO {
 		if(!line[i].equals("-1")) {
 			int xLocation = i - imagesToLeft;
 			
-			if(!line[i].equals("-2")) {
-				Tile bgTile = makeNewTile(backgroundImages.getTile(Integer.parseInt(line[i])));
-				String[] imageUrl = bgTile.getUrl().split(" ");
+			Tile bgTile;
+			if(line[i].equals("-2")) 
+				bgTile = makeNewTile(backgroundImages.getTile(28));
+			else 
+				bgTile = makeNewTile(backgroundImages.getTile(Integer.parseInt(line[i])));
+			
+			String[] imageUrl = bgTile.getUrl().split(" ");
+			
+			if(imageUrl.length > 1) 
+				background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
+			else 
+				background.placeBackground(xLocation, layer, imageUrl[0]);
+			
+			bgTile.setOriginalLocation(new Location(xLocation, layer));
+			setImageLocation(bgTile, xLocation);
+			
+			imagesInFile.add(bgTile);
+			
+			if(imageUrl[0].contains("Images/Background/Building/")) {
+				buildingImages.add(bgTile);
 				
-				if(imageUrl.length > 1) {
-					background.placeBackground(xLocation, layer, imageUrl[0], Direction.valueOf(imageUrl[1]));
-				} else {
-					background.placeBackground(xLocation, layer, imageUrl[0]);
-				}
-				
-				setImageLocation(bgTile, xLocation);
-				imagesInFile.add(bgTile);
-				
-				if(imageUrl[0].contains("/Background/Building/")) buildingImages.add(bgTile);
-			} else {
-				Tile bgTile = new Tile("", true);
-				
-				setImageLocation(bgTile, xLocation);
-				imagesInFile.add(bgTile);
+				String[] grassTile = new String[i + 1];
+				grassTile[i] = "28";
+				loadBackground(grassTile, i);
 			}
 		}
 	}
