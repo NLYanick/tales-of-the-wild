@@ -38,18 +38,18 @@ public class MainScene extends Scene {
 	private MainController controller;
 
 	private LoadingView loadingView;
-	private PlayerView playerView;
-	private Background background;
 	private StartUpView startUpView;
 	private PauseMenuView pauseMenuView;
 	private InGameMenuView inGameMenuView;
 	private InventoryView inventoryView;
 	private LoadGameView loadGameView;
 	private NewGameView newGameView;
-	private BuildingView buildingView;
 
 	private BorderPane root;
+	private Background background;
+	private PlayerView playerView;
 	private StackPane menusPane;
+	private BuildingView buildingView;
 	private BuildingsLayer buildingsLayer;
 
 	private boolean gameHasLoaded;
@@ -133,15 +133,14 @@ public class MainScene extends Scene {
 	public void updateLayersPositions() {
 		ArrayList<Node> sortedNodes = new ArrayList<>(root.getChildren());
 
+		sortedNodes.remove(background);
 		sortedNodes.sort((node1, node2) -> {
-			if(node1 == background) return -1;
-			if(node2 == background) return 1;
-			
 			double y1 = node1.getBoundsInParent().getMaxY();
 			double y2 = node2.getBoundsInParent().getMaxY();
 
 			return Double.compare(y1, y2);
 		});
+		sortedNodes.add(0, background);
 
 		root.getChildren().setAll(sortedNodes);
 	}

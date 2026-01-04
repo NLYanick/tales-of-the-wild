@@ -69,7 +69,7 @@ public class Building {
 			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize, 4, 2, tileSize, xWalkSpace, 0);
 			break;
 		case TENT:
-			xWalkSpace = 20;
+			xWalkSpace = 16;
 			outsideBounds = createRectBounds(location.getX(), location.getY() + tileSize * 0.8, 2, 1.2, tileSize, xWalkSpace, 0);
 			break;
 		default:
