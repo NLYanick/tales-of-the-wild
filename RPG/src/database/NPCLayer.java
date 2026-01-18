@@ -83,6 +83,8 @@ public class NPCLayer {
 	private ArrayList<Dialog> getDialog(String dialogData) {
 		ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
 	
+		if(dialogData == "" || dialogData == null) return dialogs;
+		
 		JSONObject obj = new JSONObject(dialogData);
 		JSONArray dialogArray = obj.getJSONArray("dialogs");
 		

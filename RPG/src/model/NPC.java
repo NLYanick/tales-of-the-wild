@@ -245,6 +245,10 @@ public class NPC extends Entity {
 		return dir;
 	} 
 	
+	public boolean hasDialog() {
+		return dialogs.size() > 0;
+	}
+	
 	// ----- Getters & Setters -----
 	
 	public Location getStartLocation() {

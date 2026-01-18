@@ -230,7 +230,7 @@ public class Game {
 		 	nearbyNPC = getNearbyNPC(player.getMovingDirection());
 		}
 		
-		if(nearbyNPC != null) {	
+		if(nearbyNPC != null && nearbyNPC.hasDialog()) {	
 			controller.setAllKeyPressesFalse();
 			player.talkToNPC(nearbyNPC);
 			dialogNPC = nearbyNPC;
