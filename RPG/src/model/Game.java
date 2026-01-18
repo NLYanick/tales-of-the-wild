@@ -326,18 +326,11 @@ public class Game {
 		int nextY = player.getY() + dir.getY();
 		for (Building building : buildings) {
 			if(building.canPass() && building.getEntranceLocation() != null 
-					&& isBetweenBuildingEntranceWalls(building, new Location(nextX, nextY))) {
+					&& building.isBetweenEntranceWalls(new Location(nextX, nextY))) {
 				return building;
 			}
 		}
 		return null;
-	}
-	
-	private boolean isBetweenBuildingEntranceWalls(Building building, Location nextLocation) {
-		int entranceSize = 64;
-		return Location.isGreater(nextLocation, new Location(building.getEntranceX(), building.getEntranceY()))
-				&& Location.isLess(nextLocation,
-					new Location(building.getEntranceX() + entranceSize, building.getEntranceY() + entranceSize));
 	}
 	
 	private void enterBuilding(Direction dir) {

@@ -268,7 +268,7 @@ public class MainController {
 			int diff = 16;
 			Building currentBuilding = game.getCurrentBuilding();
 			
-			Location newLocation = new Location(getPlayerLocation().getX() - diff, getPlayerLocation().getY() - diff);
+			Location newLocation = new Location(getPlayerLocation().getX() - diff, getPlayerLocation().getY() + diff);
 			
 			item.setLocation(newLocation);
 			game.dropItemFromPlayerInventory(game.getPlayerInventoryItemWithId(item.getId()));

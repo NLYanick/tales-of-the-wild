@@ -14,6 +14,7 @@ public class Building {
 
 	public final static Location UNLOAD_LOCATION = new Location(-7000, -7000);
 	public final static Location INSIDE_LOCATION = new Location(-3000, -3000);
+	public final static int ENTRANCE_SIZE = 64;
 	
 	protected Location location, leaveLocation, entranceLocation, viewLocation, spawnLocation;
 	
@@ -103,6 +104,12 @@ public class Building {
 	
 	protected ArrayList<BuildingTile> getTilesOfType(BuildingTileType type) {
 		return new ArrayList<BuildingTile>(tiles.stream().filter(t -> t.getType() == type).collect(Collectors.toList()));
+	}
+	
+	public boolean isBetweenEntranceWalls(Location nextLocation) {
+		return Location.isGreater(nextLocation, entranceLocation)
+				&& Location.isLess(nextLocation,
+					new Location(entranceLocation.getX() + ENTRANCE_SIZE, entranceLocation.getY() + ENTRANCE_SIZE));
 	}
 		
 	public void enter(Player player) {
