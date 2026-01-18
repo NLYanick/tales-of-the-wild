@@ -231,8 +231,15 @@ public class MainScene extends Scene {
 	public void dropItem(ItemView itemView) {
 		controller.dropItem(itemView);
 	}
-
-	public void openInventory() {
+	
+	public void openShopInventory(ShopInventoryView inventoryView) {
+		openInventory(inventoryView);
+	}
+	public void openPlayerInventory() {
+		openInventory(inventoryView);
+	}
+	
+	private void openInventory(InventoryView inventoryView) {
 		menusPane.getChildren().add(inventoryView);
 		inGameMenuView.setDisable(true);
 		inventoryView.requestFocusForButton();
@@ -240,7 +247,7 @@ public class MainScene extends Scene {
 		setCursor(Cursor.DEFAULT);
 	}
 
-	public void removeInventoryView() {
+	public void removeInventoryView(InventoryView inventoryView) {
 		menusPane.getChildren().remove(inventoryView);
 		inventoryView.disableActiveSlot();
 		inGameMenuView.setDisable(false);
@@ -293,8 +300,8 @@ public class MainScene extends Scene {
 		addDialog(new InteractiveDialogView(dialogText, this, options));
 	}
 
-	public void addOptionDialogView(String dialogText, int optionChosen) {
-		addDialog(new OptionDialogView(dialogText, this, optionChosen));
+	public void addOptionDialogView(String dialogText, int optionChosen, String action) {
+		addDialog(new OptionDialogView(dialogText, this, optionChosen, action));
 	}
 
 	private void addDialog(DialogView dialogView) {
@@ -309,12 +316,29 @@ public class MainScene extends Scene {
 	public void removeDialog(DialogView dialogView) {
 		menusPane.getChildren().remove(dialogView);
 		dialogs.remove(dialogView);
+		
+		if(dialogView instanceof OptionDialogView) {
+			OptionDialogView optionDialog = (OptionDialogView) dialogView;
+			if(optionDialog.isChosen()) doDialogAction(optionDialog.getAction()); // TODO Change so it does the action immediatly and not first show tekst
+		}
+		
 		if (dialogs.size() == 0) {
 			playerIsInDialog = false;
 			controller.endDialog();
 			return;
 		}
+		
 		setFocusOnNextDialog();
+	}
+	
+	private void doDialogAction(String action) {
+		switch(action) {
+			case "OPEN_SHOP_INVENTORY": 
+				ShopView shopView = (ShopView) buildingView;
+				openShopInventory(shopView.getInventoryView());
+				break;
+			default: return;
+		}
 	}
 
 	private void setFocusOnNextDialog() {
@@ -335,6 +359,7 @@ public class MainScene extends Scene {
 		for (int i = 0; i < dialogs.size(); i++) { // ConcurrentModificationException
 			DialogView dialogView = dialogs.get(i);
 			if (dialogView instanceof OptionDialogView && ((OptionDialogView) dialogView).getOptionChosen() != number) {
+				((OptionDialogView) dialogView).setChosen(false);
 				removeDialog(dialogView);
 				i--;
 			}

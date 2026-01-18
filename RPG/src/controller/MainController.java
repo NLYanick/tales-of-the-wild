@@ -324,7 +324,10 @@ public class MainController {
 			} else if(dia.isInteractive()) {
 				scene.addInteractiveDialogView(dia.getText(), dia.getOptions());
 			} else if(dia.getOptionChosen() > 0) {
-				scene.addOptionDialogView(dia.getText(), dia.getOptionChosen());
+				if(dia.getText().isEmpty()) {
+					
+				}
+				scene.addOptionDialogView(dia.getText(), dia.getOptionChosen(), dia.getAction());
 			} else {
 				scene.addDialogView(dia.getText());
 			}

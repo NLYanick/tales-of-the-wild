@@ -363,6 +363,11 @@ public class Game {
 		}
 	}
 	
+	public Building getBuildingByNPC(NPC npc) {
+		return buildings.stream().filter(b -> b.containsNPC(npc)).findFirst().orElse(null);
+	}
+	
+	
 	// ---------- Set up ----------
 	
 	public void setUpNPCs() {
@@ -576,5 +581,5 @@ public class Game {
 	public NPC getDialogNPC() {
 		return dialogNPC;
 	}
-	
+
 }

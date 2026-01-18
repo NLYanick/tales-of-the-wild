@@ -121,7 +121,7 @@ public class InventoryView extends BorderPane {
 		leftPane.setTop(titleBox);
 		
 		close = getButton(texts.get("button-1"));
-		close.setOnAction(e -> scene.removeInventoryView());
+		close.setOnAction(e -> scene.removeInventoryView(this));
 		
 		VBox buttonsPane = new VBox(close);
 		buttonsPane.setSpacing(spacing);

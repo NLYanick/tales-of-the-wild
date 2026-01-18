@@ -10,16 +10,21 @@ import model.BuildingTile;
 import model.BuildingTileType;
 import model.Location;
 import view.MainScene;
+import view.ShopInventoryView;
 
 public class ShopView extends BuildingView {
 
 	private Color color;
 	private int floorPattern;
 	
+	private ShopInventoryView inventoryView;
+	
 	public ShopView(MainScene scene, ArrayList<BuildingTile> tiles, int tileSize, Color color, int floorPattern, Location spawnLocation) {
 		super(scene, tiles, tileSize, spawnLocation);
 		this.color = color;
 		this.floorPattern = floorPattern;
+		
+		inventoryView = new ShopInventoryView(scene);
 		
 		loadTiles();
 	}
@@ -70,6 +75,10 @@ public class ShopView extends BuildingView {
 		imageView.toBack();
 		
 		return imageView;
+	}
+
+	public ShopInventoryView getInventoryView() {
+		return inventoryView;
 	}
 
 }

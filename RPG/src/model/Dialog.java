@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 public class Dialog {
 	
-	private String text;
+	private String text, action;
 	private boolean skip;
 	private int itemId;
 	private boolean interactive;
@@ -14,24 +14,23 @@ public class Dialog {
 	
 	private boolean hasPlayed;
 	
-	public Dialog(String text, boolean skip, int itemId, boolean interactive, HashMap<Integer, String> options, int optionChosen) {
+	public Dialog(String text, boolean skip, int itemId, boolean interactive, HashMap<Integer, String> options, int optionChosen, String action) {
 		this.text = text;
 		this.skip = skip;
 		this.itemId = itemId;
 		this.interactive = interactive;
 		this.options = options;
 		this.optionChosen = optionChosen;
+		this.action = action;
 	}
 	
 	public String toJSON() {
-		String itemText = "";
-		String optionChosenText = "";
-		
-		if(itemId > 0) itemText = ", \"item\": " + itemId;
-		if(optionChosen > 0) optionChosenText = ", \"option-chosen\": " + optionChosen;
+		String itemText = (itemId > 0) ? ", \"item\": " + itemId : "";
+		String optionChosenText = (optionChosen > 0) ? ", \"option-chosen\": " + optionChosen : "";
+		String actionText = (action != "") ? ", \"action\": \"" + action + "\"" : "";
 		
 		return "\"text\": \"" + text + "\", \"skip\": " + skip + ", \"interactive\": " + interactive + getOptionsString()
-				+ itemText + optionChosenText + ", \"played\": " + hasPlayed;
+				+ itemText + optionChosenText + actionText + ", \"played\": " + hasPlayed;
 	}
 	
 	private String getOptionsString() {
@@ -84,6 +83,10 @@ public class Dialog {
 	
 	public int getOptionChosen() {
 		return optionChosen;
+	}
+
+	public String getAction() {
+		return action;
 	}
 	
 }

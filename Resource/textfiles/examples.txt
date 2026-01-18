@@ -31,16 +31,21 @@ y: 300
     	"interactive": true, 
     	"options": [	// Only if 'interactive' is true
     		"String",
-    		"String",
     		"String"
     		// Maximum of 4, otherwise the rest won't show
     	]
     }, 
     {
-    	"text": "String",
+    	"text": "string"
     	"skip": false,
     	"interactive": false, 
-    	"option-chosen": 2	// Only if 'options' is used
+    	"option-chosen": 1,		// Only if 'options' is used
+    },
+    {
+    	"skip": false,
+    	"interactive": false, 
+    	"option-chosen": 2,		
+    	"action": "STRING" 		// Only if 'option-chosen' is used. This is a replacement of 'text'
     }
   ]
 }

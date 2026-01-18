@@ -83,7 +83,7 @@ public class NPCLayer {
 	private ArrayList<Dialog> getDialog(String dialogData) {
 		ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
 	
-		if(dialogData == "" || dialogData == null) return dialogs;
+		if(dialogData.isEmpty() || dialogData == null) return dialogs;
 		
 		JSONObject obj = new JSONObject(dialogData);
 		JSONArray dialogArray = obj.getJSONArray("dialogs");
@@ -94,13 +94,15 @@ public class NPCLayer {
 			int item = -1;
 			int optionChosen = -1;
 			HashMap<Integer, String> options = new HashMap<Integer, String>();
+			String action = "";
 			
 			if(dialogJSON.has("item")) item = dialogJSON.getInt("item");
 			if(dialogJSON.has("option-chosen")) optionChosen = dialogJSON.getInt("option-chosen");
 			if(dialogJSON.has("options")) options = getOptionsArray(dialogJSON.getJSONArray("options"));
+			if(dialogJSON.has("action")) action = dialogJSON.getString("action");
 			
 			Dialog dialog = new Dialog(dialogJSON.getString("text"), dialogJSON.getBoolean("skip"), item, 
-					dialogJSON.getBoolean("interactive"), options, optionChosen);
+					dialogJSON.getBoolean("interactive"), options, optionChosen, action);
 			
 			if(dialogJSON.has("played")) dialog.setHasPlayed(dialogJSON.getBoolean("played"));
 			

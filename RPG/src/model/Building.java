@@ -263,6 +263,10 @@ public class Building {
 		return items.contains(item);
 	}
 	
+	public boolean containsNPC(NPC npc) {
+		return npcs.contains(npc);
+	}
+	
 	
 	/* Getters and Setters */
 	
