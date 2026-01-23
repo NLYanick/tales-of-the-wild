@@ -12,8 +12,8 @@ public class Player extends Entity {
 	
 	private boolean inBuilding;
 		
-	public Player(String imgURL, Location location, String name) {
-		super(imgURL, name);
+	public Player(String imgURL, Location location, String name, int talesCoins) {
+		super(imgURL, name, talesCoins);
 		setX(location.getX());
 		setY(location.getY());
 		

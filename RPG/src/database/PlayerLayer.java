@@ -39,13 +39,14 @@ public class PlayerLayer {
 	}
 	
 	public void saveNewPlayer(Player player, int gameId) {
-		String query = "INSERT INTO player (name, x, y, game_id) VALUES(?, ?, ?, ?)";
+		String query = "INSERT INTO player (name, tales_coins, x, y, game_id) VALUES(?, ?, ?, ?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, player.getName());
-			stmt.setInt(2, player.getX());
-			stmt.setInt(3, player.getY());
-			stmt.setInt(4, gameId);
+			stmt.setInt(2, player.getTalesCoins());
+			stmt.setInt(3, player.getX());
+			stmt.setInt(4, player.getY());
+			stmt.setInt(5, gameId);
 			stmt.execute();
 			
 			stmt.close();
@@ -67,26 +68,6 @@ public class PlayerLayer {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public ArrayList<Player> getAllPlayers() {
-		ArrayList<Player> players = new ArrayList<Player>();
-		
-		String query = "SELECT * FROM player";
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()) {
-				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				Player player = new Player(Player.DEFAULT_URL, location, rs.getString("name"));
-				players.add(player);
-			}
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return players;
 	}
 	
 	public ArrayList<String> getAllPlayerNames() {
@@ -128,7 +109,7 @@ public class PlayerLayer {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				Location location = new Location(rs.getInt("x"), rs.getInt("y"));
-				player = new Player(Player.DEFAULT_URL, location, rs.getString("name"));
+				player = new Player(Player.DEFAULT_URL, location, rs.getString("name"), rs.getInt("tales_coins"));
 			}
 			rs.close();
 			stmt.close();

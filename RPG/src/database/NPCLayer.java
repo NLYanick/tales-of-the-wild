@@ -51,10 +51,11 @@ public class NPCLayer {
 			String directionString = rs.getString("direction");
 			
 			if(directionString != null) {
-				npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), dialog, 
-						rs.getInt("id"), rs.getBoolean("shop_seller"));
+				npc = new NPC(rs.getString("url"), location, Direction.valueOf(directionString), rs.getString("name"), 
+						rs.getInt("tales_coins"), dialog, rs.getInt("id"), rs.getBoolean("shop_seller"));
 			} else {
-				npc = new NPC(rs.getString("url"), location, rs.getString("name"), dialog, rs.getInt("id"), rs.getBoolean("shop_seller"));
+				npc = new NPC(rs.getString("url"), location, rs.getString("name"), rs.getInt("tales_coins"), dialog, 
+						rs.getInt("id"), rs.getBoolean("shop_seller"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -14,10 +14,12 @@ public abstract class Entity {
 	protected String imageURL;
 	protected Direction movingDirection;
 	protected String name;
+	protected int talesCoins;
 	
-	public Entity(String imageURL, String name) {
+	public Entity(String imageURL, String name, int talesCoins) {
 		this.imageURL = imageURL;
 		this.name = name;
+		this.talesCoins = talesCoins;
 		
 		location = new Location();
 		inventory = new Inventory();
@@ -42,6 +44,10 @@ public abstract class Entity {
 	public Rectangle getBounds() {
 		bounds.setBounds(location.getX() - ENTITY_WIDTH/2, location.getY() - ENTITY_HEIGHT/2, ENTITY_WIDTH, ENTITY_HEIGHT);
 	    return bounds;
+	}
+	
+	public void addCoins(int amount) {
+		talesCoins += amount;
 	}
 	
 	public abstract void setRunningImage(Direction dir);
@@ -93,6 +99,10 @@ public abstract class Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public int getTalesCoins() {
+		return talesCoins;
 	}
 	
 }

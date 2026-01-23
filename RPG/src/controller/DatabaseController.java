@@ -43,10 +43,6 @@ public class DatabaseController {
 		return playerLayer.getLocation(name);
 	}
 	
-	public ArrayList<Player> getAllPlayers(){
-		return playerLayer.getAllPlayers();
-	}
-	
 	public ArrayList<String> getAllPlayerNames(){
 		return playerLayer.getAllPlayerNames();
 	}
@@ -72,7 +68,7 @@ public class DatabaseController {
 	public Player createPlayer(String name) {
 		Game newGame = createGame();
 		
-		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name);
+		Player player = new Player(Player.DEFAULT_URL, Player.DEFAULT_LOCATION, name, 0);
 		playerLayer.saveNewPlayer(player, newGame.getId());
 		controller.setGame(newGame);
 		controller.setPlayer(player);

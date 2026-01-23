@@ -19,7 +19,7 @@ public class InGameMenuView extends BorderPane {
 
 	private GridPane menuPane;
 	private BorderPane buttonsMenu;
-	private BorderPane playerPane;
+	private HBox playerPane;
 	private VBox buttonsBox;
 	
 	private MainScene scene;
@@ -73,14 +73,17 @@ public class InGameMenuView extends BorderPane {
 		}
 	}
 		
-	private BorderPane getPlayerPane() {
-
-		BorderPane playerPane = new BorderPane();
+	private HBox getPlayerPane() {
+		int spacing = 40;
+		
+		HBox playerPane = new HBox(spacing);
+		playerPane.setAlignment(Pos.CENTER);
 		playerPane.getStyleClass().add("ingame-menu-playerpane");
 		
 		HBox playerText = getPlayerText();
+		HBox coinsText = getPlayerCoins();
 		
-		playerPane.setCenter(playerText);
+		playerPane.getChildren().addAll(playerText, coinsText);
 		
 		return playerPane;
 	}
@@ -96,6 +99,24 @@ public class InGameMenuView extends BorderPane {
 		playerText.getChildren().addAll(playerName);
 		
 		return playerText;
+	}
+	
+	private HBox getPlayerCoins() {
+		int spacing = 4;
+		
+		HBox coinsText = new HBox(spacing);
+		coinsText.setAlignment(Pos.CENTER);
+		
+		Image coinImg = new Image("Images/Items/TalesCoin.png");
+		ImageView coinView = new ImageView(coinImg);
+		
+		int coins = scene.getPlayer().getTalesCoins();
+		Label playerName = new Label("" + coins);
+		playerName.getStyleClass().add("ingame-menu-player-stats");
+		
+		coinsText.getChildren().addAll(coinView, playerName);
+		
+		return coinsText;
 	}
 	
 	public void setPlayerPane() {
