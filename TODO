@@ -102,6 +102,5 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Als je spawnt, spawn je voor een building i.p.v. erachter | 
-Een player moet een currency hebben | Items kopen in ShopInventory | Misschien per type een nieuwe building klasse? | 
+Nu: Een player moet een currency hebben | Items kopen in ShopInventory | Misschien per type een nieuwe building klasse? | 
 Shop muren niet zo fel maken | (Entrance buiten altijd in het midden (Is minder foutgevoelig))

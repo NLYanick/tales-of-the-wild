@@ -190,6 +190,8 @@ public class MainScene extends Scene {
 		createPlayerView();
 
 		inGameMenuView.setPlayerPane();
+		
+		updateLayersPositions();
 
 		setCursor(Cursor.NONE);
 	}
