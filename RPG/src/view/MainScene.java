@@ -317,10 +317,7 @@ public class MainScene extends Scene {
 		menusPane.getChildren().remove(dialogView);
 		dialogs.remove(dialogView);
 		
-		if(dialogView instanceof OptionDialogView) {
-			OptionDialogView optionDialog = (OptionDialogView) dialogView;
-			if(optionDialog.isChosen()) doDialogAction(optionDialog.getAction()); // TODO Change so it does the action immediatly and not first show tekst
-		}
+		checkSpecificDialogs(dialogView);
 		
 		if (dialogs.size() == 0) {
 			playerIsInDialog = false;
@@ -329,6 +326,15 @@ public class MainScene extends Scene {
 		}
 		
 		setFocusOnNextDialog();
+	}
+	
+	private void checkSpecificDialogs(DialogView dialogView) {
+		if(dialogView instanceof OptionDialogView) {
+			OptionDialogView optionDialog = (OptionDialogView) dialogView;
+			if(optionDialog.isChosen()) {
+				doDialogAction(optionDialog.getAction());
+			}
+		}
 	}
 	
 	private void doDialogAction(String action) {
@@ -358,11 +364,18 @@ public class MainScene extends Scene {
 	public void removeOptionDialogs(int number) {
 		for (int i = 0; i < dialogs.size(); i++) { // ConcurrentModificationException
 			DialogView dialogView = dialogs.get(i);
-			if (dialogView instanceof OptionDialogView && ((OptionDialogView) dialogView).getOptionChosen() != number) {
-				((OptionDialogView) dialogView).setChosen(false);
-				removeDialog(dialogView);
-				i--;
-			}
+			if (dialogView instanceof OptionDialogView) {
+				OptionDialogView optionDialog = (OptionDialogView) dialogView;
+				if(optionDialog.getOptionChosen() != number) {
+					optionDialog.setChosen(false);
+					removeDialog(dialogView);
+					i--;
+				} else if(optionDialog.getOptionChosen() == number && optionDialog.getDialogText().isEmpty()) {
+					optionDialog.setChosen(true);
+					removeDialog(dialogView);
+					i--;
+				}
+			} 
 		}
 	}
 

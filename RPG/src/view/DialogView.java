@@ -86,4 +86,8 @@ public class DialogView extends BorderPane {
 		}
 	}
 	
+	public String getDialogText() {
+		return dialogText;
+	}
+	
 }
