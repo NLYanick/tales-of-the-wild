@@ -15,6 +15,7 @@ import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.Shop;
 import model.ShopItem;
 import model.Tile;
 import view.Background;
@@ -93,6 +94,18 @@ public class MainController {
 		}
 		
 		scene.setItemViewsInInventory(itemViews);
+	}
+	
+	public ArrayList<ItemView> getCurrentShopItemViews() {
+		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
+		
+		Shop currentBuilding = (Shop) game.getCurrentBuilding();
+		for(ShopItem shopItem : currentBuilding.getShopItems()) {
+			ItemView itemView = itemsWithViews.get(shopItem.getItem());
+			itemViews.add(itemView);
+		}
+		
+		return itemViews;
 	}
 
 	public void teleportImages() {

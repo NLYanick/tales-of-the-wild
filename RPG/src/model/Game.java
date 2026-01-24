@@ -439,6 +439,10 @@ public class Game {
 			Shop shop = (Shop) building;
 			shopItems = controller.getShopItems(shop.getId());
 			shop.setShopItems(shopItems);
+			
+			for (ShopItem shopItem : shopItems) {
+				controller.addItemView(shopItem.getItem());
+			}
 		}
 		
 		for (Item item : getFilteredBuildingItems(buildingItems, shopItems)) {

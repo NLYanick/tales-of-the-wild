@@ -235,8 +235,10 @@ public class MainScene extends Scene {
 	}
 	
 	public void openShopInventory(ShopInventoryView inventoryView) {
+		inventoryView.setItemViews(controller.getCurrentShopItemViews());
 		openInventory(inventoryView);
 	}
+	
 	public void openPlayerInventory() {
 		openInventory(inventoryView);
 	}

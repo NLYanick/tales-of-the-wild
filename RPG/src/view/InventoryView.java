@@ -109,7 +109,7 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
-	private BorderPane getLeftPane() {
+	protected BorderPane getLeftPane() {
 		int spacing = 30;
 		int rectWidth = 300;
 		int rectHeight = 104;
@@ -270,7 +270,7 @@ public class InventoryView extends BorderPane {
 		return boxes;
 	}
 	
-	private Button getButton(String text) {
+	protected Button getButton(String text) {
 		
 		Button button = new Button(text);
 		
