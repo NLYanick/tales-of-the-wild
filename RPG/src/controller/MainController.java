@@ -15,6 +15,7 @@ import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.ShopItem;
 import model.Tile;
 import view.Background;
 import view.ItemView;
@@ -533,6 +534,10 @@ public class MainController {
 	
 	public ArrayList<Item> getBuildingItems(int buildingId) {
 		return databaseController.getBuildingItems(buildingId);
+	}
+	
+	public ArrayList<ShopItem> getShopItems(int shopId) {
+		return databaseController.getShopItems(shopId);
 	}
 	
 	public ArrayList<NPC> getBuildingNPCs(int buildingId) {

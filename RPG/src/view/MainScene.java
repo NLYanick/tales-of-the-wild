@@ -480,6 +480,10 @@ public class MainScene extends Scene {
 	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
 		controller.addBuildingViewTile(url, canWalkOn, location);
 	}
+	
+	public void updateCoinsText(int coins) {
+		inGameMenuView.setCoinsText(coins);
+	}
 
 	private void togglePauseMenu() {
 		if (pauseMenuIsOpen) {

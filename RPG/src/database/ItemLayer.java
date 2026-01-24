@@ -11,6 +11,7 @@ import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.ShopItem;
 
 public class ItemLayer {
 
@@ -215,6 +216,27 @@ public class ItemLayer {
 				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"),
 						rs.getString("image_url"), rs.getString("description"), rs.getInt("id"));
 				items.add(item);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return items;
+	}
+	
+	public ArrayList<ShopItem> getShopItems(int shopId) {
+		ArrayList<ShopItem> items = new ArrayList<ShopItem>();
+
+		String query = "SELECT i.*, si.price FROM item i INNER JOIN shop_item si ON i.id = si.item_id WHERE building_id = " + shopId + ";";
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				Item item = new Item(new Location(rs.getInt("x"), rs.getInt("y")), rs.getString("name"),
+						rs.getString("image_url"), rs.getString("description"), rs.getInt("id"));
+				items.add(new ShopItem(item, rs.getInt("price")));
 			}
 			stmt.close();
 		} catch (SQLException e) {

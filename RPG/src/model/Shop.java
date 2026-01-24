@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class Shop extends Building {
 
-	private Inventory inventory;
+	private ArrayList<ShopItem> shopItems;
 	private int floorPattern;
 	
 	public Shop(boolean canPass, BuildingType type, Direction exit, Location location, Location leaveLocation, int id, 
@@ -15,22 +15,26 @@ public class Shop extends Building {
 		super(canPass, type, exit, location, leaveLocation, id, entranceLocation, tiles, tileSettings, color);
 		
 		this.floorPattern = floorPattern;
-
-		inventory = new Inventory();
 	}
 	
 	public void buy(Item item, Player player) {
-		// if(player.currency > item.cost)
-		inventory.removeItem(item);
-		player.addItem(item);
+		ShopItem shopItem = findShopItem(item);
+		
+		if(player.getTalesCoins() >= shopItem.getPrice()) {			
+			player.addItem(item);
+			shopItems.remove(shopItem);
+		}
 	}
 	
-	public void addShopItem(Item item) {
-		inventory.addItem(item);
+	private ShopItem findShopItem(Item item) {
+		return shopItems.stream().filter(si -> si.getItem().getId() == item.getId()).findFirst().orElse(null);
 	}
 	
-	public int getFloorPattern() {
-		return floorPattern;
+	public int getFloorPattern() { return floorPattern; }
+	
+	public void setShopItems(ArrayList<ShopItem> shopItems) { 
+		this.shopItems = shopItems; 
 	}
+	public ArrayList<ShopItem> getShopItems() { return shopItems; }
 	
 }

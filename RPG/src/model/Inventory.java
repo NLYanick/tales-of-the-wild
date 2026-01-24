@@ -12,6 +12,10 @@ public class Inventory {
 		items = new ArrayList<Item>();
 	}
 	
+	public Inventory(ArrayList<Item> items) {
+		this.items = items;
+	}
+	
 	public void addItem(Item item) {
 		if(items.size() < SIZE)
 			items.add(item);

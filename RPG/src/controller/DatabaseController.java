@@ -13,6 +13,7 @@ import model.Item;
 import model.Location;
 import model.NPC;
 import model.Player;
+import model.ShopItem;
 
 public class DatabaseController {
 
@@ -115,6 +116,10 @@ public class DatabaseController {
 	
 	public ArrayList<Item> getBuildingItems(int buildingId){
 		return itemLayer.getBuildingItems(buildingId);
+	}
+	
+	public ArrayList<ShopItem> getShopItems(int shopId) {
+		return itemLayer.getShopItems(shopId);
 	}
 	
 	public ArrayList<NPC> getBuildingNPCs(int buildingId) {

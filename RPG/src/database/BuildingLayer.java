@@ -22,27 +22,27 @@ import model.Shop;
 public class BuildingLayer {
 
 	private Connection conn;
-	
+
 	public BuildingLayer() {
 		conn = DatabaseConnector.getConn();
 	}
-	
+
 	public ArrayList<Building> getAllBuildings(int gameId) {
 		ArrayList<Building> buildings = new ArrayList<Building>();
-		
+
 		String query = "SELECT * FROM building WHERE game_id = " + gameId + ";";
-		
+
 		try {
-			Statement stmt = conn.createStatement();			
+			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-						
-			while(rs.next()) {
+
+			while (rs.next()) {
 				String layout = rs.getString("layout");
 				ArrayList<BuildingTile> tiles = getTiles(layout);
 				HashMap<String, String> tileSettings = getSettings(layout);
-				
+
 				Building building;
-				if(rs.getString("type").equals("SHOP")) {
+				if (rs.getString("type").equals("SHOP")) {
 					building = makeShop(rs, tiles, tileSettings);
 				} else {
 					building = makeBuilding(rs, tiles, tileSettings);
@@ -50,68 +50,73 @@ public class BuildingLayer {
 				buildings.add(building);
 			}
 			stmt.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return buildings;
 	}
-	
+
 	private Shop makeShop(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
-		return new Shop(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
+		return new Shop(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")),
 				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("x"), rs.getInt("y")),
-				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), new Location(rs.getInt("entranceX"), 
-				rs.getInt("entranceY")), tiles, tileSettings, Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
+				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"),
+				new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings,
+				Color.valueOf(rs.getString("color")), (int) (Math.random() * 3));
 	}
-	
+
 	private Building makeBuilding(ResultSet rs, ArrayList<BuildingTile> tiles, HashMap<String, String> tileSettings) throws SQLException {
 		String colorString = rs.getString("Color");
-		if(colorString == null) colorString = "TRANSPARENT";
-		return new Building(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")), 
-				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("x"), rs.getInt("y")), 
-				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"), new Location(rs.getInt("entranceX"), 
-				rs.getInt("entranceY")), tiles, tileSettings, Color.valueOf(colorString));
+		if (colorString == null)
+			colorString = "TRANSPARENT";
+		return new Building(rs.getBoolean("canPass"), BuildingType.valueOf(rs.getString("type")),
+				Direction.valueOf(rs.getString("exit")), new Location(rs.getInt("x"), rs.getInt("y")),
+				new Location(rs.getInt("leaveX"), rs.getInt("leaveY")), rs.getInt("id"),
+				new Location(rs.getInt("entranceX"), rs.getInt("entranceY")), tiles, tileSettings,
+				Color.valueOf(colorString));
 	}
-	
+
 	private ArrayList<BuildingTile> getTiles(String layout) {
 		ArrayList<BuildingTile> tiles = new ArrayList<BuildingTile>();
-		
-		if(layout == null) return tiles;
-		
+
+		if (layout == null)
+			return tiles;
+
 		JSONObject json = new JSONObject(layout);
 		JSONArray tilesArray = json.getJSONArray("tiles");
-		
-		for(Object obj : tilesArray) {
+
+		for (Object obj : tilesArray) {
 			JSONObject tileJSON = new JSONObject(obj.toString());
-			
+
 			boolean spawn = false;
-			if(tileJSON.has("spawn")) spawn = tileJSON.getBoolean("spawn");
-			
+			if (tileJSON.has("spawn")) spawn = tileJSON.getBoolean("spawn");
+
 			BuildingTileType type = BuildingTileType.valueOf(tileJSON.getString("type").toUpperCase());
 			int x = tileJSON.getInt("x");
 			int y = tileJSON.getInt("y");
-			
+
 			tiles.add(new BuildingTile(type, new Location(x, y), spawn));
 		}
-		
+
 		return tiles;
 	}
-	
+
 	private HashMap<String, String> getSettings(String layout) {
 		HashMap<String, String> settings = new HashMap<String, String>();
-		
-		if(layout == null) return settings;
+
+		if (layout == null) return settings;
 		
 		JSONObject json = new JSONObject(layout);
+
+		if (!json.has("settings")) return settings;
 		
-		if(!json.has("settings")) return settings;
 		JSONObject settingsObject = json.getJSONObject("settings");
-		
-		for(String key : settingsObject.keySet()) {			
+
+		for (String key : settingsObject.keySet()) {
 			settings.put(key, settingsObject.getString(key));
 		}
-		
+
 		return settings;
 	}
-	
+
 }

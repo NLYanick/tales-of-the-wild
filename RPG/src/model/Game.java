@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import controller.MainController;
 
@@ -431,11 +432,32 @@ public class Game {
 	}
 	
 	private void addItemsToBuilding(Building building) {
-		for (Item item : controller.getBuildingItems(building.getId())) {
+		ArrayList<Item> buildingItems = controller.getBuildingItems(building.getId());
+		ArrayList<ShopItem> shopItems = null;
+		
+		if(building instanceof Shop) {			
+			Shop shop = (Shop) building;
+			shopItems = controller.getShopItems(shop.getId());
+			shop.setShopItems(shopItems);
+		}
+		
+		for (Item item : getFilteredBuildingItems(buildingItems, shopItems)) {
 			item.setLocation(Building.UNLOAD_LOCATION);
 			building.addItem(item);
 			controller.addItemViewToScene(item);
 		}
+	}
+	
+	private ArrayList<Item> getFilteredBuildingItems(ArrayList<Item> buildingItems, ArrayList<ShopItem> shopItems) {
+		if(shopItems == null) return new ArrayList<Item>(buildingItems);
+		
+		ArrayList<Integer> shopItemIds = new ArrayList<Integer>(shopItems.stream()
+	            .map(shopItem -> shopItem.getItem().getId())
+	            .collect(Collectors.toList()));
+		
+		return new ArrayList<Item>(buildingItems.stream()
+	            .filter(item -> !shopItemIds.contains(item.getId()))
+	            .collect(Collectors.toList()));
 	}
 	
 	// ---------- Pass methods ----------
