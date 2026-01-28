@@ -44,6 +44,8 @@ public class InventoryView extends BorderPane {
 	protected StringProperty infoBoxName, infoBoxDescription;
 	protected BooleanBinding slotIsFocused;
 	
+	protected boolean canDragAndDrop = true;
+	
 	protected ArrayList<ItemView> itemViews;
 	
 	protected HashMap<String, String> styling;
@@ -109,8 +111,7 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
-	protected BorderPane getLeftPane() {
-		int spacing = 30;
+	private BorderPane getLeftPane() {
 		int rectWidth = 300;
 		int rectHeight = 104;
 		
@@ -120,13 +121,7 @@ public class InventoryView extends BorderPane {
 		VBox titleBox = getTitleBox();
 		leftPane.setTop(titleBox);
 		
-		close = getButton(texts.get("button-1"));
-		close.setOnAction(e -> scene.removeInventoryView(this));
-		
-		VBox buttonsPane = new VBox(close);
-		buttonsPane.setSpacing(spacing);
-		buttonsPane.setAlignment(Pos.CENTER);
-		
+		VBox buttonsPane = getButtonsPane();
 		leftPane.setCenter(buttonsPane);
 		
 		Rectangle invisRect = new Rectangle(rectWidth, rectHeight);
@@ -134,6 +129,19 @@ public class InventoryView extends BorderPane {
 		leftPane.setBottom(invisRect);
 		
 		return leftPane;
+	}
+	
+	protected VBox getButtonsPane() {
+		int spacing = 30;
+		
+		close = getButton(texts.get("button-1"));
+		close.setOnAction(e -> scene.removeInventoryView(this));
+		
+		VBox buttonsPane = new VBox(close);
+		buttonsPane.setSpacing(spacing);
+		buttonsPane.setAlignment(Pos.CENTER);
+		
+		return buttonsPane;
 	}
 	
 	private VBox getTitleBox() {
@@ -194,7 +202,7 @@ public class InventoryView extends BorderPane {
 	
 	private void handleKeyPressedSlots(KeyEvent e, InventorySlot slot) {
 		if(e.getCode() == KeyCode.ENTER) {
-			moveItem(e, slot);
+			if(canDragAndDrop) moveItem(e, slot);
 		}
 	}
 	
@@ -301,7 +309,7 @@ public class InventoryView extends BorderPane {
 			return;
 		}
 		slot.setItemView(itemView);
-		makeItemDraggable(itemView);
+		if(canDragAndDrop) makeItemDraggable(itemView);
 	}
 	
 	private void makeItemDraggable(ItemView itemView) {

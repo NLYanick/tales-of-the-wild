@@ -1,9 +1,10 @@
 package view;
 
 public class ShopInventoryView extends InventoryView {
-
+	
 	public ShopInventoryView(MainScene scene) {
 		super(scene);
+		canDragAndDrop = false;
 	}
 	
 	protected void setUpStyling() {

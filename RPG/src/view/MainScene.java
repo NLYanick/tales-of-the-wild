@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import controller.FileIO;
+import controller.InputController;
 import controller.MainController;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -37,6 +39,7 @@ public class MainScene extends Scene {
 	public final static int STANDARD_IMAGE_SIZE = FileIO.STANDARD_IMAGE_SIZE;
 
 	private MainController controller;
+	private InputController inputController;
 
 	private LoadingView loadingView;
 	private StartUpView startUpView;
@@ -53,19 +56,20 @@ public class MainScene extends Scene {
 	private BuildingView buildingView;
 	private EntityLayer entityLayer;
 
-	private boolean gameHasLoaded;
-	private boolean pauseMenuIsOpen;
-	private boolean inGameMenuIsOpen;
-	private boolean playerIsInDialog;
-	private boolean inventoryIsOpen;
-	private boolean inBuilding;
+	private BooleanProperty gameLoaded = new SimpleBooleanProperty(false);
+	private BooleanProperty pauseMenuOpen = new SimpleBooleanProperty(false);
+	private BooleanProperty inGameMenuOpen = new SimpleBooleanProperty(false);
+	private BooleanProperty playerInDialog = new SimpleBooleanProperty(false);
+	private BooleanProperty inventoryOpen = new SimpleBooleanProperty(false);
+	private BooleanProperty inBuilding = new SimpleBooleanProperty(false);
 
 	private ArrayList<DialogView> dialogs;
 
-	public MainScene(MainController controller) {
+	public MainScene(MainController controller, InputController inputController) {
 		super(new Pane());
 
 		this.controller = controller;
+		this.inputController = inputController;
 		this.dialogs = new ArrayList<DialogView>();
 		setUpRoot();
 	}
@@ -92,8 +96,8 @@ public class MainScene extends Scene {
 	}
 
 	private void setUpListeners() {
-		setOnKeyPressed(e -> handleInputKeyPressed(e));
-		setOnKeyReleased(e -> handleMovementReleased(e));
+		setOnKeyPressed(e -> inputController.handleKeyPressed(e));
+		setOnKeyReleased(e -> inputController.handleMovementReleased(e));
 	}
 
 	private void setUpStartUpView() {
@@ -157,18 +161,6 @@ public class MainScene extends Scene {
 		controller.deletePlayer(playerName);
 		addLoadGameView();
 	}
-
-	public boolean nameIsUnique(String name) {
-		return controller.nameIsUnique(name);
-	}
-
-	public ArrayList<String> getAllPlayerNames() {
-		return controller.getAllPlayerNames();
-	}
-
-	public Player getPlayer() {
-		return controller.getPlayer();
-	}
 	
 	public void addBgBuilding(Tile tile) {
 		ImageView buildingView = entityLayer.addBuilding(tile.getX(), tile.getY(), tile.getUrl());
@@ -176,7 +168,7 @@ public class MainScene extends Scene {
 	}
 
 	public void loadGame(String playerName) {
-		gameHasLoaded = true;
+		gameLoaded.set(true);
 
 		root.setCenter(null);
 
@@ -229,10 +221,6 @@ public class MainScene extends Scene {
 	public void removeItemView(ItemView itemView) {
 		entityLayer.getChildren().remove(itemView);
 	}
-
-	public void dropItem(ItemView itemView) {
-		controller.dropItem(itemView);
-	}
 	
 	public void openShopInventory(ShopInventoryView inventoryView) {
 		inventoryView.setItemViews(controller.getCurrentShopItemViews());
@@ -247,7 +235,7 @@ public class MainScene extends Scene {
 		menusPane.getChildren().add(inventoryView);
 		inGameMenuView.setDisable(true);
 		inventoryView.requestFocusForButton();
-		inventoryIsOpen = true;
+		inventoryOpen.set(true);
 		setCursor(Cursor.DEFAULT);
 	}
 
@@ -256,12 +244,8 @@ public class MainScene extends Scene {
 		inventoryView.disableActiveSlot();
 		inGameMenuView.setDisable(false);
 		inGameMenuView.requestFocusForButtons();
-		inventoryIsOpen = false;
+		inventoryOpen.set(false);
 		setCursor(Cursor.NONE);
-	}
-
-	public void stopNPCThreads() {
-		controller.stopNPCThreads();
 	}
 
 	public void setAsRoot(Pane root) {
@@ -314,7 +298,7 @@ public class MainScene extends Scene {
 		dialogs.add(dialogView);
 		dialogs.get(0).requestFocus();
 
-		playerIsInDialog = true;
+		playerInDialog.set(true);
 	}
 
 	public void removeDialog(DialogView dialogView) {
@@ -324,7 +308,7 @@ public class MainScene extends Scene {
 		checkSpecificDialogs(dialogView);
 		
 		if (dialogs.size() == 0) {
-			playerIsInDialog = false;
+			playerInDialog.set(false);
 			controller.endDialog();
 			return;
 		}
@@ -399,22 +383,6 @@ public class MainScene extends Scene {
 		}
 	}
 
-	public void removeItemViewFromInventoryView(ItemView itemView) {
-		inventoryView.removeItemView(itemView);
-	}
-
-	public Item getItemFromView(ItemView itemView) {
-		return controller.getItemFromView(itemView);
-	}
-
-	public void saveGame() {
-		controller.saveGame();
-	}
-
-	public void setItemViewsInInventory(ArrayList<ItemView> itemViews) {
-		inventoryView.setItemViews(itemViews);
-	}
-
 	public void setBuildingView(Building building) {
 
 		root.getChildren().remove(background);
@@ -425,7 +393,7 @@ public class MainScene extends Scene {
 		root.getChildren().add(buildingView);
 		buildingView.toBack();
 
-		inBuilding = true;
+		inBuilding.set(true);
 		addBuildingViewLocation(building);
 
 	}
@@ -440,10 +408,12 @@ public class MainScene extends Scene {
 	public void removeBuildingView() {
 		root.getChildren().add(background);
 		background.toBack();
-		inBuilding = false;
+		inBuilding.set(false);
 
 		root.setBackground(null);
 		root.getChildren().remove(buildingView);
+		
+		buildingView = null;
 	}
 
 	private BuildingView getBuildingViewByType(Building building) {
@@ -463,32 +433,8 @@ public class MainScene extends Scene {
 		}
 	}
 
-	public void moveBuildingView(Location location) {
-		buildingView.move(location.getX(), location.getY());
-	}
-
-	public void moveBuildingView(Direction dir) {
-		buildingView.move(dir);
-	}
-
-	public String getImageUrlByIndex(int index) {
-		return controller.getImageUrlByIndex(index);
-	}
-
-	public boolean isInBuilding() {
-		return inBuilding;
-	}
-
-	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
-		controller.addBuildingViewTile(url, canWalkOn, location);
-	}
-	
-	public void updateCoinsText(int coins) {
-		inGameMenuView.setCoinsText(coins);
-	}
-
 	private void togglePauseMenu() {
-		if (pauseMenuIsOpen) {
+		if (pauseMenuOpen.get()) {
 			menusPane.getChildren().add(pauseMenuView);
 			pauseMenuView.requestFocusForButtons();
 			setCursor(Cursor.DEFAULT);
@@ -503,16 +449,16 @@ public class MainScene extends Scene {
 	}
 
 	private void requestFocusForView() {
-		if (inventoryIsOpen) {
+		if (inventoryOpen.get()) {
 			inventoryView.requestFocusForButton();
 			setCursor(Cursor.DEFAULT);
 			return;
 		}
-		if (inGameMenuIsOpen) {
+		if (inGameMenuOpen.get()) {
 			inGameMenuView.requestFocusForButtons();
 			return;
 		}
-		if (playerIsInDialog) {
+		if (playerInDialog.get()) {
 			dialogs.get(dialogs.size() - 1).requestFocus();
 			return;
 		}
@@ -529,7 +475,7 @@ public class MainScene extends Scene {
 	}
 
 	private void pauzeOrResumeGame() {
-		if (pauseMenuIsOpen) {
+		if (pauseMenuOpen.get()) {
 			setAllKeyPressesFalse();
 			controller.pauzeGame();
 		} else {
@@ -538,7 +484,7 @@ public class MainScene extends Scene {
 	}
 
 	private void toggleInGameMenu() {
-		if (inGameMenuIsOpen) {
+		if (inGameMenuOpen.get()) {
 			inGameMenuView.fillGrid();
 			menusPane.getChildren().add(inGameMenuView);
 			inGameMenuView.requestFocusForButtons();
@@ -550,130 +496,127 @@ public class MainScene extends Scene {
 		}
 	}
 
-	private void handlePauseMenu() {
-		pauseMenuIsOpen = !pauseMenuIsOpen;
+	public void handlePauseMenu() {
+		pauseMenuOpen.set(!pauseMenuOpen.get());
 		togglePauseMenu();
 		pauzeOrResumeGame();
 	}
 
-	private void handleInGameMenu() {
-		inGameMenuIsOpen = !inGameMenuIsOpen;
+	public void handleInGameMenu() {
+		inGameMenuOpen.set(!inGameMenuOpen.get());
 		toggleInGameMenu();
 	}
 
-	private void handleFullScreen() {
+	public void handleFullScreen() {
 		controller.setFullScreen(!controller.isFullScreen());
 		controller.resizeLocationsInView();
-		if (gameHasLoaded) {
-			if (controller.isFullScreen() && !pauseMenuIsOpen && !inventoryIsOpen) {
+		if (gameLoaded.get()) {
+			if (controller.isFullScreen() && !pauseMenuOpen.get() && !inventoryOpen.get()) {
 				setCursor(Cursor.NONE);
 			} else {
 				setCursor(Cursor.DEFAULT);
 			}
 		}
-		if (inGameMenuIsOpen) {
+		if (inGameMenuOpen.get()) {
 			inGameMenuView.fillGrid();
 		}
 	}
 
-	// TODO Clean up
-	private void handleInputKeyPressed(KeyEvent e) {
-		switch (e.getCode()) {
-		case T:
-			// TODO Remove
-			if (gameHasLoaded)
-				controller.teleportPlayer(new Location(5100, 3500));
-			break;
-		case E:
-			if (gameHasLoaded && allIsClosed()) {
-				controller.playerInteract();
-			}
-			break;
-		case ESCAPE:
-			if (gameHasLoaded) {
-				handlePauseMenu();
-			}
-			break;
-		case I:
-			if (gameHasLoaded && !pauseMenuIsOpen && !playerIsInDialog && !inventoryIsOpen) {
-				handleInGameMenu();
-			}
-			break;
-		case Q:
-			if (gameHasLoaded && !pauseMenuIsOpen && inventoryIsOpen) {
-				inventoryView.dropSelectedItem();
-			}
-			break;
-		case F11:
-			handleFullScreen();
-			break;
-		default:
-			if (gameHasLoaded && allIsClosed()) {
-				handleMovementPressed(e);
-			}
-		}
+	
+	// -------------------- Pass Methodes --------------------
+	
+	public boolean nameIsUnique(String name) {
+		return controller.nameIsUnique(name);
 	}
 
-	private void handleMovementPressed(KeyEvent e) {
-		switch (e.getCode()) {
-		case UP:
-		case W:
-			controller.getUpPressed().set(true);
-			break;
-		case DOWN:
-		case S:
-			controller.getDownPressed().set(true);
-			break;
-		case RIGHT:
-		case D:
-			controller.getRightPressed().set(true);
-			break;
-		case LEFT:
-		case A:
-			controller.getLeftPressed().set(true);
-			break;
-		default:
-			System.out.println("Input not valid");
-		}
+	public void stopNPCThreads() {
+		controller.stopNPCThreads();
 	}
 
-	private void handleMovementReleased(KeyEvent e) {
-		if (gameHasLoaded && allIsClosed()) {
-			switch (e.getCode()) {
-			case UP:
-			case W:
-				controller.setMovingDirection(Direction.SOUTH);
-				controller.getUpPressed().set(false);
-				break;
-			case DOWN:
-			case S:
-				controller.setMovingDirection(Direction.NORTH);
-				controller.getDownPressed().set(false);
-				break;
-			case RIGHT:
-			case D:
-				controller.setMovingDirection(Direction.WEST);
-				controller.getRightPressed().set(false);
-				break;
-			case LEFT:
-			case A:
-				controller.setMovingDirection(Direction.EAST);
-				controller.getLeftPressed().set(false);
-				break;
-			default:
-			}
-		}
+	public void dropItem(ItemView itemView) {
+		controller.dropItem(itemView);
+	}
+	
+	public String getImageUrlByIndex(int index) {
+		return controller.getImageUrlByIndex(index);
+	}
+	
+	public void removeItemViewFromInventoryView(ItemView itemView) {
+		inventoryView.removeItemView(itemView);
 	}
 
+	public Item getItemFromView(ItemView itemView) {
+		return controller.getItemFromView(itemView);
+	}
+
+	public void saveGame() {
+		controller.saveGame();
+	}
+
+	public void setItemViewsInInventory(ArrayList<ItemView> itemViews) {
+		inventoryView.setItemViews(itemViews);
+	}
+
+	public void moveBuildingView(Location location) {
+		buildingView.move(location.getX(), location.getY());
+	}
+
+	public void moveBuildingView(Direction dir) {
+		buildingView.move(dir);
+	}
+
+	public void addBuildingViewImage(String url, boolean canWalkOn, Location location) {
+		controller.addBuildingViewTile(url, canWalkOn, location);
+	}
+	
+	public void updateCoinsText(int coins) {
+		inGameMenuView.setCoinsText(coins);
+	}
+	
 	public void setAllKeyPressesFalse() {
-		controller.getUpPressed().set(false);
-		controller.getDownPressed().set(false);
-		controller.getRightPressed().set(false);
-		controller.getLeftPressed().set(false);
+		inputController.setAllKeyPressesFalse();
+	}
+	
+	// -------------------- Getters & Setters --------------------
+	
+	public ArrayList<String> getAllPlayerNames() {
+		return controller.getAllPlayerNames();
+	}
+	
+	public Player getPlayer() {
+		return controller.getPlayer();
+	}
+	
+	public InventoryView getInventoryView() {
+		return inventoryView;
+	}
+	
+	public BuildingView getBuildingView() {
+		return buildingView;
+	}
+	
+	public BooleanProperty gameHasLoaded() {
+		return gameLoaded;
+	}
+	
+	public BooleanProperty inGameMenuIsOpen() {
+		return inGameMenuOpen;
+	}
+	
+	public BooleanProperty inventoryIsOpen() {
+		return inventoryOpen;
+	}
+	
+	public BooleanProperty pauseMenuIsOpen() {
+		return pauseMenuOpen;
+	}
+	
+	public BooleanProperty playerIsInDialog() {
+		return playerInDialog;
 	}
 
-	private boolean allIsClosed() {
-		return !pauseMenuIsOpen && !inGameMenuIsOpen && !playerIsInDialog && !inventoryIsOpen;
+	public BooleanProperty isInBuilding() {
+		return inBuilding;
 	}
 
 }

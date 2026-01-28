@@ -31,6 +31,7 @@ public class MainController {
 	private ApplicationController appController;
 	private MovementController movementController;
 	private DatabaseController databaseController;
+	private InputController inputController;
 	
 	private MainScene scene;
 	private FileIO fileIO;
@@ -41,12 +42,15 @@ public class MainController {
 	
 	public MainController(ApplicationController appController) {
 		
-		fileIO = new FileIO();
-		scene = new MainScene(this);
-		
 		this.appController = appController;
 		movementController = new MovementController(this);
 		databaseController = new DatabaseController(this);
+		inputController = new InputController(this);
+		
+		fileIO = new FileIO();
+		scene = new MainScene(this, inputController);
+		
+		inputController.setScene(scene);
 		
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		itemsWithViews = new HashMap<Item, ItemView>();
@@ -287,7 +291,7 @@ public class MainController {
 			item.setLocation(newLocation);
 			game.dropItemFromPlayerInventory(game.getPlayerInventoryItemWithId(item.getId()));
 			
-			if(currentBuilding != null && scene.isInBuilding()) {
+			if(currentBuilding != null && scene.isInBuilding().get()) {
 				currentBuilding.addItem(item);
 				databaseController.dropItemInBuilding(item, 
 					new Location(item.getX() + -currentBuilding.getX(), item.getY() + -currentBuilding.getY()), currentBuilding.getId());
@@ -485,7 +489,7 @@ public class MainController {
 	
 	public void saveGame() {
 		Player player = game.getPlayer();
-		if(scene.isInBuilding()) {
+		if(scene.isInBuilding().get()) {
 			player.setLocation(game.getCurrentBuildingLeaveLocation());
 		}
 		databaseController.saveGame(player);
