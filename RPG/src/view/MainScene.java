@@ -233,18 +233,22 @@ public class MainScene extends Scene {
 	
 	private void openInventory(InventoryView inventoryView) {
 		menusPane.getChildren().add(inventoryView);
+		
 		inGameMenuView.setDisable(true);
 		inventoryView.requestFocusForButton();
 		inventoryOpen.set(true);
+		
 		setCursor(Cursor.DEFAULT);
 	}
 
 	public void removeInventoryView(InventoryView inventoryView) {
 		menusPane.getChildren().remove(inventoryView);
+		
 		inventoryView.disableActiveSlot();
 		inGameMenuView.setDisable(false);
 		inGameMenuView.requestFocusForButtons();
 		inventoryOpen.set(false);
+		
 		setCursor(Cursor.NONE);
 	}
 

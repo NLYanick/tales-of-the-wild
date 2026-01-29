@@ -95,6 +95,10 @@
 }
 
 .selected-inventory-slot {
+	-fx-border-color: #ffff80;
+}
+
+.focused-inventory-slot {
 	-fx-border-color: #FFFFFF;
 }
 
@@ -102,11 +106,7 @@
 	-fx-border-color: #00FF00;
 }
 
-.inventory-slot, .selected-inventory-slot, .activated-inventory-slot {
-	-fx-cursor: hand;
-}
-
-.inventory-slot, .selected-inventory-slot {
+.inventory-slot {
 	-fx-background-color: rgba(80, 90, 95, 0.5);
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
@@ -115,6 +115,7 @@
     -fx-max-width: 64px;
     -fx-min-height: 64px;
     -fx-max-height: 64px;
+    -fx-cursor: hand;
 }
 
 

@@ -113,11 +113,12 @@ public class ControlsPane extends BorderPane {
 		interactionTexts.setAlignment(Pos.CENTER_LEFT);
 		
 		Text interactionSubtitle = getSubTitle("Interaction");
+		BorderPane textB = getTextRow("B", "Buy Item");
 		BorderPane textE = getTextRow("E", "Interact");
 		BorderPane textQ = getTextRow("Q", "Drop Selected Item");
 		BorderPane textAlt = getTextRow("Alt", "Toggle Button Focus (Only in some views)");
 		
-		interactionTexts.getChildren().addAll(interactionSubtitle, textE, textQ, textAlt);
+		interactionTexts.getChildren().addAll(interactionSubtitle, textE, textQ, textB, textAlt);
 		
 		return interactionTexts;
 	}

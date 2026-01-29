@@ -52,7 +52,7 @@ public class InventoryView extends BorderPane {
 	protected HashMap<String, String> texts;
 	
 	protected ItemView draggedItemView;
-	protected InventorySlot activatedSlot;
+	protected InventorySlot focusedSlot, selectedSlot, activatedSlot; // Difference focused and selected: Selected == focused + when no slots are focused
 		
 	public InventoryView(MainScene scene) {
 		this.scene = scene;
@@ -163,14 +163,7 @@ public class InventoryView extends BorderPane {
 		
 		int gapSize = 10;
 
-		for(int x = 0; x < GRIDWIDTH; x++) {
-			for(int y = 0; y < GRIDHEIGHT; y++) {
-				InventorySlot slot = new InventorySlot(new Location(x, y));
-				
-				handleEvents(slot);
-				inventorySlots.add(slot, x, y);
-			}
-		}
+		makeSlots();
 		
 		inventorySlots.setHgap(gapSize);
 		inventorySlots.setVgap(gapSize);
@@ -181,10 +174,21 @@ public class InventoryView extends BorderPane {
 		inventorySlots.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);		
 	}
 	
-	private void handleEvents(InventorySlot slot) {
+	protected void makeSlots() {
+		for(int x = 0; x < GRIDWIDTH; x++) {
+			for(int y = 0; y < GRIDHEIGHT; y++) {
+				InventorySlot slot = new InventorySlot(new Location(x, y));
+				
+				handleEvents(slot);
+				inventorySlots.add(slot, x, y);
+			}
+		}
+	}
+	
+	protected void handleEvents(InventorySlot slot) {
 		slot.setOnKeyPressed(e -> handleKeyPressedSlots(e, slot));
 		slot.focusedProperty().addListener(((observableValue, oldValue, isFocused) -> {
-			selectInventorySlot(slot);
+			focusInventorySlot(slot, isFocused);
 		}));
 		
 		slot.setOnDragDropped(e -> {
@@ -221,11 +225,26 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
-	private void selectInventorySlot(InventorySlot slot) {
+	private void focusInventorySlot(InventorySlot slot, boolean focused) {
+		
+		if(focused) focusedSlot = slot;
+		else focusedSlot = null;
+		
 		ItemView itemView = slot.getItemView();
 		Item item = scene.getItemFromView(itemView);
+		
 		infoBoxName.set(itemView != null ? item.getName() : "");
 		infoBoxDescription.set(itemView != null ? item.getDescription() : "");
+		
+		selectSlot(slot);
+	}
+	
+	private void selectSlot(InventorySlot slot) {
+		if(selectedSlot != null)
+			selectedSlot.handleSelectedClass(false);
+		
+		selectedSlot = slot;
+		selectedSlot.handleSelectedClass(true);
 	}
 	
 	private void setUpInfoBox() {
@@ -328,12 +347,9 @@ public class InventoryView extends BorderPane {
 	}
 	
 	public void dropSelectedItem() {
-		for(Node node : inventorySlots.getChildren()) {
-			InventorySlot slot = (InventorySlot) node;
-			if(slot.isFocused() && slot.getItemView() != null) {
-				dropItem(slot.getItemView());
-			}
-		}
+		if(focusedSlot == null) return;
+		
+		dropItem(focusedSlot.getItemView());
 	}
 	
 	private void deactivateSlots() {
@@ -348,9 +364,15 @@ public class InventoryView extends BorderPane {
 	public void disableActiveSlot() {
 		deactivateSlots();
 		activatedSlot = null;
+		
+		if(selectedSlot != null)
+			selectedSlot.handleSelectedClass(false);
+		selectedSlot = null;
 	}
 	
 	private void dropItem(ItemView itemView) {
+		if(itemView == null) return;
+
 		scene.dropItem(itemView);
 		itemViews.remove(itemView);
 	}

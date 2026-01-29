@@ -7,6 +7,7 @@ import model.Direction;
 import model.Location;
 import view.InventoryView;
 import view.MainScene;
+import view.ShopInventoryView;
 import view.Buildings.BuildingView;
 import view.Buildings.ShopView;
 
@@ -56,11 +57,12 @@ public class InputController {
 			break;
 		case B:
 			BuildingView buildingView = scene.getBuildingView();
-			if (gameLoaded.get() && !pauseMenuOpen.get() && inventoryOpen.get() && inBuilding.get() && buildingView != null) {
+			if (gameLoaded.get() && !pauseMenuOpen.get() && inventoryOpen.get() && inBuilding.get()) {
 				try {
 					ShopView shopView = (ShopView) buildingView;
-					System.out.println(shopView.getInventoryView());
-				} catch(Error error) {}
+					ShopInventoryView shopInventory = shopView.getInventoryView();
+					shopInventory.buyItem();
+				} catch(Exception ex) {}
 			}
 			break;
 		case F11:

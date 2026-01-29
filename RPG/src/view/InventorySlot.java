@@ -24,7 +24,7 @@ public class InventorySlot extends BorderPane {
 		
 		setOnMouseClicked(e -> requestFocus());
 		focusedProperty().addListener(((observableValue, oldValue, isFocused) -> {
-			handleSelectedClass(isFocused);
+			handleFocusedClass(isFocused);
 		}));
 		
 		setCenter(slot);
@@ -36,13 +36,19 @@ public class InventorySlot extends BorderPane {
 		});
 	}
 	
-	private void handleSelectedClass(boolean isSelected) {
+	public void handleSelectedClass(boolean isSelected) {
 		if(isSelected) {
 			slot.getStyleClass().add("selected-inventory-slot");
-			slot.getStyleClass().remove("inventory-slot");
 		} else {
-			slot.getStyleClass().add("inventory-slot");
 			slot.getStyleClass().remove("selected-inventory-slot");
+		}
+	}
+	
+	public void handleFocusedClass(boolean isSelected) {
+		if(isSelected) {
+			slot.getStyleClass().add("focused-inventory-slot");
+		} else {
+			slot.getStyleClass().remove("focused-inventory-slot");
 		}
 	}
 			
