@@ -5,6 +5,7 @@ Teleport points maken op de map die je eerst moet vinden
 Audio toevoegen
 NPCs kunnen weglopen (Nieuwe data opslaan in database)
 Shops maken
+Inventory moet een "Use" knop, voor items
 Je mag niet op NPCs kunnen staan (Als je ervoor staat moet het npc plaatje boven je, anders player plaatje boven)
 Startscreen verbeteren
 Alle dialogs in 1 JSON bestand zetten (Met bv. FileIO uitlezen)
@@ -15,7 +16,8 @@ Een background/map moet een spawnlocatie meegeven (Spawntile, bijv. -3, of een x
 Signs maken
 Grotten maken (misschien iets met building?)
 Quests maken (Bijhouden welke NPC het gevraagd heeft)
-Verschillende Item klassen (en misschien NPC klassen) (Item is abstracte klasse)
+Healthbar maken, die je kan bijvullen met food items.
+Verschillende Item klassen (en misschien NPC klassen) (Item is abstracte klasse) (Factory class hiervoor??)
 Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
 Kijk nog eens naar bindings, voor responsive dingen
 Maak een README
@@ -101,8 +103,8 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Een inventoryslot die niet gefocused is, maar wel geselecteerd, moet een andere randkleur hebben | 
-ShopItems prijs tonen | Als je de shopinventory opnieuw opent, heb je dubbele items (Check of ze er al in zitten) | 
-"Buy" knop | Als de player een item koopt, moet het item weg uit de shop_item tabel & moeten de coins geüpdatet worden | 
+Nu: Fix de focus in de inventory (wat krijgt na menu sluiten en na weg van knop focus) | Fix de focus van de ShopInventoryView met de pausemenu
+Als je de shopinventory opnieuw opent, heb je dubbele items (Check of ze er al in zitten) | 
+Als de player een item koopt, moet het item weg uit de shop_item tabel & moeten de coins geüpdatet worden | 
 Items kopen in ShopInventory | Misschien per type een nieuwe building klasse? | 
 Shop muren niet zo fel maken | (Entrance buiten altijd in het midden (Is minder foutgevoelig))

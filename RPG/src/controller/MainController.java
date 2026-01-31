@@ -626,5 +626,9 @@ public class MainController {
 	public Location getPlayerLocation() {
 		return game.getPlayerLocation();
 	}
+	
+	public ShopItem getCurrentBuildingShopItem(Item item) {
+		return game.getCurrentBuildingShopItem(item);
+	}
 
 }

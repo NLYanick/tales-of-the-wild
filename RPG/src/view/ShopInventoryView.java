@@ -1,11 +1,24 @@
 package view;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import model.Item;
+import model.ShopItem;
 
 public class ShopInventoryView extends InventoryView {
+	
+	protected StringProperty infoBoxPrice;
 	
 	public ShopInventoryView(MainScene scene) {
 		super(scene);
@@ -34,6 +47,16 @@ public class ShopInventoryView extends InventoryView {
 		texts.put("button-2", "Buy");
 	}
 	
+	protected void setUpBindings() {
+		infoBoxName = new SimpleStringProperty();
+		infoBoxDescription = new SimpleStringProperty();
+		
+		slotIsFocused = new SimpleBooleanProperty(false).not();
+		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
+		
+		infoBoxPrice = new SimpleStringProperty();
+	}
+	
 	protected VBox getButtonsPane() {
 		int spacing = 30;
 		
@@ -49,6 +72,72 @@ public class ShopInventoryView extends InventoryView {
 		
 		return buttonsPane;
 	}
+	
+	protected VBox getInfoTexts() {
+		int spacing = 10;
+		int innerSpace = 434;
+
+		HBox titles = getTitlesBox(innerSpace * 0.6);
+		
+		Line separator = getSeparatorLine("info-box-separator-line", innerSpace, true);
+		
+		Text description = getText("info-box-description", innerSpace, infoBoxDescription);
+		
+		VBox texts = new VBox(titles, separator, description);
+		texts.setAlignment(Pos.TOP_LEFT);
+		texts.setSpacing(spacing);
+		
+		return texts;
+	}
+	
+	private HBox getTitlesBox(double innerSpace) {
+		Text name = getText("info-box-title", innerSpace, infoBoxName);
+		HBox priceBox = getPriceBox();
+		
+		Region spacer = new Region();
+		HBox.setHgrow(spacer, Priority.ALWAYS);
+		
+		HBox titles = new HBox(name, spacer, priceBox);
+		titles.setAlignment(Pos.CENTER);
+		
+		return titles;
+	}
+	
+	private HBox getPriceBox() {
+		Text price = getText("info-box-title", infoBoxPrice);
+		
+		Image image = new Image("Images/Items/TalesCoin.png");
+		ImageView coinView = new ImageView(image);
+		
+		int size = 40;
+		int spacing = 5;
+		
+		coinView.setFitWidth(size);
+		coinView.setPreserveRatio(true);
+		coinView.visibleProperty().bind(slotIsFocused);
+		
+		HBox priceBox = new HBox(price, coinView);
+		priceBox.setSpacing(spacing);
+		priceBox.setAlignment(Pos.CENTER);
+		
+		return priceBox;
+	}
+	
+	protected void focusInventorySlot(InventorySlot slot, boolean focused) {
+		if(focused) focusedSlot = slot;
+		else focusedSlot = null;
+		
+		ItemView itemView = slot.getItemView();
+		Item item = scene.getItemFromView(itemView);
+		ShopItem shopItem = scene.getCurrentBuildingShopItem(item);
+		
+		infoBoxName.set(itemView != null ? item.getName() : "");
+		infoBoxDescription.set(itemView != null ? item.getDescription() : "");
+		infoBoxPrice.set(shopItem != null ? "Price: " + shopItem.getPrice() : "");
+		
+		selectSlot(slot);
+	}
+	
 	
 	public void buyItem() {
 		ItemView itemView = selectedSlot.getItemView();

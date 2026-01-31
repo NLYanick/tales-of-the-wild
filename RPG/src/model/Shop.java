@@ -26,7 +26,9 @@ public class Shop extends Building {
 		}
 	}
 	
-	private ShopItem findShopItem(Item item) {
+	public ShopItem findShopItem(Item item) {
+		if(item == null) return null;
+		
 		return shopItems.stream().filter(si -> si.getItem().getId() == item.getId()).findFirst().orElse(null);
 	}
 	

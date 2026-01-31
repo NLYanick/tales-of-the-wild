@@ -225,8 +225,7 @@ public class InventoryView extends BorderPane {
 		}
 	}
 	
-	private void focusInventorySlot(InventorySlot slot, boolean focused) {
-		
+	protected void focusInventorySlot(InventorySlot slot, boolean focused) {
 		if(focused) focusedSlot = slot;
 		else focusedSlot = null;
 		
@@ -239,7 +238,7 @@ public class InventoryView extends BorderPane {
 		selectSlot(slot);
 	}
 	
-	private void selectSlot(InventorySlot slot) {
+	protected void selectSlot(InventorySlot slot) {
 		if(selectedSlot != null)
 			selectedSlot.handleSelectedClass(false);
 		
@@ -251,40 +250,61 @@ public class InventoryView extends BorderPane {
 		infoBox = new BorderPane();
 		infoBox.getStyleClass().add(styling.get("info-box"));
 		
-		infoBoxName = new SimpleStringProperty();
-		infoBoxDescription = new SimpleStringProperty();
-		
-		slotIsFocused = new SimpleBooleanProperty(false).not();
-		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
+		setUpBindings();
 		
 		VBox texts = getInfoTexts();
 		
 		infoBox.setCenter(texts);
 	}
 	
-	private VBox getInfoTexts() {
+	protected void setUpBindings() {
+		infoBoxName = new SimpleStringProperty();
+		infoBoxDescription = new SimpleStringProperty();
+		
+		slotIsFocused = new SimpleBooleanProperty(false).not();
+		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
+	}
+	
+	protected VBox getInfoTexts() {
 		int spacing = 10;
 		int innerSpace = 434;
 		
-		Text name = new Text();
-		name.getStyleClass().add(styling.get("info-box-title"));
-		name.textProperty().bind(infoBoxName);
-		name.setWrappingWidth(innerSpace);
+		Text name = getText("info-box-title", innerSpace, infoBoxName);
+
+		Line separator = getSeparatorLine("info-box-separator-line", innerSpace, true);
 		
-		Line separator = new Line(0, 0, innerSpace, 0);
-		separator.getStyleClass().add(styling.get("info-box-separator-line"));
-		separator.visibleProperty().bind(slotIsFocused);
-		
-		Text description = new Text();
-		description.getStyleClass().add(styling.get("info-box-description"));
-		description.textProperty().bind(infoBoxDescription);
-		description.setWrappingWidth(innerSpace);
+		Text description = getText("info-box-description", innerSpace, infoBoxDescription);
 		
 		VBox texts = new VBox(name, separator, description);
 		texts.setAlignment(Pos.TOP_LEFT);
 		texts.setSpacing(spacing);
 		
 		return texts;
+	}
+	
+	protected Text getText(String style, double innerSpace, StringProperty binding) {
+		Text text = new Text();
+		text.getStyleClass().add(styling.get(style));
+		text.textProperty().bind(binding);
+		text.setWrappingWidth(innerSpace);
+		
+		return text;
+	}
+	
+	protected Text getText(String style, StringProperty binding) {
+		Text text = new Text();
+		text.getStyleClass().add(styling.get(style));
+		text.textProperty().bind(binding);
+		
+		return text;
+	}
+	
+	protected Line getSeparatorLine(String style, double innerSpace, boolean horizontal) {
+		Line separator = (horizontal ? new Line(0, 0, innerSpace, 0) : new Line(0, 0, 0, innerSpace));
+		separator.getStyleClass().add(styling.get(style));
+		separator.visibleProperty().bind(slotIsFocused);
+		
+		return separator;
 	}
 	
 	private HBox getInventoryBoxes() {

@@ -25,6 +25,7 @@ import model.Item;
 import model.Location;
 import model.Player;
 import model.Shop;
+import model.ShopItem;
 import model.Tile;
 import view.Buildings.BrickBuildingView;
 import view.Buildings.BuildingView;
@@ -579,6 +580,10 @@ public class MainScene extends Scene {
 	
 	public void setAllKeyPressesFalse() {
 		inputController.setAllKeyPressesFalse();
+	}
+	
+	public ShopItem getCurrentBuildingShopItem(Item item) {
+		return controller.getCurrentBuildingShopItem(item);
 	}
 	
 	// -------------------- Getters & Setters --------------------

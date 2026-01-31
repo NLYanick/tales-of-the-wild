@@ -464,6 +464,18 @@ public class Game {
 	            .collect(Collectors.toList()));
 	}
 	
+
+	public ShopItem getCurrentBuildingShopItem(Item item) {
+		try {
+			Shop currentShop = (Shop) currentBuilding;
+			
+			return currentShop.findShopItem(item);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	// ---------- Pass methods ----------
 	
 	public void setBackgroundX(int x) {
