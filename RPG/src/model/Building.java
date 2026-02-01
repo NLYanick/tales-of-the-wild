@@ -50,7 +50,6 @@ public class Building {
 		
 		npcs = new ArrayList<NPC>();
 		items = new ArrayList<Item>();
-		setOutsideBounds();
 		
 		setUp();
 	}
@@ -92,6 +91,14 @@ public class Building {
 	}
 
 	private void setUp() {
+		setOutsideBounds();
+		
+		setUpTileSize();
+		
+		spawnLocation = calculateSpawnLocation();
+	}
+	
+	private void setUpTileSize() {
 		if(tileSettings.size() == 0) {
 			tileSettings.put("size", "big");
 		}
@@ -114,7 +121,6 @@ public class Building {
 		
 	public void enter(Player player) {
 		if(canPass) {
-			spawnLocation = calculateSpawnLocation();
 			Location playerInsideLocation = spawnLocation;
 			
 			loadInside();

@@ -37,7 +37,7 @@ public class Game {
 		setUpNPCs();
 		setUpBuildings();
 		
-		controller.addPlayerItemViewsToInventoryView();
+		controller.addItemViewsToInventoryViews();
 	}
 	
 	public void pauzeGame() {
@@ -418,8 +418,11 @@ public class Game {
 		
 		for (Building building : buildings) {
 			building.setGame(this);
+			
 			addNPCsToBuilding(building);
 			addItemsToBuilding(building);
+
+			controller.addBuildingView(building);
 		}
 	}
 	

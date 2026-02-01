@@ -41,7 +41,7 @@ public abstract class BuildingView extends BorderPane {
 		setCenter(layout);
 	}
 	
-	private void setLocation() {
+	public void setLocation() {
 		Location startLocation = Building.INSIDE_LOCATION;
 		
 		setLayoutX(scene.getWidth()/2 + (startLocation.getX() - spawnLocation.getX()));

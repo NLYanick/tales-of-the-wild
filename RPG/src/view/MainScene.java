@@ -224,7 +224,6 @@ public class MainScene extends Scene {
 	}
 	
 	public void openShopInventory(ShopInventoryView inventoryView) {
-		inventoryView.setItemViews(controller.getCurrentShopItemViews());
 		openInventory(inventoryView);
 	}
 	
@@ -394,13 +393,14 @@ public class MainScene extends Scene {
 
 		root.setBackground(new javafx.scene.layout.Background(new BackgroundFill(Color.CADETBLUE, null, null)));
 
-		buildingView = getBuildingViewByType(building);
+		buildingView = controller.getBuildingView(building);
+		buildingView.setLocation();
+		
 		root.getChildren().add(buildingView);
 		buildingView.toBack();
 
 		inBuilding.set(true);
-		addBuildingViewLocation(building);
-
+		addBuildingViewLocation(building);	
 	}
 
 	private void addBuildingViewLocation(Building building) {
@@ -421,7 +421,7 @@ public class MainScene extends Scene {
 		buildingView = null;
 	}
 
-	private BuildingView getBuildingViewByType(Building building) {
+	public BuildingView getBuildingViewByType(Building building) {
 		switch (building.getType()) {
 		case BRICK:
 			return new BrickBuildingView(this, building.getTiles(), building.getTileSize(),

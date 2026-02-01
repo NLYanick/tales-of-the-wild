@@ -22,6 +22,8 @@ import view.Background;
 import view.ItemView;
 import view.MainScene;
 import view.NPCView;
+import view.Buildings.BuildingView;
+import view.Buildings.ShopView;
 
 @SuppressWarnings("static-access")
 public class MainController {
@@ -38,7 +40,8 @@ public class MainController {
 	
 	private HashMap<NPC, NPCView> npcsWithViews;
 	private HashMap<Item, ItemView> itemsWithViews;
-	private HashMap<Tile, ImageView> buildingsWithViews;
+	private HashMap<Tile, ImageView> bgBuildingsWithViews;
+	private HashMap<Building, BuildingView> buildingsWithViews;
 	
 	public MainController(ApplicationController appController) {
 		
@@ -54,7 +57,8 @@ public class MainController {
 		
 		npcsWithViews = new HashMap<NPC, NPCView>();
 		itemsWithViews = new HashMap<Item, ItemView>();
-		buildingsWithViews = new HashMap<Tile, ImageView>();
+		bgBuildingsWithViews = new HashMap<Tile, ImageView>();
+		buildingsWithViews = new HashMap<Building, BuildingView>();
 	}
 	
 	public void setPlayer(Player player) {
@@ -88,8 +92,18 @@ public class MainController {
 		scene.addItemView(itemView);
 		moveItemViewWithScreen(item);
 	}
-		
-	public void addPlayerItemViewsToInventoryView() {
+	
+	public void addBuildingView(Building building) {
+		BuildingView buildingView = scene.getBuildingViewByType(building);
+		buildingsWithViews.put(building, buildingView);
+	}
+	
+	public void addItemViewsToInventoryViews() {
+		addPlayerItemViews();
+		addShopItemViews();
+	}
+	
+	private void addPlayerItemViews() {
 		ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
 		for(Item playerItem : game.getPlayerItems()) {
 			ItemView itemView = itemsWithViews.get(playerItem);
@@ -98,6 +112,32 @@ public class MainController {
 		}
 		
 		scene.setItemViewsInInventory(itemViews);
+	}
+	
+	private void addShopItemViews() {
+		for (Building building : game.getBuildings()) {
+			if(building instanceof Shop) {
+				Shop shop = (Shop) building;
+				
+				ArrayList<ItemView> itemViews = new ArrayList<ItemView>();
+				
+				addShopItemToList(shop, itemViews);
+				
+				ShopView shopView = (ShopView) buildingsWithViews.get(building);
+				shopView.getInventoryView().setItemViews(itemViews);
+			}
+		}
+	}
+	
+	private void addShopItemToList(Shop shop, ArrayList<ItemView> itemViews) {
+		for(ShopItem shopItem : shop.getShopItems()) {
+			Item item = shopItem.getItem();
+			
+			ItemView itemView = itemsWithViews.get(item);
+			scene.removeItemView(itemView);
+			
+			itemViews.add(itemView);
+		}
 	}
 	
 	public ArrayList<ItemView> getCurrentShopItemViews() {
@@ -253,7 +293,7 @@ public class MainController {
 		int screenXDiffernce = (int) scene.getWidth()/2 - scene.SCENEWIDTH/2;
 		int screenYDiffernce = (int) scene.getHeight()/2 - scene.SCENEHEIGHT/2;
 		
-		ImageView imageView = buildingsWithViews.get(tile);
+		ImageView imageView = bgBuildingsWithViews.get(tile);
 		Location location = tile.getLocation();
 		int x = location.getX() + backgroundX;
 		int y = location.getY() + backgroundY;
@@ -268,7 +308,7 @@ public class MainController {
 	}
 	
 	public void putBgBuilding(Tile tile, ImageView buildingView) {
-		buildingsWithViews.put(tile, buildingView);
+		bgBuildingsWithViews.put(tile, buildingView);
 	}
 	
 	public void loadBuildingsLayer() {
@@ -629,6 +669,10 @@ public class MainController {
 	
 	public ShopItem getCurrentBuildingShopItem(Item item) {
 		return game.getCurrentBuildingShopItem(item);
+	}
+	
+	public BuildingView getBuildingView(Building building) {
+		return buildingsWithViews.get(building);
 	}
 
 }
