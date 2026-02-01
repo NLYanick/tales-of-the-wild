@@ -467,7 +467,6 @@ public class Game {
 	            .collect(Collectors.toList()));
 	}
 	
-
 	public ShopItem getCurrentBuildingShopItem(Item item) {
 		try {
 			Shop currentShop = (Shop) currentBuilding;
@@ -479,12 +478,11 @@ public class Game {
 		}
 	}
 	
-	
 	public void buyItem(Item item) {
 		try {
 			Shop currentShop = (Shop) currentBuilding;
 			
-			currentShop.buy(item, player);
+			currentShop.buy(item, player.getTalesCoins());
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

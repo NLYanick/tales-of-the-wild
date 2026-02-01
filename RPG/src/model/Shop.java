@@ -17,12 +17,12 @@ public class Shop extends Building {
 		this.floorPattern = floorPattern;
 	}
 	
-	public void buy(Item item, Player player) {
+	public void buy(Item item, int playerCoins) {
 		ShopItem shopItem = findShopItem(item);
 		if(shopItem == null) return;
 		
-		if(player.canAffordPrice(shopItem.getPrice())) {			
-			player.addItem(item);
+		if(playerCoins >= shopItem.getPrice()) {			
+			game.addItemToPlayerInventory(item);
 			shopItems.remove(shopItem);
 		} else {
 			game.setShopError("Not enough coins");
