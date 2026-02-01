@@ -49,6 +49,9 @@ public abstract class Entity {
 	public void addCoins(int amount) {
 		talesCoins += amount;
 	}
+	public void subtractCoins(int amount) {
+		talesCoins -= amount;
+	}
 	
 	public abstract void setRunningImage(Direction dir);
 	

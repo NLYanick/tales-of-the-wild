@@ -36,7 +36,7 @@ public class DatabaseController {
 	}
 	
 	public void saveGame(Player player) {
-		playerLayer.saveLocation(player);
+		playerLayer.savePlayerData(player);
 		itemLayer.savePlayerItems(player, player.getItems());
 	}
 	
@@ -140,6 +140,10 @@ public class DatabaseController {
 
 	public void addItemToPlayer(Item item, Player player) {
 		itemLayer.addItemToPlayer(item, player);
+	}
+	
+	public void updatePlayerCoins(Player player) {
+		playerLayer.updatePlayerCoins(player);
 	}
 	
 	public void saveNPCDialog(NPC npc) {

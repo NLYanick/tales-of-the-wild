@@ -531,10 +531,10 @@ public class MainScene extends Scene {
 		}
 	}
 	
-	public void setShopError(String error) {
+	public void setShopModal(String message) {
 		ShopView shopView = (ShopView) buildingView;
 		
-		shopView.setShopError(error);
+		shopView.setShopModal(message);
 	}
 
 	

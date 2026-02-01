@@ -17,15 +17,19 @@ public class Shop extends Building {
 		this.floorPattern = floorPattern;
 	}
 	
-	public void buy(Item item, int playerCoins) {
+	public void buy(Item item, Player player) {
 		ShopItem shopItem = findShopItem(item);
 		if(shopItem == null) return;
 		
-		if(playerCoins >= shopItem.getPrice()) {			
-			game.addItemToPlayerInventory(item);
+		if(player.canAffordPrice(shopItem.getPrice())) {
+			player.subtractCoins(shopItem.getPrice());
+			game.addBoughtItemToPlayerInventory(item);
+			
 			shopItems.remove(shopItem);
+			
+			game.setShopModal(shopItem.getItem().getName() + " Bought!");
 		} else {
-			game.setShopError("Not enough coins");
+			game.setShopModal("Not enough coins");
 		}
 	}
 	

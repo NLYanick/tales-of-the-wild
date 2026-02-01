@@ -507,8 +507,8 @@ public class InventoryView extends StackPane {
 		}
 	}
 	
-	public void setError(String error) {
-		modalMessage.set(error);
+	public void setModal(String message) {
+		modalMessage.set(message);
 	}
 	
 }

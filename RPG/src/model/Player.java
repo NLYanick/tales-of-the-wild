@@ -30,6 +30,10 @@ public class Player extends Entity {
 		return inventory.isFull();
 	}
 	
+	public boolean canAffordPrice(int price) {
+		return talesCoins >= price;
+	}
+	
 	public void addItemsToInventory(ArrayList<Item> items) {
 		for(Item item : items) {
 			addItem(item);

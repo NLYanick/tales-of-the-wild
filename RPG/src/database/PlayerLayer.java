@@ -55,13 +55,28 @@ public class PlayerLayer {
 		}
 	}
 	
-	public void saveLocation(Player player) {
-		String query = "UPDATE player SET x = ?, y = ? WHERE name = ?";
+	public void savePlayerData(Player player) {
+		String query = "UPDATE player SET x = ?, y = ?, tales_coins = ? WHERE name = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, player.getX());
 			stmt.setInt(2, player.getY());
-			stmt.setString(3, player.getName());
+			stmt.setInt(3, player.getTalesCoins());
+			stmt.setString(4, player.getName());
+			stmt.execute();
+			
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updatePlayerCoins(Player player) {
+		String query = "UPDATE player SET tales_coins = ? WHERE name = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, player.getTalesCoins());
+			stmt.setString(2, player.getName());
 			stmt.execute();
 			
 			stmt.close();

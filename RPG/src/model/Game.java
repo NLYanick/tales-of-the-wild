@@ -482,10 +482,20 @@ public class Game {
 		try {
 			Shop currentShop = (Shop) currentBuilding;
 			
-			currentShop.buy(item, player.getTalesCoins());
+			currentShop.buy(item, player);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public void addBoughtItemToPlayerInventory(Item item) {
+		player.addItem(item);
+		
+		controller.removeItemFromShopInventoryView(item);
+		controller.addItemViewToInventoryView(item);
+		
+		controller.addItemToPlayer(item);
+		controller.updatePlayerCoins();
 	}
 	
 	// ---------- Pass methods ----------
@@ -586,8 +596,8 @@ public class Game {
 		return controller.getOriginalItemBuildingLocation(item, buildingId);
 	}
 	
-	public void setShopError(String error) {
-		controller.setShopError(error);
+	public void setShopModal(String message) {
+		controller.setShopModal(message);
 	}
 	
 	// ---------- Getters & Setters ----------

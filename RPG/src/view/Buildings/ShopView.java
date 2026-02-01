@@ -77,8 +77,8 @@ public class ShopView extends BuildingView {
 		return imageView;
 	}
 
-	public void setShopError(String error) {
-		inventoryView.setError(error);
+	public void setShopModal(String message) {
+		inventoryView.setModal(message);
 	}
 	
 	public ShopInventoryView getInventoryView() {

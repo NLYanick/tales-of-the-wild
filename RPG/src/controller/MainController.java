@@ -502,6 +502,11 @@ public class MainController {
 		scene.addItemViewToInventoryView(item, itemsWithViews.get(item), game.playerInventoryIsFull());
 	}
 	
+	public void removeItemFromShopInventoryView(Item item) {
+		ShopView shopView = (ShopView) buildingsWithViews.get(game.getCurrentBuilding());
+		shopView.getInventoryView().removeItemView(itemsWithViews.get(item));
+	}
+	
 	public void addSingleDialogView(String text) {
 		scene.addDialogView(text);
 	}
@@ -522,8 +527,8 @@ public class MainController {
 	    scene.updateLayersPositions();
 	}
 	
-	public void setShopError(String error) {
-		scene.setShopError(error);
+	public void setShopModal(String message) {
+		scene.setShopModal(message);
 	}
 	
 	// -------------------- Database --------------------
@@ -575,6 +580,10 @@ public class MainController {
 	
 	public void addItemToPlayer(Item item) {
 		databaseController.addItemToPlayer(item, game.getPlayer());
+	}
+	
+	public void updatePlayerCoins() {
+		databaseController.updatePlayerCoins(game.getPlayer());
 	}
 	
 	public void setItemLocation(Item item, Location location) {

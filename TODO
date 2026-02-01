@@ -104,6 +104,6 @@ Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse
 
 
 Nu: Fix de focus in de inventory (wat krijgt na menu sluiten en na weg van knop focus) | 
-Als de player een item koopt, moet het item weg uit de shop_item tabel & moeten de coins geüpdatet worden | 
-Items kopen in ShopInventory | Misschien per type een nieuwe building klasse? | 
+Als de player een item koopt, moet het item weg uit de shop_item tabel | 
+In buildings werkt de entitylayer niet zo goed | Misschien per type een nieuwe building klasse? | 
 Shop muren niet zo fel maken | (Entrance buiten altijd in het midden (Is minder foutgevoelig))
