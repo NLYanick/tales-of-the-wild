@@ -36,6 +36,10 @@ public class Player extends Entity {
 		}
 	}
 	
+	public boolean canAffordPrice(int price) {
+		return talesCoins >= price;
+	}
+	
 	public boolean nextStepIsNPC(Rectangle npcBounds, Direction dir) {
 		int extraVerticalSpace = 20;
 		int extraHorizontalSpace = 20;

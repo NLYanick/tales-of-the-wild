@@ -118,6 +118,50 @@
     -fx-cursor: hand;
 }
 
+.inventory-modal {
+	-fx-background-color: rgb(50, 168, 82);
+	-fx-border-color: #008000;
+}
+
+.inventory-modal-close {
+	-fx-background-color: transparent;
+	
+	-fx-text-fill: #FFF;
+	-fx-font-size: 20px;
+	
+	-fx-cursor: hand;
+}
+.inventory-modal-close:hover {
+    -fx-text-fill: #F00;
+}
+.inventory-modal-close:focused {
+    -fx-border-color: #EEE;
+    -fx-border-width: 2px;
+}
+
+.inventory-modal-text {
+	-fx-font-size: 24px;
+    -fx-font-family: "Times New Roman";
+    -fx-font-weight: bold;
+    -fx-fill: #ffffff;
+}
+
+
+.shop-inventory-modal, .inventory-modal {
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 5px;
+    
+    -fx-min-width: 480px;
+    -fx-max-width: 480px;
+    -fx-min-height: 224px;
+    -fx-max-height: 224px;
+}
+
+.shop-inventory-modal {
+	-fx-background-color: rgb(241, 252, 136);
+	-fx-border-color: #FFFF80;
+}
 
 .shop-inventory-button {
 	-fx-background-color: #D8B13C;

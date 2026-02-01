@@ -474,9 +474,13 @@ public class MainScene extends Scene {
 	private void toggleDisablePanes(boolean disable) {
 		inGameMenuView.setDisable(disable);
 		inventoryView.setDisable(disable);
+		
 		for (DialogView dialogView : dialogs) {
 			dialogView.setDisable(disable);
 		}
+		
+		if(buildingView instanceof ShopView)
+			((ShopView) buildingView).getInventoryView().setDisable(disable);
 	}
 
 	private void pauzeOrResumeGame() {
@@ -525,6 +529,12 @@ public class MainScene extends Scene {
 		if (inGameMenuOpen.get()) {
 			inGameMenuView.fillGrid();
 		}
+	}
+	
+	public void setShopError(String error) {
+		ShopView shopView = (ShopView) buildingView;
+		
+		shopView.setShopError(error);
 	}
 
 	
@@ -584,6 +594,10 @@ public class MainScene extends Scene {
 	
 	public ShopItem getCurrentBuildingShopItem(Item item) {
 		return controller.getCurrentBuildingShopItem(item);
+	}
+	
+	public void buyItem(ItemView itemView) {
+		controller.buyItem(itemView);
 	}
 	
 	// -------------------- Getters & Setters --------------------

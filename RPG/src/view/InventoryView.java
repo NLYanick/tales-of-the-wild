@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,10 +19,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -30,18 +33,18 @@ import javafx.scene.text.Text;
 import model.Item;
 import model.Location;
 
-public class InventoryView extends BorderPane {
+public class InventoryView extends StackPane {
 	
 	protected final static int GRIDWIDTH = 10;
 	protected final static int GRIDHEIGHT = 6;
 	
 	protected MainScene scene;
 	protected GridPane inventorySlots;
-	protected BorderPane infoBox;
+	protected BorderPane root, infoBox;
 	
-	protected Button close;
+	protected Button close, closeModal;
 	
-	protected StringProperty infoBoxName, infoBoxDescription;
+	protected StringProperty infoBoxName, infoBoxDescription, modalMessage;
 	protected BooleanBinding slotIsFocused;
 	
 	protected boolean canDragAndDrop = true;
@@ -68,29 +71,39 @@ public class InventoryView extends BorderPane {
 		
 		setBackground(new Background(new BackgroundImage(new Image(styling.get("background")), null, null, null, null)));
 		
+		root = new BorderPane();
+		
 		BorderPane leftPane = getLeftPane();
-		setLeft(leftPane);
+		root.setLeft(leftPane);
 				
 		setUpInventorySlots();
 		setUpInfoBox();
 		
 		HBox boxes = getInventoryBoxes();
-		setCenter(boxes);
+		root.setCenter(boxes);
+		
+		BorderPane modal = getModalContainer();
+		getChildren().addAll(root, modal);
 		
 		setOnKeyPressed(e -> handleKeyPressed(e));
 	}
-	
+
 	protected void setUpStyling() {
 		styling.put("background", "Images/Background/Grass/Grass.png");
 		
 		styling.put("buttons-pane", "inventory-buttons-pane");
 		styling.put("title", "inventory-title");
 		styling.put("slots-box", "inventory-slots-box");
+		styling.put("button", "menu-button");
+		
 		styling.put("info-box", "inventory-info-box");
 		styling.put("info-box-title", "inventory-info-box-title");
 		styling.put("info-box-separator-line", "inventory-info-box-separator-line");
+		
 		styling.put("info-box-description", "inventory-info-box-description");
-		styling.put("button", "menu-button");
+		styling.put("modal", "inventory-modal");
+		styling.put("modal-text", "inventory-modal-text");
+		styling.put("modal-close", "inventory-modal-close");
 	}
 	
 	protected void setUpTexts() {
@@ -260,6 +273,7 @@ public class InventoryView extends BorderPane {
 	protected void setUpBindings() {
 		infoBoxName = new SimpleStringProperty();
 		infoBoxDescription = new SimpleStringProperty();
+		modalMessage = new SimpleStringProperty();
 		
 		slotIsFocused = new SimpleBooleanProperty(false).not();
 		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
@@ -315,6 +329,51 @@ public class InventoryView extends BorderPane {
 		boxes.setAlignment(Pos.CENTER);
 		
 		return boxes;
+	}
+	
+	private BorderPane getModalContainer() {
+		BorderPane modalContainer = new BorderPane();
+		
+		modalContainer.setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0.6), null, null)));
+		modalContainer.toFront();
+		modalContainer.visibleProperty().bind(modalMessage.isNotEmpty());
+		modalContainer.setPickOnBounds(true);
+		
+		modalContainer.visibleProperty().addListener((obs, wasVisible, isVisible) -> {
+		    if (isVisible) {
+		        Platform.runLater(() -> closeModal.requestFocus());
+		        root.setDisable(true);
+		    } else {
+		    	root.setDisable(false);		    	
+		    }
+		});
+		
+		StackPane modal = getModal();
+		
+		modalContainer.setCenter(modal);
+		
+		return modalContainer;
+	}
+	
+	private StackPane getModal() {
+		int margin = 10;
+		
+		Text message = new Text();
+		message.textProperty().bind(modalMessage);
+		message.getStyleClass().add(styling.get("modal-text"));
+		
+		closeModal = new Button("✖");
+		closeModal.setOnAction(e -> modalMessage.set(""));
+		closeModal.setOnKeyPressed(e -> handleButtonKeyPressed(e, closeModal));
+		closeModal.getStyleClass().add(styling.get("modal-close"));
+		
+		StackPane.setAlignment(closeModal, Pos.TOP_RIGHT);
+		StackPane.setMargin(closeModal, new Insets(margin));
+		
+		StackPane modal = new StackPane(message, closeModal);
+		modal.getStyleClass().add(styling.get("modal"));
+		
+		return modal;
 	}
 	
 	protected Button getButton(String text) {
@@ -446,6 +505,10 @@ public class InventoryView extends BorderPane {
 		for(int i = 0; i < itemViews.size(); i++) { // Not foreach because ConcurrentModificationException
 			addItemViewToInventory(itemViews.get(i));
 		}
+	}
+	
+	public void setError(String error) {
+		modalMessage.set(error);
 	}
 	
 }

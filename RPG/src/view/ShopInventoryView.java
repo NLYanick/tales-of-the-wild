@@ -34,6 +34,10 @@ public class ShopInventoryView extends InventoryView {
 		styling.put("info-box", "shop-inventory-info-box");
 		styling.put("button", "shop-inventory-button");
 		
+		styling.put("modal", "inventory-modal");
+		styling.put("modal-text", "inventory-modal-text");
+		styling.put("modal-close", "inventory-modal-close");
+		
 		styling.put("title", "inventory-title");
 		styling.put("info-box-title", "inventory-info-box-title");
 		styling.put("info-box-separator-line", "inventory-info-box-separator-line");
@@ -50,6 +54,7 @@ public class ShopInventoryView extends InventoryView {
 	protected void setUpBindings() {
 		infoBoxName = new SimpleStringProperty();
 		infoBoxDescription = new SimpleStringProperty();
+		modalMessage = new SimpleStringProperty();
 		
 		slotIsFocused = new SimpleBooleanProperty(false).not();
 		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
@@ -143,7 +148,7 @@ public class ShopInventoryView extends InventoryView {
 		ItemView itemView = selectedSlot.getItemView();
 		if(itemView == null) return;
 		
-		System.out.println(itemView);
+		scene.buyItem(itemView);
 	}
 
 }

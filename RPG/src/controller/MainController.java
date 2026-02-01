@@ -486,6 +486,10 @@ public class MainController {
 		game.playerInteract();
 	}
 	
+	public void buyItem(ItemView itemView) {
+		game.buyItem(getItemFromView(itemView));
+	}
+	
 	public void moveBuildingView(Direction dir) {
 		scene.moveBuildingView(dir);
 	}
@@ -516,6 +520,10 @@ public class MainController {
 	
 	public void updateLayersPositions() {
 	    scene.updateLayersPositions();
+	}
+	
+	public void setShopError(String error) {
+		scene.setShopError(error);
 	}
 	
 	// -------------------- Database --------------------

@@ -77,8 +77,12 @@ public class ShopView extends BuildingView {
 		return imageView;
 	}
 
+	public void setShopError(String error) {
+		inventoryView.setError(error);
+	}
+	
 	public ShopInventoryView getInventoryView() {
 		return inventoryView;
 	}
-
+	
 }

@@ -479,6 +479,17 @@ public class Game {
 		}
 	}
 	
+	
+	public void buyItem(Item item) {
+		try {
+			Shop currentShop = (Shop) currentBuilding;
+			
+			currentShop.buy(item, player);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	// ---------- Pass methods ----------
 	
 	public void setBackgroundX(int x) {
@@ -575,6 +586,10 @@ public class Game {
 	
 	public Location getOriginalItemBuildingLocation(Item item, int buildingId) {
 		return controller.getOriginalItemBuildingLocation(item, buildingId);
+	}
+	
+	public void setShopError(String error) {
+		controller.setShopError(error);
 	}
 	
 	// ---------- Getters & Setters ----------

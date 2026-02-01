@@ -19,10 +19,13 @@ public class Shop extends Building {
 	
 	public void buy(Item item, Player player) {
 		ShopItem shopItem = findShopItem(item);
+		if(shopItem == null) return;
 		
-		if(player.getTalesCoins() >= shopItem.getPrice()) {			
+		if(player.canAffordPrice(shopItem.getPrice())) {			
 			player.addItem(item);
 			shopItems.remove(shopItem);
+		} else {
+			game.setShopError("Not enough coins");
 		}
 	}
 	
