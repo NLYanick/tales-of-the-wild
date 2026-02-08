@@ -224,6 +224,7 @@ public class MainScene extends Scene {
 	}
 	
 	public void openShopInventory(ShopInventoryView inventoryView) {
+		inventoryView.setPlayerCoins(controller.getPlayer().getTalesCoins());
 		openInventory(inventoryView);
 	}
 	

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -124,10 +125,7 @@ public class InventoryView extends StackPane {
 		}
 	}
 	
-	private BorderPane getLeftPane() {
-		int rectWidth = 300;
-		int rectHeight = 104;
-		
+	private BorderPane getLeftPane() {		
 		BorderPane leftPane = new BorderPane();
 		leftPane.getStyleClass().add(styling.get("buttons-pane"));
 		
@@ -137,11 +135,19 @@ public class InventoryView extends StackPane {
 		VBox buttonsPane = getButtonsPane();
 		leftPane.setCenter(buttonsPane);
 		
-		Rectangle invisRect = new Rectangle(rectWidth, rectHeight);
-		invisRect.setFill(Color.TRANSPARENT);
+		Rectangle invisRect = makeInvisibleRectangle(titleBox.widthProperty(), titleBox.heightProperty());
 		leftPane.setBottom(invisRect);
 		
 		return leftPane;
+	}
+	
+	private Rectangle makeInvisibleRectangle(ReadOnlyDoubleProperty widthProperty, ReadOnlyDoubleProperty heightProperty) {
+		Rectangle invisRect = new Rectangle();
+		invisRect.widthProperty().bind(widthProperty);
+		invisRect.heightProperty().bind(heightProperty);
+		invisRect.setFill(Color.TRANSPARENT);
+		
+		return invisRect;
 	}
 	
 	protected VBox getButtonsPane() {
@@ -157,7 +163,7 @@ public class InventoryView extends StackPane {
 		return buttonsPane;
 	}
 	
-	private VBox getTitleBox() {
+	protected VBox getTitleBox() {
 		int spacing = 60;
 		
 		Text title = new Text(texts.get("title"));

@@ -33,6 +33,7 @@ Maak een README
 
 Minder Prioriteit:
 Vragen of je het zeker weet als je een player delete
+"Zeker weten?" modal als je een item wilt kopen
 Zo veel mogelijk (zoek) for-loops vervangen door 'list.stream().filter(n -> true).findFirst().orElse(null)'
 Als de player loopt en een item oppakt, blijft hij door rennen
 Sommige buildings moeten een sleutel hebben om naar binnen te mogen (canPass = false op het begin)
@@ -104,6 +105,5 @@ Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse
 
 
 Nu: Fix de focus in de inventory (wat krijgt focus na menu sluiten, na weg van knop en na modal sluiten) | 
-Player Coins tonen in Shop Inventory | 
-In buildings werkt de entitylayer niet zo goed | Misschien per type een nieuwe building klasse? | 
+In buildings werkt de entitylayer niet zo goed (Items altijd boven player bv.) | Misschien per type een nieuwe building klasse? | 
 Shop muren niet zo fel maken | (Entrance buiten altijd in het midden (Is minder foutgevoelig))

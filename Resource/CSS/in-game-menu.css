@@ -46,6 +46,13 @@
     -fx-fill: #444444;
 }
 
+.inventory-player-coins {
+	-fx-font-size: 28px;
+    -fx-font-family: "Times New Roman";
+    -fx-font-weight: bold;
+    -fx-fill: #444444;
+}
+
 .inventory-buttons-pane {
 	-fx-background-color: #41A51A;
 	-fx-min-width: 300px;

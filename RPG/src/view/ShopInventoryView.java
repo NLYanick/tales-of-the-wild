@@ -3,6 +3,7 @@ package view;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,7 +19,7 @@ import model.ShopItem;
 
 public class ShopInventoryView extends InventoryView {
 	
-	protected StringProperty infoBoxPrice;
+	protected StringProperty infoBoxItemPrice, playerCoinsText;
 	
 	public ShopInventoryView(MainScene scene) {
 		super(scene);
@@ -39,6 +40,7 @@ public class ShopInventoryView extends InventoryView {
 		styling.put("modal-close", "inventory-modal-close");
 		
 		styling.put("title", "inventory-title");
+		styling.put("player-coins", "inventory-player-coins");
 		styling.put("info-box-title", "inventory-info-box-title");
 		styling.put("info-box-separator-line", "inventory-info-box-separator-line");
 		styling.put("info-box-description", "inventory-info-box-description");
@@ -59,7 +61,39 @@ public class ShopInventoryView extends InventoryView {
 		slotIsFocused = new SimpleBooleanProperty(false).not();
 		slotIsFocused = infoBoxName.isNotEmpty().and(infoBoxDescription.isNotEmpty());
 		
-		infoBoxPrice = new SimpleStringProperty();
+		infoBoxItemPrice = new SimpleStringProperty();
+	}
+	
+	protected VBox getTitleBox() {
+		int spacing = 60;
+		
+		Text title = new Text(texts.get("title"));
+		title.getStyleClass().add(styling.get("title"));
+		
+		HBox playerCoins = getPlayerCoins();
+		
+		VBox titleBox = new VBox(spacing/2, title, playerCoins);
+		titleBox.setPadding(new Insets(spacing, 0, 0, 0));
+		titleBox.setAlignment(Pos.TOP_CENTER);
+		
+		return titleBox;
+	}
+	
+	private HBox getPlayerCoins() {
+		int spacing = 8;
+		int size = 48;
+		
+		Text coinsText = new Text("-");
+		coinsText.getStyleClass().add(styling.get("player-coins"));
+		
+		playerCoinsText = coinsText.textProperty();
+		
+		ImageView coinView = getCoinImage(size);
+		
+		HBox playerCoins = new HBox(spacing, coinsText, coinView);
+		playerCoins.setAlignment(Pos.CENTER);
+		
+		return playerCoins;
 	}
 	
 	protected VBox getButtonsPane() {
@@ -82,7 +116,7 @@ public class ShopInventoryView extends InventoryView {
 		int spacing = 10;
 		int innerSpace = 434;
 
-		HBox titles = getTitlesBox(innerSpace * 0.6);
+		HBox titles = getInfoTitlesBox(innerSpace * 0.6);
 		
 		Line separator = getSeparatorLine("info-box-separator-line", innerSpace, true);
 		
@@ -95,7 +129,7 @@ public class ShopInventoryView extends InventoryView {
 		return texts;
 	}
 	
-	private HBox getTitlesBox(double innerSpace) {
+	private HBox getInfoTitlesBox(double innerSpace) {
 		Text name = getText("info-box-title", innerSpace, infoBoxName);
 		HBox priceBox = getPriceBox();
 		
@@ -109,23 +143,30 @@ public class ShopInventoryView extends InventoryView {
 	}
 	
 	private HBox getPriceBox() {
-		Text price = getText("info-box-title", infoBoxPrice);
-		
-		Image image = new Image("Images/Items/TalesCoin.png");
-		ImageView coinView = new ImageView(image);
+		Text price = getText("info-box-title", infoBoxItemPrice);
 		
 		int size = 40;
 		int spacing = 5;
 		
-		coinView.setFitWidth(size);
-		coinView.setPreserveRatio(true);
+		ImageView coinView = getCoinImage(size);
 		coinView.visibleProperty().bind(slotIsFocused);
 		
-		HBox priceBox = new HBox(price, coinView);
-		priceBox.setSpacing(spacing);
+		HBox priceBox = new HBox(spacing, price, coinView);
 		priceBox.setAlignment(Pos.CENTER);
 		
 		return priceBox;
+	}
+	
+	private ImageView getCoinImage(int size) {
+		Image image = new Image("Images/Items/TalesCoin.png");
+		ImageView imageView = new ImageView(image);
+		
+		if(size > 0) {			
+			imageView.setFitWidth(size);
+			imageView.setPreserveRatio(true);
+		}
+		
+		return imageView;
 	}
 	
 	protected void focusInventorySlot(InventorySlot slot, boolean focused) {
@@ -138,11 +179,15 @@ public class ShopInventoryView extends InventoryView {
 		
 		infoBoxName.set(itemView != null ? item.getName() : "");
 		infoBoxDescription.set(itemView != null ? item.getDescription() : "");
-		infoBoxPrice.set(shopItem != null ? "Price: " + shopItem.getPrice() : "");
+		infoBoxItemPrice.set(shopItem != null ? "Price: " + shopItem.getPrice() : "");
 		
 		selectSlot(slot);
 	}
 	
+	
+	public void setPlayerCoins(int coins) {
+		playerCoinsText.set("" + coins);
+	}
 	
 	public void buyItem() {
 		ItemView itemView = selectedSlot.getItemView();
