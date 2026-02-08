@@ -23,7 +23,9 @@ public class Shop extends Building {
 		
 		if(player.canAffordPrice(shopItem.getPrice())) {
 			player.subtractCoins(shopItem.getPrice());
+			
 			game.addBoughtItemToPlayerInventory(item);
+			game.updateCoinsText(player.getTalesCoins());
 			
 			shopItems.remove(shopItem);
 			

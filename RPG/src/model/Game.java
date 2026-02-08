@@ -600,6 +600,10 @@ public class Game {
 		controller.setShopModal(message);
 	}
 	
+	public void updateCoinsText(int talesCoins) {
+		controller.updateCoinsText(talesCoins);
+	}
+
 	// ---------- Getters & Setters ----------
 	
 	public int getId() {

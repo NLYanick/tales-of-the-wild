@@ -103,7 +103,7 @@ Voor Dialogs gebruik je meestal een bestand die alle mogelijke tekst heeft (JSON
 Als er meer objecten komen waar NPC's en items in kunnen, maak dan ook een losse lijst met alle NPC's en alle items, zodat je niet extra code hebt
 
 
-Nu: Fix de focus in de inventory (wat krijgt na menu sluiten en na weg van knop focus) | 
-Als de player een item koopt, moet het item weg uit de shop_item tabel | Player Coins tonen in Shop Inventory | 
+Nu: Fix de focus in de inventory (wat krijgt focus na menu sluiten, na weg van knop en na modal sluiten) | 
+Player Coins tonen in Shop Inventory | 
 In buildings werkt de entitylayer niet zo goed | Misschien per type een nieuwe building klasse? | 
 Shop muren niet zo fel maken | (Entrance buiten altijd in het midden (Is minder foutgevoelig))

@@ -490,6 +490,10 @@ public class MainController {
 		game.buyItem(getItemFromView(itemView));
 	}
 	
+	public void updateCoinsText(int talesCoins) {
+		scene.updateCoinsText(talesCoins);
+	}
+	
 	public void moveBuildingView(Direction dir) {
 		scene.moveBuildingView(dir);
 	}
