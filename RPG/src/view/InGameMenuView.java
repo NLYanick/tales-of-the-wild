@@ -1,6 +1,5 @@
 package view;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -114,13 +113,12 @@ public class InGameMenuView extends BorderPane {
 		Image coinImg = new Image("Images/Items/TalesCoin.png");
 		ImageView coinView = new ImageView(coinImg);
 		
-		int coins = scene.getPlayer().getTalesCoins();
-		this.coinsText = new SimpleStringProperty();
-		this.coinsText.set("" + coins);
-		
 		Label coinsLabel = new Label();
-		coinsLabel.textProperty().bind(this.coinsText);
+		this.coinsText = coinsLabel.textProperty();
 		coinsLabel.getStyleClass().add("ingame-menu-player-stats");
+		
+		int coins = scene.getPlayer().getTalesCoins();
+		this.coinsText.set("" + coins);
 		
 		coinsText.getChildren().addAll(coinView, coinsLabel);
 		

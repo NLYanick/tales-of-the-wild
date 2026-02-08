@@ -83,14 +83,14 @@ public class ShopInventoryView extends InventoryView {
 		int spacing = 8;
 		int size = 48;
 		
+		ImageView coinView = getCoinImage(size);
+		
 		Text coinsText = new Text("-");
 		coinsText.getStyleClass().add(styling.get("player-coins"));
 		
 		playerCoinsText = coinsText.textProperty();
 		
-		ImageView coinView = getCoinImage(size);
-		
-		HBox playerCoins = new HBox(spacing, coinsText, coinView);
+		HBox playerCoins = new HBox(spacing, coinView, coinsText);
 		playerCoins.setAlignment(Pos.CENTER);
 		
 		return playerCoins;

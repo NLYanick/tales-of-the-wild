@@ -47,7 +47,7 @@
 }
 
 .inventory-player-coins {
-	-fx-font-size: 28px;
+	-fx-font-size: 32px;
     -fx-font-family: "Times New Roman";
     -fx-font-weight: bold;
     -fx-fill: #444444;
