@@ -582,6 +582,10 @@ public class MainController {
 		databaseController.addItemToPlayer(item, game.getPlayer());
 	}
 	
+	public void saveBoughtItem(Item item) {
+		databaseController.buyItem(item, game.getPlayer());
+	}
+	
 	public void updatePlayerCoins() {
 		databaseController.updatePlayerCoins(game.getPlayer());
 	}

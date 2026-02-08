@@ -494,7 +494,7 @@ public class Game {
 		controller.removeItemFromShopInventoryView(item);
 		controller.addItemViewToInventoryView(item);
 		
-		controller.addItemToPlayer(item);
+		controller.saveBoughtItem(item);
 		controller.updatePlayerCoins();
 	}
 	

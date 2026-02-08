@@ -135,7 +135,6 @@ public class ItemLayer {
 	}
 
 	public void addItemToPlayer(Item item, Player player) {
-
 		String query = "UPDATE item SET x = ?, y = ?, player_name = ?, building_id = NULL, npc_id = NULL WHERE id = ?";
 
 		try {
@@ -265,6 +264,20 @@ public class ItemLayer {
 		}
 
 		return items;
+	}
+
+	public void deleteShopItem(Item item) {
+		String query = "DELETE FROM shop_item WHERE item_id = ?;";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, item.getId());
+
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

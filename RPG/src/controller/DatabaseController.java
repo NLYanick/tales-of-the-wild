@@ -90,6 +90,11 @@ public class DatabaseController {
 		return true;
 	}
 	
+	public void buyItem(Item item, Player player) {
+		itemLayer.addItemToPlayer(item, player);
+		itemLayer.deleteShopItem(item);
+	}
+	
 	public Location getOriginalNPCBuildingLocation(NPC npc, int buildingId) {
 		return npcLayer.getOriginalNPCBuildingLocation(npc, buildingId);
 	}
