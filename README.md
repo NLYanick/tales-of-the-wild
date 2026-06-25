@@ -1,7 +1,9 @@
 # Tales of the Wild
 
-**This game is not finished and probably will never be finished. It also isn't polished, so the map just stops at a certain point.**
+A 2D game prototype built for fun. 
+Designed and created the majority of the pixel art assets myself.
 
-Also, this is old code, so don't flame me please :)
-
-Made most of the Pixel Art myself.
+### Project Status
+This project was built about around 2024 as a learning experiment and is no longer under development. 
+* **The Gameplay:** The core mechanics, physics, and game loop so far are functional.
+* **The Boundary:** The map generation was never completed. If you travel past a certain point (very early on), the map will abruptly end into a void. 
