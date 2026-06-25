@@ -1,0 +1,54 @@
+.dialog {
+	-fx-background-color: #75D167;
+}
+
+.item-dialog {
+	-fx-background-color: #67B3D1;
+}
+
+.option-pane {
+	-fx-background-color: #5CAC50;
+	
+	-fx-border-width: 6px, 4px, 4px;
+    -fx-border-insets: 0, 6px, 11px;
+    -fx-border-radius: 0, 0, 0;
+    -fx-background-radius: 10px;
+	-fx-border-color: green, white, green;
+	
+	-fx-min-width: 200px;
+    -fx-max-width: 200px;
+    -fx-min-height: 100px;
+    -fx-max-height: 100px;
+}
+
+.option-pane:focused {
+	-fx-background-color: #75D167;
+    -fx-border-color: green, yellow, green;
+}
+
+.dialog, .item-dialog {
+	-fx-border-width: 10px, 7px, 7px;
+    -fx-border-insets: 0, 10px, 17px;
+    -fx-border-radius: 0, 0, 0;
+    -fx-background-radius: 10px;
+    -fx-border-color: green, white, green;
+
+    -fx-min-width: 600px;
+    -fx-max-width: 600px;
+    -fx-min-height: 300px;
+    -fx-max-height: 300px;
+}
+
+.dialog-text {
+    -fx-font-size: 30px;
+}
+
+.option-text {
+    -fx-font-size: 22px;
+    -fx-text-alignment: center;
+}
+
+.dialog-text, .option-text {
+	-fx-font-family: "Times New Roman";
+    -fx-fill: black;
+}

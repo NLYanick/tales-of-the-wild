@@ -1,0 +1,113 @@
+.ingame-menu-playerpane {
+    -fx-min-width: 1000px;
+    -fx-max-width: 1000px;
+    -fx-max-height: 150px;
+    -fx-min-height: 150px;
+}
+
+.ingame-menu-buttonspane {
+    -fx-min-width: 400px;
+    -fx-max-width: 400px;
+    -fx-max-height: 500px;
+    -fx-min-height: 500px;
+}
+
+.ingame-menu-playerpane, .ingame-menu-buttonspane {
+	-fx-background-color: #175D17;
+    -fx-border-color: white, #00B500, white;
+    -fx-border-width: 5px, 8px, 5px;
+    -fx-border-style: solid, solid, solid;
+    -fx-border-insets: 0, 5px, 13px;
+    -fx-border-radius: 5px, 0, 0;
+    -fx-background-radius: 10px;
+}
+
+.ingame-menu-player-stats {
+	-fx-font-size: 40px;
+}
+
+.ingame-menu-button {
+	-fx-padding: 0;
+	-fx-font-size: 50px;
+	-fx-background-color: transparent;
+}
+
+.ingame-menu-button, .ingame-menu-player-stats {
+	-fx-font-family: "Times New Roman";
+	-fx-text-fill: #FFFFFF;
+}
+
+
+.inventory-title {
+	-fx-font-size: 44px;
+    -fx-font-family: "Times New Roman";
+    -fx-font-weight: bold;
+    -fx-fill: #444444;
+}
+
+.inventory-buttons-pane {
+	-fx-background-color: #41A51A;
+	-fx-min-width: 300px;
+}
+
+.inventory-slots-box {
+	-fx-background-color: #7AD534; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-max-height: 534px;
+}
+
+.inventory-info-box {
+	-fx-background-color: #7AD534; 
+	-fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    
+    -fx-min-width: 534px;
+    -fx-max-width: 534px;
+    -fx-min-height: 534px;
+    -fx-max-height: 534px;
+}
+
+.inventory-info-box-title {
+	-fx-font-size: 28px;
+}
+
+.inventory-info-box-description {
+	-fx-font-size: 20px;
+}
+
+.info-separator-line {
+	-fx-stroke: #444444;
+    -fx-stroke-width: 2;
+}
+
+.inventory-info-box-description, .inventory-info-box-title {
+    -fx-font-family: "Times New Roman";
+    -fx-fill: #444444;
+}
+
+.inventory-slot {
+	-fx-border-color: gray;
+}
+
+.selected-inventory-slot {
+	-fx-border-color: #FFFFFF;
+}
+
+.activated-inventory-slot {
+	-fx-border-color: #00FF00;
+}
+
+.inventory-slot, .selected-inventory-slot {
+	-fx-background-color: rgba(80, 90, 95, 0.5);
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 3px;
+    -fx-min-width: 64px;
+    -fx-max-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-height: 64px;
+}

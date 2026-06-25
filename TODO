@@ -1,0 +1,75 @@
+Background maken 
+Map toevoegen
+Audio toevoegen
+Layout van binnenkant van building moeten aanpasbaar zijn (JSON opslaan met layout)
+NPCs kunnen weglopen (Nieuwe data opslaan in database)
+Shops maken
+Startscreen verbeteren
+Elke 5 minuten opslaan (met zo'n leuk icoontje)
+Quests maken (Bij houden welke NPC het gevraagd heeft)
+Verschillende Item klassen (en misschien NPC klassen)
+Kijk nog eens naar wat elke klasse zou moeten doen (bv. de player loopt)
+Kijk nog eens naar bindings, voor responsive dingen
+(Applicatie altijd fullscreen, dus sommige resize methodes kunnen weg)
+(Alleen de games pakken van dit apparaat/device, als het kan. Anders account maken)
+(Als er meer stats zijn, laten zien in in-game menu)
+(Animaties)
+(Kijk voor meer inspiratie, je mist vast wel iets in bv. de inventory)
+(Kleding voor player)
+(Player kan ook andere characters kiezen)
+
+
+Minder Prioriteit:
+Vragen of je het zeker weet als je een player delete
+Database & Code performance & Alle excuteQuery bij Insert (en miss andere dingen) naar executeUpdate
+Als je een player verwijderd, moet je ook in de database de game (en alles wat er bij hoort) verwijderen
+In de inventory itemslot positie opslaan (slots opslaan in database bv)
+De player moet states hebben (paused, in-dialog, in-inventory, enz.)
+
+Images in Database
+Al die id's fixen (buildingId, itemId, enz.)
+Moving direction van player is reversed, moet niet reversed
+Building code fixen
+Menu's moeten resizen (als je klein start glitcht het)
+Meer Controllers | Minder in MainController & Game klasse opschonen
+MainScene klasse opschonen
+Validatie op naam (bij aanmaken game)
+'a(n)' veranderen naar of 'a' of 'an' (ItemDialog)
+Dialogs en ItemDialogs mooi maken
+Item plekken onthouden in Inventory
+Als je in het menu op 'Exit' drukt, moet je naar het hoofdmenu
+Models mogen geen viewlocation hebben
+Menu's en LoadGameView responsive maken
+Inventory responsive maken
+Met Tab kan je knoppen besturen :(
+Kijken naar naam lengte (sommige te lange namen gaan uit het frame)
+Plaatjes met z-volgorde (bovenste plaatje moet voorop)
+Geen ruimte tussen NPC en player als je er tegen aan loopt
+NPC plaatjes mogen niet mee gaan
+NPC plaatjes mogen niet vastlopen als het scherm niet gefocust is
+Schuin lopen moet 1 i.p.v. 1.41
+In pauze en in-game menu de eerste pijl niet hardcoded maken
+In pauzemenu is soms de hover focus weg
+Random ArrayIndexOutOfBoundsException of NullPointerException in Scene fixen
+Code verbeteren
+
+
+Kan mogelijk dingen breken:
+EntityView --> imageView.setTranslateY(-30);
+Pas in de controller worden items aan npcs geven, npcs in buldings stoppen, enz. gedaan
+Info Box (in InventoryView) grote is hardcoded
+Veel CSS dingen staan nu hardcoded
+
+
+TODO Images:
+Huizen, NPC's
+BrickHouse image fixen en voelt plat & binnenkant
+De stilstaan animaties gaan iets te laag
+(Fox left en right staart & Fox running naar voren en naar achteren de voeten & running frames niet beginnen met recht staan)
+
+
+Handige classes:
+Group => Een VBox, HBox, BorderPane, etc. voor als je geen automatische layout wilt
+ToggleGroup => Een groepering voor toggle controls (selecteren). Je kan bv de geselecteerde toggle pakken.
+
+Nu: 
