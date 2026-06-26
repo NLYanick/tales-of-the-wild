@@ -14,14 +14,16 @@ public class DatabaseConnector {
 	 * or another version and add it to the library
 	 */
 	public DatabaseConnector() {
-		url = "jdbc:mysql://localhost:3306/tales_of_the_wild";
+		String host = System.getenv("DB_HOST");
+		url = "jdbc:mysql://" + host + "/tales_of_the_wild";
 		makeConnection();
 	}
 	
+	// For environment variables go to: Run > Run configurations > Java Applications > Main (7) > Environment
 	private static boolean makeConnection() {
 		try {
-			String username = "root";
-			String password = "kr2fWa73S9!";
+			String username = System.getenv("DB_USERNAME");
+			String password = System.getenv("DB_PASSWORD");
 			connection = DriverManager.getConnection(url, username, password);
             
 			System.out.println("Connected to Database");
